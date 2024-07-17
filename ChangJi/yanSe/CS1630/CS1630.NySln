@@ -1,0 +1,17 @@
+﻿
+Nyquest IDE Solution File, Format Version 1.00
+# NYIDE 5.32.0.3800
+Project("{608D5F73-6C2E-489F-8ED6-C0FBCCEB586F}") = "CS1630", "CS1630\CS1630.naprj", "{E38045B6-6119-442E-B6AD-B939CE62CC8B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any = Debug|Any
+		Release|Any = Release|Any
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E38045B6-6119-442E-B6AD-B939CE62CC8B}.Debug|Any.Build.0 = Debug|Any
+		{E38045B6-6119-442E-B6AD-B939CE62CC8B}.Debug|Any.ActiveCfg = Debug|Any
+		{E38045B6-6119-442E-B6AD-B939CE62CC8B}.Release|Any.Build.0 = Release|Any
+		{E38045B6-6119-442E-B6AD-B939CE62CC8B}.Release|Any.ActiveCfg = Release|Any
+	EndGlobalSection
+EndGlobal

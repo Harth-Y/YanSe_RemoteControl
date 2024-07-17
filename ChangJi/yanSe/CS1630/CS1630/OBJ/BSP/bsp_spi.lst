@@ -1,0 +1,549 @@
+
+                    Nyquest Technology Co., Ltd.
+
+NYASM 2.42
+
+    ADDR  OPCODE/VALUE              LINE   TAG  SOURCE                   STATEMENT    
+
+                                    1-    1     ;--------------------------------------------------------
+                                    1-    2     ; File Created by SDCC : free open source ISO C Compiler 
+                                    1-    3     ; Version 4.2.2 #0 (MSVC)
+                                    1-    4     ;--------------------------------------------------------
+                                    1-    5     ; NY8A port
+                                    1-    6     ;--------------------------------------------------------
+                                    1-    7     	.file	"BSP\bsp_spi.c"
+                                    1-    8     	list	p=NY8A054E,c=on
+                                    1-    9     	#include "ny8a054e.inc"
+                                    2-    1     #include "common.inc"
+                                    3-    1     ;; header file for 8 bit series assembly -*- mode:asm; coding:utf-8; -*-
+                                    3-    2     ;; author    Ting
+                                    3-    3     ;; date      2020-12-24
+                                    3-    4     ;;
+                                    3-    5     ;; # constant definition
+                                    3-    6     ;;
+                                    3-    7     ;; ## instruction result store destination
+                                    3-    8     ;;  - W: the result is stored in the ACC.
+                                    3-    9     ;;  - F: the result is stored back in register.
+                                    3-   10     ;; ## flag name in STATUS register
+                                    3-   11     ;;  - C, DC, Z
+                                    3-   12     ;;
+                                    3-   13     ;; # macro define
+                                    3-   14     ;;
+                                    3-   15     ;; ## RETURN, used by C compiler, end of function
+                                    3-   16     ;; ## PAGESEL, empty macro, maybe used by C compiler (bug?)
+                                    3-   17     ;; ## BANKSEL, replace by .banksel pseudo command, empty if disable bank.
+                                    3-   18     ;; ## MGOTO, replace by LGOTO (ic<=2K word) or FGOTO (ic>2K word)
+                                    3-   19     ;; ## MCALL, same as above
+                                    3-   20     ;;
+                                    3-   21     W       EQU 0
+                                    3-   21     ;W = 0
+                                    3-   22     F       EQU 1
+                                    3-   22     ;F = 1
+                                    3-   23     C		EQU	0
+                                    3-   23     ;C = 0
+                                    3-   24     DC		EQU	1
+                                    3-   24     ;DC = 1
+                                    3-   25     Z		EQU	2
+                                    3-   25     ;Z = 2
+                                    3-   28     ;; common register for all series
+                                    3-   29     INDF    EQU 0x00
+                                    3-   29     ;INDF = 0
+                                    3-   30     PCL     EQU 0x02
+                                    3-   30     ;PCL = 2
+                                    3-   31     STATUS  EQU 0x03
+                                    3-   31     ;STATUS = 3
+                                    3-   32     FSR     EQU 0x04
+                                    3-   32     ;FSR = 4
+                                    3-   33     PCHBUF  EQU 0x0A
+                                    3-   33     ;PCHBUF = 10
+                                    1-   11     ;--------------------------------------------------------
+                                    1-   12     ; external declarations
+                                    1-   13     ;--------------------------------------------------------
+                                    1-   14     	extern	_usart_send_string
+                                    1-   15     	extern	_usart_send_byte
+                                    1-   16     	extern	_usart_init
+                                    1-   17     	extern	_clear_ram
+                                    1-   18     	extern	_multi_16b
+                                    1-   19     	extern	_T0MD
+                                    1-   20     	extern	_PCON1
+                                    1-   21     	extern	_CMPCR
+                                    1-   22     	extern	_BODCON
+                                    1-   23     	extern	_PS0CV
+                                    1-   24     	extern	_APHCON
+                                    1-   25     	extern	_IOSTB
+                                    1-   26     	extern	_IOSTA
+                                    1-   27     	extern	_PWM5RH
+                                    1-   28     	extern	_PWM5DUTY
+                                    1-   29     	extern	_P5CR1
+                                    1-   30     	extern	_PWM4DUTY
+                                    1-   31     	extern	_P4CR1
+                                    1-   32     	extern	_PS3CV
+                                    1-   33     	extern	_PWM3DUTY
+                                    1-   34     	extern	_T3CR2
+                                    1-   35     	extern	_T3CR1
+                                    1-   36     	extern	_TMR3
+                                    1-   37     	extern	_OSCCR
+                                    1-   38     	extern	_PWM2DUTY
+                                    1-   39     	extern	_P2CR1
+                                    1-   40     	extern	_TBHD
+                                    1-   41     	extern	_TBHP
+                                    1-   42     	extern	_IRCR
+                                    1-   43     	extern	_BZ1CR
+                                    1-   44     	extern	_PS1CV
+                                    1-   45     	extern	_PWM1DUTY
+                                    1-   46     	extern	_T1CR2
+                                    1-   47     	extern	_T1CR1
+                                    1-   48     	extern	_TMR1
+                                    1-   49     	extern	_TM34RH
+                                    1-   50     	extern	_TMRH
+                                    1-   51     	extern	_PCHBUF
+                                    1-   52     	extern	_STATUS
+                                    1-   53     	extern	_PCL
+                                    1-   54     	extern	_TMR0
+                                    1-   55     	extern	_INTE2bits
+                                    1-   56     	extern	_RFCbits
+                                    1-   57     	extern	_INTEDGbits
+                                    1-   58     	extern	_AWUCONbits
+                                    1-   59     	extern	_INTFbits
+                                    1-   60     	extern	_INTEbits
+                                    1-   61     	extern	_BPHCONbits
+                                    1-   62     	extern	_ABPLCONbits
+                                    1-   63     	extern	_BWUCONbits
+                                    1-   64     	extern	_PCONbits
+                                    1-   65     	extern	_PORTBbits
+                                    1-   66     	extern	_PORTAbits
+                                    1-   68     	extern PSAVE
+                                    1-   69     	extern SSAVE
+                                    1-   70     	extern WSAVE
+                                    1-   71     	extern STK12
+                                    1-   72     	extern ___STK12
+                                    1-   73     	extern STK11
+                                    1-   74     	extern ___STK11
+                                    1-   75     	extern STK10
+                                    1-   76     	extern ___STK10
+                                    1-   77     	extern STK09
+                                    1-   78     	extern ___STK09
+                                    1-   79     	extern STK08
+                                    1-   80     	extern ___STK08
+                                    1-   81     	extern STK07
+                                    1-   82     	extern ___STK07
+                                    1-   83     	extern STK06
+                                    1-   84     	extern ___STK06
+                                    1-   85     	extern STK05
+                                    1-   86     	extern ___STK05
+                                    1-   87     	extern STK04
+                                    1-   88     	extern ___STK04
+                                    1-   89     	extern STK03
+                                    1-   90     	extern ___STK03
+                                    1-   91     	extern STK02
+                                    1-   92     	extern ___STK02
+                                    1-   93     	extern STK01
+                                    1-   94     	extern ___STK01
+                                    1-   95     	extern STK00
+                                    1-   96     	extern ___STK00
+                                    1-   97     ;--------------------------------------------------------
+                                    1-   98     ; global declarations
+                                    1-   99     ;--------------------------------------------------------
+                                    1-  100     	extern	_RF_spi_wrd
+                                    1-  101     	extern	_INTE2
+                                    1-  102     	extern	_RFC
+                                    1-  103     	extern	_INTEDG
+                                    1-  104     	extern	_AWUCON
+                                    1-  105     	extern	_INTF
+                                    1-  106     	extern	_INTE
+                                    1-  107     	extern	_BPHCON
+                                    1-  108     	extern	_ABPLCON
+                                    1-  109     	extern	_BWUCON
+                                    1-  110     	extern	_PCON
+                                    1-  111     	extern	_PORTB
+                                    1-  112     	extern	_PORTA
+                                    1-  113     	extern	_RF_softSPI_Init
+                                    1-  114     	extern	_SPI_SendByte
+                                    1-  115     	extern	_SPI_ReadByte
+                                    1-  117     ;--------------------------------------------------------
+                                    1-  118     ; global definitions
+                                    1-  119     ;--------------------------------------------------------
+                                    1-  120     ;--------------------------------------------------------
+                                    1-  121     ; absolute symbol definitions
+                                    1-  122     ;--------------------------------------------------------
+                                    1-  123     ;--------------------------------------------------------
+                                    1-  124     ; compiler-defined variables
+                                    1-  125     ;--------------------------------------------------------
+                                    1-  126     .segment "uninit"
+     0000                           1-  127     r0x1008:
+                                    1-  128     	.res	1
+                                    1-  129     .segment "uninit"
+     0000                           1-  130     r0x1004:
+                                    1-  131     	.res	1
+                                    1-  132     .segment "uninit"
+     0000                           1-  133     r0x1005:
+                                    1-  134     	.res	1
+                                    1-  135     .segment "uninit"
+     0000                           1-  136     r0x1006:
+                                    1-  137     	.res	1
+                                    1-  138     .segment "uninit"
+     0000                           1-  139     r0x1007:
+                                    1-  140     	.res	1
+                                    1-  141     .segment "uninit"
+     0000                           1-  142     r0x1000:
+                                    1-  143     	.res	1
+                                    1-  144     .segment "uninit"
+     0000                           1-  145     r0x1001:
+                                    1-  146     	.res	1
+                                    1-  147     .segment "uninit"
+     0000                           1-  148     r0x1002:
+                                    1-  149     	.res	1
+                                    1-  150     .segment "uninit"
+     0000                           1-  151     r0x1003:
+                                    1-  152     	.res	1
+                                    1-  153     ;--------------------------------------------------------
+                                    1-  154     ; initialized data
+                                    1-  155     ;--------------------------------------------------------
+                                    1-  156     ;--------------------------------------------------------
+                                    1-  157     ; initialized absolute data
+                                    1-  158     ;--------------------------------------------------------
+                                    1-  159     ;--------------------------------------------------------
+                                    1-  160     ; overlayable items in internal ram 
+                                    1-  161     ;--------------------------------------------------------
+                                    1-  162     ;	udata_ovr
+                                    1-  163     ;--------------------------------------------------------
+                                    1-  164     ; code
+                                    1-  165     ;--------------------------------------------------------
+                                    1-  166     ; code_bsp_spi	code
+                                    1-  167     ;***
+                                    1-  168     ;  pBlock Stats: dbName = C
+                                    1-  169     ;***
+                                    1-  170     ;has an exit
+                                    1-  171     ;4 compiler assigned registers:
+                                    1-  172     ;   r0x1000
+                                    1-  173     ;   r0x1001
+                                    1-  174     ;   r0x1002
+                                    1-  175     ;   r0x1003
+                                    1-  176     ;; Starting pCode block
+                                    1-  177     .segment "code"; module=bsp_spi, function=_SPI_ReadByte
+                                    1-  179     ;local variable name mapping:
+     0000                           1-  183     _SPI_ReadByte:
+                                    1-  184     ; 2 exit points
+                                    1-  185     	.line	73, "BSP\bsp_spi.c"; 	unsigned char byte = 0;
+                                    1-  186     	BANKSEL	r0x1000
+     0000 rrrr                      3-  109 m1      .banksel ram_address
+     0001 02rr                      1-  187     	CLRR	r0x1000
+                                    1-  188     	.line	76, "BSP\bsp_spi.c"; 	IOSTB = C_PB5_Input;
+     0002 2120                      1-  189     	MOVIA	0x20
+     0003 000r                      1-  190     	IOST	_IOSTB
+                                    1-  191     	.line	78, "BSP\bsp_spi.c"; 	for(bit_ctr = 0;bit_ctr < 8;bit_ctr ++) // output 8-bit
+                                    1-  192     	BANKSEL	r0x1001
+     0004 rrrr                      3-  109 m1      .banksel ram_address
+     0005 02rr                      1-  193     	CLRR	r0x1001
+     0006                           1-  194     _02070_DS_:
+                                    1-  195     	.line	80, "BSP\bsp_spi.c"; 	byte = byte << 1;
+     0006 1C03                      1-  196     	BCR	STATUS,0
+                                    1-  197     	BANKSEL	r0x1000
+     0007 rrrr                      3-  109 m1      .banksel ram_address
+     0008 14rr                      1-  198     	RLR	r0x1000,W
+                                    1-  199     	BANKSEL	r0x1002
+     0009 rrrr                      3-  109 m1      .banksel ram_address
+     000A 00rr                      1-  200     	MOVAR	r0x1002
+                                    1-  201     	.line	81, "BSP\bsp_spi.c"; 	RF_SCK_H();
+     000B 0000                      1-  202     	nop
+     000C 0000                      1-  203     	nop
+     000D 0000                      1-  204     	nop
+     000E 18rr                      1-  205     	BSR	_PORTAbits,0
+     000F 0000                      1-  206     	nop
+     0010 0000                      1-  207     	nop
+     0011 0000                      1-  208     	nop
+                                    1-  209     	.line	82, "BSP\bsp_spi.c"; 	temp = RF_Reag_SDIO();
+                                    1-  210     	BANKSEL	r0x1003
+     0012 rrrr                      3-  109 m1      .banksel ram_address
+     0013 02rr                      1-  211     	CLRR	r0x1003
+     0014 0Err                      1-  212     	BTRSC	_PORTBbits,5
+     0015 05rr                      1-  213     	INCR	r0x1003,F
+                                    1-  214     	.line	83, "BSP\bsp_spi.c"; 	byte |= temp;
+     0016 01rr                      1-  215     	MOVR	r0x1003,W
+                                    1-  216     	BANKSEL	r0x1002
+     0017 rrrr                      3-  109 m1      .banksel ram_address
+     0018 11rr                      1-  217     	IORAR	r0x1002,W
+                                    1-  218     	BANKSEL	r0x1000
+     0019 rrrr                      3-  109 m1      .banksel ram_address
+     001A 00rr                      1-  219     	MOVAR	r0x1000
+                                    1-  220     	.line	84, "BSP\bsp_spi.c"; 	RF_SCK_L();
+     001B 0000                      1-  221     	nop
+     001C 0000                      1-  222     	nop
+     001D 0000                      1-  223     	nop
+     001E 1Crr                      1-  224     	BCR	_PORTAbits,0
+     001F 0000                      1-  225     	nop
+     0020 0000                      1-  226     	nop
+     0021 0000                      1-  227     	nop
+                                    1-  228     	.line	85, "BSP\bsp_spi.c"; 	NOP();
+     0022 0000                      1-  229     	nop
+                                    1-  230     	.line	78, "BSP\bsp_spi.c"; 	for(bit_ctr = 0;bit_ctr < 8;bit_ctr ++) // output 8-bit
+                                    1-  231     	BANKSEL	r0x1001
+     0023 rrrr                      3-  109 m1      .banksel ram_address
+     0024 05rr                      1-  232     	INCR	r0x1001,F
+                                    1-  233     ;;unsigned compare: left < lit(0x8=8), size=1
+     0025 2108                      1-  234     	MOVIA	0x08
+     0026 04rr                      1-  235     	SUBAR	r0x1001,W
+     0027 0803                      1-  236     	BTRSS	STATUS,0
+                                    1-  237     	MGOTO	_02070_DS_
+     0028 3rrr                      3-   62 m1      LGOTO rom_address
+                                    1-  238     	.line	88, "BSP\bsp_spi.c"; 	return (byte); // return read byte
+                                    1-  239     	BANKSEL	r0x1000
+     0029 rrrr                      3-  109 m1      .banksel ram_address
+     002A 01rr                      1-  240     	MOVR	r0x1000,W
+                                    1-  241     	.line	89, "BSP\bsp_spi.c"; 	}
+                                    1-  242     	RETURN	
+     002B 0010                      3-   39 m1      ret
+                                    1-  243     ; exit point of _SPI_ReadByte
+                                    1-  245     ;***
+                                    1-  246     ;  pBlock Stats: dbName = C
+                                    1-  247     ;***
+                                    1-  248     ;has an exit
+                                    1-  249     ;4 compiler assigned registers:
+                                    1-  250     ;   r0x1004
+                                    1-  251     ;   r0x1005
+                                    1-  252     ;   r0x1006
+                                    1-  253     ;   r0x1007
+                                    1-  254     ;; Starting pCode block
+                                    1-  255     .segment "code"; module=bsp_spi, function=_SPI_SendByte
+                                    1-  257     ;local variable name mapping:
+     0000                           1-  261     _SPI_SendByte:
+                                    1-  262     ; 2 exit points
+                                    1-  263     	.line	41, "BSP\bsp_spi.c"; 	void SPI_SendByte(unsigned char TxData)
+                                    1-  264     	BANKSEL	r0x1004
+     0000 rrrr                      3-  109 m1      .banksel ram_address
+     0001 00rr                      1-  265     	MOVAR	r0x1004
+                                    1-  266     	.line	45, "BSP\bsp_spi.c"; 	IOSTB = C_PB5_Output;
+     0002 0200                      1-  267     	CLRA	
+     0003 000r                      1-  268     	IOST	_IOSTB
+                                    1-  269     	.line	47, "BSP\bsp_spi.c"; 	for(i = 0; i < 8; i ++)
+                                    1-  270     	BANKSEL	r0x1005
+     0004 rrrr                      3-  109 m1      .banksel ram_address
+     0005 02rr                      1-  271     	CLRR	r0x1005
+                                    1-  272     	BANKSEL	r0x1006
+     0006 rrrr                      3-  109 m1      .banksel ram_address
+     0007 02rr                      1-  273     	CLRR	r0x1006
+     0008                           1-  274     _02035_DS_:
+                                    1-  275     	.line	49, "BSP\bsp_spi.c"; 	data_output_bit = TxData & 0x80 ? 1 : 0;
+                                    1-  276     	BANKSEL	r0x1004
+     0008 rrrr                      3-  109 m1      .banksel ram_address
+     0009 0Brr                      1-  277     	BTRSS	r0x1004,7
+                                    1-  278     	MGOTO	_02039_DS_
+     000A 3rrr                      3-   62 m1      LGOTO rom_address
+     000B 2101                      1-  279     	MOVIA	0x01
+                                    1-  280     	BANKSEL	r0x1007
+     000C rrrr                      3-  109 m1      .banksel ram_address
+     000D 00rr                      1-  281     	MOVAR	r0x1007
+                                    1-  282     	MGOTO	_02040_DS_
+     000E 3rrr                      3-   62 m1      LGOTO rom_address
+     000F                           1-  283     _02039_DS_:
+                                    1-  284     	BANKSEL	r0x1007
+     000F rrrr                      3-  109 m1      .banksel ram_address
+     0010 02rr                      1-  285     	CLRR	r0x1007
+     0011                           1-  286     _02040_DS_:
+                                    1-  287     	.line	50, "BSP\bsp_spi.c"; 	RF_SCK_L();
+     0011 0000                      1-  288     	nop
+     0012 0000                      1-  289     	nop
+     0013 0000                      1-  290     	nop
+     0014 1Crr                      1-  291     	BCR	_PORTAbits,0
+     0015 0000                      1-  292     	nop
+     0016 0000                      1-  293     	nop
+     0017 0000                      1-  294     	nop
+                                    1-  295     	.line	51, "BSP\bsp_spi.c"; 	if(data_output_bit)
+                                    1-  296     	BANKSEL	r0x1007
+     0018 rrrr                      3-  109 m1      .banksel ram_address
+     0019 01rr                      1-  297     	MOVR	r0x1007,W
+     001A 0D03                      1-  298     	BTRSC	STATUS,2
+                                    1-  299     	MGOTO	_02019_DS_
+     001B 3rrr                      3-   62 m1      LGOTO rom_address
+                                    1-  300     	.line	53, "BSP\bsp_spi.c"; 	RF_SDIO_H();
+     001C 0000                      1-  301     	nop
+     001D 0000                      1-  302     	nop
+     001E 0000                      1-  303     	nop
+     001F 1Arr                      1-  304     	BSR	_PORTBbits,5
+     0020 0000                      1-  305     	nop
+     0021 0000                      1-  306     	nop
+     0022 0000                      1-  307     	nop
+                                    1-  308     	MGOTO	_02025_DS_
+     0023 3rrr                      3-   62 m1      LGOTO rom_address
+     0024                           1-  309     _02019_DS_:
+                                    1-  310     	.line	57, "BSP\bsp_spi.c"; 	RF_SDIO_L();
+     0024 0000                      1-  311     	nop
+     0025 0000                      1-  312     	nop
+     0026 0000                      1-  313     	nop
+     0027 1Err                      1-  314     	BCR	_PORTBbits,5
+     0028 0000                      1-  315     	nop
+     0029 0000                      1-  316     	nop
+     002A 0000                      1-  317     	nop
+     002B                           1-  318     _02025_DS_:
+                                    1-  319     	.line	59, "BSP\bsp_spi.c"; 	RF_SCK_H();
+     002B 0000                      1-  320     	nop
+     002C 0000                      1-  321     	nop
+     002D 0000                      1-  322     	nop
+     002E 18rr                      1-  323     	BSR	_PORTAbits,0
+     002F 0000                      1-  324     	nop
+     0030 0000                      1-  325     	nop
+     0031 0000                      1-  326     	nop
+                                    1-  327     	.line	60, "BSP\bsp_spi.c"; 	NOP_DELAY();
+     0032 0000                      1-  328     	nop
+     0033 0000                      1-  329     	nop
+     0034 0000                      1-  330     	nop
+                                    1-  331     	.line	61, "BSP\bsp_spi.c"; 	TxData = TxData << 1;
+     0035 1C03                      1-  332     	BCR	STATUS,0
+                                    1-  333     	BANKSEL	r0x1004
+     0036 rrrr                      3-  109 m1      .banksel ram_address
+     0037 14rr                      1-  334     	RLR	r0x1004,F
+                                    1-  335     	.line	47, "BSP\bsp_spi.c"; 	for(i = 0; i < 8; i ++)
+                                    1-  336     	BANKSEL	r0x1005
+     0038 rrrr                      3-  109 m1      .banksel ram_address
+     0039 05rr                      1-  337     	INCR	r0x1005,F
+     003A 0903                      1-  338     	BTRSS	STATUS,2
+                                    1-  339     	MGOTO	_00001_DS_
+     003B 3rrr                      3-   62 m1      LGOTO rom_address
+                                    1-  340     	BANKSEL	r0x1006
+     003C rrrr                      3-  109 m1      .banksel ram_address
+     003D 05rr                      1-  341     	INCR	r0x1006,F
+                                    1-  342     ;;signed compare: left < lit(0x8=8), size=2, mask=ffff
+     003E                           1-  343     _00001_DS_:
+                                    1-  344     	BANKSEL	r0x1006
+     003E rrrr                      3-  109 m1      .banksel ram_address
+     003F 01rr                      1-  345     	MOVR	r0x1006,W
+     0040 2580                      1-  346     	ADDIA	0x80
+     0041 2580                      1-  347     	ADDIA	0x80
+     0042 0903                      1-  348     	BTRSS	STATUS,2
+                                    1-  349     	MGOTO	_02058_DS_
+     0043 3rrr                      3-   62 m1      LGOTO rom_address
+     0044 2108                      1-  350     	MOVIA	0x08
+                                    1-  351     	BANKSEL	r0x1005
+     0045 rrrr                      3-  109 m1      .banksel ram_address
+     0046 04rr                      1-  352     	SUBAR	r0x1005,W
+     0047                           1-  353     _02058_DS_:
+     0047 0803                      1-  354     	BTRSS	STATUS,0
+                                    1-  355     	MGOTO	_02035_DS_
+     0048 3rrr                      3-   62 m1      LGOTO rom_address
+                                    1-  356     	.line	64, "BSP\bsp_spi.c"; 	RF_SDIO_L();
+     0049 0000                      1-  357     	nop
+     004A 0000                      1-  358     	nop
+     004B 0000                      1-  359     	nop
+     004C 1Err                      1-  360     	BCR	_PORTBbits,5
+     004D 0000                      1-  361     	nop
+     004E 0000                      1-  362     	nop
+     004F 0000                      1-  363     	nop
+                                    1-  364     	.line	65, "BSP\bsp_spi.c"; 	RF_SCK_L();
+     0050 0000                      1-  365     	nop
+     0051 0000                      1-  366     	nop
+     0052 0000                      1-  367     	nop
+     0053 1Crr                      1-  368     	BCR	_PORTAbits,0
+     0054 0000                      1-  369     	nop
+     0055 0000                      1-  370     	nop
+     0056 0000                      1-  371     	nop
+                                    1-  372     	.line	67, "BSP\bsp_spi.c"; 	NOP_DELAY();NOP_DELAY();NOP_DELAY();
+     0057 0000                      1-  373     	nop
+     0058 0000                      1-  374     	nop
+     0059 0000                      1-  375     	nop
+     005A 0000                      1-  376     	nop
+     005B 0000                      1-  377     	nop
+     005C 0000                      1-  378     	nop
+     005D 0000                      1-  379     	nop
+     005E 0000                      1-  380     	nop
+     005F 0000                      1-  381     	nop
+                                    1-  382     	.line	68, "BSP\bsp_spi.c"; 	}
+                                    1-  383     	RETURN	
+     0060 0010                      3-   39 m1      ret
+                                    1-  384     ; exit point of _SPI_SendByte
+                                    1-  386     ;***
+                                    1-  387     ;  pBlock Stats: dbName = C
+                                    1-  388     ;***
+                                    1-  389     ;has an exit
+                                    1-  390     ;functions called:
+                                    1-  391     ;   _SPI_SendByte
+                                    1-  392     ;   _SPI_ReadByte
+                                    1-  393     ;   _SPI_SendByte
+                                    1-  394     ;   _SPI_ReadByte
+                                    1-  395     ;1 compiler assigned register :
+                                    1-  396     ;   r0x1008
+                                    1-  397     ;; Starting pCode block
+                                    1-  398     .segment "code"; module=bsp_spi, function=_RF_spi_wrd
+                                    1-  400     ;local variable name mapping:
+     0000                           1-  403     _RF_spi_wrd:
+                                    1-  404     ; 2 exit points
+                                    1-  405     	.line	31, "BSP\bsp_spi.c"; 	unsigned char RF_spi_wrd(unsigned char Data)
+                                    1-  406     	BANKSEL	r0x1008
+     0000 rrrr                      3-  109 m1      .banksel ram_address
+     0001 00rr                      1-  407     	MOVAR	r0x1008
+                                    1-  408     	.line	36, "BSP\bsp_spi.c"; 	SPI_SendByte(dts);
+     0002 01rr                      1-  409     	MOVR	r0x1008,W
+                                    1-  410     	MCALL	_SPI_SendByte
+     0003 2rrr                      3-   65 m1      LCALL rom_address
+                                    1-  411     	.line	37, "BSP\bsp_spi.c"; 	dt = SPI_ReadByte();
+                                    1-  412     	MCALL	_SPI_ReadByte
+     0004 2rrr                      3-   65 m1      LCALL rom_address
+                                    1-  413     	BANKSEL	r0x1008
+     0005 rrrr                      3-  109 m1      .banksel ram_address
+     0006 00rr                      1-  414     	MOVAR	r0x1008
+                                    1-  415     	.line	38, "BSP\bsp_spi.c"; 	return dt;
+     0007 01rr                      1-  416     	MOVR	r0x1008,W
+                                    1-  417     	.line	39, "BSP\bsp_spi.c"; 	}
+                                    1-  418     	RETURN	
+     0008 0010                      3-   39 m1      ret
+                                    1-  419     ; exit point of _RF_spi_wrd
+                                    1-  421     ;***
+                                    1-  422     ;  pBlock Stats: dbName = C
+                                    1-  423     ;***
+                                    1-  424     ;has an exit
+                                    1-  425     ;; Starting pCode block
+                                    1-  426     .segment "code"; module=bsp_spi, function=_RF_softSPI_Init
+     0000                           1-  428     _RF_softSPI_Init:
+                                    1-  429     ; 2 exit points
+                                    1-  430     	.line	23, "BSP\bsp_spi.c"; 	IOSTA = C_PA0_Output; // SCK
+     0000 0200                      1-  431     	CLRA	
+     0001 000r                      1-  432     	IOST	_IOSTA
+                                    1-  433     	.line	24, "BSP\bsp_spi.c"; 	IOSTA = C_PA1_Output; // CSN
+     0002 0200                      1-  434     	CLRA	
+     0003 000r                      1-  435     	IOST	_IOSTA
+                                    1-  436     	.line	25, "BSP\bsp_spi.c"; 	IOSTB = C_PB5_Output; // SDA
+     0004 0200                      1-  437     	CLRA	
+     0005 000r                      1-  438     	IOST	_IOSTB
+                                    1-  439     	.line	28, "BSP\bsp_spi.c"; 	RF_CSN_L();
+     0006 0000                      1-  440     	nop
+     0007 0000                      1-  441     	nop
+     0008 0000                      1-  442     	nop
+     0009 1Crr                      1-  443     	BCR	_PORTAbits,1
+     000A 0000                      1-  444     	nop
+     000B 0000                      1-  445     	nop
+     000C 0000                      1-  446     	nop
+                                    1-  447     	.line	29, "BSP\bsp_spi.c"; 	}
+                                    1-  448     	RETURN	
+     000D 0010                      3-   39 m1      ret
+                                    1-  449     ; exit point of _RF_softSPI_Init
+                                    1-  452     ;	code size estimation:
+                                    1-  453     ;	   74+   23 =    97 instructions (  240 byte)
+                                    1-  455     	end
+
+SYMBOL TABLE            TYPE     VALUE
+__pin_count__           Constant 0000000E
+__processor__           Constant 00800544
+C                       Constant 00000000
+DC                      Constant 00000001
+ENABLE_RAM_BANK         Constant 00000001
+F                       Constant 00000001
+FSR                     Constant 00000004
+INDF                    Constant 00000000
+PCHBUF                  Constant 0000000A
+PCL                     Constant 00000002
+STATUS                  Constant 00000003
+USEFGOTO                Constant 00000000
+W                       Constant 00000000
+Z                       Constant 00000002
+
+
+SOURCE FILE TABLE
+001 OBJ/BSP\bsp_spi.s
+002 ny8a054e.inc
+003 common.inc
+004 BSP\bsp_spi.c
+
+PROCESSOR    = NY8A054E (8 bits)
+PROGRAM ROM  = 0x00000000 - 0x000007FF
+DATA ROM     = 0x00000000 - 0x000007FF
+RESERVED MEM = 0x00000800 - 0x00000810
+SRAM / SFR   = 0x00000000 - 0x00000000

@@ -1,0 +1,375 @@
+
+                    Nyquest Technology Co., Ltd.
+
+NYASM 2.42
+
+    ADDR  OPCODE/VALUE              LINE   TAG  SOURCE                   STATEMENT    
+
+                                    1-    1     ;--------------------------------------------------------
+                                    1-    2     ; File Created by SDCC : free open source ISO C Compiler 
+                                    1-    3     ; Version 4.2.2 #0 (MSVC)
+                                    1-    4     ;--------------------------------------------------------
+                                    1-    5     ; NY8A port
+                                    1-    6     ;--------------------------------------------------------
+                                    1-    7     	.file	"BSP\bsp_delay.c"
+                                    1-    8     	list	p=NY8A054E,c=on
+                                    1-    9     	#include "ny8a054e.inc"
+                                    2-    1     #include "common.inc"
+                                    3-    1     ;; header file for 8 bit series assembly -*- mode:asm; coding:utf-8; -*-
+                                    3-    2     ;; author    Ting
+                                    3-    3     ;; date      2020-12-24
+                                    3-    4     ;;
+                                    3-    5     ;; # constant definition
+                                    3-    6     ;;
+                                    3-    7     ;; ## instruction result store destination
+                                    3-    8     ;;  - W: the result is stored in the ACC.
+                                    3-    9     ;;  - F: the result is stored back in register.
+                                    3-   10     ;; ## flag name in STATUS register
+                                    3-   11     ;;  - C, DC, Z
+                                    3-   12     ;;
+                                    3-   13     ;; # macro define
+                                    3-   14     ;;
+                                    3-   15     ;; ## RETURN, used by C compiler, end of function
+                                    3-   16     ;; ## PAGESEL, empty macro, maybe used by C compiler (bug?)
+                                    3-   17     ;; ## BANKSEL, replace by .banksel pseudo command, empty if disable bank.
+                                    3-   18     ;; ## MGOTO, replace by LGOTO (ic<=2K word) or FGOTO (ic>2K word)
+                                    3-   19     ;; ## MCALL, same as above
+                                    3-   20     ;;
+                                    3-   21     W       EQU 0
+                                    3-   21     ;W = 0
+                                    3-   22     F       EQU 1
+                                    3-   22     ;F = 1
+                                    3-   23     C		EQU	0
+                                    3-   23     ;C = 0
+                                    3-   24     DC		EQU	1
+                                    3-   24     ;DC = 1
+                                    3-   25     Z		EQU	2
+                                    3-   25     ;Z = 2
+                                    3-   28     ;; common register for all series
+                                    3-   29     INDF    EQU 0x00
+                                    3-   29     ;INDF = 0
+                                    3-   30     PCL     EQU 0x02
+                                    3-   30     ;PCL = 2
+                                    3-   31     STATUS  EQU 0x03
+                                    3-   31     ;STATUS = 3
+                                    3-   32     FSR     EQU 0x04
+                                    3-   32     ;FSR = 4
+                                    3-   33     PCHBUF  EQU 0x0A
+                                    3-   33     ;PCHBUF = 10
+                                    1-   11     ;--------------------------------------------------------
+                                    1-   12     ; external declarations
+                                    1-   13     ;--------------------------------------------------------
+                                    1-   14     	extern	_clear_ram
+                                    1-   15     	extern	_multi_16b
+                                    1-   16     	extern	_T0MD
+                                    1-   17     	extern	_PCON1
+                                    1-   18     	extern	_CMPCR
+                                    1-   19     	extern	_BODCON
+                                    1-   20     	extern	_PS0CV
+                                    1-   21     	extern	_APHCON
+                                    1-   22     	extern	_IOSTB
+                                    1-   23     	extern	_IOSTA
+                                    1-   24     	extern	_PWM5RH
+                                    1-   25     	extern	_PWM5DUTY
+                                    1-   26     	extern	_P5CR1
+                                    1-   27     	extern	_PWM4DUTY
+                                    1-   28     	extern	_P4CR1
+                                    1-   29     	extern	_PS3CV
+                                    1-   30     	extern	_PWM3DUTY
+                                    1-   31     	extern	_T3CR2
+                                    1-   32     	extern	_T3CR1
+                                    1-   33     	extern	_TMR3
+                                    1-   34     	extern	_OSCCR
+                                    1-   35     	extern	_PWM2DUTY
+                                    1-   36     	extern	_P2CR1
+                                    1-   37     	extern	_TBHD
+                                    1-   38     	extern	_TBHP
+                                    1-   39     	extern	_IRCR
+                                    1-   40     	extern	_BZ1CR
+                                    1-   41     	extern	_PS1CV
+                                    1-   42     	extern	_PWM1DUTY
+                                    1-   43     	extern	_T1CR2
+                                    1-   44     	extern	_T1CR1
+                                    1-   45     	extern	_TMR1
+                                    1-   46     	extern	_TM34RH
+                                    1-   47     	extern	_TMRH
+                                    1-   48     	extern	_PCHBUF
+                                    1-   49     	extern	_STATUS
+                                    1-   50     	extern	_PCL
+                                    1-   51     	extern	_TMR0
+                                    1-   52     	extern	_INTE2bits
+                                    1-   53     	extern	_RFCbits
+                                    1-   54     	extern	_INTEDGbits
+                                    1-   55     	extern	_AWUCONbits
+                                    1-   56     	extern	_INTFbits
+                                    1-   57     	extern	_INTEbits
+                                    1-   58     	extern	_BPHCONbits
+                                    1-   59     	extern	_ABPLCONbits
+                                    1-   60     	extern	_BWUCONbits
+                                    1-   61     	extern	_PCONbits
+                                    1-   62     	extern	_PORTBbits
+                                    1-   63     	extern	_PORTAbits
+                                    1-   65     	extern PSAVE
+                                    1-   66     	extern SSAVE
+                                    1-   67     	extern WSAVE
+                                    1-   68     	extern STK12
+                                    1-   69     	extern ___STK12
+                                    1-   70     	extern STK11
+                                    1-   71     	extern ___STK11
+                                    1-   72     	extern STK10
+                                    1-   73     	extern ___STK10
+                                    1-   74     	extern STK09
+                                    1-   75     	extern ___STK09
+                                    1-   76     	extern STK08
+                                    1-   77     	extern ___STK08
+                                    1-   78     	extern STK07
+                                    1-   79     	extern ___STK07
+                                    1-   80     	extern STK06
+                                    1-   81     	extern ___STK06
+                                    1-   82     	extern STK05
+                                    1-   83     	extern ___STK05
+                                    1-   84     	extern STK04
+                                    1-   85     	extern ___STK04
+                                    1-   86     	extern STK03
+                                    1-   87     	extern ___STK03
+                                    1-   88     	extern STK02
+                                    1-   89     	extern ___STK02
+                                    1-   90     	extern STK01
+                                    1-   91     	extern ___STK01
+                                    1-   92     	extern STK00
+                                    1-   93     	extern ___STK00
+                                    1-   94     ;--------------------------------------------------------
+                                    1-   95     ; global declarations
+                                    1-   96     ;--------------------------------------------------------
+                                    1-   97     	extern	_INTE2
+                                    1-   98     	extern	_RFC
+                                    1-   99     	extern	_INTEDG
+                                    1-  100     	extern	_AWUCON
+                                    1-  101     	extern	_INTF
+                                    1-  102     	extern	_INTE
+                                    1-  103     	extern	_BPHCON
+                                    1-  104     	extern	_ABPLCON
+                                    1-  105     	extern	_BWUCON
+                                    1-  106     	extern	_PCON
+                                    1-  107     	extern	_PORTB
+                                    1-  108     	extern	_PORTA
+                                    1-  109     	extern	_delay_ms
+                                    1-  110     	extern	_delay_250ms
+                                    1-  111     	extern	_delay_us
+                                    1-  112     	extern	_delay_40us
+                                    1-  114     ;--------------------------------------------------------
+                                    1-  115     ; global definitions
+                                    1-  116     ;--------------------------------------------------------
+                                    1-  117     ;--------------------------------------------------------
+                                    1-  118     ; absolute symbol definitions
+                                    1-  119     ;--------------------------------------------------------
+                                    1-  120     ;--------------------------------------------------------
+                                    1-  121     ; compiler-defined variables
+                                    1-  122     ;--------------------------------------------------------
+                                    1-  123     .segment "uninit"
+     0000                           1-  124     r0x1002:
+                                    1-  125     	.res	1
+                                    1-  126     .segment "uninit"
+     0000                           1-  127     r0x1003:
+                                    1-  128     	.res	1
+                                    1-  129     .segment "uninit"
+     0000                           1-  130     r0x1004:
+                                    1-  131     	.res	1
+                                    1-  132     .segment "uninit"
+     0000                           1-  133     r0x1000:
+                                    1-  134     	.res	1
+                                    1-  135     .segment "uninit"
+     0000                           1-  136     r0x1001:
+                                    1-  137     	.res	1
+                                    1-  138     ;--------------------------------------------------------
+                                    1-  139     ; initialized data
+                                    1-  140     ;--------------------------------------------------------
+                                    1-  141     ;--------------------------------------------------------
+                                    1-  142     ; initialized absolute data
+                                    1-  143     ;--------------------------------------------------------
+                                    1-  144     ;--------------------------------------------------------
+                                    1-  145     ; overlayable items in internal ram 
+                                    1-  146     ;--------------------------------------------------------
+                                    1-  147     ;	udata_ovr
+                                    1-  148     ;--------------------------------------------------------
+                                    1-  149     ; code
+                                    1-  150     ;--------------------------------------------------------
+                                    1-  151     ; code_bsp_delay	code
+                                    1-  152     ;***
+                                    1-  153     ;  pBlock Stats: dbName = C
+                                    1-  154     ;***
+                                    1-  155     ;has an exit
+                                    1-  156     ;functions called:
+                                    1-  157     ;   _delay_us
+                                    1-  158     ;   _delay_us
+                                    1-  159     ;; Starting pCode block
+                                    1-  160     .segment "code"; module=bsp_delay, function=_delay_40us
+     0000                           1-  162     _delay_40us:
+                                    1-  163     ; 2 exit points
+                                    1-  164     	.line	30, "BSP\bsp_delay.c"; 	delay_us(6);
+     0000 2106                      1-  165     	MOVIA	0x06
+                                    1-  166     	MCALL	_delay_us
+     0001 2rrr                      3-   65 m1      LCALL rom_address
+                                    1-  167     	.line	31, "BSP\bsp_delay.c"; 	}
+                                    1-  168     	RETURN	
+     0002 0010                      3-   39 m1      ret
+                                    1-  169     ; exit point of _delay_40us
+                                    1-  171     ;***
+                                    1-  172     ;  pBlock Stats: dbName = C
+                                    1-  173     ;***
+                                    1-  174     ;has an exit
+                                    1-  175     ;2 compiler assigned registers:
+                                    1-  176     ;   r0x1000
+                                    1-  177     ;   r0x1001
+                                    1-  178     ;; Starting pCode block
+                                    1-  179     .segment "code"; module=bsp_delay, function=_delay_us
+                                    1-  181     ;local variable name mapping:
+     0000                           1-  184     _delay_us:
+                                    1-  185     ; 2 exit points
+                                    1-  186     	.line	21, "BSP\bsp_delay.c"; 	void delay_us(unsigned char nus)
+                                    1-  187     	BANKSEL	r0x1000
+     0000 rrrr                      3-  109 m1      .banksel ram_address
+     0001 00rr                      1-  188     	MOVAR	r0x1000
+                                    1-  189     	.line	24, "BSP\bsp_delay.c"; 	for(i=1;i<=nus;i++)
+     0002 2101                      1-  190     	MOVIA	0x01
+                                    1-  191     	BANKSEL	r0x1001
+     0003 rrrr                      3-  109 m1      .banksel ram_address
+     0004 00rr                      1-  192     	MOVAR	r0x1001
+     0005                           1-  193     _02024_DS_:
+                                    1-  194     	BANKSEL	r0x1001
+     0005 rrrr                      3-  109 m1      .banksel ram_address
+     0006 01rr                      1-  195     	MOVR	r0x1001,W
+                                    1-  196     	BANKSEL	r0x1000
+     0007 rrrr                      3-  109 m1      .banksel ram_address
+     0008 04rr                      1-  197     	SUBAR	r0x1000,W
+     0009 0803                      1-  198     	BTRSS	STATUS,0
+                                    1-  199     	MGOTO	_02026_DS_
+     000A 3rrr                      3-   62 m1      LGOTO rom_address
+                                    1-  200     	.line	25, "BSP\bsp_delay.c"; 	NOP(); // 3.5239us
+     000B 0000                      1-  201     	nop
+                                    1-  202     	.line	24, "BSP\bsp_delay.c"; 	for(i=1;i<=nus;i++)
+                                    1-  203     	BANKSEL	r0x1001
+     000C rrrr                      3-  109 m1      .banksel ram_address
+     000D 05rr                      1-  204     	INCR	r0x1001,F
+                                    1-  205     	MGOTO	_02024_DS_
+     000E 3rrr                      3-   62 m1      LGOTO rom_address
+     000F                           1-  206     _02026_DS_:
+                                    1-  207     	.line	26, "BSP\bsp_delay.c"; 	}
+                                    1-  208     	RETURN	
+     000F 0010                      3-   39 m1      ret
+                                    1-  209     ; exit point of _delay_us
+                                    1-  211     ;***
+                                    1-  212     ;  pBlock Stats: dbName = C
+                                    1-  213     ;***
+                                    1-  214     ;has an exit
+                                    1-  215     ;functions called:
+                                    1-  216     ;   _delay_ms
+                                    1-  217     ;   _delay_ms
+                                    1-  218     ;   _delay_ms
+                                    1-  219     ;   _delay_ms
+                                    1-  220     ;; Starting pCode block
+                                    1-  221     .segment "code"; module=bsp_delay, function=_delay_250ms
+     0000                           1-  223     _delay_250ms:
+                                    1-  224     ; 2 exit points
+                                    1-  225     	.line	17, "BSP\bsp_delay.c"; 	delay_ms(255);
+     0000 21FF                      1-  226     	MOVIA	0xff
+                                    1-  227     	MCALL	_delay_ms
+     0001 2rrr                      3-   65 m1      LCALL rom_address
+                                    1-  228     	.line	18, "BSP\bsp_delay.c"; 	delay_ms(24);
+     0002 2118                      1-  229     	MOVIA	0x18
+                                    1-  230     	MCALL	_delay_ms
+     0003 2rrr                      3-   65 m1      LCALL rom_address
+                                    1-  231     	.line	19, "BSP\bsp_delay.c"; 	}
+                                    1-  232     	RETURN	
+     0004 0010                      3-   39 m1      ret
+                                    1-  233     ; exit point of _delay_250ms
+                                    1-  235     ;***
+                                    1-  236     ;  pBlock Stats: dbName = C
+                                    1-  237     ;***
+                                    1-  238     ;has an exit
+                                    1-  239     ;3 compiler assigned registers:
+                                    1-  240     ;   r0x1002
+                                    1-  241     ;   r0x1003
+                                    1-  242     ;   r0x1004
+                                    1-  243     ;; Starting pCode block
+                                    1-  244     .segment "code"; module=bsp_delay, function=_delay_ms
+                                    1-  246     ;local variable name mapping:
+     0000                           1-  250     _delay_ms:
+                                    1-  251     ; 2 exit points
+                                    1-  252     	.line	5, "BSP\bsp_delay.c"; 	void delay_ms(unsigned char count)
+                                    1-  253     	BANKSEL	r0x1002
+     0000 rrrr                      3-  109 m1      .banksel ram_address
+     0001 00rr                      1-  254     	MOVAR	r0x1002
+                                    1-  255     	.line	9, "BSP\bsp_delay.c"; 	for(i = 0; i < count; i++)
+                                    1-  256     	BANKSEL	r0x1003
+     0002 rrrr                      3-  109 m1      .banksel ram_address
+     0003 02rr                      1-  257     	CLRR	r0x1003
+     0004                           1-  258     _02011_DS_:
+                                    1-  259     	BANKSEL	r0x1002
+     0004 rrrr                      3-  109 m1      .banksel ram_address
+     0005 01rr                      1-  260     	MOVR	r0x1002,W
+                                    1-  261     	BANKSEL	r0x1003
+     0006 rrrr                      3-  109 m1      .banksel ram_address
+     0007 04rr                      1-  262     	SUBAR	r0x1003,W
+     0008 0C03                      1-  263     	BTRSC	STATUS,0
+                                    1-  264     	MGOTO	_02013_DS_
+     0009 3rrr                      3-   62 m1      LGOTO rom_address
+                                    1-  265     	.line	11, "BSP\bsp_delay.c"; 	for(j = 0; j < 254; j++)
+     000A 21FE                      1-  266     	MOVIA	0xfe
+                                    1-  267     	BANKSEL	r0x1004
+     000B rrrr                      3-  109 m1      .banksel ram_address
+     000C 00rr                      1-  268     	MOVAR	r0x1004
+     000D                           1-  269     _02009_DS_:
+                                    1-  270     	.line	12, "BSP\bsp_delay.c"; 	NOP();
+     000D 0000                      1-  271     	nop
+                                    1-  272     	BANKSEL	r0x1004
+     000E rrrr                      3-  109 m1      .banksel ram_address
+     000F 06rr                      1-  273     	DECR	r0x1004,F
+                                    1-  274     	.line	11, "BSP\bsp_delay.c"; 	for(j = 0; j < 254; j++)
+     0010 01rr                      1-  275     	MOVR	r0x1004,W
+     0011 0903                      1-  276     	BTRSS	STATUS,2
+                                    1-  277     	MGOTO	_02009_DS_
+     0012 3rrr                      3-   62 m1      LGOTO rom_address
+                                    1-  278     	.line	9, "BSP\bsp_delay.c"; 	for(i = 0; i < count; i++)
+                                    1-  279     	BANKSEL	r0x1003
+     0013 rrrr                      3-  109 m1      .banksel ram_address
+     0014 05rr                      1-  280     	INCR	r0x1003,F
+                                    1-  281     	MGOTO	_02011_DS_
+     0015 3rrr                      3-   62 m1      LGOTO rom_address
+     0016                           1-  282     _02013_DS_:
+                                    1-  283     	.line	14, "BSP\bsp_delay.c"; 	}
+                                    1-  284     	RETURN	
+     0016 0010                      3-   39 m1      ret
+                                    1-  285     ; exit point of _delay_ms
+                                    1-  288     ;	code size estimation:
+                                    1-  289     ;	   33+   12 =    45 instructions (  114 byte)
+                                    1-  291     	end
+
+SYMBOL TABLE            TYPE     VALUE
+__pin_count__           Constant 0000000E
+__processor__           Constant 00800544
+C                       Constant 00000000
+DC                      Constant 00000001
+ENABLE_RAM_BANK         Constant 00000001
+F                       Constant 00000001
+FSR                     Constant 00000004
+INDF                    Constant 00000000
+PCHBUF                  Constant 0000000A
+PCL                     Constant 00000002
+STATUS                  Constant 00000003
+USEFGOTO                Constant 00000000
+W                       Constant 00000000
+Z                       Constant 00000002
+
+
+SOURCE FILE TABLE
+001 OBJ/BSP\bsp_delay.s
+002 ny8a054e.inc
+003 common.inc
+004 BSP\bsp_delay.c
+
+PROCESSOR    = NY8A054E (8 bits)
+PROGRAM ROM  = 0x00000000 - 0x000007FF
+DATA ROM     = 0x00000000 - 0x000007FF
+RESERVED MEM = 0x00000800 - 0x00000810
+SRAM / SFR   = 0x00000000 - 0x00000000
