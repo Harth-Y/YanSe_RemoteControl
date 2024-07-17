@@ -222,415 +222,419 @@ NYASM 2.42
                                     1-  178     ; compiler-defined variables
                                     1-  179     ;--------------------------------------------------------
                                     1-  180     .segment "uninit"
-     0000                           1-  181     r0x1020:
+     0000                           1-  181     r0x1021:
                                     1-  182     	.res	1
                                     1-  183     .segment "uninit"
-     0000                           1-  184     r0x1022:
+     0000                           1-  184     r0x1023:
                                     1-  185     	.res	1
                                     1-  186     .segment "uninit"
-     0000                           1-  187     r0x1021:
+     0000                           1-  187     r0x1022:
                                     1-  188     	.res	1
                                     1-  189     .segment "uninit"
-     0000                           1-  190     r0x1023:
+     0000                           1-  190     r0x1024:
                                     1-  191     	.res	1
                                     1-  192     .segment "uninit"
-     0000                           1-  193     r0x1024:
+     0000                           1-  193     r0x1025:
                                     1-  194     	.res	1
                                     1-  195     ;--------------------------------------------------------
                                     1-  196     ; initialized data
                                     1-  197     ;--------------------------------------------------------
-                                    1-  199     .segment "code"
-     0000                           1-  200     _channel_index:
-     0000 2002                      1-  201     	retia 0x02	; 2
-     0001 201A                      1-  202     	retia 0x1a	; 26
-     0002 2050                      1-  203     	retia 0x50	; 80	'P'
-                                    1-  205     .segment "code"
-     0000                           1-  206     ___str_0:
-     0000 2073                      1-  207     	retia 0x73 ; 's'
-     0001 2074                      1-  208     	retia 0x74 ; 't'
-     0002 2061                      1-  209     	retia 0x61 ; 'a'
-     0003 2072                      1-  210     	retia 0x72 ; 'r'
-     0004 2074                      1-  211     	retia 0x74 ; 't'
-     0005 2020                      1-  212     	retia 0x20 ; ' '
-     0006 2073                      1-  213     	retia 0x73 ; 's'
-     0007 2065                      1-  214     	retia 0x65 ; 'e'
-     0008 206E                      1-  215     	retia 0x6e ; 'n'
-     0009 2064                      1-  216     	retia 0x64 ; 'd'
-     000A 200D                      1-  217     	retia 0x0d ; '.'
-     000B 200A                      1-  218     	retia 0x0a ; '.'
-     000C 2000                      1-  219     	retia 0x00 ; '.'
-                                    1-  220     ;--------------------------------------------------------
-                                    1-  221     ; initialized absolute data
-                                    1-  222     ;--------------------------------------------------------
-                                    1-  223     ;--------------------------------------------------------
-                                    1-  224     ; overlayable items in internal ram 
-                                    1-  225     ;--------------------------------------------------------
-                                    1-  226     ;	udata_ovr
-                                    1-  227     ;--------------------------------------------------------
-                                    1-  228     ; code
-                                    1-  229     ;--------------------------------------------------------
-                                    1-  230     ; code_app_tx	code
-                                    1-  231     ;***
-                                    1-  232     ;  pBlock Stats: dbName = C
-                                    1-  233     ;***
-                                    1-  234     ;has an exit
-                                    1-  235     ;functions called:
-                                    1-  236     ;   _usart_send_string
-                                    1-  237     ;   _HS6230_Init
-                                    1-  238     ;   _HS6230_CE_Low
-                                    1-  239     ;   _HS6230_ModeSwitch
-                                    1-  240     ;   _HS6230_write_byte
-                                    1-  241     ;   _HS6230_write_byte
-                                    1-  242     ;   _HS6230_write_byte
-                                    1-  243     ;   _HS6230_CE_Low
-                                    1-  244     ;   _HS6230_Flush_Tx
-                                    1-  245     ;   _HS6230_Clear_All_Irq
-                                    1-  246     ;   _HS6230_write_byte
-                                    1-  247     ;   _delay_ms
-                                    1-  248     ;   __gptrget1
-                                    1-  249     ;   _HS6230_write_byte
-                                    1-  250     ;   _HS6230_SendPack
-                                    1-  251     ;   _HS6230_CE_High
-                                    1-  252     ;   _delay_40us
-                                    1-  253     ;   _HS6230_CE_Low
-                                    1-  254     ;   _HS6230_read_byte
+                                    1-  199     .segment "idata"
+     0000                           1-  200     _s_data_num:
+     0000 0000                      1-  203     	dw	0x00	; 0
+                                    1-  206     .segment "code"
+     0000                           1-  207     _channel_index:
+     0000 2002                      1-  208     	retia 0x02	; 2
+     0001 201A                      1-  209     	retia 0x1a	; 26
+     0002 2050                      1-  210     	retia 0x50	; 80	'P'
+                                    1-  212     .segment "code"
+     0000                           1-  213     ___str_0:
+     0000 2042                      1-  214     	retia 0x42 ; 'B'
+     0001 204C                      1-  215     	retia 0x4c ; 'L'
+     0002 2045                      1-  216     	retia 0x45 ; 'E'
+     0003 2020                      1-  217     	retia 0x20 ; ' '
+     0004 2070                      1-  218     	retia 0x70 ; 'p'
+     0005 2061                      1-  219     	retia 0x61 ; 'a'
+     0006 2063                      1-  220     	retia 0x63 ; 'c'
+     0007 206B                      1-  221     	retia 0x6b ; 'k'
+     0008 2065                      1-  222     	retia 0x65 ; 'e'
+     0009 2074                      1-  223     	retia 0x74 ; 't'
+     000A 2020                      1-  224     	retia 0x20 ; ' '
+     000B 2073                      1-  225     	retia 0x73 ; 's'
+     000C 2065                      1-  226     	retia 0x65 ; 'e'
+     000D 206E                      1-  227     	retia 0x6e ; 'n'
+     000E 2064                      1-  228     	retia 0x64 ; 'd'
+     000F 202F                      1-  229     	retia 0x2f ; '/'
+     0010 2072                      1-  230     	retia 0x72 ; 'r'
+     0011 202F                      1-  231     	retia 0x2f ; '/'
+     0012 206E                      1-  232     	retia 0x6e ; 'n'
+     0013 2000                      1-  233     	retia 0x00 ; '.'
+                                    1-  234     ;--------------------------------------------------------
+                                    1-  235     ; initialized absolute data
+                                    1-  236     ;--------------------------------------------------------
+                                    1-  237     ;--------------------------------------------------------
+                                    1-  238     ; overlayable items in internal ram 
+                                    1-  239     ;--------------------------------------------------------
+                                    1-  240     ;	udata_ovr
+                                    1-  241     ;--------------------------------------------------------
+                                    1-  242     ; code
+                                    1-  243     ;--------------------------------------------------------
+                                    1-  244     ; code_app_tx	code
+                                    1-  245     ;***
+                                    1-  246     ;  pBlock Stats: dbName = C
+                                    1-  247     ;***
+                                    1-  248     ;has an exit
+                                    1-  249     ;functions called:
+                                    1-  250     ;   _usart_send_string
+                                    1-  251     ;   _HS6230_Init
+                                    1-  252     ;   _HS6230_CE_Low
+                                    1-  253     ;   _HS6230_ModeSwitch
+                                    1-  254     ;   _HS6230_write_byte
                                     1-  255     ;   _HS6230_write_byte
                                     1-  256     ;   _HS6230_write_byte
-                                    1-  257     ;   _delay_ms
-                                    1-  258     ;   _delay_250ms
-                                    1-  259     ;   _delay_250ms
-                                    1-  260     ;   _usart_send_string
-                                    1-  261     ;   _HS6230_Init
-                                    1-  262     ;   _HS6230_CE_Low
-                                    1-  263     ;   _HS6230_ModeSwitch
-                                    1-  264     ;   _HS6230_write_byte
-                                    1-  265     ;   _HS6230_write_byte
-                                    1-  266     ;   _HS6230_write_byte
+                                    1-  257     ;   _HS6230_CE_Low
+                                    1-  258     ;   _HS6230_Flush_Tx
+                                    1-  259     ;   _HS6230_Clear_All_Irq
+                                    1-  260     ;   _HS6230_write_byte
+                                    1-  261     ;   _delay_ms
+                                    1-  262     ;   __gptrget1
+                                    1-  263     ;   _HS6230_write_byte
+                                    1-  264     ;   _HS6230_SendPack
+                                    1-  265     ;   _HS6230_CE_High
+                                    1-  266     ;   _delay_40us
                                     1-  267     ;   _HS6230_CE_Low
-                                    1-  268     ;   _HS6230_Flush_Tx
-                                    1-  269     ;   _HS6230_Clear_All_Irq
+                                    1-  268     ;   _HS6230_read_byte
+                                    1-  269     ;   _HS6230_write_byte
                                     1-  270     ;   _HS6230_write_byte
                                     1-  271     ;   _delay_ms
-                                    1-  272     ;   __gptrget1
-                                    1-  273     ;   _HS6230_write_byte
-                                    1-  274     ;   _HS6230_SendPack
-                                    1-  275     ;   _HS6230_CE_High
-                                    1-  276     ;   _delay_40us
-                                    1-  277     ;   _HS6230_CE_Low
-                                    1-  278     ;   _HS6230_read_byte
-                                    1-  279     ;   _HS6230_write_byte
-                                    1-  280     ;   _HS6230_write_byte
-                                    1-  281     ;   _delay_ms
-                                    1-  282     ;   _delay_250ms
-                                    1-  283     ;   _delay_250ms
-                                    1-  284     ;9 compiler assigned registers:
-                                    1-  285     ;   r0x1020
-                                    1-  286     ;   r0x1021
-                                    1-  287     ;   r0x1022
-                                    1-  288     ;   r0x1023
-                                    1-  289     ;   STK01
-                                    1-  290     ;   STK00
-                                    1-  291     ;   r0x1024
-                                    1-  292     ;   STK03
-                                    1-  293     ;   STK02
-                                    1-  294     ;; Starting pCode block
-                                    1-  295     .segment "code"; module=app_tx, function=_send_ble_packet
-                                    1-  297     ;local variable name mapping:
-     0000                           1-  302     _send_ble_packet:
-                                    1-  303     ; 2 exit points
-                                    1-  304     	.line	14, "BSP\app_tx.c"; 	void send_ble_packet(unsigned char code_value)
-                                    1-  305     	BANKSEL	r0x1020
+                                    1-  272     ;   _usart_send_string
+                                    1-  273     ;   _HS6230_Init
+                                    1-  274     ;   _HS6230_CE_Low
+                                    1-  275     ;   _HS6230_ModeSwitch
+                                    1-  276     ;   _HS6230_write_byte
+                                    1-  277     ;   _HS6230_write_byte
+                                    1-  278     ;   _HS6230_write_byte
+                                    1-  279     ;   _HS6230_CE_Low
+                                    1-  280     ;   _HS6230_Flush_Tx
+                                    1-  281     ;   _HS6230_Clear_All_Irq
+                                    1-  282     ;   _HS6230_write_byte
+                                    1-  283     ;   _delay_ms
+                                    1-  284     ;   __gptrget1
+                                    1-  285     ;   _HS6230_write_byte
+                                    1-  286     ;   _HS6230_SendPack
+                                    1-  287     ;   _HS6230_CE_High
+                                    1-  288     ;   _delay_40us
+                                    1-  289     ;   _HS6230_CE_Low
+                                    1-  290     ;   _HS6230_read_byte
+                                    1-  291     ;   _HS6230_write_byte
+                                    1-  292     ;   _HS6230_write_byte
+                                    1-  293     ;   _delay_ms
+                                    1-  294     ;9 compiler assigned registers:
+                                    1-  295     ;   r0x1021
+                                    1-  296     ;   r0x1022
+                                    1-  297     ;   r0x1023
+                                    1-  298     ;   r0x1024
+                                    1-  299     ;   STK01
+                                    1-  300     ;   STK00
+                                    1-  301     ;   r0x1025
+                                    1-  302     ;   STK03
+                                    1-  303     ;   STK02
+                                    1-  304     ;; Starting pCode block
+                                    1-  305     .segment "code"; module=app_tx, function=_send_ble_packet
+                                    1-  307     ;local variable name mapping:
+     0000                           1-  312     _send_ble_packet:
+                                    1-  313     ; 2 exit points
+                                    1-  314     	.line	14, "BSP\app_tx.c"; 	void send_ble_packet(unsigned char code_value)
+                                    1-  315     	BANKSEL	r0x1021
      0000 rrrr                      3-  109 m1      .banksel ram_address
-     0001 00rr                      1-  306     	MOVAR	r0x1020
-                                    1-  307     	.line	16, "BSP\app_tx.c"; 	usart_send_string("start send\r\n");
-     0002 21rr                      1-  308     	MOVIA	((___str_0 + 0) >> 8) & 0xff
-                                    1-  309     	BANKSEL	r0x1021
+     0001 00rr                      1-  316     	MOVAR	r0x1021
+                                    1-  317     	.line	16, "BSP\app_tx.c"; 	usart_send_string("BLE packet send/r/n");
+     0002 21rr                      1-  318     	MOVIA	((___str_0 + 0) >> 8) & 0xff
+                                    1-  319     	BANKSEL	r0x1022
      0003 rrrr                      3-  109 m1      .banksel ram_address
-     0004 00rr                      1-  310     	MOVAR	r0x1021
-     0005 21rr                      1-  311     	MOVIA	(___str_0 + 0)
-                                    1-  312     	BANKSEL	r0x1022
+     0004 00rr                      1-  320     	MOVAR	r0x1022
+     0005 21rr                      1-  321     	MOVIA	(___str_0 + 0)
+                                    1-  322     	BANKSEL	r0x1023
      0006 rrrr                      3-  109 m1      .banksel ram_address
-     0007 00rr                      1-  313     	MOVAR	r0x1022
-     0008 2180                      1-  314     	MOVIA	0x80
-                                    1-  315     	BANKSEL	r0x1023
+     0007 00rr                      1-  323     	MOVAR	r0x1023
+     0008 2180                      1-  324     	MOVIA	0x80
+                                    1-  325     	BANKSEL	r0x1024
      0009 rrrr                      3-  109 m1      .banksel ram_address
-     000A 00rr                      1-  316     	MOVAR	r0x1023
-                                    1-  317     	BANKSEL	r0x1022
+     000A 00rr                      1-  326     	MOVAR	r0x1024
+                                    1-  327     	BANKSEL	r0x1023
      000B rrrr                      3-  109 m1      .banksel ram_address
-     000C 01rr                      1-  318     	MOVR	r0x1022,W
-     000D 00rr                      1-  319     	MOVAR	STK01
-                                    1-  320     	BANKSEL	r0x1021
+     000C 01rr                      1-  328     	MOVR	r0x1023,W
+     000D 00rr                      1-  329     	MOVAR	STK01
+                                    1-  330     	BANKSEL	r0x1022
      000E rrrr                      3-  109 m1      .banksel ram_address
-     000F 01rr                      1-  321     	MOVR	r0x1021,W
-     0010 00rr                      1-  322     	MOVAR	STK00
-                                    1-  323     	BANKSEL	r0x1023
+     000F 01rr                      1-  331     	MOVR	r0x1022,W
+     0010 00rr                      1-  332     	MOVAR	STK00
+                                    1-  333     	BANKSEL	r0x1024
      0011 rrrr                      3-  109 m1      .banksel ram_address
-     0012 01rr                      1-  324     	MOVR	r0x1023,W
-                                    1-  325     	MCALL	_usart_send_string
+     0012 01rr                      1-  334     	MOVR	r0x1024,W
+                                    1-  335     	MCALL	_usart_send_string
      0013 2rrr                      3-   65 m1      LCALL rom_address
-                                    1-  326     	.line	25, "BSP\app_tx.c"; 	HS6230_Init(); // 初始化HS6230模块
-                                    1-  327     	MCALL	_HS6230_Init
-     0014 2rrr                      3-   65 m1      LCALL rom_address
-                                    1-  328     	.line	27, "BSP\app_tx.c"; 	HS6230_CE_Low(); // 设置CE引脚为低电平，准备发送数据
-                                    1-  329     	MCALL	_HS6230_CE_Low
-     0015 2rrr                      3-   65 m1      LCALL rom_address
-                                    1-  330     	.line	28, "BSP\app_tx.c"; 	HS6230_ModeSwitch(Rf_PTX_Mode); // 切换到发送模式
-     0016 2101                      1-  331     	MOVIA	0x01
-                                    1-  332     	MCALL	_HS6230_ModeSwitch
+                                    1-  336     	.line	23, "BSP\app_tx.c"; 	s_data_num++;
+                                    1-  337     	BANKSEL	_s_data_num
+     0014 rrrr                      3-  109 m1      .banksel ram_address
+     0015 05rr                      1-  338     	INCR	_s_data_num,F
+                                    1-  339     	.line	25, "BSP\app_tx.c"; 	HS6230_Init(); // 初始化HS6230模块
+                                    1-  340     	MCALL	_HS6230_Init
+     0016 2rrr                      3-   65 m1      LCALL rom_address
+                                    1-  341     	.line	26, "BSP\app_tx.c"; 	HS6230_CE_Low(); // 设置CE引脚为低电平，准备发送数据
+                                    1-  342     	MCALL	_HS6230_CE_Low
      0017 2rrr                      3-   65 m1      LCALL rom_address
-                                    1-  333     	.line	31, "BSP\app_tx.c"; 	HS6230_write_byte(HS6230_BANK0_FEATURE, 0x04);
-     0018 2104                      1-  334     	MOVIA	0x04
-     0019 00rr                      1-  335     	MOVAR	STK00
-     001A 211D                      1-  336     	MOVIA	0x1d
-                                    1-  337     	MCALL	_HS6230_write_byte
-     001B 2rrr                      3-   65 m1      LCALL rom_address
-                                    1-  338     	.line	32, "BSP\app_tx.c"; 	HS6230_write_byte(HS6230_BANK0_CONFIG, 0x0e);
-     001C 210E                      1-  339     	MOVIA	0x0e
-     001D 00rr                      1-  340     	MOVAR	STK00
-     001E 2100                      1-  341     	MOVIA	0x00
-                                    1-  342     	MCALL	_HS6230_write_byte
-     001F 2rrr                      3-   65 m1      LCALL rom_address
-                                    1-  343     	.line	33, "BSP\app_tx.c"; 	HS6230_write_byte(HS6230_BANK0_SETUP_VALUE, 0x04); // 配置值
-     0020 2104                      1-  344     	MOVIA	0x04
-     0021 00rr                      1-  345     	MOVAR	STK00
-     0022 211E                      1-  346     	MOVIA	0x1e
-                                    1-  347     	MCALL	_HS6230_write_byte
-     0023 2rrr                      3-   65 m1      LCALL rom_address
-                                    1-  348     	.line	36, "BSP\app_tx.c"; 	HS6230_Tx_Payload[len ++] = 0x02;       // 数据包长度的首字节
-     0024 2102                      1-  349     	MOVIA	0x02
-                                    1-  350     	BANKSEL	_HS6230_Tx_Payload
-     0025 rrrr                      3-  109 m1      .banksel ram_address
-     0026 00rr                      1-  351     	MOVAR	(_HS6230_Tx_Payload + 0)
-                                    1-  352     	.line	37, "BSP\app_tx.c"; 	HS6230_Tx_Payload[len ++] = 0x01;       // 数据包类型
-     0027 2101                      1-  353     	MOVIA	0x01
-     0028 00rr                      1-  354     	MOVAR	(_HS6230_Tx_Payload + 1)
-                                    1-  355     	.line	38, "BSP\app_tx.c"; 	HS6230_Tx_Payload[len ++] = 0x06;       // 标志位，包括可发现模式和支持的蓝牙技术类型
-     0029 2106                      1-  356     	MOVIA	0x06
-     002A 00rr                      1-  357     	MOVAR	(_HS6230_Tx_Payload + 2)
-                                    1-  358     	.line	45, "BSP\app_tx.c"; 	HS6230_Tx_Payload[len ++] = 0x10;
-     002B 2110                      1-  359     	MOVIA	0x10
-     002C 00rr                      1-  360     	MOVAR	(_HS6230_Tx_Payload + 3)
-                                    1-  361     	.line	46, "BSP\app_tx.c"; 	HS6230_Tx_Payload[len ++] = 0xFF;
-     002D 21FF                      1-  362     	MOVIA	0xff
-     002E 00rr                      1-  363     	MOVAR	(_HS6230_Tx_Payload + 4)
-                                    1-  364     	.line	48, "BSP\app_tx.c"; 	HS6230_Tx_Payload[len ++] = 0x54;       // 同步系列
-     002F 2154                      1-  365     	MOVIA	0x54
-     0030 00rr                      1-  366     	MOVAR	(_HS6230_Tx_Payload + 5)
-                                    1-  367     	.line	49, "BSP\app_tx.c"; 	HS6230_Tx_Payload[len ++] = 0x45;       // 同步系列
-     0031 2145                      1-  368     	MOVIA	0x45
-     0032 00rr                      1-  369     	MOVAR	(_HS6230_Tx_Payload + 6)
-                                    1-  370     	.line	50, "BSP\app_tx.c"; 	HS6230_Tx_Payload[len ++] = s_data_num;   // 序号，用于区分不同数据包，根据传进来的参数决定
-     0033 2101                      1-  371     	MOVIA	0x01
-     0034 00rr                      1-  372     	MOVAR	(_HS6230_Tx_Payload + 7)
-                                    1-  373     	.line	51, "BSP\app_tx.c"; 	HS6230_Tx_Payload[len ++] = code_value; // 码值，用于指示功能
-                                    1-  374     	BANKSEL	r0x1020
+                                    1-  343     	.line	27, "BSP\app_tx.c"; 	HS6230_ModeSwitch(Rf_PTX_Mode); // 切换到发送模式
+     0018 2101                      1-  344     	MOVIA	0x01
+                                    1-  345     	MCALL	_HS6230_ModeSwitch
+     0019 2rrr                      3-   65 m1      LCALL rom_address
+                                    1-  346     	.line	30, "BSP\app_tx.c"; 	HS6230_write_byte(HS6230_BANK0_FEATURE, 0x04);
+     001A 2104                      1-  347     	MOVIA	0x04
+     001B 00rr                      1-  348     	MOVAR	STK00
+     001C 211D                      1-  349     	MOVIA	0x1d
+                                    1-  350     	MCALL	_HS6230_write_byte
+     001D 2rrr                      3-   65 m1      LCALL rom_address
+                                    1-  351     	.line	31, "BSP\app_tx.c"; 	HS6230_write_byte(HS6230_BANK0_CONFIG, 0x0e);
+     001E 210E                      1-  352     	MOVIA	0x0e
+     001F 00rr                      1-  353     	MOVAR	STK00
+     0020 2100                      1-  354     	MOVIA	0x00
+                                    1-  355     	MCALL	_HS6230_write_byte
+     0021 2rrr                      3-   65 m1      LCALL rom_address
+                                    1-  356     	.line	32, "BSP\app_tx.c"; 	HS6230_write_byte(HS6230_BANK0_SETUP_VALUE, 0x04); // 配置值
+     0022 2104                      1-  357     	MOVIA	0x04
+     0023 00rr                      1-  358     	MOVAR	STK00
+     0024 211E                      1-  359     	MOVIA	0x1e
+                                    1-  360     	MCALL	_HS6230_write_byte
+     0025 2rrr                      3-   65 m1      LCALL rom_address
+                                    1-  361     	.line	35, "BSP\app_tx.c"; 	HS6230_Tx_Payload[len ++] = 0x02;       // 数据包长度的首字节
+     0026 2102                      1-  362     	MOVIA	0x02
+                                    1-  363     	BANKSEL	_HS6230_Tx_Payload
+     0027 rrrr                      3-  109 m1      .banksel ram_address
+     0028 00rr                      1-  364     	MOVAR	(_HS6230_Tx_Payload + 0)
+                                    1-  365     	.line	36, "BSP\app_tx.c"; 	HS6230_Tx_Payload[len ++] = 0x01;       // 数据包类型
+     0029 2101                      1-  366     	MOVIA	0x01
+     002A 00rr                      1-  367     	MOVAR	(_HS6230_Tx_Payload + 1)
+                                    1-  368     	.line	37, "BSP\app_tx.c"; 	HS6230_Tx_Payload[len ++] = 0x06;       // 标志位，包括可发现模式和支持的蓝牙技术类型
+     002B 2106                      1-  369     	MOVIA	0x06
+     002C 00rr                      1-  370     	MOVAR	(_HS6230_Tx_Payload + 2)
+                                    1-  371     	.line	44, "BSP\app_tx.c"; 	HS6230_Tx_Payload[len ++] = 0x10;
+     002D 2110                      1-  372     	MOVIA	0x10
+     002E 00rr                      1-  373     	MOVAR	(_HS6230_Tx_Payload + 3)
+                                    1-  374     	.line	45, "BSP\app_tx.c"; 	HS6230_Tx_Payload[len ++] = 0xFF;
+     002F 21FF                      1-  375     	MOVIA	0xff
+     0030 00rr                      1-  376     	MOVAR	(_HS6230_Tx_Payload + 4)
+                                    1-  377     	.line	47, "BSP\app_tx.c"; 	HS6230_Tx_Payload[len ++] = 0x54;       // 同步系列
+     0031 2154                      1-  378     	MOVIA	0x54
+     0032 00rr                      1-  379     	MOVAR	(_HS6230_Tx_Payload + 5)
+                                    1-  380     	.line	48, "BSP\app_tx.c"; 	HS6230_Tx_Payload[len ++] = 0x45;       // 同步系列
+     0033 2145                      1-  381     	MOVIA	0x45
+     0034 00rr                      1-  382     	MOVAR	(_HS6230_Tx_Payload + 6)
+                                    1-  383     	.line	49, "BSP\app_tx.c"; 	HS6230_Tx_Payload[len ++] = s_data_num; // 序号，用于区分不同数据包
+                                    1-  384     	BANKSEL	_s_data_num
      0035 rrrr                      3-  109 m1      .banksel ram_address
-     0036 01rr                      1-  375     	MOVR	r0x1020,W
-                                    1-  376     	BANKSEL	_HS6230_Tx_Payload
+     0036 01rr                      1-  385     	MOVR	_s_data_num,W
+                                    1-  386     	BANKSEL	_HS6230_Tx_Payload
      0037 rrrr                      3-  109 m1      .banksel ram_address
-     0038 00rr                      1-  377     	MOVAR	(_HS6230_Tx_Payload + 8)
-                                    1-  378     	.line	52, "BSP\app_tx.c"; 	HS6230_Tx_Payload[len ++] = 0xBF;       // 识别码
-     0039 21BF                      1-  379     	MOVIA	0xbf
-     003A 00rr                      1-  380     	MOVAR	(_HS6230_Tx_Payload + 9)
-                                    1-  381     	.line	53, "BSP\app_tx.c"; 	HS6230_Tx_Payload[len ++] = 0xAA;       // 识别码
-     003B 21AA                      1-  382     	MOVIA	0xaa
-     003C 00rr                      1-  383     	MOVAR	(_HS6230_Tx_Payload + 10)
-                                    1-  384     	.line	54, "BSP\app_tx.c"; 	HS6230_Tx_Payload[len ++] = 0xFF;
-     003D 21FF                      1-  385     	MOVIA	0xff
-     003E 00rr                      1-  386     	MOVAR	(_HS6230_Tx_Payload + 11)
-                                    1-  387     	.line	55, "BSP\app_tx.c"; 	HS6230_Tx_Payload[len ++] = 0xFF;
-     003F 21FF                      1-  388     	MOVIA	0xff
-     0040 00rr                      1-  389     	MOVAR	(_HS6230_Tx_Payload + 12)
-                                    1-  390     	.line	56, "BSP\app_tx.c"; 	HS6230_Tx_Payload[len ++] = 0xFF;
-     0041 21FF                      1-  391     	MOVIA	0xff
-     0042 00rr                      1-  392     	MOVAR	(_HS6230_Tx_Payload + 13)
-                                    1-  393     	.line	57, "BSP\app_tx.c"; 	HS6230_Tx_Payload[len ++] = 0xFF;
-     0043 21FF                      1-  394     	MOVIA	0xff
-     0044 00rr                      1-  395     	MOVAR	(_HS6230_Tx_Payload + 14)
-                                    1-  396     	.line	58, "BSP\app_tx.c"; 	HS6230_Tx_Payload[len ++] = 0xFF;
-     0045 21FF                      1-  397     	MOVIA	0xff
-     0046 00rr                      1-  398     	MOVAR	(_HS6230_Tx_Payload + 15)
-                                    1-  399     	.line	59, "BSP\app_tx.c"; 	HS6230_Tx_Payload[len ++] = 0xFF;
-     0047 21FF                      1-  400     	MOVIA	0xff
-     0048 00rr                      1-  401     	MOVAR	(_HS6230_Tx_Payload + 16)
-                                    1-  402     	.line	60, "BSP\app_tx.c"; 	HS6230_Tx_Payload[len ++] = 0xFF;
-     0049 21FF                      1-  403     	MOVIA	0xff
-     004A 00rr                      1-  404     	MOVAR	(_HS6230_Tx_Payload + 17)
-                                    1-  405     	.line	61, "BSP\app_tx.c"; 	HS6230_Tx_Payload[len ++] = 0xFF;
-     004B 21FF                      1-  406     	MOVIA	0xff
-     004C 00rr                      1-  407     	MOVAR	(_HS6230_Tx_Payload + 18)
-                                    1-  408     	.line	62, "BSP\app_tx.c"; 	HS6230_Tx_Payload[len ++] = 0xFF;
-     004D 21FF                      1-  409     	MOVIA	0xff
-     004E 00rr                      1-  410     	MOVAR	(_HS6230_Tx_Payload + 19)
-                                    1-  411     	.line	65, "BSP\app_tx.c"; 	for(i = 0; i < 3; i++)
-                                    1-  412     	BANKSEL	r0x1020
-     004F rrrr                      3-  109 m1      .banksel ram_address
-     0050 02rr                      1-  413     	CLRR	r0x1020
-     0051                           1-  414     _02015_DS_:
-                                    1-  415     	.line	68, "BSP\app_tx.c"; 	HS6230_CE_Low();
-                                    1-  416     	MCALL	_HS6230_CE_Low
-     0051 2rrr                      3-   65 m1      LCALL rom_address
-                                    1-  417     	.line	69, "BSP\app_tx.c"; 	HS6230_Flush_Tx();
-                                    1-  418     	MCALL	_HS6230_Flush_Tx
-     0052 2rrr                      3-   65 m1      LCALL rom_address
-                                    1-  419     	.line	70, "BSP\app_tx.c"; 	HS6230_Clear_All_Irq();
-                                    1-  420     	MCALL	_HS6230_Clear_All_Irq
-     0053 2rrr                      3-   65 m1      LCALL rom_address
-                                    1-  421     	.line	73, "BSP\app_tx.c"; 	HS6230_write_byte(HS6230_BANK0_CONFIG, 0x0e);
-     0054 210E                      1-  422     	MOVIA	0x0e
-     0055 00rr                      1-  423     	MOVAR	STK00
-     0056 2100                      1-  424     	MOVIA	0x00
-                                    1-  425     	MCALL	_HS6230_write_byte
+     0038 00rr                      1-  387     	MOVAR	(_HS6230_Tx_Payload + 7)
+                                    1-  388     	.line	50, "BSP\app_tx.c"; 	HS6230_Tx_Payload[len ++] = code_value; // 码值，用于指示功能
+                                    1-  389     	BANKSEL	r0x1021
+     0039 rrrr                      3-  109 m1      .banksel ram_address
+     003A 01rr                      1-  390     	MOVR	r0x1021,W
+                                    1-  391     	BANKSEL	_HS6230_Tx_Payload
+     003B rrrr                      3-  109 m1      .banksel ram_address
+     003C 00rr                      1-  392     	MOVAR	(_HS6230_Tx_Payload + 8)
+                                    1-  393     	.line	51, "BSP\app_tx.c"; 	HS6230_Tx_Payload[len ++] = 0xBF;       // 识别码
+     003D 21BF                      1-  394     	MOVIA	0xbf
+     003E 00rr                      1-  395     	MOVAR	(_HS6230_Tx_Payload + 9)
+                                    1-  396     	.line	52, "BSP\app_tx.c"; 	HS6230_Tx_Payload[len ++] = 0xAA;       // 识别码
+     003F 21AA                      1-  397     	MOVIA	0xaa
+     0040 00rr                      1-  398     	MOVAR	(_HS6230_Tx_Payload + 10)
+                                    1-  399     	.line	53, "BSP\app_tx.c"; 	HS6230_Tx_Payload[len ++] = 0xFF;
+     0041 21FF                      1-  400     	MOVIA	0xff
+     0042 00rr                      1-  401     	MOVAR	(_HS6230_Tx_Payload + 11)
+                                    1-  402     	.line	54, "BSP\app_tx.c"; 	HS6230_Tx_Payload[len ++] = 0xFF;
+     0043 21FF                      1-  403     	MOVIA	0xff
+     0044 00rr                      1-  404     	MOVAR	(_HS6230_Tx_Payload + 12)
+                                    1-  405     	.line	55, "BSP\app_tx.c"; 	HS6230_Tx_Payload[len ++] = 0xFF;
+     0045 21FF                      1-  406     	MOVIA	0xff
+     0046 00rr                      1-  407     	MOVAR	(_HS6230_Tx_Payload + 13)
+                                    1-  408     	.line	56, "BSP\app_tx.c"; 	HS6230_Tx_Payload[len ++] = 0xFF;
+     0047 21FF                      1-  409     	MOVIA	0xff
+     0048 00rr                      1-  410     	MOVAR	(_HS6230_Tx_Payload + 14)
+                                    1-  411     	.line	57, "BSP\app_tx.c"; 	HS6230_Tx_Payload[len ++] = 0xFF;
+     0049 21FF                      1-  412     	MOVIA	0xff
+     004A 00rr                      1-  413     	MOVAR	(_HS6230_Tx_Payload + 15)
+                                    1-  414     	.line	58, "BSP\app_tx.c"; 	HS6230_Tx_Payload[len ++] = 0xFF;
+     004B 21FF                      1-  415     	MOVIA	0xff
+     004C 00rr                      1-  416     	MOVAR	(_HS6230_Tx_Payload + 16)
+                                    1-  417     	.line	59, "BSP\app_tx.c"; 	HS6230_Tx_Payload[len ++] = 0xFF;
+     004D 21FF                      1-  418     	MOVIA	0xff
+     004E 00rr                      1-  419     	MOVAR	(_HS6230_Tx_Payload + 17)
+                                    1-  420     	.line	60, "BSP\app_tx.c"; 	HS6230_Tx_Payload[len ++] = 0xFF;
+     004F 21FF                      1-  421     	MOVIA	0xff
+     0050 00rr                      1-  422     	MOVAR	(_HS6230_Tx_Payload + 18)
+                                    1-  423     	.line	61, "BSP\app_tx.c"; 	HS6230_Tx_Payload[len ++] = 0xFF;
+     0051 21FF                      1-  424     	MOVIA	0xff
+     0052 00rr                      1-  425     	MOVAR	(_HS6230_Tx_Payload + 19)
+                                    1-  426     	.line	64, "BSP\app_tx.c"; 	for(i = 0; i < 3; i++)
+                                    1-  427     	BANKSEL	r0x1021
+     0053 rrrr                      3-  109 m1      .banksel ram_address
+     0054 02rr                      1-  428     	CLRR	r0x1021
+     0055                           1-  429     _02015_DS_:
+                                    1-  430     	.line	67, "BSP\app_tx.c"; 	HS6230_CE_Low();
+                                    1-  431     	MCALL	_HS6230_CE_Low
+     0055 2rrr                      3-   65 m1      LCALL rom_address
+                                    1-  432     	.line	68, "BSP\app_tx.c"; 	HS6230_Flush_Tx();
+                                    1-  433     	MCALL	_HS6230_Flush_Tx
+     0056 2rrr                      3-   65 m1      LCALL rom_address
+                                    1-  434     	.line	69, "BSP\app_tx.c"; 	HS6230_Clear_All_Irq();
+                                    1-  435     	MCALL	_HS6230_Clear_All_Irq
      0057 2rrr                      3-   65 m1      LCALL rom_address
-                                    1-  426     	.line	74, "BSP\app_tx.c"; 	delay_ms(5);
-     0058 2105                      1-  427     	MOVIA	0x05
-                                    1-  428     	MCALL	_delay_ms
-     0059 2rrr                      3-   65 m1      LCALL rom_address
-                                    1-  429     	.line	77, "BSP\app_tx.c"; 	for(idx = 0; idx < 3; idx++)
-                                    1-  430     	BANKSEL	r0x1022
-     005A rrrr                      3-  109 m1      .banksel ram_address
-     005B 02rr                      1-  431     	CLRR	r0x1022
-     005C                           1-  432     _02013_DS_:
-                                    1-  433     	.line	79, "BSP\app_tx.c"; 	HS6230_write_byte(HS6230_BANK0_RF_CH, channel_index[idx]); // 设置射频频道
-                                    1-  434     	BANKSEL	r0x1022
-     005C rrrr                      3-  109 m1      .banksel ram_address
-     005D 01rr                      1-  435     	MOVR	r0x1022,W
-     005E 25rr                      1-  436     	ADDIA	(_channel_index + 0)
-                                    1-  437     	BANKSEL	r0x1021
-     005F rrrr                      3-  109 m1      .banksel ram_address
-     0060 00rr                      1-  438     	MOVAR	r0x1021
-     0061 21rr                      1-  439     	MOVIA	((_channel_index + 0) >> 8) & 0xff
-     0062 2600                      1-  440     	ADCIA	0x00
-                                    1-  441     	BANKSEL	r0x1023
+                                    1-  436     	.line	72, "BSP\app_tx.c"; 	HS6230_write_byte(HS6230_BANK0_CONFIG, 0x0e);
+     0058 210E                      1-  437     	MOVIA	0x0e
+     0059 00rr                      1-  438     	MOVAR	STK00
+     005A 2100                      1-  439     	MOVIA	0x00
+                                    1-  440     	MCALL	_HS6230_write_byte
+     005B 2rrr                      3-   65 m1      LCALL rom_address
+                                    1-  441     	.line	73, "BSP\app_tx.c"; 	delay_ms(5);
+     005C 2105                      1-  442     	MOVIA	0x05
+                                    1-  443     	MCALL	_delay_ms
+     005D 2rrr                      3-   65 m1      LCALL rom_address
+                                    1-  444     	.line	76, "BSP\app_tx.c"; 	for(idx = 0; idx < 3; idx++)
+                                    1-  445     	BANKSEL	r0x1023
+     005E rrrr                      3-  109 m1      .banksel ram_address
+     005F 02rr                      1-  446     	CLRR	r0x1023
+     0060                           1-  447     _02013_DS_:
+                                    1-  448     	.line	78, "BSP\app_tx.c"; 	HS6230_write_byte(HS6230_BANK0_RF_CH, channel_index[idx]); // 设置射频频道
+                                    1-  449     	BANKSEL	r0x1023
+     0060 rrrr                      3-  109 m1      .banksel ram_address
+     0061 01rr                      1-  450     	MOVR	r0x1023,W
+     0062 25rr                      1-  451     	ADDIA	(_channel_index + 0)
+                                    1-  452     	BANKSEL	r0x1022
      0063 rrrr                      3-  109 m1      .banksel ram_address
-     0064 00rr                      1-  442     	MOVAR	r0x1023
-                                    1-  443     	BANKSEL	r0x1021
-     0065 rrrr                      3-  109 m1      .banksel ram_address
-     0066 01rr                      1-  444     	MOVR	r0x1021,W
-     0067 00rr                      1-  445     	MOVAR	STK01
-                                    1-  446     	BANKSEL	r0x1023
-     0068 rrrr                      3-  109 m1      .banksel ram_address
-     0069 01rr                      1-  447     	MOVR	r0x1023,W
-     006A 00rr                      1-  448     	MOVAR	STK00
-     006B 2180                      1-  449     	MOVIA	0x80
-                                    1-  450     	MCALL	__gptrget1
-     006C 2rrr                      3-   65 m1      LCALL rom_address
-                                    1-  451     	BANKSEL	r0x1024
-     006D rrrr                      3-  109 m1      .banksel ram_address
-     006E 00rr                      1-  452     	MOVAR	r0x1024
-     006F 01rr                      1-  453     	MOVR	r0x1024,W
-     0070 00rr                      1-  454     	MOVAR	STK00
-     0071 2105                      1-  455     	MOVIA	0x05
-                                    1-  456     	MCALL	_HS6230_write_byte
-     0072 2rrr                      3-   65 m1      LCALL rom_address
-                                    1-  457     	.line	80, "BSP\app_tx.c"; 	HS6230_SendPack(RF_W_TX_PAYLOAD, HS6230_Tx_Payload, len); // 发送数据包
-     0073 21rr                      1-  458     	MOVIA	(_HS6230_Tx_Payload + 0)
-                                    1-  459     	BANKSEL	r0x1021
-     0074 rrrr                      3-  109 m1      .banksel ram_address
-     0075 00rr                      1-  460     	MOVAR	r0x1021
-                                    1-  461     	BANKSEL	r0x1023
-     0076 rrrr                      3-  109 m1      .banksel ram_address
-     0077 02rr                      1-  462     	CLRR	r0x1023
-                                    1-  463     	BANKSEL	r0x1024
+     0064 00rr                      1-  453     	MOVAR	r0x1022
+     0065 21rr                      1-  454     	MOVIA	((_channel_index + 0) >> 8) & 0xff
+     0066 2600                      1-  455     	ADCIA	0x00
+                                    1-  456     	BANKSEL	r0x1024
+     0067 rrrr                      3-  109 m1      .banksel ram_address
+     0068 00rr                      1-  457     	MOVAR	r0x1024
+                                    1-  458     	BANKSEL	r0x1022
+     0069 rrrr                      3-  109 m1      .banksel ram_address
+     006A 01rr                      1-  459     	MOVR	r0x1022,W
+     006B 00rr                      1-  460     	MOVAR	STK01
+                                    1-  461     	BANKSEL	r0x1024
+     006C rrrr                      3-  109 m1      .banksel ram_address
+     006D 01rr                      1-  462     	MOVR	r0x1024,W
+     006E 00rr                      1-  463     	MOVAR	STK00
+     006F 2180                      1-  464     	MOVIA	0x80
+                                    1-  465     	MCALL	__gptrget1
+     0070 2rrr                      3-   65 m1      LCALL rom_address
+                                    1-  466     	BANKSEL	r0x1025
+     0071 rrrr                      3-  109 m1      .banksel ram_address
+     0072 00rr                      1-  467     	MOVAR	r0x1025
+     0073 01rr                      1-  468     	MOVR	r0x1025,W
+     0074 00rr                      1-  469     	MOVAR	STK00
+     0075 2105                      1-  470     	MOVIA	0x05
+                                    1-  471     	MCALL	_HS6230_write_byte
+     0076 2rrr                      3-   65 m1      LCALL rom_address
+                                    1-  472     	.line	79, "BSP\app_tx.c"; 	HS6230_SendPack(RF_W_TX_PAYLOAD, HS6230_Tx_Payload, len); // 发送数据包
+     0077 21rr                      1-  473     	MOVIA	(_HS6230_Tx_Payload + 0)
+                                    1-  474     	BANKSEL	r0x1022
      0078 rrrr                      3-  109 m1      .banksel ram_address
-     0079 02rr                      1-  464     	CLRR	r0x1024
-     007A 2114                      1-  465     	MOVIA	0x14
-     007B 00rr                      1-  466     	MOVAR	STK03
-                                    1-  467     	BANKSEL	r0x1021
+     0079 00rr                      1-  475     	MOVAR	r0x1022
+                                    1-  476     	BANKSEL	r0x1024
+     007A rrrr                      3-  109 m1      .banksel ram_address
+     007B 02rr                      1-  477     	CLRR	r0x1024
+                                    1-  478     	BANKSEL	r0x1025
      007C rrrr                      3-  109 m1      .banksel ram_address
-     007D 01rr                      1-  468     	MOVR	r0x1021,W
-     007E 00rr                      1-  469     	MOVAR	STK02
-                                    1-  470     	BANKSEL	r0x1023
-     007F rrrr                      3-  109 m1      .banksel ram_address
-     0080 01rr                      1-  471     	MOVR	r0x1023,W
-     0081 00rr                      1-  472     	MOVAR	STK01
-                                    1-  473     	BANKSEL	r0x1024
-     0082 rrrr                      3-  109 m1      .banksel ram_address
-     0083 01rr                      1-  474     	MOVR	r0x1024,W
-     0084 00rr                      1-  475     	MOVAR	STK00
-     0085 21A0                      1-  476     	MOVIA	0xa0
-                                    1-  477     	MCALL	_HS6230_SendPack
-     0086 2rrr                      3-   65 m1      LCALL rom_address
-                                    1-  478     	.line	81, "BSP\app_tx.c"; 	HS6230_CE_High(); // 产生CE脉冲，开始发送
-                                    1-  479     	MCALL	_HS6230_CE_High
-     0087 2rrr                      3-   65 m1      LCALL rom_address
-                                    1-  480     	.line	82, "BSP\app_tx.c"; 	delay_40us(); // 等待脉冲稳定
-                                    1-  481     	MCALL	_delay_40us
-     0088 2rrr                      3-   65 m1      LCALL rom_address
-                                    1-  482     	.line	83, "BSP\app_tx.c"; 	HS6230_CE_Low(); // 结束脉冲
-                                    1-  483     	MCALL	_HS6230_CE_Low
-     0089 2rrr                      3-   65 m1      LCALL rom_address
-     008A                           1-  484     _02009_DS_:
-                                    1-  485     	.line	87, "BSP\app_tx.c"; 	status = HS6230_read_byte(HS6230_BANK0_STATUS); // 读取状态寄存器
-     008A 2107                      1-  486     	MOVIA	0x07
-                                    1-  487     	MCALL	_HS6230_read_byte
+     007D 02rr                      1-  479     	CLRR	r0x1025
+     007E 2114                      1-  480     	MOVIA	0x14
+     007F 00rr                      1-  481     	MOVAR	STK03
+                                    1-  482     	BANKSEL	r0x1022
+     0080 rrrr                      3-  109 m1      .banksel ram_address
+     0081 01rr                      1-  483     	MOVR	r0x1022,W
+     0082 00rr                      1-  484     	MOVAR	STK02
+                                    1-  485     	BANKSEL	r0x1024
+     0083 rrrr                      3-  109 m1      .banksel ram_address
+     0084 01rr                      1-  486     	MOVR	r0x1024,W
+     0085 00rr                      1-  487     	MOVAR	STK01
+                                    1-  488     	BANKSEL	r0x1025
+     0086 rrrr                      3-  109 m1      .banksel ram_address
+     0087 01rr                      1-  489     	MOVR	r0x1025,W
+     0088 00rr                      1-  490     	MOVAR	STK00
+     0089 21A0                      1-  491     	MOVIA	0xa0
+                                    1-  492     	MCALL	_HS6230_SendPack
+     008A 2rrr                      3-   65 m1      LCALL rom_address
+                                    1-  493     	.line	80, "BSP\app_tx.c"; 	HS6230_CE_High(); // 产生CE脉冲，开始发送
+                                    1-  494     	MCALL	_HS6230_CE_High
      008B 2rrr                      3-   65 m1      LCALL rom_address
-                                    1-  488     	BANKSEL	r0x1021
-     008C rrrr                      3-  109 m1      .banksel ram_address
-     008D 00rr                      1-  489     	MOVAR	r0x1021
-                                    1-  490     	.line	88, "BSP\app_tx.c"; 	if ((TX_DS & status) || (MAX_RT & status)) // 检查发送完成或重传达到最大次数
-     008E 0Err                      1-  491     	BTRSC	r0x1021,5
-                                    1-  492     	MGOTO	_02005_DS_
-     008F 3rrr                      3-   62 m1      LGOTO rom_address
-     0090 0Arr                      1-  493     	BTRSS	r0x1021,4
-                                    1-  494     	MGOTO	_02009_DS_
-     0091 3rrr                      3-   62 m1      LGOTO rom_address
-     0092                           1-  495     _02005_DS_:
-                                    1-  496     	.line	90, "BSP\app_tx.c"; 	HS6230_write_byte(HS6230_BANK0_STATUS, status); // 清除状态
-                                    1-  497     	BANKSEL	r0x1021
-     0092 rrrr                      3-  109 m1      .banksel ram_address
-     0093 01rr                      1-  498     	MOVR	r0x1021,W
-     0094 00rr                      1-  499     	MOVAR	STK00
-     0095 2107                      1-  500     	MOVIA	0x07
-                                    1-  501     	MCALL	_HS6230_write_byte
-     0096 2rrr                      3-   65 m1      LCALL rom_address
-                                    1-  502     	.line	77, "BSP\app_tx.c"; 	for(idx = 0; idx < 3; idx++)
+                                    1-  495     	.line	81, "BSP\app_tx.c"; 	delay_40us(); // 等待脉冲稳定
+                                    1-  496     	MCALL	_delay_40us
+     008C 2rrr                      3-   65 m1      LCALL rom_address
+                                    1-  497     	.line	82, "BSP\app_tx.c"; 	HS6230_CE_Low(); // 结束脉冲
+                                    1-  498     	MCALL	_HS6230_CE_Low
+     008D 2rrr                      3-   65 m1      LCALL rom_address
+     008E                           1-  499     _02009_DS_:
+                                    1-  500     	.line	86, "BSP\app_tx.c"; 	status = HS6230_read_byte(HS6230_BANK0_STATUS); // 读取状态寄存器
+     008E 2107                      1-  501     	MOVIA	0x07
+                                    1-  502     	MCALL	_HS6230_read_byte
+     008F 2rrr                      3-   65 m1      LCALL rom_address
                                     1-  503     	BANKSEL	r0x1022
-     0097 rrrr                      3-  109 m1      .banksel ram_address
-     0098 05rr                      1-  504     	INCR	r0x1022,F
-                                    1-  505     ;;unsigned compare: left < lit(0x3=3), size=1
-     0099 2103                      1-  506     	MOVIA	0x03
-     009A 04rr                      1-  507     	SUBAR	r0x1022,W
-     009B 0803                      1-  508     	BTRSS	STATUS,0
-                                    1-  509     	MGOTO	_02013_DS_
-     009C 3rrr                      3-   62 m1      LGOTO rom_address
-                                    1-  510     	.line	97, "BSP\app_tx.c"; 	HS6230_write_byte(HS6230_BANK0_CONFIG, 0x00);
-     009D 2100                      1-  511     	MOVIA	0x00
-     009E 00rr                      1-  512     	MOVAR	STK00
-     009F 2100                      1-  513     	MOVIA	0x00
-                                    1-  514     	MCALL	_HS6230_write_byte
-     00A0 2rrr                      3-   65 m1      LCALL rom_address
-                                    1-  515     	.line	98, "BSP\app_tx.c"; 	delay_ms(1);
-     00A1 2101                      1-  516     	MOVIA	0x01
-                                    1-  517     	MCALL	_delay_ms
-     00A2 2rrr                      3-   65 m1      LCALL rom_address
-                                    1-  518     	.line	65, "BSP\app_tx.c"; 	for(i = 0; i < 3; i++)
-                                    1-  519     	BANKSEL	r0x1020
-     00A3 rrrr                      3-  109 m1      .banksel ram_address
-     00A4 05rr                      1-  520     	INCR	r0x1020,F
-                                    1-  521     ;;unsigned compare: left < lit(0x3=3), size=1
-     00A5 2103                      1-  522     	MOVIA	0x03
-     00A6 04rr                      1-  523     	SUBAR	r0x1020,W
-     00A7 0803                      1-  524     	BTRSS	STATUS,0
-                                    1-  525     	MGOTO	_02015_DS_
-     00A8 3rrr                      3-   62 m1      LGOTO rom_address
-                                    1-  526     	.line	102, "BSP\app_tx.c"; 	PORTBbits.PB4 = 1;
-     00A9 1Arr                      1-  527     	BSR	_PORTBbits,4
-                                    1-  528     	.line	103, "BSP\app_tx.c"; 	delay_250ms();
-                                    1-  529     	MCALL	_delay_250ms
-     00AA 2rrr                      3-   65 m1      LCALL rom_address
-                                    1-  530     	.line	104, "BSP\app_tx.c"; 	PORTBbits.PB4 = 0;
-     00AB 1Err                      1-  531     	BCR	_PORTBbits,4
-                                    1-  532     	.line	105, "BSP\app_tx.c"; 	delay_250ms();
-                                    1-  533     	MCALL	_delay_250ms
-     00AC 2rrr                      3-   65 m1      LCALL rom_address
-                                    1-  534     	.line	106, "BSP\app_tx.c"; 	}
-                                    1-  535     	RETURN	
+     0090 rrrr                      3-  109 m1      .banksel ram_address
+     0091 00rr                      1-  504     	MOVAR	r0x1022
+                                    1-  505     	.line	87, "BSP\app_tx.c"; 	if ((TX_DS & status) || (MAX_RT & status)) // 检查发送完成或重传达到最大次数
+     0092 0Err                      1-  506     	BTRSC	r0x1022,5
+                                    1-  507     	MGOTO	_02005_DS_
+     0093 3rrr                      3-   62 m1      LGOTO rom_address
+     0094 0Arr                      1-  508     	BTRSS	r0x1022,4
+                                    1-  509     	MGOTO	_02009_DS_
+     0095 3rrr                      3-   62 m1      LGOTO rom_address
+     0096                           1-  510     _02005_DS_:
+                                    1-  511     	.line	89, "BSP\app_tx.c"; 	HS6230_write_byte(HS6230_BANK0_STATUS, status); // 清除状态
+                                    1-  512     	BANKSEL	r0x1022
+     0096 rrrr                      3-  109 m1      .banksel ram_address
+     0097 01rr                      1-  513     	MOVR	r0x1022,W
+     0098 00rr                      1-  514     	MOVAR	STK00
+     0099 2107                      1-  515     	MOVIA	0x07
+                                    1-  516     	MCALL	_HS6230_write_byte
+     009A 2rrr                      3-   65 m1      LCALL rom_address
+                                    1-  517     	.line	76, "BSP\app_tx.c"; 	for(idx = 0; idx < 3; idx++)
+                                    1-  518     	BANKSEL	r0x1023
+     009B rrrr                      3-  109 m1      .banksel ram_address
+     009C 05rr                      1-  519     	INCR	r0x1023,F
+                                    1-  520     ;;unsigned compare: left < lit(0x3=3), size=1
+     009D 2103                      1-  521     	MOVIA	0x03
+     009E 04rr                      1-  522     	SUBAR	r0x1023,W
+     009F 0803                      1-  523     	BTRSS	STATUS,0
+                                    1-  524     	MGOTO	_02013_DS_
+     00A0 3rrr                      3-   62 m1      LGOTO rom_address
+                                    1-  525     	.line	96, "BSP\app_tx.c"; 	HS6230_write_byte(HS6230_BANK0_CONFIG, 0x00);
+     00A1 2100                      1-  526     	MOVIA	0x00
+     00A2 00rr                      1-  527     	MOVAR	STK00
+     00A3 2100                      1-  528     	MOVIA	0x00
+                                    1-  529     	MCALL	_HS6230_write_byte
+     00A4 2rrr                      3-   65 m1      LCALL rom_address
+                                    1-  530     	.line	97, "BSP\app_tx.c"; 	delay_ms(1);
+     00A5 2101                      1-  531     	MOVIA	0x01
+                                    1-  532     	MCALL	_delay_ms
+     00A6 2rrr                      3-   65 m1      LCALL rom_address
+                                    1-  533     	.line	64, "BSP\app_tx.c"; 	for(i = 0; i < 3; i++)
+                                    1-  534     	BANKSEL	r0x1021
+     00A7 rrrr                      3-  109 m1      .banksel ram_address
+     00A8 05rr                      1-  535     	INCR	r0x1021,F
+                                    1-  536     ;;unsigned compare: left < lit(0x3=3), size=1
+     00A9 2103                      1-  537     	MOVIA	0x03
+     00AA 04rr                      1-  538     	SUBAR	r0x1021,W
+     00AB 0803                      1-  539     	BTRSS	STATUS,0
+                                    1-  540     	MGOTO	_02015_DS_
+     00AC 3rrr                      3-   62 m1      LGOTO rom_address
+                                    1-  541     	.line	99, "BSP\app_tx.c"; 	}
+                                    1-  542     	RETURN	
      00AD 0010                      3-   39 m1      ret
-                                    1-  536     ; exit point of _send_ble_packet
-                                    1-  539     ;	code size estimation:
-                                    1-  540     ;	  146+   28 =   174 instructions (  404 byte)
-                                    1-  542     	end
+                                    1-  543     ; exit point of _send_ble_packet
+                                    1-  546     ;	code size estimation:
+                                    1-  547     ;	  143+   31 =   174 instructions (  410 byte)
+                                    1-  549     	end
 
 SYMBOL TABLE            TYPE     VALUE
 __pin_count__           Constant 0000000E

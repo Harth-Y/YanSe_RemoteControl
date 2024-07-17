@@ -456,12 +456,26 @@ END_OF_INTERRUPT:
 ;***
 ;has an exit
 ;functions called:
+;   _key_init
+;   _usart_init
 ;   _HS6230_Init
-;   _send_ble_packet
+;   _timer_init
+;   _wake_up_init
 ;   _delay_250ms
+;   _delay_250ms
+;   _delay_250ms
+;   _delay_250ms
+;   _Check_Keydown
+;   _key_init
+;   _usart_init
 ;   _HS6230_Init
-;   _send_ble_packet
+;   _timer_init
+;   _wake_up_init
 ;   _delay_250ms
+;   _delay_250ms
+;   _delay_250ms
+;   _delay_250ms
+;   _Check_Keydown
 ;; Starting pCode block
 .segment "code"; module=main, function=_main
 	.debuginfo subprogram _main
@@ -469,18 +483,39 @@ _main:
 ; 2 exit points
 	.line	68, "main.c"; 	DISI();
 	DISI
+	.line	69, "main.c"; 	key_init();
+	MCALL	_key_init
+	.line	70, "main.c"; 	usart_init();
+	MCALL	_usart_init
 	.line	71, "main.c"; 	HS6230_Init();
 	MCALL	_HS6230_Init
-	.line	75, "main.c"; 	ENI();
+	.line	72, "main.c"; 	timer_init();
+	MCALL	_timer_init
+	.line	73, "main.c"; 	wake_up_init();
+	MCALL	_wake_up_init
+	.line	74, "main.c"; 	ENI();
 	ENI
-_02034_DS_:
-	.line	80, "main.c"; 	send_ble_packet(0x02);
-	MOVIA	0x02
-	MCALL	_send_ble_packet
-	.line	81, "main.c"; 	delay_250ms();
+	.line	75, "main.c"; 	PORTBbits.PB4 = 1;
+	BSR	_PORTBbits,4
+	.line	76, "main.c"; 	delay_250ms();
 	MCALL	_delay_250ms
+	.line	77, "main.c"; 	PORTBbits.PB4 = 0;
+	BCR	_PORTBbits,4
+	.line	78, "main.c"; 	delay_250ms();
+	MCALL	_delay_250ms
+	.line	79, "main.c"; 	PORTBbits.PB4 = 1;
+	BSR	_PORTBbits,4
+	.line	80, "main.c"; 	delay_250ms();
+	MCALL	_delay_250ms
+	.line	81, "main.c"; 	PORTBbits.PB4 = 0;
+	BCR	_PORTBbits,4
+	.line	82, "main.c"; 	delay_250ms();
+	MCALL	_delay_250ms
+_02034_DS_:
+	.line	86, "main.c"; 	Check_Keydown();
+	MCALL	_Check_Keydown
 	MGOTO	_02034_DS_
-	.line	83, "main.c"; 	} 
+	.line	88, "main.c"; 	}
 	RETURN	
 ; exit point of _main
 
@@ -546,6 +581,6 @@ _timer_init:
 
 
 ;	code size estimation:
-;	  109+   16 =   125 instructions (  282 byte)
+;	  119+   16 =   135 instructions (  302 byte)
 
 	end

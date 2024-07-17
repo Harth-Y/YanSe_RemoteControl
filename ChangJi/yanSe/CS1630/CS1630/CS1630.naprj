@@ -14,7 +14,7 @@
     <BuildCCompilerVersion>NYC_NY8 1.62 [Build: 240312.00]</BuildCCompilerVersion>
     <BuildNYASMVersion>NYASM 2.42 [Build: 240221.00]</BuildNYASMVersion>
     <BuildNYIDEVersion>NYIDE 5.32 [Build: 240430.00]</BuildNYIDEVersion>
-    <CCompilerInstallDir>D:\NYC_NY8</CCompilerInstallDir>
+    <CCompilerInstallDir>D:\NY8\NYC_NY8</CCompilerInstallDir>
     <ChipId>NY8A054E</ChipId>
     <ClientName>yanSe</ClientName>
     <CodeOptimization>Disable</CodeOptimization>
@@ -28,8 +28,8 @@
     <InitEEPROM>True</InitEEPROM>
     <InitializeBss>False</InitializeBss>
     <LibraryFiles></LibraryFiles>
-    <NYASMInstallDir>D:\NYASM\</NYASMInstallDir>
-    <NYIDEInstallDir>D:\NYIDE\</NYIDEInstallDir>
+    <NYASMInstallDir>D:\NY8\NYASM\</NYASMInstallDir>
+    <NYIDEInstallDir>D:\NY8\NYIDE\</NYIDEInstallDir>
     <OutputType>bin</OutputType>
     <Platform>CNy8</Platform>
     <ProjectGuid>{E38045B6-6119-442E-B6AD-B939CE62CC8B}</ProjectGuid>
@@ -39,7 +39,7 @@
     <RootNamespace>CS1630</RootNamespace>
     <TrimSetting>+ 0%</TrimSetting>
     <WarningMsgCode0>110</WarningMsgCode0>
-    <WarningMsgCode1>110</WarningMsgCode1>
+    <WarningMsgCode1>126</WarningMsgCode1>
     <WarningMsgCode10>112</WarningMsgCode10>
     <WarningMsgCode11>112</WarningMsgCode11>
     <WarningMsgCode12>112</WarningMsgCode12>
@@ -50,19 +50,19 @@
     <WarningMsgCode17>112</WarningMsgCode17>
     <WarningMsgCode18>112</WarningMsgCode18>
     <WarningMsgCode19>112</WarningMsgCode19>
-    <WarningMsgCode2>110</WarningMsgCode2>
+    <WarningMsgCode2>126</WarningMsgCode2>
     <WarningMsgCode20>112</WarningMsgCode20>
     <WarningMsgCode21>112</WarningMsgCode21>
-    <WarningMsgCode3>110</WarningMsgCode3>
-    <WarningMsgCode4>110</WarningMsgCode4>
-    <WarningMsgCode5>110</WarningMsgCode5>
+    <WarningMsgCode3>126</WarningMsgCode3>
+    <WarningMsgCode4>126</WarningMsgCode4>
+    <WarningMsgCode5>126</WarningMsgCode5>
     <WarningMsgCode6>126</WarningMsgCode6>
     <WarningMsgCode7>126</WarningMsgCode7>
-    <WarningMsgCode8>112</WarningMsgCode8>
-    <WarningMsgCode9>112</WarningMsgCode9>
-    <WarningMsgCount>2</WarningMsgCount>
-    <WarningMsgFileName0>D:\code\C\changJi\yanSe\CS1630\CS1630\BSP\bsp_hs6230.c</WarningMsgFileName0>
-    <WarningMsgFileName1>D:\code\C\changJi\yanSe\CS1630\CS1630\BSP\key.c</WarningMsgFileName1>
+    <WarningMsgCode8>126</WarningMsgCode8>
+    <WarningMsgCode9>110</WarningMsgCode9>
+    <WarningMsgCount>1</WarningMsgCount>
+    <WarningMsgFileName0>D:\Code\ChangJi_YanSe\ChangJi\yanSe\CS1630\CS1630\BSP\bsp_hs6230.c</WarningMsgFileName0>
+    <WarningMsgFileName1>D:\Code\ChangJi_YanSe\ChangJi\yanSe\CS1630\CS1630\BSP\key.c</WarningMsgFileName1>
     <WarningMsgFileName10>D:\code\C\changJi\yanSe\CS1630\CS1630\BSP\bsp_hs6230.c</WarningMsgFileName10>
     <WarningMsgFileName11>D:\code\C\changJi\yanSe\CS1630\CS1630\BSP\bsp_hs6230.c</WarningMsgFileName11>
     <WarningMsgFileName12>D:\code\C\changJi\yanSe\CS1630\CS1630\BSP\bsp_hs6230.c</WarningMsgFileName12>
@@ -73,18 +73,18 @@
     <WarningMsgFileName17>D:\code\C\changJi\yanSe\CS1630\CS1630\BSP\bsp_hs6230.c</WarningMsgFileName17>
     <WarningMsgFileName18>D:\code\C\changJi\yanSe\CS1630\CS1630\BSP\bsp_hs6230.c</WarningMsgFileName18>
     <WarningMsgFileName19>D:\code\C\changJi\yanSe\CS1630\CS1630\BSP\bsp_hs6230.c</WarningMsgFileName19>
-    <WarningMsgFileName2>D:\code\C\changJi\yanSe\CS1630\CS1630\BSP\key.c</WarningMsgFileName2>
+    <WarningMsgFileName2>D:\Code\ChangJi_YanSe\ChangJi\yanSe\CS1630\CS1630\BSP\key.c</WarningMsgFileName2>
     <WarningMsgFileName20>D:\code\C\changJi\yanSe\CS1630\CS1630\BSP\bsp_hs6230.c</WarningMsgFileName20>
     <WarningMsgFileName21>D:\code\C\changJi\yanSe\CS1630\CS1630\BSP\bsp_hs6230.c</WarningMsgFileName21>
-    <WarningMsgFileName3>D:\code\C\changJi\yanSe\CS1630\CS1630\BSP\key.c</WarningMsgFileName3>
-    <WarningMsgFileName4>D:\Code\YanSe\CS1630\CS1630\BSP\bsp_usart.c</WarningMsgFileName4>
-    <WarningMsgFileName5>D:\Code\YanSe\CS1630\CS1630\BSP\bsp_usart.c</WarningMsgFileName5>
-    <WarningMsgFileName6>D:\Code\YanSe\CS1630\CS1630\BSP\bsp_usart.c</WarningMsgFileName6>
-    <WarningMsgFileName7>D:\Code\YanSe\CS1630\CS1630\BSP\bsp_usart.c</WarningMsgFileName7>
-    <WarningMsgFileName8>D:\code\C\changJi\yanSe\CS1630\CS1630\BSP\bsp_hs6230.c</WarningMsgFileName8>
-    <WarningMsgFileName9>D:\code\C\changJi\yanSe\CS1630\CS1630\BSP\bsp_hs6230.c</WarningMsgFileName9>
-    <WarningMsgLineNumber0>149</WarningMsgLineNumber0>
-    <WarningMsgLineNumber1>67</WarningMsgLineNumber1>
+    <WarningMsgFileName3>D:\Code\ChangJi_YanSe\ChangJi\yanSe\CS1630\CS1630\BSP\key.c</WarningMsgFileName3>
+    <WarningMsgFileName4>D:\Code\ChangJi_YanSe\ChangJi\yanSe\CS1630\CS1630\BSP\key.c</WarningMsgFileName4>
+    <WarningMsgFileName5>D:\Code\ChangJi_YanSe\ChangJi\yanSe\CS1630\CS1630\BSP\key.c</WarningMsgFileName5>
+    <WarningMsgFileName6>D:\Code\ChangJi_YanSe\ChangJi\yanSe\CS1630\CS1630\BSP\key.c</WarningMsgFileName6>
+    <WarningMsgFileName7>D:\Code\ChangJi_YanSe\ChangJi\yanSe\CS1630\CS1630\BSP\key.c</WarningMsgFileName7>
+    <WarningMsgFileName8>D:\Code\ChangJi_YanSe\ChangJi\yanSe\CS1630\CS1630\BSP\key.c</WarningMsgFileName8>
+    <WarningMsgFileName9>D:\Code\ChangJi_YanSe\ChangJi\yanSe\CS1630\CS1630\BSP\key.c</WarningMsgFileName9>
+    <WarningMsgLineNumber0>150</WarningMsgLineNumber0>
+    <WarningMsgLineNumber1>58</WarningMsgLineNumber1>
     <WarningMsgLineNumber10>179</WarningMsgLineNumber10>
     <WarningMsgLineNumber11>182</WarningMsgLineNumber11>
     <WarningMsgLineNumber12>190</WarningMsgLineNumber12>
@@ -95,18 +95,18 @@
     <WarningMsgLineNumber17>218</WarningMsgLineNumber17>
     <WarningMsgLineNumber18>222</WarningMsgLineNumber18>
     <WarningMsgLineNumber19>225</WarningMsgLineNumber19>
-    <WarningMsgLineNumber2>64</WarningMsgLineNumber2>
+    <WarningMsgLineNumber2>59</WarningMsgLineNumber2>
     <WarningMsgLineNumber20>295</WarningMsgLineNumber20>
     <WarningMsgLineNumber21>297</WarningMsgLineNumber21>
-    <WarningMsgLineNumber3>64</WarningMsgLineNumber3>
-    <WarningMsgLineNumber4>25</WarningMsgLineNumber4>
-    <WarningMsgLineNumber5>28</WarningMsgLineNumber5>
-    <WarningMsgLineNumber6>18</WarningMsgLineNumber6>
-    <WarningMsgLineNumber7>21</WarningMsgLineNumber7>
-    <WarningMsgLineNumber8>172</WarningMsgLineNumber8>
-    <WarningMsgLineNumber9>175</WarningMsgLineNumber9>
-    <WarningMsgMessage0>BSP\bsp_hs6230.c:149: warning 110: conditional flow changed by optimizer.</WarningMsgMessage0>
-    <WarningMsgMessage1>BSP\key.c:67: warning 110: conditional flow changed by optimizer.</WarningMsgMessage1>
+    <WarningMsgLineNumber3>60</WarningMsgLineNumber3>
+    <WarningMsgLineNumber4>61</WarningMsgLineNumber4>
+    <WarningMsgLineNumber5>72</WarningMsgLineNumber5>
+    <WarningMsgLineNumber6>73</WarningMsgLineNumber6>
+    <WarningMsgLineNumber7>74</WarningMsgLineNumber7>
+    <WarningMsgLineNumber8>75</WarningMsgLineNumber8>
+    <WarningMsgLineNumber9>70</WarningMsgLineNumber9>
+    <WarningMsgMessage0>BSP\bsp_hs6230.c:150: warning 110: conditional flow changed by optimizer.</WarningMsgMessage0>
+    <WarningMsgMessage1>BSP\key.c:58: warning 126: unreachable code</WarningMsgMessage1>
     <WarningMsgMessage10>BSP\bsp_hs6230.c:179: warning 112: function 'GPIO_ResetBits' implicit declaration</WarningMsgMessage10>
     <WarningMsgMessage11>BSP\bsp_hs6230.c:182: warning 112: function 'GPIO_SetBits' implicit declaration</WarningMsgMessage11>
     <WarningMsgMessage12>BSP\bsp_hs6230.c:190: warning 112: function 'GPIO_ResetBits' implicit declaration</WarningMsgMessage12>
@@ -117,16 +117,16 @@
     <WarningMsgMessage17>BSP\bsp_hs6230.c:218: warning 112: function 'GPIO_SetBits' implicit declaration</WarningMsgMessage17>
     <WarningMsgMessage18>BSP\bsp_hs6230.c:222: warning 112: function 'GPIO_ResetBits' implicit declaration</WarningMsgMessage18>
     <WarningMsgMessage19>BSP\bsp_hs6230.c:225: warning 112: function 'GPIO_SetBits' implicit declaration</WarningMsgMessage19>
-    <WarningMsgMessage2>BSP\key.c:64: warning 110: conditional flow changed by optimizer.</WarningMsgMessage2>
+    <WarningMsgMessage2>BSP\key.c:59: warning 126: unreachable code</WarningMsgMessage2>
     <WarningMsgMessage20>BSP\bsp_hs6230.c:295: warning 112: function 'GPIO_ResetBits' implicit declaration</WarningMsgMessage20>
     <WarningMsgMessage21>BSP\bsp_hs6230.c:297: warning 112: function 'GPIO_SetBits' implicit declaration</WarningMsgMessage21>
-    <WarningMsgMessage3>BSP\key.c:64: warning 110: conditional flow changed by optimizer.</WarningMsgMessage3>
-    <WarningMsgMessage4>BSP\bsp_usart.c:25: warning 110: conditional flow changed by optimizer.</WarningMsgMessage4>
-    <WarningMsgMessage5>BSP\bsp_usart.c:28: warning 110: conditional flow changed by optimizer.</WarningMsgMessage5>
-    <WarningMsgMessage6>BSP\bsp_usart.c:18: warning 126: unreachable code</WarningMsgMessage6>
-    <WarningMsgMessage7>BSP\bsp_usart.c:21: warning 126: unreachable code</WarningMsgMessage7>
-    <WarningMsgMessage8>BSP\bsp_hs6230.c:172: warning 112: function 'GPIO_ResetBits' implicit declaration</WarningMsgMessage8>
-    <WarningMsgMessage9>BSP\bsp_hs6230.c:175: warning 112: function 'GPIO_SetBits' implicit declaration</WarningMsgMessage9>
+    <WarningMsgMessage3>BSP\key.c:60: warning 126: unreachable code</WarningMsgMessage3>
+    <WarningMsgMessage4>BSP\key.c:61: warning 126: unreachable code</WarningMsgMessage4>
+    <WarningMsgMessage5>BSP\key.c:72: warning 126: unreachable code</WarningMsgMessage5>
+    <WarningMsgMessage6>BSP\key.c:73: warning 126: unreachable code</WarningMsgMessage6>
+    <WarningMsgMessage7>BSP\key.c:74: warning 126: unreachable code</WarningMsgMessage7>
+    <WarningMsgMessage8>BSP\key.c:75: warning 126: unreachable code</WarningMsgMessage8>
+    <WarningMsgMessage9>BSP\key.c:70: warning 110: conditional flow changed by optimizer.</WarningMsgMessage9>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>True</DebugSymbols>
@@ -157,12 +157,12 @@
     <Reference Include="IC Body: NY8A054E" EntryPoint="false" MetaData="" />
   </ItemGroup>
   <ItemGroup>
-    <ApplicationDefinition Include="..\..\..\..\..\..\NY8_Example_Code\include\NY8 C\NY8_constant.h" EntryPoint="false" MetaData="Dependency Files\NY8_constant.h" />
-    <ApplicationDefinition Include="..\..\..\..\..\..\NY8_Example_Code\include\NY8 C\ny8a054e_constant.h" EntryPoint="false" MetaData="Dependency Files\ny8a054e_constant.h" />
-    <ApplicationDefinition Include="..\..\..\..\..\..\NYC_NY8\include\ny8.h" EntryPoint="false" MetaData="Dependency Files\ny8.h" />
-    <ApplicationDefinition Include="..\..\..\..\..\..\NYC_NY8\include\ny8a054e.h" EntryPoint="false" MetaData="Dependency Files\ny8a054e.h" />
-    <ApplicationDefinition Include="..\..\..\..\..\..\NYC_NY8\include\ny8common.h" EntryPoint="false" MetaData="Dependency Files\ny8common.h" />
-    <ApplicationDefinition Include="..\..\..\..\..\..\NYC_NY8\include\stdint.h" EntryPoint="false" MetaData="Dependency Files\stdint.h" />
+    <ApplicationDefinition Include="..\..\..\..\..\..\NY8\NY8_Example_Code\include\NY8 C\NY8_constant.h" EntryPoint="false" MetaData="Dependency Files\NY8_constant.h" />
+    <ApplicationDefinition Include="..\..\..\..\..\..\NY8\NY8_Example_Code\include\NY8 C\ny8a054e_constant.h" EntryPoint="false" MetaData="Dependency Files\ny8a054e_constant.h" />
+    <ApplicationDefinition Include="..\..\..\..\..\..\NY8\NYC_NY8\include\ny8.h" EntryPoint="false" MetaData="Dependency Files\ny8.h" />
+    <ApplicationDefinition Include="..\..\..\..\..\..\NY8\NYC_NY8\include\ny8a054e.h" EntryPoint="false" MetaData="Dependency Files\ny8a054e.h" />
+    <ApplicationDefinition Include="..\..\..\..\..\..\NY8\NYC_NY8\include\ny8common.h" EntryPoint="false" MetaData="Dependency Files\ny8common.h" />
+    <ApplicationDefinition Include="..\..\..\..\..\..\NY8\NYC_NY8\include\stdint.h" EntryPoint="false" MetaData="Dependency Files\stdint.h" />
     <Folder Include="BSP" EntryPoint="false" MetaData="" />
     <ApplicationDefinition Include="BSP\app_tx.h" EntryPoint="false" MetaData="Dependency Files\app_tx.h" />
     <ApplicationDefinition Include="BSP\bsp_delay.h" EntryPoint="false" MetaData="Dependency Files\bsp_delay.h" />
@@ -181,23 +181,23 @@
     <Array name="files">
       <Element value="BSP/bsp_hs6230.c|False" />
       <Element value="BSP/bsp_usart.c|False" />
-      <Element value="main.c|True" />
+      <Element value="main.c|False" />
       <Element value="BSP/bsp_delay.c|False" />
       <Element value="BSP/bsp_usart.h|False" />
       <Element value="BSP/bsp_spi.c|False" />
-      <Element value="BSP/key.c|False" />
+      <Element value="BSP/key.c|True" />
       <Element value="BSP/app_tx.c|False" />
       <Element value="BSP/bsp_rf.c|False" />
     </Array>
     <Array name="MelodyDatabaseFiles" />
     <Array name="RegisterWindowExpandInfo">
-      <Element value="R-Page|True" />
+      <Element value="R-Page|False" />
       <Element value="INDF@R-Page|False" />
       <Element value="TMR0@R-Page|False" />
       <Element value="PCL@R-Page|False" />
       <Element value="STATUS@R-Page|False" />
       <Element value="FSR@R-Page|False" />
-      <Element value="PORTA@R-Page|True" />
+      <Element value="PORTA@R-Page|False" />
       <Element value="PORTB@R-Page|False" />
       <Element value="PCON@R-Page|False" />
       <Element value="BWUCON@R-Page|False" />
@@ -212,128 +212,6 @@
       <Element value="RFC@R-Page|False" />
       <Element value="TM34RH@R-Page|False" />
       <Element value="INTE2@R-Page|False" />
-      <Element value="INDF|False" />
-      <Element value="TMR0|False" />
-      <Element value="PCL|False" />
-      <Element value="STATUS|False" />
-      <Element value="BK@STATUS|False" />
-      <Element value="GP5@STATUS|False" />
-      <Element value="/TO@STATUS|False" />
-      <Element value="/PD@STATUS|False" />
-      <Element value="Z@STATUS|False" />
-      <Element value="DC@STATUS|False" />
-      <Element value="C@STATUS|False" />
-      <Element value="FSR|False" />
-      <Element value="PORTA|True" />
-      <Element value="PA7@PORTA|False" />
-      <Element value="PA6@PORTA|False" />
-      <Element value="PA5@PORTA|False" />
-      <Element value="PA4@PORTA|False" />
-      <Element value="PA3@PORTA|False" />
-      <Element value="PA2@PORTA|False" />
-      <Element value="PA1@PORTA|False" />
-      <Element value="PA0@PORTA|False" />
-      <Element value="PA7|False" />
-      <Element value="PA6|False" />
-      <Element value="PA5|False" />
-      <Element value="PA4|False" />
-      <Element value="PA3|False" />
-      <Element value="PA2|False" />
-      <Element value="PA1|False" />
-      <Element value="PA0|False" />
-      <Element value="PORTB|False" />
-      <Element value="GP7@PORTB|False" />
-      <Element value="GP6@PORTB|False" />
-      <Element value="PB5@PORTB|False" />
-      <Element value="PB4@PORTB|False" />
-      <Element value="PB3@PORTB|False" />
-      <Element value="PB2@PORTB|False" />
-      <Element value="PB1@PORTB|False" />
-      <Element value="PB0@PORTB|False" />
-      <Element value="PCON|False" />
-      <Element value="WDTEN@PCON|False" />
-      <Element value="/PLPA4@PCON|False" />
-      <Element value="LVDEN@PCON|False" />
-      <Element value="/PHPA5@PCON|False" />
-      <Element value="LVREN@PCON|False" />
-      <Element value="CMPEN@PCON|False" />
-      <Element value="GP1@PCON|False" />
-      <Element value="GP0@PCON|False" />
-      <Element value="BWUCON|False" />
-      <Element value="WUPB5@BWUCON|False" />
-      <Element value="WUPB4@BWUCON|False" />
-      <Element value="WUPB3@BWUCON|False" />
-      <Element value="WUPB2@BWUCON|False" />
-      <Element value="WUPB1@BWUCON|False" />
-      <Element value="WUPB0@BWUCON|False" />
-      <Element value="PCHBUF|False" />
-      <Element value="XSPD_STP@PCHBUF|False" />
-      <Element value="PCHBUF@PCHBUF|False" />
-      <Element value="ABPLCON|False" />
-      <Element value="/PLPB3@ABPLCON|False" />
-      <Element value="/PLPB2@ABPLCON|False" />
-      <Element value="/PLPB1@ABPLCON|False" />
-      <Element value="/PLPB0@ABPLCON|False" />
-      <Element value="/PLPA3@ABPLCON|False" />
-      <Element value="/PLPA2@ABPLCON|False" />
-      <Element value="/PLPA1@ABPLCON|False" />
-      <Element value="/PLPA0@ABPLCON|False" />
-      <Element value="BPHCON|False" />
-      <Element value="/PHPB5@BPHCON|False" />
-      <Element value="/PHPB4@BPHCON|False" />
-      <Element value="/PHPB3@BPHCON|False" />
-      <Element value="/PHPB2@BPHCON|False" />
-      <Element value="/PHPB1@BPHCON|False" />
-      <Element value="/PHPB0@BPHCON|False" />
-      <Element value="INTE|False" />
-      <Element value="INT1IE@INTE|False" />
-      <Element value="WDTIE@INTE|False" />
-      <Element value="LVDIE@INTE|False" />
-      <Element value="T1IE@INTE|False" />
-      <Element value="INT0IE@INTE|False" />
-      <Element value="PABIE@INTE|False" />
-      <Element value="T0IE@INTE|False" />
-      <Element value="INTF|False" />
-      <Element value="INT1IF@INTF|False" />
-      <Element value="WDTIF@INTF|False" />
-      <Element value="LVDIF@INTF|False" />
-      <Element value="T1IF@INTF|False" />
-      <Element value="INT0IF@INTF|False" />
-      <Element value="PABIF@INTF|False" />
-      <Element value="T0IF@INTF|False" />
-      <Element value="AWUCON|False" />
-      <Element value="WUPA7@AWUCON|False" />
-      <Element value="WUPA6@AWUCON|False" />
-      <Element value="WUPA5@AWUCON|False" />
-      <Element value="WUPA4@AWUCON|False" />
-      <Element value="WUPA3@AWUCON|False" />
-      <Element value="WUPA2@AWUCON|False" />
-      <Element value="WUPA1@AWUCON|False" />
-      <Element value="WUPA0@AWUCON|False" />
-      <Element value="INTEDG|False" />
-      <Element value="EIS@INTEDG|False" />
-      <Element value="INT1G@INTEDG|False" />
-      <Element value="INT0G@INTEDG|False" />
-      <Element value="TMRH|False" />
-      <Element value="TMR19@TMRH|False" />
-      <Element value="TMR18@TMRH|False" />
-      <Element value="PWM2DUTY9@TMRH|False" />
-      <Element value="PWM2DUTY8@TMRH|False" />
-      <Element value="PWM1DUTY9@TMRH|False" />
-      <Element value="PWM1DUTY8@TMRH|False" />
-      <Element value="RFC|False" />
-      <Element value="RFCEN@RFC|False" />
-      <Element value="PSEL@RFC|False" />
-      <Element value="TM34RH|False" />
-      <Element value="TMR39@TM34RH|False" />
-      <Element value="TMR38@TM34RH|False" />
-      <Element value="PWM4DUTY9@TM34RH|False" />
-      <Element value="PWM4DUTY8@TM34RH|False" />
-      <Element value="PWM3DUTY9@TM34RH|False" />
-      <Element value="PWM3DUTY8@TM34RH|False" />
-      <Element value="INTE2|False" />
-      <Element value="T3IF@INTE2|False" />
-      <Element value="T3IE@INTE2|False" />
       <Element value="F-Page|False" />
       <Element value="IOSTA@F-Page|False" />
       <Element value="IOSTB@F-Page|False" />

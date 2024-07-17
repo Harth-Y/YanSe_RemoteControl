@@ -309,8 +309,8 @@ NYASM 2.42
                                     1-  250     	BANKSEL	r0x1000
      0000 rrrr                      3-  109 m1      .banksel ram_address
      0001 00rr                      1-  251     	MOVAR	r0x1000
-                                    1-  252     	.line	19, "BSP\bsp_usart.c"; 	PORTAbits.PA2=0;
-     0002 1Drr                      1-  253     	BCR	_PORTAbits,2
+                                    1-  252     	.line	19, "BSP\bsp_usart.c"; 	PORTAbits.PA7=0;
+     0002 1Frr                      1-  253     	BCR	_PORTAbits,7
                                     1-  254     	.line	20, "BSP\bsp_usart.c"; 	delay_us(17);
      0003 2111                      1-  255     	MOVIA	0x11
                                     1-  256     	MCALL	_delay_us
@@ -326,13 +326,13 @@ NYASM 2.42
      0008 08rr                      1-  263     	BTRSS	r0x1000,0
                                     1-  264     	MGOTO	_02010_DS_
      0009 3rrr                      3-   62 m1      LGOTO rom_address
-                                    1-  265     	.line	26, "BSP\bsp_usart.c"; 	PORTAbits.PA2=1;
-     000A 19rr                      1-  266     	BSR	_PORTAbits,2
+                                    1-  265     	.line	26, "BSP\bsp_usart.c"; 	PORTAbits.PA7=1;
+     000A 1Brr                      1-  266     	BSR	_PORTAbits,7
                                     1-  267     	MGOTO	_02011_DS_
      000B 3rrr                      3-   62 m1      LGOTO rom_address
      000C                           1-  268     _02010_DS_:
-                                    1-  269     	.line	30, "BSP\bsp_usart.c"; 	PORTAbits.PA2=0;
-     000C 1Drr                      1-  270     	BCR	_PORTAbits,2
+                                    1-  269     	.line	30, "BSP\bsp_usart.c"; 	PORTAbits.PA7=0;
+     000C 1Frr                      1-  270     	BCR	_PORTAbits,7
      000D                           1-  271     _02011_DS_:
                                     1-  272     	.line	32, "BSP\bsp_usart.c"; 	data >>= 1;
      000D 1C03                      1-  273     	BCR	STATUS,0
@@ -353,8 +353,8 @@ NYASM 2.42
      0016 0803                      1-  285     	BTRSS	STATUS,0
                                     1-  286     	MGOTO	_02013_DS_
      0017 3rrr                      3-   62 m1      LGOTO rom_address
-                                    1-  287     	.line	35, "BSP\bsp_usart.c"; 	PORTAbits.PA2=1;
-     0018 19rr                      1-  288     	BSR	_PORTAbits,2
+                                    1-  287     	.line	35, "BSP\bsp_usart.c"; 	PORTAbits.PA7=1;
+     0018 1Brr                      1-  288     	BSR	_PORTAbits,7
                                     1-  289     	.line	36, "BSP\bsp_usart.c"; 	delay_us(17);
      0019 2111                      1-  290     	MOVIA	0x11
                                     1-  291     	MCALL	_delay_us
@@ -377,11 +377,11 @@ NYASM 2.42
                                     1-  308     	.line	11, "BSP\bsp_usart.c"; 	APHCON = 0;
      0002 0200                      1-  309     	CLRA	
      0003 000r                      1-  310     	IOST	_APHCON
-                                    1-  311     	.line	12, "BSP\bsp_usart.c"; 	PORTA = 0x04;
-     0004 2104                      1-  312     	MOVIA	0x04
+                                    1-  311     	.line	12, "BSP\bsp_usart.c"; 	PORTA = 0x40;
+     0004 2140                      1-  312     	MOVIA	0x40
      0005 00rr                      1-  313     	MOVAR	_PORTA
-                                    1-  314     	.line	13, "BSP\bsp_usart.c"; 	PORTAbits.PA2=1;
-     0006 19rr                      1-  315     	BSR	_PORTAbits,2
+                                    1-  314     	.line	13, "BSP\bsp_usart.c"; 	PORTAbits.PA7=1;
+     0006 1Brr                      1-  315     	BSR	_PORTAbits,7
                                     1-  316     	.line	14, "BSP\bsp_usart.c"; 	}
                                     1-  317     	RETURN	
      0007 0010                      3-   39 m1      ret

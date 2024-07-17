@@ -222,11 +222,11 @@ _02026_DS_:
 	.debuginfo subprogram _delay_250ms
 _delay_250ms:
 ; 2 exit points
-	.line	17, "BSP\bsp_delay.c"; 	delay_ms(255);
-	MOVIA	0xff
+	.line	17, "BSP\bsp_delay.c"; 	delay_ms(155);
+	MOVIA	0x9b
 	MCALL	_delay_ms
-	.line	18, "BSP\bsp_delay.c"; 	delay_ms(24);
-	MOVIA	0x18
+	.line	18, "BSP\bsp_delay.c"; 	delay_ms(124);
+	MOVIA	0x7c
 	MCALL	_delay_ms
 	.line	19, "BSP\bsp_delay.c"; 	}
 	RETURN	

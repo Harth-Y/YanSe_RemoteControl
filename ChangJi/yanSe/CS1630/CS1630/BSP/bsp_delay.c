@@ -15,9 +15,7 @@ void delay_ms(unsigned char count)
 void delay_250ms(void)
 {
     delay_ms(155);
-	CLRWDT();
     delay_ms(124);
-	CLRWDT();
 }
 
 void delay_us(unsigned char nus)

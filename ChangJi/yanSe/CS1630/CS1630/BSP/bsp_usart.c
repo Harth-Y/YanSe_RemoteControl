@@ -9,30 +9,30 @@ void usart_init(void)
 {
     IOSTA = 0;
 	APHCON = 0;
-	PORTA = 0x04;
-    PORTAbits.PA2=1;
+	PORTA = 0x40;
+    PORTAbits.PA7=1;
 }
 
 void usart_send_byte(uint8_t data)
 {
     uint8_t i;
-    PORTAbits.PA2=0;
+    PORTAbits.PA7=0;
     delay_us(17);
     for (i = 0; i < 8; i++)
     {
 
         if (data & 0x01)
         {
-            PORTAbits.PA2=1;
+            PORTAbits.PA7=1;
         }
         else
         {
-            PORTAbits.PA2=0;
+            PORTAbits.PA7=0;
         }
         data >>= 1;
         delay_us(17);
     }
-    PORTAbits.PA2=1;
+    PORTAbits.PA7=1;
     delay_us(17);
 }
 

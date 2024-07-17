@@ -1,4 +1,4 @@
-﻿   #include "bsp_rf.h"
+﻿#include "bsp_rf.h"
 #include "bsp_hs6230.h"
 #include "bsp_delay.h"
 #include "app_hs6230_test.h"
@@ -13,6 +13,7 @@ static const unsigned char channel_index[3] = {
 static unsigned char s_data_num = 0;
 void send_ble_packet(unsigned char code_value)
 {
+	usart_send_string("BLE packet send/r/n");
     unsigned char i = 0;             // 循环计数器
     unsigned char j = 0;             // 循环计数器
     unsigned char idx = 0;           // 用于遍历频道索引的计数器
@@ -21,7 +22,6 @@ void send_ble_packet(unsigned char code_value)
 
     s_data_num++;
 
-    CLRWDT();
     HS6230_Init(); // 初始化HS6230模块
     HS6230_CE_Low(); // 设置CE引脚为低电平，准备发送数据
     HS6230_ModeSwitch(Rf_PTX_Mode); // 切换到发送模式
@@ -63,7 +63,6 @@ void send_ble_packet(unsigned char code_value)
     // 发送数据包的循环
     for(i = 0; i < 3; i++)
     {
-        CLRWDT();
         // 重置CE，清空TX缓冲区，清除所有中断
         HS6230_CE_Low();
         HS6230_Flush_Tx();
@@ -97,10 +96,4 @@ void send_ble_packet(unsigned char code_value)
         HS6230_write_byte(HS6230_BANK0_CONFIG, 0x00);
         delay_ms(1);
     }
-    // 等待，准备下一次发送
-    // led
-    PORTBbits.PB4 = 1;
-    delay_250ms();
-    PORTBbits.PB4 = 0;
-    delay_250ms();
 }

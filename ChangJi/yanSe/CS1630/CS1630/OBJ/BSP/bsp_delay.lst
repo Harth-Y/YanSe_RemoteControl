@@ -271,12 +271,12 @@ NYASM 2.42
                                     1-  221     .segment "code"; module=bsp_delay, function=_delay_250ms
      0000                           1-  223     _delay_250ms:
                                     1-  224     ; 2 exit points
-                                    1-  225     	.line	17, "BSP\bsp_delay.c"; 	delay_ms(255);
-     0000 21FF                      1-  226     	MOVIA	0xff
+                                    1-  225     	.line	17, "BSP\bsp_delay.c"; 	delay_ms(155);
+     0000 219B                      1-  226     	MOVIA	0x9b
                                     1-  227     	MCALL	_delay_ms
      0001 2rrr                      3-   65 m1      LCALL rom_address
-                                    1-  228     	.line	18, "BSP\bsp_delay.c"; 	delay_ms(24);
-     0002 2118                      1-  229     	MOVIA	0x18
+                                    1-  228     	.line	18, "BSP\bsp_delay.c"; 	delay_ms(124);
+     0002 217C                      1-  229     	MOVIA	0x7c
                                     1-  230     	MCALL	_delay_ms
      0003 2rrr                      3-   65 m1      LCALL rom_address
                                     1-  231     	.line	19, "BSP\bsp_delay.c"; 	}

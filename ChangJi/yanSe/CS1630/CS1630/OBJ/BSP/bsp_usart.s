@@ -249,8 +249,8 @@ _usart_send_byte:
 	.line	16, "BSP\bsp_usart.c"; 	void usart_send_byte(uint8_t data)
 	BANKSEL	r0x1000
 	MOVAR	r0x1000
-	.line	19, "BSP\bsp_usart.c"; 	PORTAbits.PA2=0;
-	BCR	_PORTAbits,2
+	.line	19, "BSP\bsp_usart.c"; 	PORTAbits.PA7=0;
+	BCR	_PORTAbits,7
 	.line	20, "BSP\bsp_usart.c"; 	delay_us(17);
 	MOVIA	0x11
 	MCALL	_delay_us
@@ -262,12 +262,12 @@ _02013_DS_:
 	BANKSEL	r0x1000
 	BTRSS	r0x1000,0
 	MGOTO	_02010_DS_
-	.line	26, "BSP\bsp_usart.c"; 	PORTAbits.PA2=1;
-	BSR	_PORTAbits,2
+	.line	26, "BSP\bsp_usart.c"; 	PORTAbits.PA7=1;
+	BSR	_PORTAbits,7
 	MGOTO	_02011_DS_
 _02010_DS_:
-	.line	30, "BSP\bsp_usart.c"; 	PORTAbits.PA2=0;
-	BCR	_PORTAbits,2
+	.line	30, "BSP\bsp_usart.c"; 	PORTAbits.PA7=0;
+	BCR	_PORTAbits,7
 _02011_DS_:
 	.line	32, "BSP\bsp_usart.c"; 	data >>= 1;
 	BCR	STATUS,0
@@ -284,8 +284,8 @@ _02011_DS_:
 	SUBAR	r0x1001,W
 	BTRSS	STATUS,0
 	MGOTO	_02013_DS_
-	.line	35, "BSP\bsp_usart.c"; 	PORTAbits.PA2=1;
-	BSR	_PORTAbits,2
+	.line	35, "BSP\bsp_usart.c"; 	PORTAbits.PA7=1;
+	BSR	_PORTAbits,7
 	.line	36, "BSP\bsp_usart.c"; 	delay_us(17);
 	MOVIA	0x11
 	MCALL	_delay_us
@@ -308,11 +308,11 @@ _usart_init:
 	.line	11, "BSP\bsp_usart.c"; 	APHCON = 0;
 	CLRA	
 	IOST	_APHCON
-	.line	12, "BSP\bsp_usart.c"; 	PORTA = 0x04;
-	MOVIA	0x04
+	.line	12, "BSP\bsp_usart.c"; 	PORTA = 0x40;
+	MOVIA	0x40
 	MOVAR	_PORTA
-	.line	13, "BSP\bsp_usart.c"; 	PORTAbits.PA2=1;
-	BSR	_PORTAbits,2
+	.line	13, "BSP\bsp_usart.c"; 	PORTAbits.PA7=1;
+	BSR	_PORTAbits,7
 	.line	14, "BSP\bsp_usart.c"; 	}
 	RETURN	
 ; exit point of _usart_init

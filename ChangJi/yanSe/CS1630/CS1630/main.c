@@ -30,8 +30,6 @@ void isr_sleep() __interrupt(0)
         tick_30s = 0;
         if(SLEEP_STATUS == 1)
         {
-          PCON |= C_WDT_Dis;
-          PCON |= C_LVR_Dis;
           SLEEP();
         }
       }
@@ -44,8 +42,6 @@ void isr_wake_up() __interrupt(1)
   if(INTFbits.PABIF)
   {
     INTFbits.PABIF = 0;
-    PCON |= C_WDT_En;
-    PCON |= C_LVR_En;
   }
 }
 
@@ -57,9 +53,6 @@ void timer_init(void)
   T0MD |= C_PS0_Div64;
   INTE = C_INT_TMR0;
   INTF = 0;
-  PCON |= C_WDT_En;
-  PCON |= C_LVR_En;
-
 }
 
 void wake_up_init(void)
@@ -74,15 +67,22 @@ void main(void)
 {
   DISI();
   key_init();
-  //usart_init();
+  usart_init();
   HS6230_Init();
   timer_init();
   wake_up_init();
   ENI();
+  PORTBbits.PB4 = 1;
+  delay_250ms();
+  PORTBbits.PB4 = 0;
+  delay_250ms();
+  PORTBbits.PB4 = 1;
+  delay_250ms();
+  PORTBbits.PB4 = 0;
+  delay_250ms();
 
   while (1)
   {
-    CLRWDT();
     Check_Keydown();
 	}
 }
