@@ -68,10 +68,11 @@ void main(void)
   DISI();
   key_init();
   usart_init();
-  HS6230_Init();
-  timer_init();
-  wake_up_init();
+  //HS6230_Init();
+  //timer_init();
+  //wake_up_init();
   ENI();
+  usart_send_string("[MAIN] start\r\n");
   PORTBbits.PB4 = 1;
   delay_250ms();
   PORTBbits.PB4 = 0;
@@ -80,7 +81,6 @@ void main(void)
   delay_250ms();
   PORTBbits.PB4 = 0;
   delay_250ms();
-
   while (1)
   {
     Check_Keydown();

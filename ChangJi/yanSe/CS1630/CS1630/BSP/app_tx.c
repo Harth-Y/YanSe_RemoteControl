@@ -13,7 +13,7 @@ static const unsigned char channel_index[3] = {
 static unsigned char s_data_num = 0;
 void send_ble_packet(unsigned char code_value)
 {
-	usart_send_string("BLE packet send/r/n");
+	usart_send_string("BLE packet send\r\n");
     unsigned char i = 0;             // 循环计数器
     unsigned char j = 0;             // 循环计数器
     unsigned char idx = 0;           // 用于遍历频道索引的计数器

@@ -7,9 +7,7 @@
 
 void usart_init(void)
 {
-    IOSTA = 0;
-	APHCON = 0;
-	PORTA = 0x40;
+    IOSTA = C_PA7_Output;
     PORTAbits.PA7=1;
 }
 
