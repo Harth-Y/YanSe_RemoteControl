@@ -83,6 +83,6 @@ void main(void)
   delay_250ms();
   while (1)
   {
-    Check_Keydown();
+    //Check_Keydown();
 	}
 }

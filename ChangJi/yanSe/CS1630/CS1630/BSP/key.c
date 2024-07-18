@@ -26,6 +26,32 @@ void key_init(void)
     // 配置PA按钮
 	IOSTA = C_PA2_Input | C_PA3_Input | C_PA4_Input | C_PA5_Input | C_PA6_Input; // 配置PA为输入
 	APHCON = 0x83; // 设置2、3、4、5、6上拉
+	delay_ms(10);
+
+	if(PORTAbits.PA2)
+	{
+		usart_send_string("[KEY] PA2 high\r\n");
+	}
+	else
+	{
+		usart_send_string("[KEY] PA2 low\r\n");
+	}
+	if(PORTAbits.PA3)
+	{
+		usart_send_string("[KEY] PA3 high\r\n");
+	}
+	else
+	{
+		usart_send_string("[KEY] PA3 low\r\n");
+	}
+	if(PORTAbits.PA4)
+	{
+		usart_send_string("[KEY] PA4 high\r\n");
+	}
+	else
+	{
+		usart_send_string("[KEY] PA4 low\r\n");
+	}
 	if(PORTAbits.PA5)// 此处应该是上拉才对，但是是低的
 	{
 		usart_send_string("[KEY] PA5 high\r\n");
@@ -34,11 +60,73 @@ void key_init(void)
 	{
 		usart_send_string("[KEY] PA5 low\r\n");
 	}
+	if(PORTAbits.PA6)
+	{
+		usart_send_string("[KEY] PA6 high\r\n");
+	}
+	else
+	{
+		usart_send_string("[KEY] PA6 low\r\n");
+	}
 
+
+/*
     // 配置PB按钮
 	IOSTB = C_PB0_Output | C_PB1_Output | C_PB2_Output | C_PB3_Output | C_PB4_Output; // 配置PB为输出低电平
 	set_PB_low();
 	PORTBbits.PB4 = 0;
+*/
+	IOSTB = C_PB0_Input | C_PB1_Input | C_PB2_Input | C_PB3_Input;
+	BPHCON = 0xF0;
+	if(PORTBbits.PB0)
+	{
+		usart_send_string("[KEY] PB0 high\r\n");
+	}
+	else
+	{
+		usart_send_string("[KEY] PB0 low\r\n");
+	}
+	if(PORTBbits.PB1)
+	{
+		usart_send_string("[KEY] PB1 high\r\n");
+	}
+	else
+	{
+		usart_send_string("[KEY] PB1 low\r\n");
+	}
+	if(PORTBbits.PB2)
+	{
+		usart_send_string("[KEY] PB2 high\r\n");
+	}
+	else
+	{
+		usart_send_string("[KEY] PB2 low\r\n");
+	}
+	if(PORTBbits.PB3)
+	{
+		usart_send_string("[KEY] PB3 high\r\n");
+	}
+	else
+	{
+		usart_send_string("[KEY] PB3 low\r\n");
+	}
+	uint8_t key = 0;
+	key = PORTB;
+	key = key & 0x0f;
+
+	if(key == 0x0f)
+	{
+		usart_send_string("[KEY] key = 0f\r\n");
+	}
+	else if(key == 0x14)
+	{
+		usart_send_string("[KEY] key = 14\r\n");
+	}
+	else
+	{
+		usart_send_string("[KEY] key = ?\r\n");
+	}
+
 }
 
 unsigned char Check_Keydown()
@@ -94,14 +182,14 @@ unsigned char Check_Keydown()
 			// {
 			// 	usart_send_string("[KEY] PA4 low\r\n");
 			// }
-			if(PORTAbits.PA5)
-			{
-				usart_send_string("[KEY] PA5 high\r\n");
-			}
-			else
-			{
-				usart_send_string("[KEY] PA5 low\r\n");
-			}
+			// if(PORTAbits.PA5)
+			// {
+			// 	usart_send_string("[KEY] PA5 high\r\n");
+			// }
+			// else
+			// {
+			// 	usart_send_string("[KEY] PA5 low\r\n");
+			// }
 			// if(PORTAbits.PA6)
 			// {
 			// 	usart_send_string("[KEY] PA6 high\r\n");
@@ -131,38 +219,38 @@ unsigned char Check_Keydown()
 			KeyStatus = PORTB;
             KeyStatus = KeyStatus & 0x0F;
 
-			if(PORTBbits.PB0)
-			{
-				usart_send_string("[KEY] PB0 high\r\n");
-			}
-			else
-			{
-				usart_send_string("[KEY] PB0 low\r\n");
-			}
-			if(PORTBbits.PB1)
-			{
-				usart_send_string("[KEY] PB1 high\r\n");
-			}
-			else
-			{
-				usart_send_string("[KEY] PB1 low\r\n");
-			}
-			if(PORTBbits.PB2)
-			{
-				usart_send_string("[KEY] PB2 high\r\n");
-			}
-			else
-			{
-				usart_send_string("[KEY] PB2 low\r\n");
-			}
-			if(PORTBbits.PB3)
-			{
-				usart_send_string("[KEY] PB3 high\r\n");
-			}
-			else
-			{
-				usart_send_string("[KEY] PB3 low\r\n");
-			}
+			// if(PORTBbits.PB0)
+			// {
+			// 	usart_send_string("[KEY] PB0 high\r\n");
+			// }
+			// else
+			// {
+			// 	usart_send_string("[KEY] PB0 low\r\n");
+			// }
+			// if(PORTBbits.PB1)
+			// {
+			// 	usart_send_string("[KEY] PB1 high\r\n");
+			// }
+			// else
+			// {
+			// 	usart_send_string("[KEY] PB1 low\r\n");
+			// }
+			// if(PORTBbits.PB2)
+			// {
+			// 	usart_send_string("[KEY] PB2 high\r\n");
+			// }
+			// else
+			// {
+			// 	usart_send_string("[KEY] PB2 low\r\n");
+			// }
+			// if(PORTBbits.PB3)
+			// {
+			// 	usart_send_string("[KEY] PB3 high\r\n");
+			// }
+			// else
+			// {
+			// 	usart_send_string("[KEY] PB3 low\r\n");
+			// }
 
 			switch(KeyStatus)
 			{
