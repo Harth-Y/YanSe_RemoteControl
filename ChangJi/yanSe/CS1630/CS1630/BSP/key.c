@@ -128,10 +128,7 @@ unsigned char Check_Keydown()
         key_init();
 
         sCodeValue = KeyValue - 0x01;
-		uint8_t i = 0;
 
-        while(1)     // 等待按键释放
-        {
             // 等待，准备下一次发送
             // led
             PORTBbits.PB4 = 1;
@@ -141,21 +138,12 @@ unsigned char Check_Keydown()
             // 发送数据包
             send_ble_packet(sCodeValue);
 			//i++;
-			key_init();
 
-			if(PORTAbits.PA6 && PORTAbits.PA5 && PORTAbits.PA4 && PORTAbits.PA3 && PORTAbits.PA2)
-
-            {
-				//i = 0;
-                usart_send_string("[KEY] key up\r\n");
-				// SLEEP_STATUS = 1;
-                return 0;
-            }
 			PORTBbits.PB4 = 1;
             delay_ms(100);
             PORTBbits.PB4 = 0;
             delay_ms(100);
-        }
+
     }
     return 0;
 }
