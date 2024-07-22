@@ -32,6 +32,17 @@ void key_init(void)
 	PORTBbits.PB4 = 0;
 }
 
+void led_open(void)
+{
+    for(unsigned char i = 0; i < 255; i++)
+    {
+        PORTBbits.PB4 = 1;
+        delay_us(1);
+        PORTBbits.PB4 = 0;
+        delay_us(27);
+    }
+}
+
 unsigned char Check_Keydown()
 {
     unsigned char KeyValue=0;
@@ -107,17 +118,15 @@ unsigned char Check_Keydown()
 		{
 			// 等待，准备下一次发送
 			// led
-			PORTBbits.PB4 = 1;
-			delay_ms(100);
+			led_open();
 			PORTBbits.PB4 = 0;
-			delay_ms(100);
+			delay_ms(25);
 			// 发送数据包
 			send_ble_packet(sCodeValue);
 
-			PORTBbits.PB4 = 1;
-			delay_ms(100);
+			led_open();
 			PORTBbits.PB4 = 0;
-			delay_ms(100);
+			delay_ms(25);
 			key_init();
 		}
     }

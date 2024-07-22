@@ -1,21 +1,6 @@
-﻿//------------------------------------------------------------------------------------
-// bsp_rf.c
-//------------------------------------------------------------------------------------
-// Copyright 2019, HunterSun Electronics Co., Ltd.
-// crazy_code@yeah.net
-// 2019-07-17
-//
-// Program Description:
-//
-//
-//
-
-#include "bsp_rf.h"
+﻿#include "bsp_rf.h"
 #include "bsp_delay.h"
 #include "bsp_spi.h"
-
-//#define Delay1ms(n)      delay_ms(n)
-//#define Delay10ms(n)     delay_ms(10*n)
 
 #define RF_CSN_HIGH	        PORTAbits.RF_CSN_PIN = 1;
 #define RF_CSN_LOW          PORTAbits.RF_CSN_PIN = 0;

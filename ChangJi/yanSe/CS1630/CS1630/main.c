@@ -2,7 +2,7 @@
 #include "NY8_constant.h"
 #include "bsp_rf.h"
 #include "bsp_spi.h"
-#include "bsp_hs6230.h"
+#include "bsp_cs1630.h"
 #include "bsp_delay.h"
 #include "key.h"
 #include "app_tx.h"
@@ -31,8 +31,9 @@ void wake_up_init(void)
 
 void main(void)
 {
+
   DISI();
-  HS6230_Init();
+  CS1630_Init();
   wake_up_init();
   ENI();
 

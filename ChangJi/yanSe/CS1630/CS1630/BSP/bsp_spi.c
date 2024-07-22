@@ -1,16 +1,4 @@
-﻿//------------------------------------------------------------------------------------
-// bsp_spi.c
-//------------------------------------------------------------------------------------
-// Copyright 2019, HunterSun Electronics Co., Ltd.
-// crazy_code@yeah.net
-// 2019-07-17
-//
-// Program Description:
-//
-//
-//
-
-#include <ny8.h>
+﻿#include <ny8.h>
 #include "NY8_constant.h"
 #include "ny8a054e.h"
 #include "bsp_spi.h"

@@ -1,16 +1,4 @@
-﻿//------------------------------------------------------------------------------------
-// bsp_spi.h
-//------------------------------------------------------------------------------------
-// Copyright 2019, HunterSun Electronics Co., Ltd.
-// crazy_code@yeah.net
-// 2019-07-17
-//
-// Program Description:
-//
-//
-//
-
-#ifndef __BSP_SPI_H__
+﻿#ifndef __BSP_SPI_H__
 #define __BSP_SPI_H__
 
 #define NOP_DELAY()					NOP();NOP();NOP();

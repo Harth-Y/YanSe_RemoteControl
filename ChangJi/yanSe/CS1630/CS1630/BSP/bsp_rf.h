@@ -1,15 +1,3 @@
-//------------------------------------------------------------------------------------
-// HS6206.h
-//------------------------------------------------------------------------------------
-// Copyright 2014, HunterSun Electronics Co., Ltd.
-// Yufeng. Yao
-// 2014-01-16
-//
-// Program Description: HS6200 command, register and
-//
-//
-//
-
 #ifndef __RF_H__
 #define __RF_H__
 
@@ -64,16 +52,12 @@
 
 #define RF_ACTIVATE_DATA              0x53
 
-//----------------------defines--------------------------
-/*
- * ��HS6206�ļĴ����������䣬BANK1�Ĵ��������λΪ1����BANK0Ϊʵ�ʵ�ַ��
- *
- */
+
 #define RF_BANK_BIT    BIT7      /*bank ָʾλ*/
 #define RF_BANK1       BIT7
 #define RF_BANK0       0x00
 
-///  HS6200/HS6200 Bank0 Register Addr
+///   Bank0 Register Addr
 /**************************************************/
 #define RF_BANK0_CONFIG                     0x00 // 'Config' register address
 #define RF_BANK0_EN_AA                      0x01 // 'Enable Auto Acknowledgment' register address
@@ -111,7 +95,7 @@
 #define RF_BANK0_DR_1M		 0x00
 #define RF_BANK0_DR_2M	     BIT3
 
-//HS6206_BANK0_SETUP_AW
+//BANK0_SETUP_AW
 #define RF_AW_BITS     (BIT0+BIT1)
 #define RF_AW_4_BYTES  BIT1
 #define RF_AW_5_BYTES  (BIT0+BIT1)
@@ -128,7 +112,7 @@
 #define RF_BANK0_CONT_WAVE                BIT7
 #define RF_BANK0_PRX                      BIT0
 
-///   HS6200/HS6200 Bank1 register
+///    Bank1 register
 #define RF_BANK1_LINE                 0x00
 #define RF_BANK1_PLL_CTL0             0x01
 #define RF_BANK1_PLL_CTL1             0x02
@@ -169,33 +153,33 @@
 #define RF_FIFO_STA_RX_FULL			0x02
 #define RF_FIFO_STA_RX_EMPTY		0x01
 
-///  HS6230 Bank0 Register Addr
+///  CS1630 Bank0 Register Addr
 /**************************************************/
-#define HS6230_BANK0_CONFIG                     0x00 // 'Config' register address
-#define HS6230_BANK0_SETUP_AW                   0x03 // 'Setup address width' register address
-#define HS6230_BANK0_RF_CH                      0x05 // 'RF channel' register address
-#define HS6230_BANK0_RF_SETUP                   0x06 // 'RF setup' register address
-#define HS6230_BANK0_STATUS                     0x07 // 'Status' register address
-#define HS6230_BANK0_KEY_VALUE                  0x08 // 'KEY_VALUE' register address
-#define HS6230_BANK0_PRE_LEN                    0x09 // 'Pramble length' register address
-#define HS6230_BANK0_TX_ADDR                    0x10 // 'TX address' register address
-#define HS6230_BANK0_FIFO_STATUS                0x17 // 'FIFO Status Register' register address
-#define HS6230_BANK0_RPD_0                      0x18 // 'Received Power Detector' register address
-#define HS6230_BANK0_FEATURE                    0x1D // 'Feature' register address
-#define HS6230_BANK0_SETUP_VALUE                0x1E
-#define HS6230_BANK0_PRE_GURD                   0x1F
+#define CS1630_BANK0_CONFIG                     0x00 // 'Config' register address
+#define CS1630_BANK0_SETUP_AW                   0x03 // 'Setup address width' register address
+#define CS1630_BANK0_RF_CH                      0x05 // 'RF channel' register address
+#define CS1630_BANK0_RF_SETUP                   0x06 // 'RF setup' register address
+#define CS1630_BANK0_STATUS                     0x07 // 'Status' register address
+#define CS1630_BANK0_KEY_VALUE                  0x08 // 'KEY_VALUE' register address
+#define CS1630_BANK0_PRE_LEN                    0x09 // 'Pramble length' register address
+#define CS1630_BANK0_TX_ADDR                    0x10 // 'TX address' register address
+#define CS1630_BANK0_FIFO_STATUS                0x17 // 'FIFO Status Register' register address
+#define CS1630_BANK0_RPD_0                      0x18 // 'Received Power Detector' register address
+#define CS1630_BANK0_FEATURE                    0x1D // 'Feature' register address
+#define CS1630_BANK0_SETUP_VALUE                0x1E
+#define CS1630_BANK0_PRE_GURD                   0x1F
 
-#define HS6230_BANK1_LINE                       0x00
-#define HS6230_BANK1_PLL_CTL0                   0x01
-#define HS6230_BANK1_FAGC_CTRL                  0x03
-#define HS6230_BANK1_TEST_PKDET                 0x05
-#define HS6230_BANK1_PLL_CTL1                   0x06
-#define HS6230_BANK1_STATUS                     0x07
-#define HS6230_BANK1_CTUNING                    0x08
-#define HS6230_BANK1_FTUNING                    0x09
-#define HS6230_BANK1_FDEV                       0x0c
-#define HS6230_BANK1_DAC_RANGE                  0x11
-#define HS6230_BANK1_CHAN                       0x12
+#define CS1630_BANK1_LINE                       0x00
+#define CS1630_BANK1_PLL_CTL0                   0x01
+#define CS1630_BANK1_FAGC_CTRL                  0x03
+#define CS1630_BANK1_TEST_PKDET                 0x05
+#define CS1630_BANK1_PLL_CTL1                   0x06
+#define CS1630_BANK1_STATUS                     0x07
+#define CS1630_BANK1_CTUNING                    0x08
+#define CS1630_BANK1_FTUNING                    0x09
+#define CS1630_BANK1_FDEV                       0x0c
+#define CS1630_BANK1_DAC_RANGE                  0x11
+#define CS1630_BANK1_CHAN                       0x12
 
 typedef enum {
 	RF_Bank0 = 0,
