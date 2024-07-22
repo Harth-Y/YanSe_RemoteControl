@@ -8,7 +8,7 @@ void delay_ms(unsigned char count)
 	unsigned char j;
 	for(i = 0; i < count; i++)
 	{
-		for(j = 0; j < 254; j++)
+                                            		for(j = 0; j < 254; j++)
 		NOP();
 	}
 }

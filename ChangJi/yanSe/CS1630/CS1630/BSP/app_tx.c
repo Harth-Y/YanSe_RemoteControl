@@ -2,7 +2,7 @@
 #include "bsp_hs6230.h"
 #include "bsp_delay.h"
 #include "app_hs6230_test.h"
-#include "bsp_usart.h"
+//#include "bsp_usart.h"
 
 static unsigned char HS6230_Tx_Payload[32];
 static const unsigned char channel_index[3] = {
@@ -13,7 +13,6 @@ static const unsigned char channel_index[3] = {
 static unsigned char s_data_num = 0;
 void send_ble_packet(unsigned char code_value)
 {
-	usart_send_string("BLE packet send\r\n");
     unsigned char i = 0;             // 循环计数器
     unsigned char j = 0;             // 循环计数器
     unsigned char idx = 0;           // 用于遍历频道索引的计数器
