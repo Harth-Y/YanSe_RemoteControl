@@ -23,7 +23,10 @@ void key_init(void)
 {
     // 配置PA按钮
 	IOSTA = C_PA2_Input | C_PA3_Input | C_PA4_Input | C_PA5_Input | C_PA6_Input | C_PA7_Input;  // 配置PA2、3、4、5、6、7为输入
-	APHCON = 0b00100011; // 设置2、3、4、6、7上拉
+	//IOSTA = C_PA2_Input | C_PA3_Input | C_PA4_Input | C_PA5_Input | C_PA6_Input; // 配置PA2、3、4、5、6为输入
+
+    APHCON = 0b00100011; // 设置2、3、4、6、7上拉
+    //APHCON = 0b10100011; // 设置2、3、4、6上拉
 	PCON = 0xc8; // 设置5上拉
 
     //配置PB按钮
@@ -34,7 +37,7 @@ void key_init(void)
 
 void led_open(void)
 {
-    for(unsigned char i = 0; i < 255; i++)
+    for(unsigned char i = 0; i < 200; i++)
     {
         PORTBbits.PB4 = 1;
         delay_us(1);
@@ -50,11 +53,11 @@ unsigned char Check_Keydown()
     unsigned char KeyStatus = 0;
 
     KeyStatus = PORTA;
-    KeyStatus = KeyStatus & 0xfc;
+    KeyStatus = KeyStatus & 0xfc; // 0x7c
 
-    if(KeyStatus != 0xfc)
+    if(KeyStatus != 0xfc) // 0x7c
     {
-        delay_ms(10);
+        delay_ms(5);
         KeyStatus = PORTA;
         KeyStatus = KeyStatus & 0xfc;
 
@@ -107,28 +110,28 @@ unsigned char Check_Keydown()
         }
         else
         {
-            return 0;
+            return 1;
         }
 
         key_init();
 
         sCodeValue = KeyValue - 0x01;
 
-   		while(0xfc != (PORTA & 0xfc))
+   		while(0xfc != (PORTA & 0xfc)) // 0x7c
 		{
 			// 等待，准备下一次发送
-			// led
-			led_open();
-			PORTBbits.PB4 = 0;
-			delay_ms(25);
 			// 发送数据包
 			send_ble_packet(sCodeValue);
-
+            // led
 			led_open();
 			PORTBbits.PB4 = 0;
-			delay_ms(25);
+			delay_ms(20);
+			led_open();
+			PORTBbits.PB4 = 0;
+			delay_ms(20);
 			key_init();
 		}
+        return 0;
     }
-    return 0;
+    return 1;
 }
