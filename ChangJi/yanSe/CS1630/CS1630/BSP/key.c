@@ -21,6 +21,7 @@ void set_PB_low(void)
 
 void key_init(void)
 {
+    delay_ms(1);
     // 配置PA按钮
 	IOSTA = C_PA2_Input | C_PA3_Input | C_PA4_Input | C_PA5_Input | C_PA6_Input | C_PA7_Input;  // 配置PA2、3、4、5、6、7为输入
 	//IOSTA = C_PA2_Input | C_PA3_Input | C_PA4_Input | C_PA5_Input | C_PA6_Input; // 配置PA2、3、4、5、6为输入
@@ -40,11 +41,22 @@ void led_open(void)
     for(unsigned char i = 0; i < 200; i++)
     {
         PORTBbits.PB4 = 1;
-        delay_us(1);
+        delay_us(5);
         PORTBbits.PB4 = 0;
-        delay_us(27);
+        delay_us(15);
     }
 }
+
+void led(void)
+{
+    led_open();
+    PORTBbits.PB4 = 0;
+    delay_ms(20);
+    led_open();
+    PORTBbits.PB4 = 0;
+    delay_ms(20);
+}
+
 
 unsigned char Check_Keydown()
 {
@@ -57,7 +69,7 @@ unsigned char Check_Keydown()
 
     if(KeyStatus != 0xfc) // 0x7c
     {
-        delay_ms(5);
+        delay_ms(12);
         KeyStatus = PORTA;
         KeyStatus = KeyStatus & 0xfc;
 
@@ -82,12 +94,12 @@ unsigned char Check_Keydown()
                 case(0X2C): KeyValue=0x03;break;
                 case(0X1C): KeyValue=0x04;break;
             }
-
+            delay_ms(1);
             APHCON = 0b00111111; // 2、3、4上拉取消
             PCON = 0xe8; // 5上拉取消
             IOSTA = 0b11000000; // 配置PA2、3、4、5为输出低电平
             set_PA_low();
-
+            delay_ms(1);
             IOSTB = 0b00001111; // 配置PB0、1、2、3为输入
             BPHCON = 0xF0; // 0、1、2、3上拉
 
@@ -112,7 +124,7 @@ unsigned char Check_Keydown()
         {
             return 1;
         }
-
+        delay_ms(1);
         key_init();
 
         sCodeValue = KeyValue - 0x01;
@@ -123,12 +135,7 @@ unsigned char Check_Keydown()
 			// 发送数据包
 			send_ble_packet(sCodeValue);
             // led
-			led_open();
-			PORTBbits.PB4 = 0;
-			delay_ms(20);
-			led_open();
-			PORTBbits.PB4 = 0;
-			delay_ms(20);
+            led();
 			key_init();
 		}
         return 0;

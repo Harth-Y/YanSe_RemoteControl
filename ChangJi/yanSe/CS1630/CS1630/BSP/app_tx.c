@@ -14,7 +14,7 @@ static unsigned char CS1630_Tx_Payload[32] = {
     0x45, // 同步系列
     0x00, // 序号
     0x00, // 码值
-    0xBF, // 识别码
+    0x01, // 识别码
     0xAA, // 识别码
     0xFF,
     0xFF,
@@ -32,7 +32,7 @@ static const unsigned char channel_index[3] = {
                                                 80  // 2.480G  // 39
                                               };
 static unsigned char s_data_num = 0;
-
+static unsigned char s_s_data_num = 0;
 void send_ble_packet(unsigned char code_value)
 {
     unsigned char i = 0;             // 循环计数器
@@ -53,6 +53,12 @@ void send_ble_packet(unsigned char code_value)
     // 构建数据包
     CS1630_Tx_Payload[7] = s_data_num; // 序号，用于区分不同数据包
     CS1630_Tx_Payload[8] = code_value; // 码值，用于指示功能
+    if(s_s_data_num == 18)
+    {
+        CS1630_Tx_Payload[9] ++;
+        s_s_data_num = 0;
+    }
+
 
     // 重置CE，清空TX缓冲区，清除所有中断
     CS1630_CE_Low();
@@ -63,12 +69,13 @@ void send_ble_packet(unsigned char code_value)
     CS1630_write_byte(CS1630_BANK0_CONFIG, 0x0e);
     delay_ms(5);
     // 发送数据包的循环
-    for(i = 0; i < 3; i++)
+
+    // 遍历频道索引数组，发送数据
+    for(idx = 0; idx < 3; idx++)
     {
-        // 遍历频道索引数组，发送数据
-        for(idx = 0; idx < 3; idx++)
+        CS1630_write_byte(CS1630_BANK0_RF_CH, channel_index[idx]); // 设置射频频道
+        for(i = 0; i < 6; i++)
         {
-            CS1630_write_byte(CS1630_BANK0_RF_CH, channel_index[idx]); // 设置射频频道
             CS1630_SendPack(RF_W_TX_PAYLOAD, CS1630_Tx_Payload, 0x14); // 发送数据包
             CS1630_CE_High(); // 产生CE脉冲，开始发送
             delay_40us(); // 等待脉冲稳定
@@ -80,11 +87,13 @@ void send_ble_packet(unsigned char code_value)
                 if ((TX_DS & status) || (MAX_RT & status)) // 检查发送完成或重传达到最大次数
                 {
                     CS1630_write_byte(CS1630_BANK0_STATUS, status); // 清除状态
+                    s_s_data_num ++;
                     break;
                 }
             }
         }
     }
+
     // 重置配置寄存器
     CS1630_write_byte(CS1630_BANK0_CONFIG, 0x00);
     delay_ms(1);

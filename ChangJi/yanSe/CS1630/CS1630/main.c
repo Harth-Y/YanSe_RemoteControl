@@ -35,11 +35,11 @@ void wake_up_init(void)
 void main(void)
 {
 
-  DISI();
+  //DISI();
   CS1630_Init();
   wake_up_init();
-  ENI();
-  unsigned char sleep_status = 0;
+  //ENI();
+  unsigned char sleep_status = 1;
 
   while (1)
   {
@@ -58,12 +58,12 @@ void main(void)
       g_timer0_delay_conut_1 = 0;
       g_timer0_delay_conut_2 ++;
     }
-    if(g_timer0_delay_conut_2 == 255)
+    if(g_timer0_delay_conut_2 == 10)
     {
       g_timer0_delay_conut_2 = 0;
       g_timer0_delay_conut_3 ++;
     }
-    if(g_timer0_delay_conut_3 == 35)
+    if(g_timer0_delay_conut_3 == 4)
     {
       g_timer0_delay_conut_3 = 0;
       wake_up_init();
