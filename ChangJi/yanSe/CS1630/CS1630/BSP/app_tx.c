@@ -74,7 +74,31 @@ void send_ble_packet(unsigned char code_value)
     for(idx = 0; idx < 3; idx++)
     {
         CS1630_write_byte(CS1630_BANK0_RF_CH, channel_index[idx]); // 设置射频频道
-        for(i = 0; i < 6; i++)
+        for(i = 0; i < 3; i++)
+        {
+            CS1630_SendPack(RF_W_TX_PAYLOAD, CS1630_Tx_Payload, 0x14); // 发送数据包
+            CS1630_CE_High(); // 产生CE脉冲，开始发送
+            delay_40us(); // 等待脉冲稳定
+            CS1630_CE_Low(); // 结束脉冲
+            // 等待数据发送完成
+            while(1)
+            {
+                status = CS1630_read_byte(CS1630_BANK0_STATUS); // 读取状态寄存器
+                if ((TX_DS & status) || (MAX_RT & status)) // 检查发送完成或重传达到最大次数
+                {
+                    CS1630_write_byte(CS1630_BANK0_STATUS, status); // 清除状态
+                    s_s_data_num ++;
+                    break;
+                }
+            }
+        }
+    }
+    idx = 0;
+    // 遍历频道索引数组，发送数据
+    for(idx = 0; idx < 3; idx++)
+    {
+        CS1630_write_byte(CS1630_BANK0_RF_CH, channel_index[idx]); // 设置射频频道
+        for(i = 0; i < 3; i++)
         {
             CS1630_SendPack(RF_W_TX_PAYLOAD, CS1630_Tx_Payload, 0x14); // 发送数据包
             CS1630_CE_High(); // 产生CE脉冲，开始发送
