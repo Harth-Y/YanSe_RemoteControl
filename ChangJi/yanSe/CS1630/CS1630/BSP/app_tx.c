@@ -93,7 +93,6 @@ void send_ble_packet(unsigned char code_value)
             }
         }
     }
-    idx = 0;
     // 遍历频道索引数组，发送数据
     for(idx = 0; idx < 3; idx++)
     {
