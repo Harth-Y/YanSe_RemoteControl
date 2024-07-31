@@ -32,7 +32,6 @@ static const unsigned char channel_index[3] = {
                                                 80  // 2.480G  // 39
                                               };
 static unsigned char s_data_num = 0;
-static unsigned char s_s_data_num = 0;
 void send_ble_packet(unsigned char code_value)
 {
     unsigned char i = 0;             // 循环计数器
@@ -53,11 +52,6 @@ void send_ble_packet(unsigned char code_value)
     // 构建数据包
     CS1630_Tx_Payload[7] = s_data_num; // 序号，用于区分不同数据包
     CS1630_Tx_Payload[8] = code_value; // 码值，用于指示功能
-    if(s_s_data_num == 18)
-    {
-        CS1630_Tx_Payload[9] ++;
-        s_s_data_num = 0;
-    }
 
 
     // 重置CE，清空TX缓冲区，清除所有中断
@@ -74,7 +68,7 @@ void send_ble_packet(unsigned char code_value)
     for(idx = 0; idx < 3; idx++)
     {
         CS1630_write_byte(CS1630_BANK0_RF_CH, channel_index[idx]); // 设置射频频道
-        for(i = 0; i < 3; i++)
+        for(i = 0; i < 5; i++)
         {
             CS1630_SendPack(RF_W_TX_PAYLOAD, CS1630_Tx_Payload, 0x14); // 发送数据包
             CS1630_CE_High(); // 产生CE脉冲，开始发送
@@ -87,30 +81,6 @@ void send_ble_packet(unsigned char code_value)
                 if ((TX_DS & status) || (MAX_RT & status)) // 检查发送完成或重传达到最大次数
                 {
                     CS1630_write_byte(CS1630_BANK0_STATUS, status); // 清除状态
-                    s_s_data_num ++;
-                    break;
-                }
-            }
-        }
-    }
-    // 遍历频道索引数组，发送数据
-    for(idx = 0; idx < 3; idx++)
-    {
-        CS1630_write_byte(CS1630_BANK0_RF_CH, channel_index[idx]); // 设置射频频道
-        for(i = 0; i < 3; i++)
-        {
-            CS1630_SendPack(RF_W_TX_PAYLOAD, CS1630_Tx_Payload, 0x14); // 发送数据包
-            CS1630_CE_High(); // 产生CE脉冲，开始发送
-            delay_40us(); // 等待脉冲稳定
-            CS1630_CE_Low(); // 结束脉冲
-            // 等待数据发送完成
-            while(1)
-            {
-                status = CS1630_read_byte(CS1630_BANK0_STATUS); // 读取状态寄存器
-                if ((TX_DS & status) || (MAX_RT & status)) // 检查发送完成或重传达到最大次数
-                {
-                    CS1630_write_byte(CS1630_BANK0_STATUS, status); // 清除状态
-                    s_s_data_num ++;
                     break;
                 }
             }
@@ -119,6 +89,4 @@ void send_ble_packet(unsigned char code_value)
 
     // 重置配置寄存器
     CS1630_write_byte(CS1630_BANK0_CONFIG, 0x00);
-    delay_ms(1);
-
 }

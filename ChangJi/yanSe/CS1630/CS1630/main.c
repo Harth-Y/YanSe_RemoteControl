@@ -11,7 +11,6 @@
 #define UPDATE_REG(x)  __asm__("MOVR _" #x ",F")
 volatile unsigned char g_timer0_delay_conut_1 = 0;
 volatile unsigned char g_timer0_delay_conut_2 = 0;
-volatile unsigned char g_timer0_delay_conut_3 = 0;
 
 void isr(void) __interrupt(0)
 {
@@ -34,7 +33,6 @@ void wake_up_init(void)
 
 void main(void)
 {
-
   //DISI();
   CS1630_Init();
   wake_up_init();
@@ -45,27 +43,24 @@ void main(void)
   {
     key_init();
     sleep_status = Check_Keydown();
+
     if(sleep_status == 0)
     {
       g_timer0_delay_conut_1 = 0;
       g_timer0_delay_conut_2 = 0;
-      g_timer0_delay_conut_3 = 0;
     }
+
     g_timer0_delay_conut_1 ++;
-    NOP();
+
     if(g_timer0_delay_conut_1 == 255)
     {
       g_timer0_delay_conut_1 = 0;
       g_timer0_delay_conut_2 ++;
     }
-    if(g_timer0_delay_conut_2 == 10)
+
+    if(g_timer0_delay_conut_2 == 60)
     {
       g_timer0_delay_conut_2 = 0;
-      g_timer0_delay_conut_3 ++;
-    }
-    if(g_timer0_delay_conut_3 == 4)
-    {
-      g_timer0_delay_conut_3 = 0;
       wake_up_init();
       UPDATE_REG(PORTA);
       INTF = 0x00;

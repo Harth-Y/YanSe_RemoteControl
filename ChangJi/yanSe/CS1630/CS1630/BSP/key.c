@@ -21,7 +21,7 @@ void set_PB_low(void)
 
 void key_init(void)
 {
-    delay_ms(1);
+    delay_us(100);
     // 配置PA按钮
 	IOSTA = C_PA2_Input | C_PA3_Input | C_PA4_Input | C_PA5_Input | C_PA6_Input | C_PA7_Input;  // 配置PA2、3、4、5、6、7为输入
 	//IOSTA = C_PA2_Input | C_PA3_Input | C_PA4_Input | C_PA5_Input | C_PA6_Input; // 配置PA2、3、4、5、6为输入
@@ -63,13 +63,14 @@ unsigned char Check_Keydown()
     unsigned char KeyValue=0;
     unsigned char sCodeValue = 0;
     unsigned char KeyStatus = 0;
+    unsigned char KeyStatus_s = 0;
 
     KeyStatus = PORTA;
-    KeyStatus = KeyStatus & 0xfc; // 0x7c
+    KeyStatus = KeyStatus & 0xfc; // 0xfc 0x7c
 
-    if(KeyStatus != 0xfc) // 0x7c
+    if(KeyStatus != 0xfc) // 0xfc 0x7c
     {
-        delay_ms(12);
+        delay_ms(5);
         KeyStatus = PORTA;
         KeyStatus = KeyStatus & 0xfc;
 
@@ -81,7 +82,7 @@ unsigned char Check_Keydown()
             }
             if(!PORTAbits.PA7)
             {
-             KeyValue=0x12;
+                KeyValue=0x12;
             }
 
             KeyStatus = KeyStatus & 0x3c;
@@ -94,12 +95,12 @@ unsigned char Check_Keydown()
                 case(0X2C): KeyValue=0x03;break;
                 case(0X1C): KeyValue=0x04;break;
             }
-            delay_ms(1);
+            delay_us(100);
             APHCON = 0b00111111; // 2、3、4上拉取消
             PCON = 0xe8; // 5上拉取消
             IOSTA = 0b11000000; // 配置PA2、3、4、5为输出低电平
             set_PA_low();
-            delay_ms(1);
+            delay_us(100);
             IOSTB = 0b00001111; // 配置PB0、1、2、3为输入
             BPHCON = 0xF0; // 0、1、2、3上拉
 
@@ -119,26 +120,31 @@ unsigned char Check_Keydown()
 			{
 				KeyValue=KeyValue+0x0c;
 			}
+            delay_ms(1);
+            key_init();
+
+            sCodeValue = KeyValue - 0x01;
+            KeyStatus = 0;
+            KeyStatus = PORTA & 0xfc;
+            while(0xfc != (PORTA & 0xfC))
+            {
+                // 等待，准备下一次发送
+                // 发送数据包
+                send_ble_packet(sCodeValue);
+                // led
+                led();
+                key_init();
+                if(KeyStatus != (PORTA & 0xfc))
+                return 0;
+            }
+            return 0;
+
         }
         else
         {
             return 1;
         }
-        delay_ms(1);
-        key_init();
 
-        sCodeValue = KeyValue - 0x01;
-
-   		while(0xfc != (PORTA & 0xfc)) // 0x7c
-		{
-			// 等待，准备下一次发送
-			// 发送数据包
-			send_ble_packet(sCodeValue);
-            // led
-            led();
-			key_init();
-		}
-        return 0;
     }
     return 1;
 }
