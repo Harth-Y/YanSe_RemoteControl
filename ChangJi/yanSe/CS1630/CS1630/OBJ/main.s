@@ -11,9 +11,6 @@
 ;--------------------------------------------------------
 ; external declarations
 ;--------------------------------------------------------
-	extern	_usart_send_string
-	extern	_usart_send_byte
-	extern	_usart_init
 	extern	_send_ble_packet
 	extern	_Check_Keydown
 	extern	_set_PB_low
@@ -23,21 +20,21 @@
 	extern	_delay_us
 	extern	_delay_250ms
 	extern	_delay_ms
-	extern	_HS6230_Dump_RF_Register
+	extern	_CS1630_Dump_RF_Register
 	extern	_Enter_sleep
-	extern	_HS6230_SendPack
-	extern	_HS6230_wr_buffer
-	extern	_HS6230_write_byte
-	extern	_HS6230_read_byte
-	extern	_HS6230_read_buffer
-	extern	_HS6230_Bank_Switch
-	extern	_HS6230_ModeSwitch
-	extern	_HS6230_CE_Low
-	extern	_HS6230_CE_High
-	extern	_HS6230_Flush_Tx
-	extern	_HS6230_Clear_All_Irq
-	extern	_HS6230_Init
-	extern	_HS6230_Soft_Rst
+	extern	_CS1630_SendPack
+	extern	_CS1630_wr_buffer
+	extern	_CS1630_write_byte
+	extern	_CS1630_read_byte
+	extern	_CS1630_read_buffer
+	extern	_CS1630_Bank_Switch
+	extern	_CS1630_ModeSwitch
+	extern	_CS1630_CE_Low
+	extern	_CS1630_CE_High
+	extern	_CS1630_Flush_Tx
+	extern	_CS1630_Clear_All_Irq
+	extern	_CS1630_Init
+	extern	_CS1630_Soft_Rst
 	extern	_SPI_ReadByte
 	extern	_SPI_SendByte
 	extern	_RF_softSPI_Init
@@ -125,9 +122,7 @@
 ;--------------------------------------------------------
 	extern	_main
 	extern	_wake_up_init
-	extern	_timer_init
-	extern	_isr_wake_up
-	extern	_isr_sleep
+	extern	_isr
 	extern	_INTE2
 	extern	_RFC
 	extern	_INTEDG
@@ -140,7 +135,8 @@
 	extern	_PCON
 	extern	_PORTB
 	extern	_PORTA
-	extern	_system_tick
+	extern	_g_timer0_delay_conut_2
+	extern	_g_timer0_delay_conut_1
 
 	extern PSAVE
 	extern SSAVE
@@ -244,9 +240,6 @@ STK00:
 ; compiler-defined variables
 ;--------------------------------------------------------
 .segment "uninit"
-r0x1006:
-	.res	1
-.segment "uninit"
 ___sdcc_saved_fsr:
 	.res	1
 	.debuginfo complex-type (symbol "___sdcc_saved_fsr" 1 global "" 0 (basetype 1 unsigned))
@@ -263,22 +256,15 @@ ___sdcc_saved_stk01:
 ;--------------------------------------------------------
 
 .segment "idata"
-_system_tick:
-	.debuginfo complex-type (symbol "_system_tick" 1 global "main.c" 13 (basetype 1 unsigned))
+_g_timer0_delay_conut_1:
+	.debuginfo complex-type (symbol "_g_timer0_delay_conut_1" 1 global "main.c" 12 (basetype 1 unsigned))
 
 	dw	0x00	; 0
 
 
 .segment "idata"
-_isr_sleep_tick_1s_65536_60:
-	.debuginfo complex-type (symbol "_isr_sleep_tick_1s_65536_60" 1 local "main.c" 18 (basetype 1 unsigned))
-
-	dw	0x00	; 0
-
-
-.segment "idata"
-_isr_sleep_tick_30s_65536_60:
-	.debuginfo complex-type (symbol "_isr_sleep_tick_30s_65536_60" 1 local "main.c" 19 (basetype 1 unsigned))
+_g_timer0_delay_conut_2:
+	.debuginfo complex-type (symbol "_g_timer0_delay_conut_2" 1 global "main.c" 13 (basetype 1 unsigned))
 
 	dw	0x00	; 0
 
@@ -295,67 +281,6 @@ _isr_sleep_tick_30s_65536_60:
 ORG	0x0000
 	LGOTO	__nyc_ny8_startup
 ;--------------------------------------------------------
-; software interrupt and initialization code
-;--------------------------------------------------------
-ORG 0x0001
-	MGOTO	__sdcc_sw_interrupt
-
-.segment "code"
-__sdcc_sw_interrupt:
-;***
-;  pBlock Stats: dbName = U
-;***
-;2 compiler assigned registers:
-;   STK00
-;   STK01
-;; Starting pCode block
-_isr_wake_up:
-; 0 exit points
-	.line	40, "main.c"; 	void isr_wake_up() __interrupt(1)
-	MOVAR	WSAVE
-	SWAPR	STATUS,W
-	CLRR	STATUS
-	MOVAR	SSAVE
-	MOVR	PCHBUF,W
-	CLRR	PCHBUF
-	MOVAR	PSAVE
-	MOVR	FSR,W
-	BANKSEL	___sdcc_saved_fsr
-	MOVAR	___sdcc_saved_fsr
-	MOVR	STK00,W
-	BANKSEL	___sdcc_saved_stk00
-	MOVAR	___sdcc_saved_stk00
-	MOVR	STK01,W
-	BANKSEL	___sdcc_saved_stk01
-	MOVAR	___sdcc_saved_stk01
-	.line	42, "main.c"; 	if(INTFbits.PABIF)
-	BTRSS	_INTFbits,1
-	MGOTO	_02020_DS_
-	.line	44, "main.c"; 	INTFbits.PABIF = 0;
-	MOVIA	0xfd
-	MOVAR	(_INTFbits + 0)
-_02020_DS_:
-	.line	46, "main.c"; 	}
-	BANKSEL	___sdcc_saved_stk01
-	MOVR	___sdcc_saved_stk01,W
-	MOVAR	STK01
-	BANKSEL	___sdcc_saved_stk00
-	MOVR	___sdcc_saved_stk00,W
-	MOVAR	STK00
-	BANKSEL	___sdcc_saved_fsr
-	MOVR	___sdcc_saved_fsr,W
-	MOVAR	FSR
-	MOVR	PSAVE,W
-	MOVAR	PCHBUF
-	CLRR	STATUS
-	SWAPR	SSAVE,W
-	MOVAR	STATUS
-	SWAPR	WSAVE,F
-	SWAPR	WSAVE,W
-END_OF_SW_INTERRUPT:
-	RETIE	
-
-;--------------------------------------------------------
 ; interrupt and initialization code
 ;--------------------------------------------------------
 ORG 0x0008
@@ -370,9 +295,9 @@ __sdcc_interrupt:
 ;   STK00
 ;   STK01
 ;; Starting pCode block
-_isr_sleep:
+_isr:
 ; 0 exit points
-	.line	16, "main.c"; 	void isr_sleep() __interrupt(0)
+	.line	15, "main.c"; 	void isr(void) __interrupt(0)
 	MOVAR	WSAVE
 	SWAPR	STATUS,W
 	CLRR	STATUS
@@ -389,45 +314,14 @@ _isr_sleep:
 	MOVR	STK01,W
 	BANKSEL	___sdcc_saved_stk01
 	MOVAR	___sdcc_saved_stk01
-	.line	20, "main.c"; 	if(INTFbits.T0IF)
-	BTRSS	_INTFbits,0
-	MGOTO	_02013_DS_
-	.line	22, "main.c"; 	INTFbits.T0IF = 0;//清除中断标志
-	MOVIA	0xfe
+	.line	22, "main.c"; 	if(INTFbits.PABIF)
+	BTRSS	_INTFbits,1
+	MGOTO	_02007_DS_
+	.line	24, "main.c"; 	INTFbits.PABIF = 0;					// 清除PABIF（PortB输入变化中断标志位）
+	MOVIA	0xfd
 	MOVAR	(_INTFbits + 0)
-	.line	23, "main.c"; 	TMR0 = 100;//Timer0寄存器重新从100开始计数
-	MOVIA	0x64
-	MOVAR	_TMR0
-	.line	25, "main.c"; 	if(++tick_1s >= 200)
-	BANKSEL	_isr_sleep_tick_1s_65536_60
-	INCR	_isr_sleep_tick_1s_65536_60,F
-;;unsigned compare: left < lit(0xC8=200), size=1
-	MOVIA	0xc8
-	SUBAR	_isr_sleep_tick_1s_65536_60,W
-	BTRSS	STATUS,0
-	MGOTO	_02013_DS_
-	.line	27, "main.c"; 	tick_1s = 0;
-	CLRR	_isr_sleep_tick_1s_65536_60
-	.line	28, "main.c"; 	if(++tick_30s >= 30)
-	BANKSEL	_isr_sleep_tick_30s_65536_60
-	INCR	_isr_sleep_tick_30s_65536_60,F
-;;unsigned compare: left < lit(0x1E=30), size=1
-	MOVIA	0x1e
-	SUBAR	_isr_sleep_tick_30s_65536_60,W
-	BTRSS	STATUS,0
-	MGOTO	_02013_DS_
-	.line	30, "main.c"; 	tick_30s = 0;
-	CLRR	_isr_sleep_tick_30s_65536_60
-	.line	31, "main.c"; 	if(SLEEP_STATUS == 1)
-	BANKSEL	_SLEEP_STATUS
-	MOVR	_SLEEP_STATUS,W
-	XORIA	0x01
-	BTRSS	STATUS,2
-	MGOTO	_02013_DS_
-	.line	33, "main.c"; 	SLEEP();
-	sleep
-_02013_DS_:
-	.line	38, "main.c"; 	}
+_02007_DS_:
+	.line	26, "main.c"; 	}
 	BANKSEL	___sdcc_saved_stk01
 	MOVR	___sdcc_saved_stk01,W
 	MOVAR	STK01
@@ -457,65 +351,74 @@ END_OF_INTERRUPT:
 ;has an exit
 ;functions called:
 ;   _key_init
-;   _usart_init
-;   _HS6230_Init
-;   _timer_init
-;   _wake_up_init
-;   _delay_250ms
-;   _delay_250ms
-;   _delay_250ms
-;   _delay_250ms
+;   _CS1630_Init
+;   _CS1630_CE_Low
+;   _CS1630_ModeSwitch
+;   _CS1630_write_byte
+;   _CS1630_write_byte
+;   _CS1630_write_byte
 ;   _Check_Keydown
+;   _wake_up_init
 ;   _key_init
-;   _usart_init
-;   _HS6230_Init
-;   _timer_init
-;   _wake_up_init
-;   _delay_250ms
-;   _delay_250ms
-;   _delay_250ms
-;   _delay_250ms
+;   _CS1630_Init
+;   _CS1630_CE_Low
+;   _CS1630_ModeSwitch
+;   _CS1630_write_byte
+;   _CS1630_write_byte
+;   _CS1630_write_byte
 ;   _Check_Keydown
+;   _wake_up_init
+;1 compiler assigned register :
+;   STK00
 ;; Starting pCode block
 .segment "code"; module=main, function=_main
 	.debuginfo subprogram _main
 _main:
 ; 2 exit points
-	.line	68, "main.c"; 	DISI();
+	.line	42, "main.c"; 	DISI();
 	DISI
-	.line	69, "main.c"; 	key_init();
+	.line	43, "main.c"; 	key_init();
 	MCALL	_key_init
-	.line	70, "main.c"; 	usart_init();
-	MCALL	_usart_init
-	.line	71, "main.c"; 	HS6230_Init();
-	MCALL	_HS6230_Init
-	.line	72, "main.c"; 	timer_init();
-	MCALL	_timer_init
-	.line	73, "main.c"; 	wake_up_init();
-	MCALL	_wake_up_init
-	.line	74, "main.c"; 	ENI();
+	.line	44, "main.c"; 	CS1630_Init(); // 初始化CS1630模块
+	MCALL	_CS1630_Init
+	.line	45, "main.c"; 	CS1630_CE_Low(); // 设置CE引脚为低电平，准备发送数据
+	MCALL	_CS1630_CE_Low
+	.line	46, "main.c"; 	CS1630_ModeSwitch(Rf_PTX_Mode); // 切换到发送模式
+	MOVIA	0x01
+	MCALL	_CS1630_ModeSwitch
+	.line	49, "main.c"; 	CS1630_write_byte(CS1630_BANK0_FEATURE, 0x04);
+	MOVIA	0x04
+	MOVAR	STK00
+	MOVIA	0x1d
+	MCALL	_CS1630_write_byte
+	.line	50, "main.c"; 	CS1630_write_byte(CS1630_BANK0_CONFIG, 0x0e);
+	MOVIA	0x0e
+	MOVAR	STK00
+	MOVIA	0x00
+	MCALL	_CS1630_write_byte
+	.line	51, "main.c"; 	CS1630_write_byte(CS1630_BANK0_SETUP_VALUE, 0x04); // 配置值
+	MOVIA	0x04
+	MOVAR	STK00
+	MOVIA	0x1e
+	MCALL	_CS1630_write_byte
+	.line	52, "main.c"; 	ENI();
 	ENI
-	.line	75, "main.c"; 	PORTBbits.PB4 = 1;
-	BSR	_PORTBbits,4
-	.line	76, "main.c"; 	delay_250ms();
-	MCALL	_delay_250ms
-	.line	77, "main.c"; 	PORTBbits.PB4 = 0;
-	BCR	_PORTBbits,4
-	.line	78, "main.c"; 	delay_250ms();
-	MCALL	_delay_250ms
-	.line	79, "main.c"; 	PORTBbits.PB4 = 1;
-	BSR	_PORTBbits,4
-	.line	80, "main.c"; 	delay_250ms();
-	MCALL	_delay_250ms
-	.line	81, "main.c"; 	PORTBbits.PB4 = 0;
-	BCR	_PORTBbits,4
-	.line	82, "main.c"; 	delay_250ms();
-	MCALL	_delay_250ms
-_02034_DS_:
-	.line	86, "main.c"; 	Check_Keydown();
+_02017_DS_:
+	.line	57, "main.c"; 	sleep_status = Check_Keydown();
 	MCALL	_Check_Keydown
-	MGOTO	_02034_DS_
-	.line	88, "main.c"; 	}
+	.line	76, "main.c"; 	wake_up_init();
+	MCALL	_wake_up_init
+	.line	77, "main.c"; 	UPDATE_REG(PORTA);
+	MOVR	_PORTA,F
+	.line	78, "main.c"; 	INTF = 0x00;
+	CLRR	_INTF
+	.line	79, "main.c"; 	SLEEP();
+	sleep
+	.line	80, "main.c"; 	INTFbits.PABIF = 0;	// 清除PABIF（PortB输入变化中断标志位）
+	MOVIA	0xfd
+	MOVAR	(_INTFbits + 0)
+	MGOTO	_02017_DS_
+	.line	83, "main.c"; 	}
 	RETURN	
 ; exit point of _main
 
@@ -528,59 +431,28 @@ _02034_DS_:
 	.debuginfo subprogram _wake_up_init
 _wake_up_init:
 ; 2 exit points
-	.line	60, "main.c"; 	AWUCON = 0xC3;
-	MOVIA	0xc3
+	.line	30, "main.c"; 	AWUCON = 0xfc;
+	MOVIA	0xfc
 	MOVAR	_AWUCON
-	.line	61, "main.c"; 	BWUCON = 0x0f;
-	MOVIA	0x0f
-	MOVAR	_BWUCON
-	.line	62, "main.c"; 	INTE |= C_INT_PABKey;
-	BSR	_INTE,1
-	.line	63, "main.c"; 	INTF = 0;
+	.line	31, "main.c"; 	BWUCON = 0x00;
+	CLRR	_BWUCON
+	.line	32, "main.c"; 	IOSTA = C_PA2_Input | C_PA3_Input | C_PA4_Input | C_PA5_Input | C_PA6_Input | C_PA7_Input;  // 配置PA2、3、4、5、6、7为输入
+	MOVIA	0xfc
+	IOST	_IOSTA
+	.line	33, "main.c"; 	APHCON = 0b00100011; // 设置2、3、4、6、7上拉
+	MOVIA	0x23
+	IOST	_APHCON
+	.line	36, "main.c"; 	INTE = C_INT_PABKey;
+	MOVIA	0x02
+	MOVAR	_INTE
+	.line	37, "main.c"; 	INTF = 0x00;
 	CLRR	_INTF
-	.line	64, "main.c"; 	}
+	.line	38, "main.c"; 	}
 	RETURN	
 ; exit point of _wake_up_init
 
-;***
-;  pBlock Stats: dbName = C
-;***
-;has an exit
-;1 compiler assigned register :
-;   r0x1006
-;; Starting pCode block
-.segment "code"; module=main, function=_timer_init
-	.debuginfo subprogram _timer_init
-_timer_init:
-; 2 exit points
-	.line	50, "main.c"; 	PCON1 = C_TMR0_Dis;
-	CLRA	
-	IOST	_PCON1
-	.line	51, "main.c"; 	TMR0 = 100;
-	MOVIA	0x64
-	MOVAR	_TMR0
-	.line	52, "main.c"; 	T0MD = C_PS0_TMR0;
-	CLRA	
-	T0MD	
-	.line	53, "main.c"; 	T0MD |= C_PS0_Div64;
-	T0MDR	
-	BANKSEL	r0x1006
-	MOVAR	r0x1006
-	MOVIA	0x05
-	IORAR	r0x1006,F
-	MOVR	r0x1006,W
-	T0MD	
-	.line	54, "main.c"; 	INTE = C_INT_TMR0;
-	MOVIA	0x01
-	MOVAR	_INTE
-	.line	55, "main.c"; 	INTF = 0;
-	CLRR	_INTF
-	.line	56, "main.c"; 	}
-	RETURN	
-; exit point of _timer_init
-
 
 ;	code size estimation:
-;	  119+   16 =   135 instructions (  302 byte)
+;	   66+    6 =    72 instructions (  156 byte)
 
 	end

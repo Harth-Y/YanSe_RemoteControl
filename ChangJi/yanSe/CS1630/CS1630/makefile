@@ -2,12 +2,12 @@ ICBODY       := NY8A054E
 CLIENT_NAME  := yanSe
 CB_FILE      := CS1630.cb
 HOST_TOOL    := NYIDE 5.32
-USER_C       := BSP\app_tx.c BSP\bsp_delay.c BSP\bsp_hs6230.c BSP\bsp_rf.c BSP\bsp_spi.c BSP\bsp_usart.c BSP\key.c main.c  
+USER_C       := BSP\app_tx.c BSP\bsp_cs1630.c BSP\bsp_delay.c BSP\bsp_rf.c BSP\bsp_spi.c BSP\bsp_usart.c BSP\key.c main.c  
 LIBS         :=  
 USER_ASM     :=  
 OUT_NAME     := CS1630
 OUT_NAME_U   := CS1630
-CC_PATH      := D:\NY8\NYC_NY8
+CC_PATH      := D:\NYC_NY8
 TEMP_FOLDER  := 
 OBJDIR       := OBJ
 VPATH        := 
@@ -38,11 +38,11 @@ LDFLAGS     := -p $(ICBODY) --client "$(CLIENT_NAME)" -L "$(CC_PATH)/lib"      \
 			   
 
 CFLAGS      := -mny8 --errfmt-ny -p$(ICBODY) -D__CPU_$(ICBODY) --debug \
-               -I"$(CC_PATH)/include" -I"BSP" -I"D:\NY8\NY8_Example_Code\include\NY8 C"  -MD   \
+               -I"$(CC_PATH)/include" -I"BSP" -I"D:\NY8_Example_Code\include\NY8 C"  -MD   \
                --no-peep --no-pcode-opt --backup-stk 2   
 
 ASFLAGS     := -p $(ICBODY) --dbgfmt 2 -g -l --w-no 32797 --lang zh-cn  \
-               -I "$(CC_PATH)/inc" -I "BSP" -I "D:\NY8\NY8_Example_Code\include\NY8 C" 
+               -I "$(CC_PATH)/inc" -I "BSP" -I "D:\NY8_Example_Code\include\NY8 C" 
 
 DEPS        := $(patsubst %.c,%.d, $(USER_C))
 ASM_SRC     := $(USER_ASM)

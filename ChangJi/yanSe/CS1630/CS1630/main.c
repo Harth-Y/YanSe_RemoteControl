@@ -14,10 +14,10 @@ volatile unsigned char g_timer0_delay_conut_2 = 0;
 
 void isr(void) __interrupt(0)
 {
-    if(INTFbits.PABIF)
-    {
-      INTFbits.PABIF = 0;					// 清除PABIF（PortB输入变化中断标志位）
-    }
+  if(INTFbits.PABIF)
+  {
+    INTFbits.PABIF = 0;					// 清除PABIF（PortB输入变化中断标志位）
+  }
 }
 
 void wake_up_init(void)
@@ -26,46 +26,51 @@ void wake_up_init(void)
   BWUCON = 0x00;
   IOSTA = C_PA2_Input | C_PA3_Input | C_PA4_Input | C_PA5_Input | C_PA6_Input | C_PA7_Input;  // 配置PA2、3、4、5、6、7为输入
   APHCON = 0b00100011; // 设置2、3、4、6、7上拉
-
   INTE = C_INT_PABKey;
   INTF = 0x00;
 }
 
 void main(void)
 {
-  //DISI();
-  CS1630_Init();
-  wake_up_init();
-  //ENI();
+  DISI();
+  key_init();
+  CS1630_Init(); // 初始化CS1630模块
+  CS1630_CE_Low(); // 设置CE引脚为低电平，准备发送数据
+  CS1630_ModeSwitch(Rf_PTX_Mode); // 切换到发送模式
+
+  // 配置CS1630模块的寄存器
+  CS1630_write_byte(CS1630_BANK0_FEATURE, 0x04);
+  CS1630_write_byte(CS1630_BANK0_CONFIG, 0x0e);
+  CS1630_write_byte(CS1630_BANK0_SETUP_VALUE, 0x04); // 配置值
+  ENI();
   unsigned char sleep_status = 1;
 
   while (1)
   {
-    key_init();
     sleep_status = Check_Keydown();
 
     if(sleep_status == 0)
     {
-      g_timer0_delay_conut_1 = 0;
-      g_timer0_delay_conut_2 = 0;
+     g_timer0_delay_conut_1 = 0;
+     g_timer0_delay_conut_2 = 0;
     }
 
     g_timer0_delay_conut_1 ++;
 
     if(g_timer0_delay_conut_1 == 255)
     {
-      g_timer0_delay_conut_1 = 0;
-      g_timer0_delay_conut_2 ++;
+     g_timer0_delay_conut_1 = 0;
+     g_timer0_delay_conut_2 ++;
     }
 
-    if(g_timer0_delay_conut_2 == 60)
+    if(g_timer0_delay_conut_2 == 255)
     {
-      g_timer0_delay_conut_2 = 0;
-      wake_up_init();
-      UPDATE_REG(PORTA);
-      INTF = 0x00;
-      SLEEP();
-      INTFbits.PABIF = 0;	// 清除PABIF（PortB输入变化中断标志位）
+     g_timer0_delay_conut_2 = 0;
+     wake_up_init();
+     UPDATE_REG(PORTA);
+     INTF = 0x00;
+     SLEEP();
+     INTFbits.PABIF = 0;	// 清除PABIF（PortB输入变化中断标志位）
     }
 	}
 }

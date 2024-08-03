@@ -222,7 +222,7 @@ NYASM 2.42
                                     1-  176     .segment "code"; module=bsp_usart, function=_usart_send_string
      0000                           1-  178     _usart_send_string:
                                     1-  179     ; 2 exit points
-                                    1-  180     	.line	39, "BSP\bsp_usart.c"; 	void usart_send_string(uint8_t *str)
+                                    1-  180     	.line	37, "BSP\bsp_usart.c"; 	void usart_send_string(uint8_t *str)
                                     1-  181     	BANKSEL	r0x1002
      0000 rrrr                      3-  109 m1      .banksel ram_address
      0001 00rr                      1-  182     	MOVAR	r0x1002
@@ -235,7 +235,7 @@ NYASM 2.42
      0006 rrrr                      3-  109 m1      .banksel ram_address
      0007 00rr                      1-  188     	MOVAR	r0x1004
      0008                           1-  189     _02018_DS_:
-                                    1-  190     	.line	41, "BSP\bsp_usart.c"; 	while (*str)
+                                    1-  190     	.line	39, "BSP\bsp_usart.c"; 	while (*str)
                                     1-  191     	BANKSEL	r0x1004
      0008 rrrr                      3-  109 m1      .banksel ram_address
      0009 01rr                      1-  192     	MOVR	r0x1004,W
@@ -256,7 +256,7 @@ NYASM 2.42
      0014 0D03                      1-  203     	BTRSC	STATUS,2
                                     1-  204     	MGOTO	_02021_DS_
      0015 3rrr                      3-   62 m1      LGOTO rom_address
-                                    1-  205     	.line	43, "BSP\bsp_usart.c"; 	usart_send_byte(*str++);
+                                    1-  205     	.line	41, "BSP\bsp_usart.c"; 	usart_send_byte(*str++);
                                     1-  206     	BANKSEL	r0x1004
      0016 rrrr                      3-  109 m1      .banksel ram_address
      0017 05rr                      1-  207     	INCR	r0x1004,F
@@ -282,7 +282,7 @@ NYASM 2.42
                                     1-  221     	MGOTO	_02018_DS_
      0023 3rrr                      3-   62 m1      LGOTO rom_address
      0024                           1-  222     _02021_DS_:
-                                    1-  223     	.line	45, "BSP\bsp_usart.c"; 	}
+                                    1-  223     	.line	43, "BSP\bsp_usart.c"; 	}
                                     1-  224     	RETURN	
      0024 0010                      3-   39 m1      ret
                                     1-  225     ; exit point of _usart_send_string
@@ -305,45 +305,45 @@ NYASM 2.42
                                     1-  244     ;local variable name mapping:
      0000                           1-  247     _usart_send_byte:
                                     1-  248     ; 2 exit points
-                                    1-  249     	.line	16, "BSP\bsp_usart.c"; 	void usart_send_byte(uint8_t data)
+                                    1-  249     	.line	14, "BSP\bsp_usart.c"; 	void usart_send_byte(uint8_t data)
                                     1-  250     	BANKSEL	r0x1000
      0000 rrrr                      3-  109 m1      .banksel ram_address
      0001 00rr                      1-  251     	MOVAR	r0x1000
-                                    1-  252     	.line	19, "BSP\bsp_usart.c"; 	PORTAbits.PA7=0;
+                                    1-  252     	.line	17, "BSP\bsp_usart.c"; 	PORTAbits.PA7=0;
      0002 1Frr                      1-  253     	BCR	_PORTAbits,7
-                                    1-  254     	.line	20, "BSP\bsp_usart.c"; 	delay_us(17);
+                                    1-  254     	.line	18, "BSP\bsp_usart.c"; 	delay_us(17);
      0003 2111                      1-  255     	MOVIA	0x11
                                     1-  256     	MCALL	_delay_us
      0004 2rrr                      3-   65 m1      LCALL rom_address
-                                    1-  257     	.line	21, "BSP\bsp_usart.c"; 	for (i = 0; i < 8; i++)
+                                    1-  257     	.line	19, "BSP\bsp_usart.c"; 	for (i = 0; i < 8; i++)
                                     1-  258     	BANKSEL	r0x1001
      0005 rrrr                      3-  109 m1      .banksel ram_address
      0006 02rr                      1-  259     	CLRR	r0x1001
      0007                           1-  260     _02013_DS_:
-                                    1-  261     	.line	24, "BSP\bsp_usart.c"; 	if (data & 0x01)
+                                    1-  261     	.line	22, "BSP\bsp_usart.c"; 	if (data & 0x01)
                                     1-  262     	BANKSEL	r0x1000
      0007 rrrr                      3-  109 m1      .banksel ram_address
      0008 08rr                      1-  263     	BTRSS	r0x1000,0
                                     1-  264     	MGOTO	_02010_DS_
      0009 3rrr                      3-   62 m1      LGOTO rom_address
-                                    1-  265     	.line	26, "BSP\bsp_usart.c"; 	PORTAbits.PA7=1;
+                                    1-  265     	.line	24, "BSP\bsp_usart.c"; 	PORTAbits.PA7=1;
      000A 1Brr                      1-  266     	BSR	_PORTAbits,7
                                     1-  267     	MGOTO	_02011_DS_
      000B 3rrr                      3-   62 m1      LGOTO rom_address
      000C                           1-  268     _02010_DS_:
-                                    1-  269     	.line	30, "BSP\bsp_usart.c"; 	PORTAbits.PA7=0;
+                                    1-  269     	.line	28, "BSP\bsp_usart.c"; 	PORTAbits.PA7=0;
      000C 1Frr                      1-  270     	BCR	_PORTAbits,7
      000D                           1-  271     _02011_DS_:
-                                    1-  272     	.line	32, "BSP\bsp_usart.c"; 	data >>= 1;
+                                    1-  272     	.line	30, "BSP\bsp_usart.c"; 	data >>= 1;
      000D 1C03                      1-  273     	BCR	STATUS,0
                                     1-  274     	BANKSEL	r0x1000
      000E rrrr                      3-  109 m1      .banksel ram_address
      000F 13rr                      1-  275     	RRR	r0x1000,F
-                                    1-  276     	.line	33, "BSP\bsp_usart.c"; 	delay_us(17);
+                                    1-  276     	.line	31, "BSP\bsp_usart.c"; 	delay_us(17);
      0010 2111                      1-  277     	MOVIA	0x11
                                     1-  278     	MCALL	_delay_us
      0011 2rrr                      3-   65 m1      LCALL rom_address
-                                    1-  279     	.line	21, "BSP\bsp_usart.c"; 	for (i = 0; i < 8; i++)
+                                    1-  279     	.line	19, "BSP\bsp_usart.c"; 	for (i = 0; i < 8; i++)
                                     1-  280     	BANKSEL	r0x1001
      0012 rrrr                      3-  109 m1      .banksel ram_address
      0013 05rr                      1-  281     	INCR	r0x1001,F
@@ -353,13 +353,13 @@ NYASM 2.42
      0016 0803                      1-  285     	BTRSS	STATUS,0
                                     1-  286     	MGOTO	_02013_DS_
      0017 3rrr                      3-   62 m1      LGOTO rom_address
-                                    1-  287     	.line	35, "BSP\bsp_usart.c"; 	PORTAbits.PA7=1;
+                                    1-  287     	.line	33, "BSP\bsp_usart.c"; 	PORTAbits.PA7=1;
      0018 1Brr                      1-  288     	BSR	_PORTAbits,7
-                                    1-  289     	.line	36, "BSP\bsp_usart.c"; 	delay_us(17);
+                                    1-  289     	.line	34, "BSP\bsp_usart.c"; 	delay_us(17);
      0019 2111                      1-  290     	MOVIA	0x11
                                     1-  291     	MCALL	_delay_us
      001A 2rrr                      3-   65 m1      LCALL rom_address
-                                    1-  292     	.line	37, "BSP\bsp_usart.c"; 	}
+                                    1-  292     	.line	35, "BSP\bsp_usart.c"; 	}
                                     1-  293     	RETURN	
      001B 0010                      3-   39 m1      ret
                                     1-  294     ; exit point of _usart_send_byte
@@ -371,24 +371,18 @@ NYASM 2.42
                                     1-  301     .segment "code"; module=bsp_usart, function=_usart_init
      0000                           1-  303     _usart_init:
                                     1-  304     ; 2 exit points
-                                    1-  305     	.line	10, "BSP\bsp_usart.c"; 	IOSTA = 0;
+                                    1-  305     	.line	10, "BSP\bsp_usart.c"; 	IOSTA = C_PA7_Output;
      0000 0200                      1-  306     	CLRA	
      0001 000r                      1-  307     	IOST	_IOSTA
-                                    1-  308     	.line	11, "BSP\bsp_usart.c"; 	APHCON = 0;
-     0002 0200                      1-  309     	CLRA	
-     0003 000r                      1-  310     	IOST	_APHCON
-                                    1-  311     	.line	12, "BSP\bsp_usart.c"; 	PORTA = 0x40;
-     0004 2140                      1-  312     	MOVIA	0x40
-     0005 00rr                      1-  313     	MOVAR	_PORTA
-                                    1-  314     	.line	13, "BSP\bsp_usart.c"; 	PORTAbits.PA7=1;
-     0006 1Brr                      1-  315     	BSR	_PORTAbits,7
-                                    1-  316     	.line	14, "BSP\bsp_usart.c"; 	}
-                                    1-  317     	RETURN	
-     0007 0010                      3-   39 m1      ret
-                                    1-  318     ; exit point of _usart_init
-                                    1-  321     ;	code size estimation:
-                                    1-  322     ;	   57+   16 =    73 instructions (  178 byte)
-                                    1-  324     	end
+                                    1-  308     	.line	11, "BSP\bsp_usart.c"; 	PORTAbits.PA7=1;
+     0002 1Brr                      1-  309     	BSR	_PORTAbits,7
+                                    1-  310     	.line	12, "BSP\bsp_usart.c"; 	}
+                                    1-  311     	RETURN	
+     0003 0010                      3-   39 m1      ret
+                                    1-  312     ; exit point of _usart_init
+                                    1-  315     ;	code size estimation:
+                                    1-  316     ;	   53+   16 =    69 instructions (  170 byte)
+                                    1-  318     	end
 
 SYMBOL TABLE            TYPE     VALUE
 __pin_count__           Constant 0000000E

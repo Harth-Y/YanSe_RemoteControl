@@ -177,28 +177,28 @@ r0x1003:
 .segment "code"; module=bsp_spi, function=_SPI_ReadByte
 	.debuginfo subprogram _SPI_ReadByte
 ;local variable name mapping:
-	.debuginfo complex-type (local-sym "_byte" 1 "BSP\bsp_spi.c" 73 (basetype 1 unsigned) split "r0x1000")
-	.debuginfo complex-type (local-sym "_bit_ctr" 1 "BSP\bsp_spi.c" 72 (basetype 1 unsigned) split "r0x1001")
-	.debuginfo complex-type (local-sym "_temp" 1 "BSP\bsp_spi.c" 74 (bit 5 1) split "r0x1003")
+	.debuginfo complex-type (local-sym "_byte" 1 "BSP\bsp_spi.c" 61 (basetype 1 unsigned) split "r0x1000")
+	.debuginfo complex-type (local-sym "_bit_ctr" 1 "BSP\bsp_spi.c" 60 (basetype 1 unsigned) split "r0x1001")
+	.debuginfo complex-type (local-sym "_temp" 1 "BSP\bsp_spi.c" 62 (bit 5 1) split "r0x1003")
 _SPI_ReadByte:
 ; 2 exit points
-	.line	73, "BSP\bsp_spi.c"; 	unsigned char byte = 0;
+	.line	61, "BSP\bsp_spi.c"; 	unsigned char byte = 0;
 	BANKSEL	r0x1000
 	CLRR	r0x1000
-	.line	76, "BSP\bsp_spi.c"; 	IOSTB = C_PB5_Input;
+	.line	64, "BSP\bsp_spi.c"; 	IOSTB = C_PB5_Input;
 	MOVIA	0x20
 	IOST	_IOSTB
-	.line	78, "BSP\bsp_spi.c"; 	for(bit_ctr = 0;bit_ctr < 8;bit_ctr ++) // output 8-bit
+	.line	66, "BSP\bsp_spi.c"; 	for(bit_ctr = 0;bit_ctr < 8;bit_ctr ++) // output 8-bit
 	BANKSEL	r0x1001
 	CLRR	r0x1001
 _02070_DS_:
-	.line	80, "BSP\bsp_spi.c"; 	byte = byte << 1;
+	.line	68, "BSP\bsp_spi.c"; 	byte = byte << 1;
 	BCR	STATUS,0
 	BANKSEL	r0x1000
 	RLR	r0x1000,W
 	BANKSEL	r0x1002
 	MOVAR	r0x1002
-	.line	81, "BSP\bsp_spi.c"; 	RF_SCK_H();
+	.line	69, "BSP\bsp_spi.c"; 	RF_SCK_H();
 	nop
 	nop
 	nop
@@ -206,18 +206,18 @@ _02070_DS_:
 	nop
 	nop
 	nop
-	.line	82, "BSP\bsp_spi.c"; 	temp = RF_Reag_SDIO();
+	.line	70, "BSP\bsp_spi.c"; 	temp = RF_Reag_SDIO();
 	BANKSEL	r0x1003
 	CLRR	r0x1003
 	BTRSC	_PORTBbits,5
 	INCR	r0x1003,F
-	.line	83, "BSP\bsp_spi.c"; 	byte |= temp;
+	.line	71, "BSP\bsp_spi.c"; 	byte |= temp;
 	MOVR	r0x1003,W
 	BANKSEL	r0x1002
 	IORAR	r0x1002,W
 	BANKSEL	r0x1000
 	MOVAR	r0x1000
-	.line	84, "BSP\bsp_spi.c"; 	RF_SCK_L();
+	.line	72, "BSP\bsp_spi.c"; 	RF_SCK_L();
 	nop
 	nop
 	nop
@@ -225,9 +225,9 @@ _02070_DS_:
 	nop
 	nop
 	nop
-	.line	85, "BSP\bsp_spi.c"; 	NOP();
+	.line	73, "BSP\bsp_spi.c"; 	NOP();
 	nop
-	.line	78, "BSP\bsp_spi.c"; 	for(bit_ctr = 0;bit_ctr < 8;bit_ctr ++) // output 8-bit
+	.line	66, "BSP\bsp_spi.c"; 	for(bit_ctr = 0;bit_ctr < 8;bit_ctr ++) // output 8-bit
 	BANKSEL	r0x1001
 	INCR	r0x1001,F
 ;;unsigned compare: left < lit(0x8=8), size=1
@@ -235,10 +235,10 @@ _02070_DS_:
 	SUBAR	r0x1001,W
 	BTRSS	STATUS,0
 	MGOTO	_02070_DS_
-	.line	88, "BSP\bsp_spi.c"; 	return (byte); // return read byte
+	.line	76, "BSP\bsp_spi.c"; 	return (byte); // return read byte
 	BANKSEL	r0x1000
 	MOVR	r0x1000,W
-	.line	89, "BSP\bsp_spi.c"; 	}
+	.line	77, "BSP\bsp_spi.c"; 	}
 	RETURN	
 ; exit point of _SPI_ReadByte
 
@@ -255,24 +255,24 @@ _02070_DS_:
 .segment "code"; module=bsp_spi, function=_SPI_SendByte
 	.debuginfo subprogram _SPI_SendByte
 ;local variable name mapping:
-	.debuginfo complex-type (local-sym "_TxData" 1 "BSP\bsp_spi.c" 41 (basetype 1 unsigned) split "r0x1004")
-	.debuginfo complex-type (local-sym "_i" 2 "BSP\bsp_spi.c" 43 (basetype 2 signed) split "r0x1005" "r0x1006")
-	.debuginfo complex-type (local-sym "_data_output_bit" 1 "BSP\bsp_spi.c" 44 (basetype 1 unsigned) split "r0x1007")
+	.debuginfo complex-type (local-sym "_TxData" 1 "BSP\bsp_spi.c" 29 (basetype 1 unsigned) split "r0x1004")
+	.debuginfo complex-type (local-sym "_i" 2 "BSP\bsp_spi.c" 31 (basetype 2 signed) split "r0x1005" "r0x1006")
+	.debuginfo complex-type (local-sym "_data_output_bit" 1 "BSP\bsp_spi.c" 32 (basetype 1 unsigned) split "r0x1007")
 _SPI_SendByte:
 ; 2 exit points
-	.line	41, "BSP\bsp_spi.c"; 	void SPI_SendByte(unsigned char TxData)
+	.line	29, "BSP\bsp_spi.c"; 	void SPI_SendByte(unsigned char TxData)
 	BANKSEL	r0x1004
 	MOVAR	r0x1004
-	.line	45, "BSP\bsp_spi.c"; 	IOSTB = C_PB5_Output;
+	.line	33, "BSP\bsp_spi.c"; 	IOSTB = C_PB5_Output;
 	CLRA	
 	IOST	_IOSTB
-	.line	47, "BSP\bsp_spi.c"; 	for(i = 0; i < 8; i ++)
+	.line	35, "BSP\bsp_spi.c"; 	for(i = 0; i < 8; i ++)
 	BANKSEL	r0x1005
 	CLRR	r0x1005
 	BANKSEL	r0x1006
 	CLRR	r0x1006
 _02035_DS_:
-	.line	49, "BSP\bsp_spi.c"; 	data_output_bit = TxData & 0x80 ? 1 : 0;
+	.line	37, "BSP\bsp_spi.c"; 	data_output_bit = TxData & 0x80 ? 1 : 0;
 	BANKSEL	r0x1004
 	BTRSS	r0x1004,7
 	MGOTO	_02039_DS_
@@ -284,7 +284,7 @@ _02039_DS_:
 	BANKSEL	r0x1007
 	CLRR	r0x1007
 _02040_DS_:
-	.line	50, "BSP\bsp_spi.c"; 	RF_SCK_L();
+	.line	38, "BSP\bsp_spi.c"; 	RF_SCK_L();
 	nop
 	nop
 	nop
@@ -292,12 +292,12 @@ _02040_DS_:
 	nop
 	nop
 	nop
-	.line	51, "BSP\bsp_spi.c"; 	if(data_output_bit)
+	.line	39, "BSP\bsp_spi.c"; 	if(data_output_bit)
 	BANKSEL	r0x1007
 	MOVR	r0x1007,W
 	BTRSC	STATUS,2
 	MGOTO	_02019_DS_
-	.line	53, "BSP\bsp_spi.c"; 	RF_SDIO_H();
+	.line	41, "BSP\bsp_spi.c"; 	RF_SDIO_H();
 	nop
 	nop
 	nop
@@ -307,7 +307,7 @@ _02040_DS_:
 	nop
 	MGOTO	_02025_DS_
 _02019_DS_:
-	.line	57, "BSP\bsp_spi.c"; 	RF_SDIO_L();
+	.line	45, "BSP\bsp_spi.c"; 	RF_SDIO_L();
 	nop
 	nop
 	nop
@@ -316,7 +316,7 @@ _02019_DS_:
 	nop
 	nop
 _02025_DS_:
-	.line	59, "BSP\bsp_spi.c"; 	RF_SCK_H();
+	.line	47, "BSP\bsp_spi.c"; 	RF_SCK_H();
 	nop
 	nop
 	nop
@@ -324,15 +324,15 @@ _02025_DS_:
 	nop
 	nop
 	nop
-	.line	60, "BSP\bsp_spi.c"; 	NOP_DELAY();
+	.line	48, "BSP\bsp_spi.c"; 	NOP_DELAY();
 	nop
 	nop
 	nop
-	.line	61, "BSP\bsp_spi.c"; 	TxData = TxData << 1;
+	.line	49, "BSP\bsp_spi.c"; 	TxData = TxData << 1;
 	BCR	STATUS,0
 	BANKSEL	r0x1004
 	RLR	r0x1004,F
-	.line	47, "BSP\bsp_spi.c"; 	for(i = 0; i < 8; i ++)
+	.line	35, "BSP\bsp_spi.c"; 	for(i = 0; i < 8; i ++)
 	BANKSEL	r0x1005
 	INCR	r0x1005,F
 	BTRSS	STATUS,2
@@ -353,7 +353,7 @@ _00001_DS_:
 _02058_DS_:
 	BTRSS	STATUS,0
 	MGOTO	_02035_DS_
-	.line	64, "BSP\bsp_spi.c"; 	RF_SDIO_L();
+	.line	52, "BSP\bsp_spi.c"; 	RF_SDIO_L();
 	nop
 	nop
 	nop
@@ -361,7 +361,7 @@ _02058_DS_:
 	nop
 	nop
 	nop
-	.line	65, "BSP\bsp_spi.c"; 	RF_SCK_L();
+	.line	53, "BSP\bsp_spi.c"; 	RF_SCK_L();
 	nop
 	nop
 	nop
@@ -369,7 +369,7 @@ _02058_DS_:
 	nop
 	nop
 	nop
-	.line	67, "BSP\bsp_spi.c"; 	NOP_DELAY();NOP_DELAY();NOP_DELAY();
+	.line	55, "BSP\bsp_spi.c"; 	NOP_DELAY();NOP_DELAY();NOP_DELAY();
 	nop
 	nop
 	nop
@@ -379,7 +379,7 @@ _02058_DS_:
 	nop
 	nop
 	nop
-	.line	68, "BSP\bsp_spi.c"; 	}
+	.line	56, "BSP\bsp_spi.c"; 	}
 	RETURN	
 ; exit point of _SPI_SendByte
 
@@ -398,23 +398,23 @@ _02058_DS_:
 .segment "code"; module=bsp_spi, function=_RF_spi_wrd
 	.debuginfo subprogram _RF_spi_wrd
 ;local variable name mapping:
-	.debuginfo complex-type (local-sym "_Data" 1 "BSP\bsp_spi.c" 31 (basetype 1 unsigned) split "r0x1008")
-	.debuginfo complex-type (local-sym "_dt" 1 "BSP\bsp_spi.c" 33 (basetype 1 unsigned) split "r0x1008")
+	.debuginfo complex-type (local-sym "_Data" 1 "BSP\bsp_spi.c" 19 (basetype 1 unsigned) split "r0x1008")
+	.debuginfo complex-type (local-sym "_dt" 1 "BSP\bsp_spi.c" 21 (basetype 1 unsigned) split "r0x1008")
 _RF_spi_wrd:
 ; 2 exit points
-	.line	31, "BSP\bsp_spi.c"; 	unsigned char RF_spi_wrd(unsigned char Data)
+	.line	19, "BSP\bsp_spi.c"; 	unsigned char RF_spi_wrd(unsigned char Data)
 	BANKSEL	r0x1008
 	MOVAR	r0x1008
-	.line	36, "BSP\bsp_spi.c"; 	SPI_SendByte(dts);
+	.line	24, "BSP\bsp_spi.c"; 	SPI_SendByte(dts);
 	MOVR	r0x1008,W
 	MCALL	_SPI_SendByte
-	.line	37, "BSP\bsp_spi.c"; 	dt = SPI_ReadByte();
+	.line	25, "BSP\bsp_spi.c"; 	dt = SPI_ReadByte();
 	MCALL	_SPI_ReadByte
 	BANKSEL	r0x1008
 	MOVAR	r0x1008
-	.line	38, "BSP\bsp_spi.c"; 	return dt;
+	.line	26, "BSP\bsp_spi.c"; 	return dt;
 	MOVR	r0x1008,W
-	.line	39, "BSP\bsp_spi.c"; 	}
+	.line	27, "BSP\bsp_spi.c"; 	}
 	RETURN	
 ; exit point of _RF_spi_wrd
 
@@ -427,16 +427,16 @@ _RF_spi_wrd:
 	.debuginfo subprogram _RF_softSPI_Init
 _RF_softSPI_Init:
 ; 2 exit points
-	.line	23, "BSP\bsp_spi.c"; 	IOSTA = C_PA0_Output; // SCK
+	.line	11, "BSP\bsp_spi.c"; 	IOSTA = C_PA0_Output; // SCK
 	CLRA	
 	IOST	_IOSTA
-	.line	24, "BSP\bsp_spi.c"; 	IOSTA = C_PA1_Output; // CSN
+	.line	12, "BSP\bsp_spi.c"; 	IOSTA = C_PA1_Output; // CSN
 	CLRA	
 	IOST	_IOSTA
-	.line	25, "BSP\bsp_spi.c"; 	IOSTB = C_PB5_Output; // SDA
+	.line	13, "BSP\bsp_spi.c"; 	IOSTB = C_PB5_Output; // SDA
 	CLRA	
 	IOST	_IOSTB
-	.line	28, "BSP\bsp_spi.c"; 	RF_CSN_L();
+	.line	16, "BSP\bsp_spi.c"; 	RF_CSN_L();
 	nop
 	nop
 	nop
@@ -444,7 +444,7 @@ _RF_softSPI_Init:
 	nop
 	nop
 	nop
-	.line	29, "BSP\bsp_spi.c"; 	}
+	.line	17, "BSP\bsp_spi.c"; 	}
 	RETURN	
 ; exit point of _RF_softSPI_Init
 

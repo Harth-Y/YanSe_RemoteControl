@@ -177,7 +177,7 @@ r0x1005:
 	.debuginfo subprogram _usart_send_string
 _usart_send_string:
 ; 2 exit points
-	.line	39, "BSP\bsp_usart.c"; 	void usart_send_string(uint8_t *str)
+	.line	37, "BSP\bsp_usart.c"; 	void usart_send_string(uint8_t *str)
 	BANKSEL	r0x1002
 	MOVAR	r0x1002
 	MOVR	STK00,W
@@ -187,7 +187,7 @@ _usart_send_string:
 	BANKSEL	r0x1004
 	MOVAR	r0x1004
 _02018_DS_:
-	.line	41, "BSP\bsp_usart.c"; 	while (*str)
+	.line	39, "BSP\bsp_usart.c"; 	while (*str)
 	BANKSEL	r0x1004
 	MOVR	r0x1004,W
 	MOVAR	STK01
@@ -202,7 +202,7 @@ _02018_DS_:
 	MOVR	r0x1005,W
 	BTRSC	STATUS,2
 	MGOTO	_02021_DS_
-	.line	43, "BSP\bsp_usart.c"; 	usart_send_byte(*str++);
+	.line	41, "BSP\bsp_usart.c"; 	usart_send_byte(*str++);
 	BANKSEL	r0x1004
 	INCR	r0x1004,F
 	BTRSS	STATUS,2
@@ -220,7 +220,7 @@ _00002_DS_:
 	MCALL	_usart_send_byte
 	MGOTO	_02018_DS_
 _02021_DS_:
-	.line	45, "BSP\bsp_usart.c"; 	}
+	.line	43, "BSP\bsp_usart.c"; 	}
 	RETURN	
 ; exit point of _usart_send_string
 
@@ -242,41 +242,41 @@ _02021_DS_:
 .segment "code"; module=bsp_usart, function=_usart_send_byte
 	.debuginfo subprogram _usart_send_byte
 ;local variable name mapping:
-	.debuginfo complex-type (local-sym "_data" 1 "BSP\bsp_usart.c" 16 (basetype 1 unsigned) split "r0x1000")
-	.debuginfo complex-type (local-sym "_i" 1 "BSP\bsp_usart.c" 18 (basetype 1 unsigned) split "r0x1001")
+	.debuginfo complex-type (local-sym "_data" 1 "BSP\bsp_usart.c" 14 (basetype 1 unsigned) split "r0x1000")
+	.debuginfo complex-type (local-sym "_i" 1 "BSP\bsp_usart.c" 16 (basetype 1 unsigned) split "r0x1001")
 _usart_send_byte:
 ; 2 exit points
-	.line	16, "BSP\bsp_usart.c"; 	void usart_send_byte(uint8_t data)
+	.line	14, "BSP\bsp_usart.c"; 	void usart_send_byte(uint8_t data)
 	BANKSEL	r0x1000
 	MOVAR	r0x1000
-	.line	19, "BSP\bsp_usart.c"; 	PORTAbits.PA7=0;
+	.line	17, "BSP\bsp_usart.c"; 	PORTAbits.PA7=0;
 	BCR	_PORTAbits,7
-	.line	20, "BSP\bsp_usart.c"; 	delay_us(17);
+	.line	18, "BSP\bsp_usart.c"; 	delay_us(17);
 	MOVIA	0x11
 	MCALL	_delay_us
-	.line	21, "BSP\bsp_usart.c"; 	for (i = 0; i < 8; i++)
+	.line	19, "BSP\bsp_usart.c"; 	for (i = 0; i < 8; i++)
 	BANKSEL	r0x1001
 	CLRR	r0x1001
 _02013_DS_:
-	.line	24, "BSP\bsp_usart.c"; 	if (data & 0x01)
+	.line	22, "BSP\bsp_usart.c"; 	if (data & 0x01)
 	BANKSEL	r0x1000
 	BTRSS	r0x1000,0
 	MGOTO	_02010_DS_
-	.line	26, "BSP\bsp_usart.c"; 	PORTAbits.PA7=1;
+	.line	24, "BSP\bsp_usart.c"; 	PORTAbits.PA7=1;
 	BSR	_PORTAbits,7
 	MGOTO	_02011_DS_
 _02010_DS_:
-	.line	30, "BSP\bsp_usart.c"; 	PORTAbits.PA7=0;
+	.line	28, "BSP\bsp_usart.c"; 	PORTAbits.PA7=0;
 	BCR	_PORTAbits,7
 _02011_DS_:
-	.line	32, "BSP\bsp_usart.c"; 	data >>= 1;
+	.line	30, "BSP\bsp_usart.c"; 	data >>= 1;
 	BCR	STATUS,0
 	BANKSEL	r0x1000
 	RRR	r0x1000,F
-	.line	33, "BSP\bsp_usart.c"; 	delay_us(17);
+	.line	31, "BSP\bsp_usart.c"; 	delay_us(17);
 	MOVIA	0x11
 	MCALL	_delay_us
-	.line	21, "BSP\bsp_usart.c"; 	for (i = 0; i < 8; i++)
+	.line	19, "BSP\bsp_usart.c"; 	for (i = 0; i < 8; i++)
 	BANKSEL	r0x1001
 	INCR	r0x1001,F
 ;;unsigned compare: left < lit(0x8=8), size=1
@@ -284,12 +284,12 @@ _02011_DS_:
 	SUBAR	r0x1001,W
 	BTRSS	STATUS,0
 	MGOTO	_02013_DS_
-	.line	35, "BSP\bsp_usart.c"; 	PORTAbits.PA7=1;
+	.line	33, "BSP\bsp_usart.c"; 	PORTAbits.PA7=1;
 	BSR	_PORTAbits,7
-	.line	36, "BSP\bsp_usart.c"; 	delay_us(17);
+	.line	34, "BSP\bsp_usart.c"; 	delay_us(17);
 	MOVIA	0x11
 	MCALL	_delay_us
-	.line	37, "BSP\bsp_usart.c"; 	}
+	.line	35, "BSP\bsp_usart.c"; 	}
 	RETURN	
 ; exit point of _usart_send_byte
 
@@ -302,23 +302,17 @@ _02011_DS_:
 	.debuginfo subprogram _usart_init
 _usart_init:
 ; 2 exit points
-	.line	10, "BSP\bsp_usart.c"; 	IOSTA = 0;
+	.line	10, "BSP\bsp_usart.c"; 	IOSTA = C_PA7_Output;
 	CLRA	
 	IOST	_IOSTA
-	.line	11, "BSP\bsp_usart.c"; 	APHCON = 0;
-	CLRA	
-	IOST	_APHCON
-	.line	12, "BSP\bsp_usart.c"; 	PORTA = 0x40;
-	MOVIA	0x40
-	MOVAR	_PORTA
-	.line	13, "BSP\bsp_usart.c"; 	PORTAbits.PA7=1;
+	.line	11, "BSP\bsp_usart.c"; 	PORTAbits.PA7=1;
 	BSR	_PORTAbits,7
-	.line	14, "BSP\bsp_usart.c"; 	}
+	.line	12, "BSP\bsp_usart.c"; 	}
 	RETURN	
 ; exit point of _usart_init
 
 
 ;	code size estimation:
-;	   57+   16 =    73 instructions (  178 byte)
+;	   53+   16 =    69 instructions (  170 byte)
 
 	end
