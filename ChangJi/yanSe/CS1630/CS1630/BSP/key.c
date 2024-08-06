@@ -137,7 +137,7 @@ unsigned char Check_Keydown()
                 // led
                 led();
 
-                if(KeyStatus_s == 1)
+                if(KeyStatus_s == 1) // 按键屏蔽时间，在按下后的250ms内不会再次发送数据包，需要长按超过250ms才会持续发送
                 {
                     KeyStatus_s = 0;
                     delay_250ms();
