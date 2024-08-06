@@ -25,11 +25,9 @@ void key_init(void)
     // 配置PA按钮
 	IOSTA = C_PA2_Input | C_PA3_Input | C_PA4_Input | C_PA5_Input | C_PA6_Input | C_PA7_Input;  // 配置PA2、3、4、5、6、7为输入
 	//IOSTA = C_PA2_Input | C_PA3_Input | C_PA4_Input | C_PA5_Input | C_PA6_Input; // 配置PA2、3、4、5、6为输入
-
     APHCON = 0b00100011; // 设置2、3、4、6、7上拉
     //APHCON = 0b10100011; // 设置2、3、4、6上拉
 	PCON = 0xc8; // 设置5上拉
-
     //配置PB按钮
 	IOSTB = C_PB0_Output | C_PB1_Output | C_PB2_Output | C_PB3_Output | C_PB4_Output; // 配置PB为输出低电平
 	set_PB_low();
@@ -46,7 +44,6 @@ void led_open(void)
         delay_us(15);
     }
 }
-
 void led(void)
 {
     led_open();
@@ -60,7 +57,6 @@ void led(void)
 
 unsigned char Check_Keydown()
 {
-    key_init();
     unsigned char KeyValue=0;
     unsigned char sCodeValue = 0;
     unsigned char KeyStatus = 0;
@@ -125,24 +121,21 @@ unsigned char Check_Keydown()
             key_init();
 
             sCodeValue = KeyValue - 0x01;
-
             KeyStatus = 0;
             KeyStatus = PORTA & 0xfc;
             KeyStatus_s = 1;
-
             while(0xfc != (PORTA & 0xfC))
             {
+                // 等待，准备下一次发送
                 // 发送数据包
                 send_ble_packet(sCodeValue);
                 // led
                 led();
-
                 if(KeyStatus_s == 1) // 按键屏蔽时间，在按下后的250ms内不会再次发送数据包，需要长按超过250ms才会持续发送
                 {
                     KeyStatus_s = 0;
                     delay_250ms();
                 }
-
                 key_init();
                 if(KeyStatus != (PORTA & 0xfc))
                 return 0;

@@ -355,30 +355,21 @@ END_OF_INTERRUPT:
 ;functions called:
 ;   _key_init
 ;   _CS1630_Init
-;   _CS1630_CE_Low
-;   _CS1630_ModeSwitch
-;   _CS1630_write_byte
-;   _CS1630_write_byte
-;   _CS1630_write_byte
+;   _key_init
 ;   _Check_Keydown
 ;   _wake_up_init
 ;   _key_init
 ;   _CS1630_Init
-;   _CS1630_CE_Low
-;   _CS1630_ModeSwitch
-;   _CS1630_write_byte
-;   _CS1630_write_byte
-;   _CS1630_write_byte
+;   _key_init
 ;   _Check_Keydown
 ;   _wake_up_init
-;2 compiler assigned registers:
-;   STK00
+;1 compiler assigned register :
 ;   r0x1005
 ;; Starting pCode block
 .segment "code"; module=main, function=_main
 	.debuginfo subprogram _main
 ;local variable name mapping:
-	.debuginfo complex-type (local-sym "_sleep_status" 1 "main.c" 46 (basetype 1 unsigned) split "r0x1005")
+	.debuginfo complex-type (local-sym "_sleep_status" 1 "main.c" 39 (basetype 1 unsigned) split "r0x1005")
 _main:
 ; 2 exit points
 	.line	35, "main.c"; 	DISI();
@@ -387,45 +378,27 @@ _main:
 	MCALL	_key_init
 	.line	37, "main.c"; 	CS1630_Init(); // 初始化CS1630模块
 	MCALL	_CS1630_Init
-	.line	38, "main.c"; 	CS1630_CE_Low(); // 设置CE引脚为低电平，准备发送数据
-	MCALL	_CS1630_CE_Low
-	.line	39, "main.c"; 	CS1630_ModeSwitch(Rf_PTX_Mode); // 切换到发送模式
-	MOVIA	0x01
-	MCALL	_CS1630_ModeSwitch
-	.line	42, "main.c"; 	CS1630_write_byte(CS1630_BANK0_FEATURE, 0x04);
-	MOVIA	0x04
-	MOVAR	STK00
-	MOVIA	0x1d
-	MCALL	_CS1630_write_byte
-	.line	43, "main.c"; 	CS1630_write_byte(CS1630_BANK0_CONFIG, 0x0e);
-	MOVIA	0x0e
-	MOVAR	STK00
-	MOVIA	0x00
-	MCALL	_CS1630_write_byte
-	.line	44, "main.c"; 	CS1630_write_byte(CS1630_BANK0_SETUP_VALUE, 0x04); // 配置值
-	MOVIA	0x04
-	MOVAR	STK00
-	MOVIA	0x1e
-	MCALL	_CS1630_write_byte
-	.line	45, "main.c"; 	ENI();
+	.line	38, "main.c"; 	ENI();
 	ENI
 _02023_DS_:
-	.line	50, "main.c"; 	sleep_status = Check_Keydown();
+	.line	43, "main.c"; 	key_init();
+	MCALL	_key_init
+	.line	44, "main.c"; 	sleep_status = Check_Keydown();
 	MCALL	_Check_Keydown
 	BANKSEL	r0x1005
 	MOVAR	r0x1005
-	.line	52, "main.c"; 	if(sleep_status == 0)
+	.line	46, "main.c"; 	if(sleep_status == 0)
 	MOVR	r0x1005,W
 	BTRSS	STATUS,2
 	MGOTO	_02017_DS_
-	.line	54, "main.c"; 	g_timer0_delay_conut_1 = 0;
+	.line	48, "main.c"; 	g_timer0_delay_conut_1 = 0;
 	BANKSEL	_g_timer0_delay_conut_1
 	CLRR	_g_timer0_delay_conut_1
-	.line	55, "main.c"; 	g_timer0_delay_conut_2 = 0;
+	.line	49, "main.c"; 	g_timer0_delay_conut_2 = 0;
 	BANKSEL	_g_timer0_delay_conut_2
 	CLRR	_g_timer0_delay_conut_2
 _02017_DS_:
-	.line	58, "main.c"; 	g_timer0_delay_conut_1 ++;
+	.line	52, "main.c"; 	g_timer0_delay_conut_1 ++;
 	BANKSEL	_g_timer0_delay_conut_1
 	MOVR	_g_timer0_delay_conut_1,W
 	BANKSEL	r0x1005
@@ -433,14 +406,14 @@ _02017_DS_:
 	INCR	r0x1005,W
 	BANKSEL	_g_timer0_delay_conut_1
 	MOVAR	_g_timer0_delay_conut_1
-	.line	60, "main.c"; 	if(g_timer0_delay_conut_1 == 255)
+	.line	54, "main.c"; 	if(g_timer0_delay_conut_1 == 255)
 	MOVR	_g_timer0_delay_conut_1,W
 	XORIA	0xff
 	BTRSS	STATUS,2
 	MGOTO	_02019_DS_
-	.line	62, "main.c"; 	g_timer0_delay_conut_1 = 0;
+	.line	56, "main.c"; 	g_timer0_delay_conut_1 = 0;
 	CLRR	_g_timer0_delay_conut_1
-	.line	63, "main.c"; 	g_timer0_delay_conut_2 ++;
+	.line	57, "main.c"; 	g_timer0_delay_conut_2 ++;
 	BANKSEL	_g_timer0_delay_conut_2
 	MOVR	_g_timer0_delay_conut_2,W
 	BANKSEL	r0x1005
@@ -449,27 +422,27 @@ _02017_DS_:
 	BANKSEL	_g_timer0_delay_conut_2
 	MOVAR	_g_timer0_delay_conut_2
 _02019_DS_:
-	.line	66, "main.c"; 	if(g_timer0_delay_conut_2 == 255)
+	.line	60, "main.c"; 	if(g_timer0_delay_conut_2 == 255)
 	BANKSEL	_g_timer0_delay_conut_2
 	MOVR	_g_timer0_delay_conut_2,W
 	XORIA	0xff
 	BTRSS	STATUS,2
 	MGOTO	_02023_DS_
-	.line	68, "main.c"; 	g_timer0_delay_conut_2 = 0;
+	.line	62, "main.c"; 	g_timer0_delay_conut_2 = 0;
 	CLRR	_g_timer0_delay_conut_2
-	.line	69, "main.c"; 	wake_up_init();
+	.line	63, "main.c"; 	wake_up_init();
 	MCALL	_wake_up_init
-	.line	70, "main.c"; 	UPDATE_REG(PORTA);
+	.line	64, "main.c"; 	UPDATE_REG(PORTA);
 	MOVR	_PORTA,F
-	.line	71, "main.c"; 	INTF = 0x00;
+	.line	65, "main.c"; 	INTF = 0x00;
 	CLRR	_INTF
-	.line	72, "main.c"; 	SLEEP();
+	.line	66, "main.c"; 	SLEEP();
 	sleep
-	.line	73, "main.c"; 	INTFbits.PABIF = 0;	// 清除PABIF（PortB输入变化中断标志位）
+	.line	67, "main.c"; 	INTFbits.PABIF = 0;	// 清除PABIF（PortB输入变化中断标志位）
 	MOVIA	0xfd
 	MOVAR	(_INTFbits + 0)
 	MGOTO	_02023_DS_
-	.line	76, "main.c"; 	}
+	.line	70, "main.c"; 	}
 	RETURN	
 ; exit point of _main
 
@@ -504,6 +477,6 @@ _wake_up_init:
 
 
 ;	code size estimation:
-;	   90+   16 =   106 instructions (  244 byte)
+;	   76+   16 =    92 instructions (  216 byte)
 
 	end

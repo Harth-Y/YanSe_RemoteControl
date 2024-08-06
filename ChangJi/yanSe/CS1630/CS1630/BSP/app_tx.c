@@ -3,7 +3,6 @@
 #include "bsp_delay.h"
 #include "app_tx.h"
 //#include "bsp_usart.h"
-
 static unsigned char CS1630_Tx_Payload[32] = {
     0x02, // 数据包长度的首字节
     0x01, // 数据包类型
@@ -39,25 +38,27 @@ void send_ble_packet(unsigned char code_value)
     unsigned char k = 0;             // 循环计数器
     unsigned char idx = 0;           // 用于遍历频道索引的计数器
     unsigned char status = 0x00;     // 状态寄存器，用于读取发送状态
-
     s_data_num++;
-
-
+    CS1630_Init(); // 初始化CS1630模块
+    CS1630_CE_Low(); // 设置CE引脚为低电平，准备发送数据
+    CS1630_ModeSwitch(Rf_PTX_Mode); // 切换到发送模式
+    // 配置CS1630模块的寄存器
+    CS1630_write_byte(CS1630_BANK0_FEATURE, 0x04);
+    CS1630_write_byte(CS1630_BANK0_CONFIG, 0x0e);
+    CS1630_write_byte(CS1630_BANK0_SETUP_VALUE, 0x04); // 配置值
     // 构建数据包
     CS1630_Tx_Payload[7] = s_data_num; // 序号，用于区分不同数据包
     CS1630_Tx_Payload[8] = code_value; // 码值，用于指示功能
-
 
     // 重置CE，清空TX缓冲区，清除所有中断
     CS1630_CE_Low();
     CS1630_Flush_Tx();
     CS1630_Clear_All_Irq();
-
     // 配置寄存器以发送数据
     CS1630_write_byte(CS1630_BANK0_CONFIG, 0x0e);
     delay_ms(5);
     // 发送数据包的循环
-    for ( k = 0; k < 4; i++)
+    for (k = 0; k < 3; k++)
     {
         // 遍历频道索引数组，发送数据
         for(idx = 0; idx < 3; idx++)
@@ -84,4 +85,6 @@ void send_ble_packet(unsigned char code_value)
     }
     // 重置配置寄存器
     CS1630_write_byte(CS1630_BANK0_CONFIG, 0x00);
+    delay_ms(1);
+
 }

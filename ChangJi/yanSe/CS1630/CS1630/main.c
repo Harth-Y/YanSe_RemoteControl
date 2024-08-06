@@ -32,21 +32,15 @@ void wake_up_init(void)
 
 void main(void)
 {
-  DISI();
+   DISI();
   key_init();
   CS1630_Init(); // 初始化CS1630模块
-  CS1630_CE_Low(); // 设置CE引脚为低电平，准备发送数据
-  CS1630_ModeSwitch(Rf_PTX_Mode); // 切换到发送模式
-
-  // 配置CS1630模块的寄存器
-  CS1630_write_byte(CS1630_BANK0_FEATURE, 0x04);
-  CS1630_write_byte(CS1630_BANK0_CONFIG, 0x0e);
-  CS1630_write_byte(CS1630_BANK0_SETUP_VALUE, 0x04); // 配置值
   ENI();
   unsigned char sleep_status = 1;
 
   while (1)
   {
+    key_init();
     sleep_status = Check_Keydown();
 
     if(sleep_status == 0)
