@@ -32,7 +32,7 @@ void wake_up_init(void)
 
 void main(void)
 {
-   DISI();
+  DISI();
   key_init();
   CS1630_Init(); // 初始化CS1630模块
   ENI();
