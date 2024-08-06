@@ -139,6 +139,9 @@ r0x1002:
 .segment "uninit"
 r0x1003:
 	.res	1
+.segment "uninit"
+r0x1004:
+	.res	1
 ;--------------------------------------------------------
 ; initialized data
 ;--------------------------------------------------------
@@ -159,21 +162,26 @@ r0x1003:
 ;has an exit
 ;functions called:
 ;   _key_init
+;   _delay_ms
 ;   _set_PA_low
 ;   _key_init
 ;   _send_ble_packet
 ;   _led
+;   _delay_250ms
 ;   _key_init
 ;   _key_init
+;   _delay_ms
 ;   _set_PA_low
 ;   _key_init
 ;   _send_ble_packet
 ;   _led
+;   _delay_250ms
 ;   _key_init
-;3 compiler assigned registers:
+;4 compiler assigned registers:
 ;   r0x1001
 ;   r0x1002
 ;   r0x1003
+;   r0x1004
 ;; Starting pCode block
 .segment "code"; module=key, function=_Check_Keydown
 	.debuginfo subprogram _Check_Keydown
@@ -181,6 +189,7 @@ r0x1003:
 	.debuginfo complex-type (local-sym "_KeyValue" 1 "BSP\key.c" 64 (basetype 1 unsigned) split "r0x1001")
 	.debuginfo complex-type (local-sym "_KeyStatus" 1 "BSP\key.c" 66 (basetype 1 unsigned) split "r0x1002")
 	.debuginfo complex-type (local-sym "_sCodeValue" 1 "BSP\key.c" 65 (basetype 1 unsigned) split "r0x1001")
+	.debuginfo complex-type (local-sym "_KeyStatus_s" 1 "BSP\key.c" 67 (basetype 1 unsigned) split "r0x1003")
 _Check_Keydown:
 ; 2 exit points
 	.line	63, "BSP\key.c"; 	key_init();
@@ -199,9 +208,12 @@ _Check_Keydown:
 	MOVR	r0x1002,W
 	XORIA	0xfc
 	BTRSS	STATUS,2
-	MGOTO	_02137_DS_
-	MGOTO	_02059_DS_
-_02137_DS_:
+	MGOTO	_02144_DS_
+	MGOTO	_02061_DS_
+_02144_DS_:
+	.line	74, "BSP\key.c"; 	delay_ms(5);
+	MOVIA	0x05
+	MCALL	_delay_ms
 	.line	75, "BSP\key.c"; 	KeyStatus = PORTA;
 	MOVR	_PORTA,W
 	BANKSEL	r0x1002
@@ -213,9 +225,9 @@ _02137_DS_:
 	MOVR	r0x1002,W
 	XORIA	0xfc
 	BTRSS	STATUS,2
-	MGOTO	_02138_DS_
-	MGOTO	_02056_DS_
-_02138_DS_:
+	MGOTO	_02145_DS_
+	MGOTO	_02058_DS_
+_02145_DS_:
 	.line	80, "BSP\key.c"; 	if(!PORTAbits.PA6)
 	BTRSC	_PORTAbits,6
 	MGOTO	_02031_DS_
@@ -240,23 +252,23 @@ _02033_DS_:
 	MOVR	r0x1002,W
 	XORIA	0x1c
 	BTRSS	STATUS,2
-	MGOTO	_02139_DS_
+	MGOTO	_02146_DS_
 	MGOTO	_02037_DS_
-_02139_DS_:
+_02146_DS_:
 	BANKSEL	r0x1002
 	MOVR	r0x1002,W
 	XORIA	0x2c
 	BTRSS	STATUS,2
-	MGOTO	_02140_DS_
+	MGOTO	_02147_DS_
 	MGOTO	_02036_DS_
-_02140_DS_:
+_02147_DS_:
 	BANKSEL	r0x1002
 	MOVR	r0x1002,W
 	XORIA	0x34
 	BTRSS	STATUS,2
-	MGOTO	_02141_DS_
+	MGOTO	_02148_DS_
 	MGOTO	_02035_DS_
-_02141_DS_:
+_02148_DS_:
 	BANKSEL	r0x1002
 	MOVR	r0x1002,W
 	XORIA	0x38
@@ -310,9 +322,9 @@ _02038_DS_:
 	MOVR	r0x1002,W
 	XORIA	0x07
 	BTRSS	STATUS,2
-	MGOTO	_02142_DS_
+	MGOTO	_02149_DS_
 	MGOTO	_02049_DS_
-_02142_DS_:
+_02149_DS_:
 	.line	112, "BSP\key.c"; 	else if(0b00001011 == (PORTB & 0x0f))
 	MOVIA	0x0f
 	ANDAR	_PORTB,W
@@ -362,59 +374,74 @@ _02049_DS_:
 	.line	127, "BSP\key.c"; 	sCodeValue = KeyValue - 0x01;
 	BANKSEL	r0x1001
 	DECR	r0x1001,F
-	.line	129, "BSP\key.c"; 	KeyStatus = PORTA & 0xfc;
+	.line	130, "BSP\key.c"; 	KeyStatus = PORTA & 0xfc;
 	MOVIA	0xfc
 	ANDAR	_PORTA,W
 	BANKSEL	r0x1002
 	MOVAR	r0x1002
-_02052_DS_:
-	.line	130, "BSP\key.c"; 	while(0xfc != (PORTA & 0xfC))
-	MOVIA	0xfc
-	ANDAR	_PORTA,W
+	.line	131, "BSP\key.c"; 	KeyStatus_s = 1;
+	MOVIA	0x01
 	BANKSEL	r0x1003
 	MOVAR	r0x1003
-	MOVR	r0x1003,W
+_02054_DS_:
+	.line	133, "BSP\key.c"; 	while(0xfc != (PORTA & 0xfC))
+	MOVIA	0xfc
+	ANDAR	_PORTA,W
+	BANKSEL	r0x1004
+	MOVAR	r0x1004
+	MOVR	r0x1004,W
 	XORIA	0xfc
 	BTRSS	STATUS,2
-	MGOTO	_02143_DS_
-	MGOTO	_02054_DS_
-_02143_DS_:
-	.line	134, "BSP\key.c"; 	send_ble_packet(sCodeValue);
+	MGOTO	_02150_DS_
+	MGOTO	_02056_DS_
+_02150_DS_:
+	.line	136, "BSP\key.c"; 	send_ble_packet(sCodeValue);
 	BANKSEL	r0x1001
 	MOVR	r0x1001,W
 	MCALL	_send_ble_packet
-	.line	136, "BSP\key.c"; 	led();
+	.line	138, "BSP\key.c"; 	led();
 	MCALL	_led
-	.line	138, "BSP\key.c"; 	key_init();
+	.line	140, "BSP\key.c"; 	if(KeyStatus_s == 1)
+	BANKSEL	r0x1003
+	MOVR	r0x1003,W
+	XORIA	0x01
+	BTRSS	STATUS,2
+	MGOTO	_02051_DS_
+	.line	142, "BSP\key.c"; 	KeyStatus_s = 0;
+	CLRR	r0x1003
+	.line	143, "BSP\key.c"; 	delay_250ms();
+	MCALL	_delay_250ms
+_02051_DS_:
+	.line	146, "BSP\key.c"; 	key_init();
 	MCALL	_key_init
-	.line	139, "BSP\key.c"; 	if(KeyStatus != (PORTA & 0xfc))
+	.line	147, "BSP\key.c"; 	if(KeyStatus != (PORTA & 0xfc))
 	MOVIA	0xfc
 	ANDAR	_PORTA,W
-	BANKSEL	r0x1003
-	MOVAR	r0x1003
-	MOVR	r0x1003,W
+	BANKSEL	r0x1004
+	MOVAR	r0x1004
+	MOVR	r0x1004,W
 	BANKSEL	r0x1002
 	XORAR	r0x1002,W
 	BTRSS	STATUS,2
-	MGOTO	_02144_DS_
-	MGOTO	_02052_DS_
-_02144_DS_:
-	.line	140, "BSP\key.c"; 	return 0;
+	MGOTO	_02151_DS_
+	MGOTO	_02054_DS_
+_02151_DS_:
+	.line	148, "BSP\key.c"; 	return 0;
 	MOVIA	0x00
-	MGOTO	_02060_DS_
-_02054_DS_:
-	.line	142, "BSP\key.c"; 	return 0;
-	MOVIA	0x00
-	MGOTO	_02060_DS_
+	MGOTO	_02062_DS_
 _02056_DS_:
-	.line	147, "BSP\key.c"; 	return 1;
+	.line	150, "BSP\key.c"; 	return 0;
+	MOVIA	0x00
+	MGOTO	_02062_DS_
+_02058_DS_:
+	.line	155, "BSP\key.c"; 	return 1;
 	MOVIA	0x01
-	MGOTO	_02060_DS_
-_02059_DS_:
-	.line	151, "BSP\key.c"; 	return 1;
+	MGOTO	_02062_DS_
+_02061_DS_:
+	.line	159, "BSP\key.c"; 	return 1;
 	MOVIA	0x01
-_02060_DS_:
-	.line	152, "BSP\key.c"; 	}
+_02062_DS_:
+	.line	160, "BSP\key.c"; 	}
 	RETURN	
 ; exit point of _Check_Keydown
 
@@ -582,6 +609,6 @@ _set_PA_low:
 
 
 ;	code size estimation:
-;	  187+   29 =   216 instructions (  490 byte)
+;	  197+   31 =   228 instructions (  518 byte)
 
 	end

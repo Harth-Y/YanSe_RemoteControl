@@ -39,7 +39,7 @@
     <RootNamespace>CS1630</RootNamespace>
     <TrimSetting>+ 0%</TrimSetting>
     <WarningMsgCode0>110</WarningMsgCode0>
-    <WarningMsgCode1>110</WarningMsgCode1>
+    <WarningMsgCode1>126</WarningMsgCode1>
     <WarningMsgCode10>112</WarningMsgCode10>
     <WarningMsgCode11>112</WarningMsgCode11>
     <WarningMsgCode12>112</WarningMsgCode12>
@@ -50,19 +50,19 @@
     <WarningMsgCode17>112</WarningMsgCode17>
     <WarningMsgCode18>112</WarningMsgCode18>
     <WarningMsgCode19>112</WarningMsgCode19>
-    <WarningMsgCode2>84</WarningMsgCode2>
+    <WarningMsgCode2>110</WarningMsgCode2>
     <WarningMsgCode20>112</WarningMsgCode20>
     <WarningMsgCode21>112</WarningMsgCode21>
-    <WarningMsgCode3>112</WarningMsgCode3>
-    <WarningMsgCode4>112</WarningMsgCode4>
-    <WarningMsgCode5>112</WarningMsgCode5>
-    <WarningMsgCode6>112</WarningMsgCode6>
-    <WarningMsgCode7>112</WarningMsgCode7>
-    <WarningMsgCode8>112</WarningMsgCode8>
+    <WarningMsgCode3>126</WarningMsgCode3>
+    <WarningMsgCode4>126</WarningMsgCode4>
+    <WarningMsgCode5>126</WarningMsgCode5>
+    <WarningMsgCode6>126</WarningMsgCode6>
+    <WarningMsgCode7>126</WarningMsgCode7>
+    <WarningMsgCode8>110</WarningMsgCode8>
     <WarningMsgCode9>112</WarningMsgCode9>
-    <WarningMsgCount>1</WarningMsgCount>
-    <WarningMsgFileName0>D:\code\ChangJi\ChangJi\yanSe\CS1630\CS1630\BSP\bsp_cs1630.c</WarningMsgFileName0>
-    <WarningMsgFileName1>D:\code\ChangJi\ChangJi\yanSe\CS1630\CS1630\BSP\bsp_cs1630.c</WarningMsgFileName1>
+    <WarningMsgCount>3</WarningMsgCount>
+    <WarningMsgFileName0>D:\code\ChangJi\ChangJi\yanSe\CS1630\CS1630\BSP\app_tx.c</WarningMsgFileName0>
+    <WarningMsgFileName1>D:\code\ChangJi\ChangJi\yanSe\CS1630\CS1630\BSP\app_tx.c</WarningMsgFileName1>
     <WarningMsgFileName10>D:\code\Master\ChangJi\yanSe\CS1630\CS1630\BSP\bsp_cs1630.c</WarningMsgFileName10>
     <WarningMsgFileName11>D:\code\Master\ChangJi\yanSe\CS1630\CS1630\BSP\bsp_cs1630.c</WarningMsgFileName11>
     <WarningMsgFileName12>D:\code\Master\ChangJi\yanSe\CS1630\CS1630\BSP\bsp_cs1630.c</WarningMsgFileName12>
@@ -73,18 +73,18 @@
     <WarningMsgFileName17>D:\code\Master\ChangJi\yanSe\CS1630\CS1630\BSP\bsp_cs1630.c</WarningMsgFileName17>
     <WarningMsgFileName18>D:\code\Master\ChangJi\yanSe\CS1630\CS1630\BSP\bsp_cs1630.c</WarningMsgFileName18>
     <WarningMsgFileName19>D:\code\Master\ChangJi\yanSe\CS1630\CS1630\BSP\bsp_cs1630.c</WarningMsgFileName19>
-    <WarningMsgFileName2>D:\code\Master\ChangJi\yanSe\CS1630\CS1630\main.c</WarningMsgFileName2>
+    <WarningMsgFileName2>D:\code\ChangJi\ChangJi\yanSe\CS1630\CS1630\BSP\bsp_cs1630.c</WarningMsgFileName2>
     <WarningMsgFileName20>D:\code\C\changJi\yanSe\CS1630\CS1630\BSP\bsp_hs6230.c</WarningMsgFileName20>
     <WarningMsgFileName21>D:\code\C\changJi\yanSe\CS1630\CS1630\BSP\bsp_hs6230.c</WarningMsgFileName21>
-    <WarningMsgFileName3>D:\code\Master\ChangJi\yanSe\CS1630\CS1630\BSP\bsp_cs1630.c</WarningMsgFileName3>
-    <WarningMsgFileName4>D:\code\Master\ChangJi\yanSe\CS1630\CS1630\BSP\bsp_cs1630.c</WarningMsgFileName4>
-    <WarningMsgFileName5>D:\code\Master\ChangJi\yanSe\CS1630\CS1630\BSP\bsp_cs1630.c</WarningMsgFileName5>
-    <WarningMsgFileName6>D:\code\Master\ChangJi\yanSe\CS1630\CS1630\BSP\bsp_cs1630.c</WarningMsgFileName6>
-    <WarningMsgFileName7>D:\code\Master\ChangJi\yanSe\CS1630\CS1630\BSP\bsp_cs1630.c</WarningMsgFileName7>
-    <WarningMsgFileName8>D:\code\Master\ChangJi\yanSe\CS1630\CS1630\BSP\bsp_cs1630.c</WarningMsgFileName8>
+    <WarningMsgFileName3>D:\code\ChangJi\ChangJi\yanSe\CS1630\CS1630\BSP\app_tx.c</WarningMsgFileName3>
+    <WarningMsgFileName4>D:\code\ChangJi\ChangJi\yanSe\CS1630\CS1630\BSP\app_tx.c</WarningMsgFileName4>
+    <WarningMsgFileName5>D:\code\ChangJi\ChangJi\yanSe\CS1630\CS1630\BSP\app_tx.c</WarningMsgFileName5>
+    <WarningMsgFileName6>D:\code\ChangJi\ChangJi\yanSe\CS1630\CS1630\BSP\app_tx.c</WarningMsgFileName6>
+    <WarningMsgFileName7>D:\code\ChangJi\ChangJi\yanSe\CS1630\CS1630\BSP\app_tx.c</WarningMsgFileName7>
+    <WarningMsgFileName8>D:\code\ChangJi\ChangJi\yanSe\CS1630\CS1630\BSP\bsp_cs1630.c</WarningMsgFileName8>
     <WarningMsgFileName9>D:\code\Master\ChangJi\yanSe\CS1630\CS1630\BSP\bsp_cs1630.c</WarningMsgFileName9>
-    <WarningMsgLineNumber0>150</WarningMsgLineNumber0>
-    <WarningMsgLineNumber1>150</WarningMsgLineNumber1>
+    <WarningMsgLineNumber0>60</WarningMsgLineNumber0>
+    <WarningMsgLineNumber1>86</WarningMsgLineNumber1>
     <WarningMsgLineNumber10>44</WarningMsgLineNumber10>
     <WarningMsgLineNumber11>46</WarningMsgLineNumber11>
     <WarningMsgLineNumber12>47</WarningMsgLineNumber12>
@@ -95,18 +95,18 @@
     <WarningMsgLineNumber17>67</WarningMsgLineNumber17>
     <WarningMsgLineNumber18>74</WarningMsgLineNumber18>
     <WarningMsgLineNumber19>75</WarningMsgLineNumber19>
-    <WarningMsgLineNumber2>36</WarningMsgLineNumber2>
+    <WarningMsgLineNumber2>150</WarningMsgLineNumber2>
     <WarningMsgLineNumber20>295</WarningMsgLineNumber20>
     <WarningMsgLineNumber21>297</WarningMsgLineNumber21>
-    <WarningMsgLineNumber3>17</WarningMsgLineNumber3>
-    <WarningMsgLineNumber4>18</WarningMsgLineNumber4>
-    <WarningMsgLineNumber5>31</WarningMsgLineNumber5>
-    <WarningMsgLineNumber6>32</WarningMsgLineNumber6>
-    <WarningMsgLineNumber7>37</WarningMsgLineNumber7>
-    <WarningMsgLineNumber8>39</WarningMsgLineNumber8>
+    <WarningMsgLineNumber3>75</WarningMsgLineNumber3>
+    <WarningMsgLineNumber4>76</WarningMsgLineNumber4>
+    <WarningMsgLineNumber5>78</WarningMsgLineNumber5>
+    <WarningMsgLineNumber6>63</WarningMsgLineNumber6>
+    <WarningMsgLineNumber7>60</WarningMsgLineNumber7>
+    <WarningMsgLineNumber8>150</WarningMsgLineNumber8>
     <WarningMsgLineNumber9>41</WarningMsgLineNumber9>
-    <WarningMsgMessage0>BSP\bsp_cs1630.c:150: warning 110: conditional flow changed by optimizer.</WarningMsgMessage0>
-    <WarningMsgMessage1>BSP\bsp_cs1630.c:150: warning 110: conditional flow changed by optimizer.</WarningMsgMessage1>
+    <WarningMsgMessage0>BSP\app_tx.c:60: warning 110: conditional flow changed by optimizer.</WarningMsgMessage0>
+    <WarningMsgMessage1>BSP\app_tx.c:86: warning 126: unreachable code</WarningMsgMessage1>
     <WarningMsgMessage10>BSP\bsp_cs1630.c:44: warning 112: function 'HS6230_Bank_Switch' implicit declaration</WarningMsgMessage10>
     <WarningMsgMessage11>BSP\bsp_cs1630.c:46: warning 112: function 'HS6230_read_byte' implicit declaration</WarningMsgMessage11>
     <WarningMsgMessage12>BSP\bsp_cs1630.c:47: warning 112: function 'HS6230_read_buffer' implicit declaration</WarningMsgMessage12>
@@ -117,15 +117,15 @@
     <WarningMsgMessage17>BSP\bsp_cs1630.c:67: warning 112: function 'HS6230_wr_buffer' implicit declaration</WarningMsgMessage17>
     <WarningMsgMessage18>BSP\bsp_cs1630.c:74: warning 112: function 'HS6230_Clear_All_Irq' implicit declaration</WarningMsgMessage18>
     <WarningMsgMessage19>BSP\bsp_cs1630.c:75: warning 112: function 'HS6230_Flush_Tx' implicit declaration</WarningMsgMessage19>
-    <WarningMsgMessage2>main.c:36: warning 84: 'auto' variable 'HS6230_Init' may be used before initialization</WarningMsgMessage2>
+    <WarningMsgMessage2>BSP\bsp_cs1630.c:150: warning 110: conditional flow changed by optimizer.</WarningMsgMessage2>
     <WarningMsgMessage20>BSP\bsp_hs6230.c:295: warning 112: function 'GPIO_ResetBits' implicit declaration</WarningMsgMessage20>
     <WarningMsgMessage21>BSP\bsp_hs6230.c:297: warning 112: function 'GPIO_SetBits' implicit declaration</WarningMsgMessage21>
-    <WarningMsgMessage3>BSP\bsp_cs1630.c:17: warning 112: function 'HS6230_read_buffer' implicit declaration</WarningMsgMessage3>
-    <WarningMsgMessage4>BSP\bsp_cs1630.c:18: warning 112: function 'HS6230_Bank_Switch' implicit declaration</WarningMsgMessage4>
-    <WarningMsgMessage5>BSP\bsp_cs1630.c:31: warning 112: function 'HS6230_CE_Low' implicit declaration</WarningMsgMessage5>
-    <WarningMsgMessage6>BSP\bsp_cs1630.c:32: warning 112: function 'HS6230_write_byte' implicit declaration</WarningMsgMessage6>
-    <WarningMsgMessage7>BSP\bsp_cs1630.c:37: warning 112: function 'HS6230_CE_High' implicit declaration</WarningMsgMessage7>
-    <WarningMsgMessage8>BSP\bsp_cs1630.c:39: warning 112: function 'HS6230_CE_Low' implicit declaration</WarningMsgMessage8>
+    <WarningMsgMessage3>BSP\app_tx.c:75: warning 126: unreachable code</WarningMsgMessage3>
+    <WarningMsgMessage4>BSP\app_tx.c:76: warning 126: unreachable code</WarningMsgMessage4>
+    <WarningMsgMessage5>BSP\app_tx.c:78: warning 126: unreachable code</WarningMsgMessage5>
+    <WarningMsgMessage6>BSP\app_tx.c:63: warning 126: unreachable code</WarningMsgMessage6>
+    <WarningMsgMessage7>BSP\app_tx.c:60: warning 126: unreachable code</WarningMsgMessage7>
+    <WarningMsgMessage8>BSP\bsp_cs1630.c:150: warning 110: conditional flow changed by optimizer.</WarningMsgMessage8>
     <WarningMsgMessage9>BSP\bsp_cs1630.c:41: warning 112: function 'HS6230_read_byte' implicit declaration</WarningMsgMessage9>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">

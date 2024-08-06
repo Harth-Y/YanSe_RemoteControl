@@ -14,7 +14,7 @@ static unsigned char CS1630_Tx_Payload[32] = {
     0x45, // 同步系列
     0x00, // 序号
     0x00, // 码值
-    0x01, // 识别码
+    0xBF, // 识别码
     0xAA, // 识别码
     0xFF,
     0xFF,
@@ -57,7 +57,7 @@ void send_ble_packet(unsigned char code_value)
     CS1630_write_byte(CS1630_BANK0_CONFIG, 0x0e);
     delay_ms(5);
     // 发送数据包的循环
-    for ( k = 0; k < 2; i++)
+    for ( k = 0; k < 4; i++)
     {
         // 遍历频道索引数组，发送数据
         for(idx = 0; idx < 3; idx++)

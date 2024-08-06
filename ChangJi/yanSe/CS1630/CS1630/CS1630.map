@@ -11,7 +11,7 @@
 Module list:
 ------------
 app_tx.o:
-    .debug_line          offset:0x0        size:0x31a (794)
+    .debug_line          offset:0x0        size:0x318 (792)
     .debug_info          offset:0x0        size:0xd8 (216)
     .debug_abbrev        offset:0x0        size:0x28 (40)
     .debug_ranges        offset:0x0        size:0x28 (40)
@@ -22,12 +22,12 @@ app_tx.o:
     uninit               offset:0x2000002c size:0x1
     uninit               offset:0x2000002d size:0x1
     idata                offset:0x200000a0 size:0x20 (32)
-    idata                offset:0x20000065 size:0x1
-    code                 offset:0x486      size:0x3
-    code                 offset:0x12c      size:0x64 (100)
+    idata                offset:0x20000067 size:0x1
+    code                 offset:0x4b9      size:0x3
+    code                 offset:0x138      size:0x61 (97)
 
 bsp_cs1630.o:
-    .debug_line          offset:0x31a      size:0xc59 (3161)
+    .debug_line          offset:0x318      size:0xc59 (3161)
     .debug_info          offset:0xd8       size:0x36b (875)
     .debug_abbrev        offset:0x28       size:0x2c (44)
     .debug_ranges        offset:0x28       size:0xdc (220)
@@ -69,23 +69,23 @@ bsp_cs1630.o:
     uninit               offset:0x20000050 size:0x1
     uninit               offset:0x20000025 size:0x4
     uninit               offset:0x20000020 size:0x5
-    code                 offset:0x458      size:0xa (10)
-    code                 offset:0x462      size:0xa (10)
-    code                 offset:0x475      size:0x7
+    code                 offset:0x486      size:0xa (10)
+    code                 offset:0x490      size:0xa (10)
+    code                 offset:0x4a3      size:0x7
     code                 offset:0x3        size:0x5
-    code                 offset:0x307      size:0x29 (41)
-    code                 offset:0x355      size:0x24 (36)
-    code                 offset:0x395      size:0x17 (23)
-    code                 offset:0x3f8      size:0x10 (16)
-    code                 offset:0x275      size:0x3a (58)
-    code                 offset:0x3d6      size:0x11 (17)
-    code                 offset:0x418      size:0xe (14)
-    code                 offset:0x23a      size:0x3b (59)
-    code                 offset:0xb0       size:0x7c (124)
-    code                 offset:0x1f1      size:0x49 (73)
+    code                 offset:0x351      size:0x29 (41)
+    code                 offset:0x39f      size:0x24 (36)
+    code                 offset:0x3c3      size:0x17 (23)
+    code                 offset:0x426      size:0x10 (16)
+    code                 offset:0x2bc      size:0x3a (58)
+    code                 offset:0x404      size:0x11 (17)
+    code                 offset:0x446      size:0xe (14)
+    code                 offset:0x281      size:0x3b (59)
+    code                 offset:0xbc       size:0x7c (124)
+    code                 offset:0x1fa      size:0x49 (73)
 
 bsp_delay.o:
-    .debug_line          offset:0xf74      size:0x19f (415)
+    .debug_line          offset:0xf71      size:0x19f (415)
     .debug_info          offset:0x443      size:0xc5 (197)
     .debug_abbrev        offset:0x54       size:0x24 (36)
     .debug_ranges        offset:0x104      size:0x28 (40)
@@ -95,14 +95,15 @@ bsp_delay.o:
     uninit               offset:0x20000053 size:0x1
     uninit               offset:0x20000054 size:0x1
     uninit               offset:0x20000055 size:0x1
-    code                 offset:0x489      size:0x3
-    code                 offset:0x408      size:0x10 (16)
-    code                 offset:0x3ac      size:0x17 (23)
+    code                 offset:0x4bc      size:0x3
+    code                 offset:0x436      size:0x10 (16)
+    code                 offset:0x4aa      size:0x5
+    code                 offset:0x3da      size:0x17 (23)
 
 bsp_rf.o:
 
 bsp_spi.o:
-    .debug_line          offset:0x1113     size:0x28e (654)
+    .debug_line          offset:0x1111     size:0x28e (654)
     .debug_info          offset:0x508      size:0x11c (284)
     .debug_abbrev        offset:0x79       size:0x29 (41)
     .debug_ranges        offset:0x12c      size:0x38 (56)
@@ -115,35 +116,36 @@ bsp_spi.o:
     uninit               offset:0x2000005b size:0x1
     uninit               offset:0x2000005c size:0x1
     uninit               offset:0x2000005d size:0x1
-    code                 offset:0x2af      size:0x2c (44)
-    code                 offset:0x190      size:0x61 (97)
-    code                 offset:0x426      size:0xe (14)
+    code                 offset:0x325      size:0x2c (44)
+    code                 offset:0x199      size:0x61 (97)
+    code                 offset:0x454      size:0xe (14)
 
 bsp_usart.o:
 
 key.o:
-    .debug_line          offset:0x13a1     size:0x436 (1078)
-    .debug_info          offset:0x624      size:0xc7 (199)
+    .debug_line          offset:0x139f     size:0x479 (1145)
+    .debug_info          offset:0x624      size:0xe2 (226)
     .debug_abbrev        offset:0xa2       size:0x24 (36)
-    .debug_ranges        offset:0x164      size:0x2c (44)
-    .debug_aranges       offset:0x184      size:0x34 (52)
+    .debug_ranges        offset:0x164      size:0x30 (48)
+    .debug_aranges       offset:0x184      size:0x38 (56)
     uninit               offset:0x2000005e size:0x1
     uninit               offset:0x2000005f size:0x1
     uninit               offset:0x20000060 size:0x1
     uninit               offset:0x20000061 size:0x1
-    code                 offset:0x9        size:0xa7 (167)
-    code                 offset:0x46c      size:0x9
-    code                 offset:0x3e7      size:0x11 (17)
-    code                 offset:0x434      size:0xd (13)
-    code                 offset:0x47c      size:0x5
-    code                 offset:0x481      size:0x5
+    uninit               offset:0x20000062 size:0x1
+    code                 offset:0x9        size:0xb3 (179)
+    code                 offset:0x49a      size:0x9
+    code                 offset:0x415      size:0x11 (17)
+    code                 offset:0x462      size:0xd (13)
+    code                 offset:0x4af      size:0x5
+    code                 offset:0x4b4      size:0x5
 
 main.o:
-    .debug_line          offset:0x17d8     size:0x1fc (508)
-    .debug_info          offset:0x6eb      size:0xe4 (228)
+    .debug_line          offset:0x1818     size:0x2aa (682)
+    .debug_info          offset:0x707      size:0xff (255)
     .debug_abbrev        offset:0xc6       size:0x24 (36)
-    .debug_ranges        offset:0x190      size:0x6c (108)
-    .debug_aranges       offset:0x1b8      size:0x74 (116)
+    .debug_ranges        offset:0x194      size:0x70 (112)
+    .debug_aranges       offset:0x1bc      size:0x78 (120)
     share_bank           offset:0x2000007f size:0x1
     share_bank           offset:0x2000007e size:0x1
     share_bank           offset:0x2000007d size:0x1
@@ -151,21 +153,24 @@ main.o:
     share_bank           offset:0x2000007b size:0x1
     share_bank           offset:0x2000007a size:0x1
     share_bank           offset:0x20000079 size:0x1
-    uninit               offset:0x20000062 size:0x1
     uninit               offset:0x20000063 size:0x1
     uninit               offset:0x20000064 size:0x1
+    uninit               offset:0x20000065 size:0x1
+    uninit               offset:0x20000066 size:0x1
+    idata                offset:0x20000068 size:0x1
+    idata                offset:0x20000069 size:0x1
     .text                offset:0x0        size:0x1
     .text                offset:0x8        size:0x1
-    code                 offset:0x330      size:0x25 (37)
-    code                 offset:0x379      size:0x1c (28)
-    code                 offset:0x44d      size:0xb (11)
+    code                 offset:0x37a      size:0x25 (37)
+    code                 offset:0x243      size:0x3e (62)
+    code                 offset:0x47b      size:0xb (11)
 
 NY8A054E.a:
-    .debug_line          offset:0x19d4     size:0x345 (837)
-    .debug_info          offset:0x7cf      size:0x2d (45)
+    .debug_line          offset:0x1ac3     size:0x345 (837)
+    .debug_info          offset:0x806      size:0x2d (45)
     .debug_abbrev        offset:0xeb       size:0xf (15)
-    .debug_ranges        offset:0x1fc      size:0x17c (380)
-    .debug_aranges       offset:0x22c      size:0x184 (388)
+    .debug_ranges        offset:0x204      size:0x17c (380)
+    .debug_aranges       offset:0x234      size:0x184 (388)
     .text                offset:0x20000000 size:0x1
     .text                offset:0x20000001 size:0x1
     .text                offset:0x20000002 size:0x1
@@ -264,24 +269,24 @@ NY8A054E.a:
 libsdcc_bankram.a:
 
 bank2_8b.a:
-    .debug_line          offset:0x1d1a     size:0x3c (60)
-    .debug_info          offset:0x7fd      size:0x2b (43)
+    .debug_line          offset:0x1e08     size:0x3c (60)
+    .debug_info          offset:0x834      size:0x2b (43)
     .debug_abbrev        offset:0xfa       size:0xf (15)
-    .debug_ranges        offset:0x378      size:0x8
-    .debug_aranges       offset:0x3b0      size:0x10 (16)
-    startup              offset:0x1        size:0x2
-    .debug_line          offset:0x1d56     size:0x4e (78)
-    .debug_info          offset:0x828      size:0x2e (46)
-    .debug_abbrev        offset:0x10a      size:0xf (15)
     .debug_ranges        offset:0x380      size:0x8
-    .debug_aranges       offset:0x3c0      size:0x10 (16)
-    code                 offset:0x3c3      size:0x13 (19)
-    .debug_line          offset:0x1da4     size:0x46 (70)
-    .debug_info          offset:0x856      size:0x2e (46)
-    .debug_abbrev        offset:0x119      size:0xf (15)
+    .debug_aranges       offset:0x3b8      size:0x10 (16)
+    startup              offset:0x1        size:0x2
+    .debug_line          offset:0x1e44     size:0x4e (78)
+    .debug_info          offset:0x85f      size:0x2e (46)
+    .debug_abbrev        offset:0x10a      size:0xf (15)
     .debug_ranges        offset:0x388      size:0x8
-    .debug_aranges       offset:0x3d0      size:0x10 (16)
-    code                 offset:0x441      size:0xc (12)
+    .debug_aranges       offset:0x3c8      size:0x10 (16)
+    code                 offset:0x3f1      size:0x13 (19)
+    .debug_line          offset:0x1e93     size:0x46 (70)
+    .debug_info          offset:0x88d      size:0x2e (46)
+    .debug_abbrev        offset:0x119      size:0xf (15)
+    .debug_ranges        offset:0x390      size:0x8
+    .debug_aranges       offset:0x3d8      size:0x10 (16)
+    code                 offset:0x46f      size:0xc (12)
 
 cb_file:
 
@@ -293,39 +298,40 @@ Name                 Start      Size
 startup              0x1        0x2
 code                 0x3        0x5
 .text                0x8        0x1
-code                 0x9        0xa7 (167)
-code                 0xb0       0x7c (124)
-code                 0x12c      0x64 (100)
-code                 0x190      0x61 (97)
-code                 0x1f1      0x49 (73)
-code                 0x23a      0x3b (59)
-code                 0x275      0x3a (58)
-code                 0x2af      0x2c (44)
-code (idata)         0x2db      0x2c (44)
-code                 0x307      0x29 (41)
-code                 0x330      0x25 (37)
-code                 0x355      0x24 (36)
-code                 0x379      0x1c (28)
-code                 0x395      0x17 (23)
-code                 0x3ac      0x17 (23)
-code                 0x3c3      0x13 (19)
-code                 0x3d6      0x11 (17)
-code                 0x3e7      0x11 (17)
-code                 0x3f8      0x10 (16)
-code                 0x408      0x10 (16)
-code                 0x418      0xe (14)
-code                 0x426      0xe (14)
-code                 0x434      0xd (13)
-code                 0x441      0xc (12)
-code                 0x44d      0xb (11)
-code                 0x458      0xa (10)
-code                 0x462      0xa (10)
-code                 0x46c      0x9
-code                 0x475      0x7
-code                 0x47c      0x5
-code                 0x481      0x5
-code                 0x486      0x3
-code                 0x489      0x3
+code                 0x9        0xb3 (179)
+code                 0xbc       0x7c (124)
+code                 0x138      0x61 (97)
+code                 0x199      0x61 (97)
+code                 0x1fa      0x49 (73)
+code                 0x243      0x3e (62)
+code                 0x281      0x3b (59)
+code                 0x2bc      0x3a (58)
+code (idata)         0x2f6      0x2f (47)
+code                 0x325      0x2c (44)
+code                 0x351      0x29 (41)
+code                 0x37a      0x25 (37)
+code                 0x39f      0x24 (36)
+code                 0x3c3      0x17 (23)
+code                 0x3da      0x17 (23)
+code                 0x3f1      0x13 (19)
+code                 0x404      0x11 (17)
+code                 0x415      0x11 (17)
+code                 0x426      0x10 (16)
+code                 0x436      0x10 (16)
+code                 0x446      0xe (14)
+code                 0x454      0xe (14)
+code                 0x462      0xd (13)
+code                 0x46f      0xc (12)
+code                 0x47b      0xb (11)
+code                 0x486      0xa (10)
+code                 0x490      0xa (10)
+code                 0x49a      0x9
+code                 0x4a3      0x7
+code                 0x4aa      0x5
+code                 0x4af      0x5
+code                 0x4b4      0x5
+code                 0x4b9      0x3
+code                 0x4bc      0x3
 .text                0x20000000 0x1
 .text                0x20000001 0x1
 .text                0x20000002 0x1
@@ -420,7 +426,11 @@ uninit               0x20000061 0x1
 uninit               0x20000062 0x1
 uninit               0x20000063 0x1
 uninit               0x20000064 0x1
-idata                0x20000065 0x1
+uninit               0x20000065 0x1
+uninit               0x20000066 0x1
+idata                0x20000067 0x1
+idata                0x20000068 0x1
+idata                0x20000069 0x1
 share_bank           0x20000079 0x1
 share_bank           0x2000007a 0x1
 share_bank           0x2000007b 0x1
@@ -495,9 +505,9 @@ idata                0x200000a0 0x20 (32)
 Symbol list by name:
 Name                      Value
 --------------------------------
-___cinit_load__           0x2db (731)
-___cinit_run__            0x2db (731)
-___cinit_size__           0x2c (44)
+___cinit_load__           0x2f6 (758)
+___cinit_run__            0x2f6 (758)
+___cinit_size__           0x2f (47)
 ___fs2schar               no used
 ___fs2sint                no used
 ___fs2slong               no used
@@ -571,9 +581,9 @@ ___STK12                  no used
 ___uchar2fs               no used
 ___uint2fs                no used
 ___ulong2fs               no used
-__checksum                0x48c (1164)
-__CHECKSUM_ADDR__         0x48c (1164)
-__codeptrget1             0x3d1 (977)
+__checksum                0x4bf (1215)
+__CHECKSUM_ADDR__         0x4bf (1215)
+__codeptrget1             0x3ff (1023)
 __divschar                no used
 __divsint                 no used
 __divslong                no used
@@ -586,17 +596,17 @@ __divulong                no used
 __divuschar               no used
 __divusint                no used
 __divuslong               no used
-__gptrget                 0x3c3 (963)
-__gptrget1                0x3c3 (963)
+__gptrget                 0x3f1 (1009)
+__gptrget1                0x3f1 (1009)
 __gptrget2                no used
 __gptrget3                no used
 __gptrget4                no used
-__gptrput                 0x441 (1089)
-__gptrput1                0x441 (1089)
+__gptrput                 0x46f (1135)
+__gptrput1                0x46f (1135)
 __gptrput2                no used
 __gptrput3                no used
 __gptrput4                no used
-__idata_total_size__      0x21 (33)
+__idata_total_size__      0x23 (35)
 __modschar                no used
 __modsint                 no used
 __modslong                no used
@@ -630,7 +640,7 @@ __reserved_sfr_0x001a     0x2000001a
 __reserved_sfr_0x001d     0x2000001d
 __reserved_sfr_0x001e     0x2000001e
 __share_bank_total_size__ 0x7
-__uninit_total_size__     0x45 (69)
+__uninit_total_size__     0x47 (71)
 _ABPLCON                  0x2000000b
 _ABPLCONbits              0x2000000b
 _APHCON                   0x20800009
@@ -645,28 +655,28 @@ _BZ1CR                    0x21000005
 _Check_Keydown            0x9
 _clear_ram                no used
 _CMPCR                    0x2080000e
-_CS1630_Bank_Switch       0x395 (917)
-_CS1630_CE_High           0x462 (1122)
-_CS1630_CE_Low            0x458 (1112)
+_CS1630_Bank_Switch       0x3c3 (963)
+_CS1630_CE_High           0x490 (1168)
+_CS1630_CE_Low            0x486 (1158)
 _CS1630_Clear_All_Irq     0x3
-_CS1630_Flush_Tx          0x475 (1141)
-_CS1630_Init              0xb0 (176)
-_CS1630_ModeSwitch        0x307 (775)
-_CS1630_read_buffer       0x23a (570)
-_CS1630_read_byte         0x418 (1048)
-_CS1630_SendPack          0x355 (853)
-_CS1630_Soft_Rst          0x1f1 (497)
-_CS1630_wr_buffer         0x275 (629)
-_CS1630_wr_cmd            0x3f8 (1016)
-_CS1630_write_byte        0x3d6 (982)
-_delay_250ms              no used
-_delay_40us               0x489 (1161)
-_delay_ms                 0x3ac (940)
-_delay_us                 0x408 (1032)
+_CS1630_Flush_Tx          0x4a3 (1187)
+_CS1630_Init              0xbc (188)
+_CS1630_ModeSwitch        0x351 (849)
+_CS1630_read_buffer       0x281 (641)
+_CS1630_read_byte         0x446 (1094)
+_CS1630_SendPack          0x39f (927)
+_CS1630_Soft_Rst          0x1fa (506)
+_CS1630_wr_buffer         0x2bc (700)
+_CS1630_wr_cmd            0x426 (1062)
+_CS1630_write_byte        0x404 (1028)
+_delay_250ms              0x4aa (1194)
+_delay_40us               0x4bc (1212)
+_delay_ms                 0x3da (986)
+_delay_us                 0x436 (1078)
 _Enter_sleep              no used
 _FSR                      0x20000004
-_g_timer0_delay_conut_1   no used
-_g_timer0_delay_conut_2   no used
+_g_timer0_delay_conut_1   0x20000068
+_g_timer0_delay_conut_2   0x20000069
 _INDF                     0x20000000
 _INTE                     0x2000000e
 _INTE2                    0x2000001f
@@ -679,11 +689,11 @@ _INTFbits                 0x2000000f
 _IOSTA                    0x20800005
 _IOSTB                    0x20800006
 _IRCR                     0x21000006
-_isr                      0x330 (816)
-_key_init                 0x434 (1076)
-_led                      0x46c (1132)
-_led_open                 0x3e7 (999)
-_main                     0x379 (889)
+_isr                      0x37a (890)
+_key_init                 0x462 (1122)
+_led                      0x49a (1178)
+_led_open                 0x415 (1045)
+_main                     0x243 (579)
 _multi_16b                no used
 _OSCCR                    0x2100000f
 _P2CR1                    0x2100000a
@@ -727,7 +737,7 @@ _RF_Read_Status           no used
 _RF_ReceivePack           no used
 _RF_SendPack              no used
 _RF_Soft_Rst              no used
-_RF_softSPI_Init          0x426 (1062)
+_RF_softSPI_Init          0x454 (1108)
 _RF_spi_wrd               no used
 _RF_Tx_Power              no used
 _RF_wr_buffer             no used
@@ -736,11 +746,11 @@ _RF_Write_Ack_Payload     no used
 _RF_write_byte            no used
 _RFC                      0x2000001b
 _RFCbits                  0x2000001b
-_send_ble_packet          0x12c (300)
-_set_PA_low               0x481 (1153)
-_set_PB_low               0x47c (1148)
-_SPI_ReadByte             0x2af (687)
-_SPI_SendByte             0x190 (400)
+_send_ble_packet          0x138 (312)
+_set_PA_low               0x4b4 (1204)
+_set_PB_low               0x4af (1199)
+_SPI_ReadByte             0x325 (805)
+_SPI_SendByte             0x199 (409)
 _STATUS                   0x20000003
 _T0MD                     0x20800000
 _T1CR1                    0x21000001
@@ -757,7 +767,7 @@ _TMRH                     0x20000019
 _usart_init               no used
 _usart_send_byte          no used
 _usart_send_string        no used
-_wake_up_init             0x44d (1101)
+_wake_up_init             0x47b (1147)
 PSAVE                     0x2000007f
 SSAVE                     0x2000007e
 STK00                     0x20000079

@@ -242,7 +242,7 @@ NYASM 2.42
      0006 0045                      1-  199     	dw	0x45	; 69	'E'
      0007 0000                      1-  200     	dw	0x00	; 0
      0008 0000                      1-  201     	dw	0x00	; 0
-     0009 0001                      1-  202     	dw	0x01	; 1
+     0009 00BF                      1-  202     	dw	0xbf	; 191
      000A 00AA                      1-  203     	dw	0xaa	; 170
      000B 00FF                      1-  204     	dw	0xff	; 255
      000C 00FF                      1-  205     	dw	0xff	; 255
@@ -293,211 +293,207 @@ NYASM 2.42
                                     1-  254     ;   _CS1630_CE_Low
                                     1-  255     ;   _CS1630_read_byte
                                     1-  256     ;   _CS1630_write_byte
-                                    1-  257     ;   _CS1630_write_byte
-                                    1-  258     ;   _CS1630_CE_Low
-                                    1-  259     ;   _CS1630_Flush_Tx
-                                    1-  260     ;   _CS1630_Clear_All_Irq
-                                    1-  261     ;   _CS1630_write_byte
-                                    1-  262     ;   _delay_ms
-                                    1-  263     ;   __gptrget1
-                                    1-  264     ;   _CS1630_write_byte
-                                    1-  265     ;   _CS1630_SendPack
-                                    1-  266     ;   _CS1630_CE_High
-                                    1-  267     ;   _delay_40us
-                                    1-  268     ;   _CS1630_CE_Low
-                                    1-  269     ;   _CS1630_read_byte
-                                    1-  270     ;   _CS1630_write_byte
-                                    1-  271     ;   _CS1630_write_byte
-                                    1-  272     ;9 compiler assigned registers:
-                                    1-  273     ;   r0x1021
-                                    1-  274     ;   STK00
-                                    1-  275     ;   r0x1022
-                                    1-  276     ;   r0x1023
-                                    1-  277     ;   STK01
-                                    1-  278     ;   r0x1024
-                                    1-  279     ;   r0x1025
-                                    1-  280     ;   STK03
-                                    1-  281     ;   STK02
-                                    1-  282     ;; Starting pCode block
-                                    1-  283     .segment "code"; module=app_tx, function=_send_ble_packet
-                                    1-  285     ;local variable name mapping:
-     0000                           1-  290     _send_ble_packet:
-                                    1-  291     ; 2 exit points
-                                    1-  292     	.line	35, "BSP\app_tx.c"; 	void send_ble_packet(unsigned char code_value)
-                                    1-  293     	BANKSEL	r0x1021
+                                    1-  257     ;   _CS1630_CE_Low
+                                    1-  258     ;   _CS1630_Flush_Tx
+                                    1-  259     ;   _CS1630_Clear_All_Irq
+                                    1-  260     ;   _CS1630_write_byte
+                                    1-  261     ;   _delay_ms
+                                    1-  262     ;   __gptrget1
+                                    1-  263     ;   _CS1630_write_byte
+                                    1-  264     ;   _CS1630_SendPack
+                                    1-  265     ;   _CS1630_CE_High
+                                    1-  266     ;   _delay_40us
+                                    1-  267     ;   _CS1630_CE_Low
+                                    1-  268     ;   _CS1630_read_byte
+                                    1-  269     ;   _CS1630_write_byte
+                                    1-  270     ;9 compiler assigned registers:
+                                    1-  271     ;   r0x1021
+                                    1-  272     ;   STK00
+                                    1-  273     ;   r0x1022
+                                    1-  274     ;   r0x1023
+                                    1-  275     ;   STK01
+                                    1-  276     ;   r0x1024
+                                    1-  277     ;   r0x1025
+                                    1-  278     ;   STK03
+                                    1-  279     ;   STK02
+                                    1-  280     ;; Starting pCode block
+                                    1-  281     .segment "code"; module=app_tx, function=_send_ble_packet
+                                    1-  283     ;local variable name mapping:
+     0000                           1-  288     _send_ble_packet:
+                                    1-  289     ; 2 exit points
+                                    1-  290     	.line	35, "BSP\app_tx.c"; 	void send_ble_packet(unsigned char code_value)
+                                    1-  291     	BANKSEL	r0x1021
      0000 rrrr                      3-  109 m1      .banksel ram_address
-     0001 00rr                      1-  294     	MOVAR	r0x1021
-                                    1-  295     	.line	42, "BSP\app_tx.c"; 	s_data_num++;
-                                    1-  296     	BANKSEL	_s_data_num
+     0001 00rr                      1-  292     	MOVAR	r0x1021
+                                    1-  293     	.line	43, "BSP\app_tx.c"; 	s_data_num++;
+                                    1-  294     	BANKSEL	_s_data_num
      0002 rrrr                      3-  109 m1      .banksel ram_address
-     0003 05rr                      1-  297     	INCR	_s_data_num,F
-                                    1-  298     	.line	46, "BSP\app_tx.c"; 	CS1630_Tx_Payload[7] = s_data_num; // 序号，用于区分不同数据包
-     0004 01rr                      1-  299     	MOVR	_s_data_num,W
-                                    1-  300     	BANKSEL	_CS1630_Tx_Payload
+     0003 05rr                      1-  295     	INCR	_s_data_num,F
+                                    1-  296     	.line	47, "BSP\app_tx.c"; 	CS1630_Tx_Payload[7] = s_data_num; // 序号，用于区分不同数据包
+     0004 01rr                      1-  297     	MOVR	_s_data_num,W
+                                    1-  298     	BANKSEL	_CS1630_Tx_Payload
      0005 rrrr                      3-  109 m1      .banksel ram_address
-     0006 00rr                      1-  301     	MOVAR	(_CS1630_Tx_Payload + 7)
-                                    1-  302     	.line	47, "BSP\app_tx.c"; 	CS1630_Tx_Payload[8] = code_value; // 码值，用于指示功能
-                                    1-  303     	BANKSEL	r0x1021
+     0006 00rr                      1-  299     	MOVAR	(_CS1630_Tx_Payload + 7)
+                                    1-  300     	.line	48, "BSP\app_tx.c"; 	CS1630_Tx_Payload[8] = code_value; // 码值，用于指示功能
+                                    1-  301     	BANKSEL	r0x1021
      0007 rrrr                      3-  109 m1      .banksel ram_address
-     0008 01rr                      1-  304     	MOVR	r0x1021,W
-                                    1-  305     	BANKSEL	_CS1630_Tx_Payload
+     0008 01rr                      1-  302     	MOVR	r0x1021,W
+                                    1-  303     	BANKSEL	_CS1630_Tx_Payload
      0009 rrrr                      3-  109 m1      .banksel ram_address
-     000A 00rr                      1-  306     	MOVAR	(_CS1630_Tx_Payload + 8)
-                                    1-  307     	.line	51, "BSP\app_tx.c"; 	CS1630_CE_Low();
-                                    1-  308     	MCALL	_CS1630_CE_Low
+     000A 00rr                      1-  304     	MOVAR	(_CS1630_Tx_Payload + 8)
+                                    1-  305     	.line	52, "BSP\app_tx.c"; 	CS1630_CE_Low();
+                                    1-  306     	MCALL	_CS1630_CE_Low
      000B 2rrr                      3-   65 m1      LCALL rom_address
-                                    1-  309     	.line	52, "BSP\app_tx.c"; 	CS1630_Flush_Tx();
-                                    1-  310     	MCALL	_CS1630_Flush_Tx
+                                    1-  307     	.line	53, "BSP\app_tx.c"; 	CS1630_Flush_Tx();
+                                    1-  308     	MCALL	_CS1630_Flush_Tx
      000C 2rrr                      3-   65 m1      LCALL rom_address
-                                    1-  311     	.line	53, "BSP\app_tx.c"; 	CS1630_Clear_All_Irq();
-                                    1-  312     	MCALL	_CS1630_Clear_All_Irq
+                                    1-  309     	.line	54, "BSP\app_tx.c"; 	CS1630_Clear_All_Irq();
+                                    1-  310     	MCALL	_CS1630_Clear_All_Irq
      000D 2rrr                      3-   65 m1      LCALL rom_address
-                                    1-  313     	.line	56, "BSP\app_tx.c"; 	CS1630_write_byte(CS1630_BANK0_CONFIG, 0x0e);
-     000E 210E                      1-  314     	MOVIA	0x0e
-     000F 00rr                      1-  315     	MOVAR	STK00
-     0010 2100                      1-  316     	MOVIA	0x00
-                                    1-  317     	MCALL	_CS1630_write_byte
+                                    1-  311     	.line	57, "BSP\app_tx.c"; 	CS1630_write_byte(CS1630_BANK0_CONFIG, 0x0e);
+     000E 210E                      1-  312     	MOVIA	0x0e
+     000F 00rr                      1-  313     	MOVAR	STK00
+     0010 2100                      1-  314     	MOVIA	0x00
+                                    1-  315     	MCALL	_CS1630_write_byte
      0011 2rrr                      3-   65 m1      LCALL rom_address
-                                    1-  318     	.line	57, "BSP\app_tx.c"; 	delay_ms(5);
-     0012 2105                      1-  319     	MOVIA	0x05
-                                    1-  320     	MCALL	_delay_ms
+                                    1-  316     	.line	58, "BSP\app_tx.c"; 	delay_ms(5);
+     0012 2105                      1-  317     	MOVIA	0x05
+                                    1-  318     	MCALL	_delay_ms
      0013 2rrr                      3-   65 m1      LCALL rom_address
-                                    1-  321     	.line	61, "BSP\app_tx.c"; 	for(idx = 0; idx < 3; idx++)
-                                    1-  322     	BANKSEL	r0x1021
+     0014                           1-  319     _02026_DS_:
+                                    1-  320     	.line	63, "BSP\app_tx.c"; 	for(idx = 0; idx < 3; idx++)
+                                    1-  321     	BANKSEL	r0x1021
      0014 rrrr                      3-  109 m1      .banksel ram_address
-     0015 02rr                      1-  323     	CLRR	r0x1021
-     0016                           1-  324     _02015_DS_:
-                                    1-  325     	.line	63, "BSP\app_tx.c"; 	CS1630_write_byte(CS1630_BANK0_RF_CH, channel_index[idx]); // 设置射频频道
-                                    1-  326     	BANKSEL	r0x1021
+     0015 02rr                      1-  322     	CLRR	r0x1021
+     0016                           1-  323     _02016_DS_:
+                                    1-  324     	.line	65, "BSP\app_tx.c"; 	CS1630_write_byte(CS1630_BANK0_RF_CH, channel_index[idx]); // 设置射频频道
+                                    1-  325     	BANKSEL	r0x1021
      0016 rrrr                      3-  109 m1      .banksel ram_address
-     0017 01rr                      1-  327     	MOVR	r0x1021,W
-     0018 25rr                      1-  328     	ADDIA	(_channel_index + 0)
-                                    1-  329     	BANKSEL	r0x1022
+     0017 01rr                      1-  326     	MOVR	r0x1021,W
+     0018 25rr                      1-  327     	ADDIA	(_channel_index + 0)
+                                    1-  328     	BANKSEL	r0x1022
      0019 rrrr                      3-  109 m1      .banksel ram_address
-     001A 00rr                      1-  330     	MOVAR	r0x1022
-     001B 21rr                      1-  331     	MOVIA	((_channel_index + 0) >> 8) & 0xff
-     001C 2600                      1-  332     	ADCIA	0x00
-                                    1-  333     	BANKSEL	r0x1023
+     001A 00rr                      1-  329     	MOVAR	r0x1022
+     001B 21rr                      1-  330     	MOVIA	((_channel_index + 0) >> 8) & 0xff
+     001C 2600                      1-  331     	ADCIA	0x00
+                                    1-  332     	BANKSEL	r0x1023
      001D rrrr                      3-  109 m1      .banksel ram_address
-     001E 00rr                      1-  334     	MOVAR	r0x1023
-                                    1-  335     	BANKSEL	r0x1022
+     001E 00rr                      1-  333     	MOVAR	r0x1023
+                                    1-  334     	BANKSEL	r0x1022
      001F rrrr                      3-  109 m1      .banksel ram_address
-     0020 01rr                      1-  336     	MOVR	r0x1022,W
-     0021 00rr                      1-  337     	MOVAR	STK01
-                                    1-  338     	BANKSEL	r0x1023
+     0020 01rr                      1-  335     	MOVR	r0x1022,W
+     0021 00rr                      1-  336     	MOVAR	STK01
+                                    1-  337     	BANKSEL	r0x1023
      0022 rrrr                      3-  109 m1      .banksel ram_address
-     0023 01rr                      1-  339     	MOVR	r0x1023,W
-     0024 00rr                      1-  340     	MOVAR	STK00
-     0025 2180                      1-  341     	MOVIA	0x80
-                                    1-  342     	MCALL	__gptrget1
+     0023 01rr                      1-  338     	MOVR	r0x1023,W
+     0024 00rr                      1-  339     	MOVAR	STK00
+     0025 2180                      1-  340     	MOVIA	0x80
+                                    1-  341     	MCALL	__gptrget1
      0026 2rrr                      3-   65 m1      LCALL rom_address
-                                    1-  343     	BANKSEL	r0x1024
+                                    1-  342     	BANKSEL	r0x1024
      0027 rrrr                      3-  109 m1      .banksel ram_address
-     0028 00rr                      1-  344     	MOVAR	r0x1024
-     0029 01rr                      1-  345     	MOVR	r0x1024,W
-     002A 00rr                      1-  346     	MOVAR	STK00
-     002B 2105                      1-  347     	MOVIA	0x05
-                                    1-  348     	MCALL	_CS1630_write_byte
+     0028 00rr                      1-  343     	MOVAR	r0x1024
+     0029 01rr                      1-  344     	MOVR	r0x1024,W
+     002A 00rr                      1-  345     	MOVAR	STK00
+     002B 2105                      1-  346     	MOVIA	0x05
+                                    1-  347     	MCALL	_CS1630_write_byte
      002C 2rrr                      3-   65 m1      LCALL rom_address
-                                    1-  349     	.line	64, "BSP\app_tx.c"; 	for(i = 0; i < 5; i++)
-                                    1-  350     	BANKSEL	r0x1022
+                                    1-  348     	.line	66, "BSP\app_tx.c"; 	for(i = 0; i < 3; i++)
+                                    1-  349     	BANKSEL	r0x1022
      002D rrrr                      3-  109 m1      .banksel ram_address
-     002E 02rr                      1-  351     	CLRR	r0x1022
-     002F                           1-  352     _02013_DS_:
-                                    1-  353     	.line	66, "BSP\app_tx.c"; 	CS1630_SendPack(RF_W_TX_PAYLOAD, CS1630_Tx_Payload, 0x14); // 发送数据包
-     002F 21rr                      1-  354     	MOVIA	(_CS1630_Tx_Payload + 0)
-                                    1-  355     	BANKSEL	r0x1023
+     002E 02rr                      1-  350     	CLRR	r0x1022
+     002F                           1-  351     _02014_DS_:
+                                    1-  352     	.line	68, "BSP\app_tx.c"; 	CS1630_SendPack(RF_W_TX_PAYLOAD, CS1630_Tx_Payload, 0x14); // 发送数据包
+     002F 21rr                      1-  353     	MOVIA	(_CS1630_Tx_Payload + 0)
+                                    1-  354     	BANKSEL	r0x1023
      0030 rrrr                      3-  109 m1      .banksel ram_address
-     0031 00rr                      1-  356     	MOVAR	r0x1023
-                                    1-  357     	BANKSEL	r0x1024
+     0031 00rr                      1-  355     	MOVAR	r0x1023
+                                    1-  356     	BANKSEL	r0x1024
      0032 rrrr                      3-  109 m1      .banksel ram_address
-     0033 02rr                      1-  358     	CLRR	r0x1024
-                                    1-  359     	BANKSEL	r0x1025
+     0033 02rr                      1-  357     	CLRR	r0x1024
+                                    1-  358     	BANKSEL	r0x1025
      0034 rrrr                      3-  109 m1      .banksel ram_address
-     0035 02rr                      1-  360     	CLRR	r0x1025
-     0036 2114                      1-  361     	MOVIA	0x14
-     0037 00rr                      1-  362     	MOVAR	STK03
-                                    1-  363     	BANKSEL	r0x1023
+     0035 02rr                      1-  359     	CLRR	r0x1025
+     0036 2114                      1-  360     	MOVIA	0x14
+     0037 00rr                      1-  361     	MOVAR	STK03
+                                    1-  362     	BANKSEL	r0x1023
      0038 rrrr                      3-  109 m1      .banksel ram_address
-     0039 01rr                      1-  364     	MOVR	r0x1023,W
-     003A 00rr                      1-  365     	MOVAR	STK02
-                                    1-  366     	BANKSEL	r0x1024
+     0039 01rr                      1-  363     	MOVR	r0x1023,W
+     003A 00rr                      1-  364     	MOVAR	STK02
+                                    1-  365     	BANKSEL	r0x1024
      003B rrrr                      3-  109 m1      .banksel ram_address
-     003C 01rr                      1-  367     	MOVR	r0x1024,W
-     003D 00rr                      1-  368     	MOVAR	STK01
-                                    1-  369     	BANKSEL	r0x1025
+     003C 01rr                      1-  366     	MOVR	r0x1024,W
+     003D 00rr                      1-  367     	MOVAR	STK01
+                                    1-  368     	BANKSEL	r0x1025
      003E rrrr                      3-  109 m1      .banksel ram_address
-     003F 01rr                      1-  370     	MOVR	r0x1025,W
-     0040 00rr                      1-  371     	MOVAR	STK00
-     0041 21A0                      1-  372     	MOVIA	0xa0
-                                    1-  373     	MCALL	_CS1630_SendPack
+     003F 01rr                      1-  369     	MOVR	r0x1025,W
+     0040 00rr                      1-  370     	MOVAR	STK00
+     0041 21A0                      1-  371     	MOVIA	0xa0
+                                    1-  372     	MCALL	_CS1630_SendPack
      0042 2rrr                      3-   65 m1      LCALL rom_address
-                                    1-  374     	.line	67, "BSP\app_tx.c"; 	CS1630_CE_High(); // 产生CE脉冲，开始发送
-                                    1-  375     	MCALL	_CS1630_CE_High
+                                    1-  373     	.line	69, "BSP\app_tx.c"; 	CS1630_CE_High(); // 产生CE脉冲，开始发送
+                                    1-  374     	MCALL	_CS1630_CE_High
      0043 2rrr                      3-   65 m1      LCALL rom_address
-                                    1-  376     	.line	68, "BSP\app_tx.c"; 	delay_40us(); // 等待脉冲稳定
-                                    1-  377     	MCALL	_delay_40us
+                                    1-  375     	.line	70, "BSP\app_tx.c"; 	delay_40us(); // 等待脉冲稳定
+                                    1-  376     	MCALL	_delay_40us
      0044 2rrr                      3-   65 m1      LCALL rom_address
-                                    1-  378     	.line	69, "BSP\app_tx.c"; 	CS1630_CE_Low(); // 结束脉冲
-                                    1-  379     	MCALL	_CS1630_CE_Low
+                                    1-  377     	.line	71, "BSP\app_tx.c"; 	CS1630_CE_Low(); // 结束脉冲
+                                    1-  378     	MCALL	_CS1630_CE_Low
      0045 2rrr                      3-   65 m1      LCALL rom_address
-     0046                           1-  380     _02009_DS_:
-                                    1-  381     	.line	73, "BSP\app_tx.c"; 	status = CS1630_read_byte(CS1630_BANK0_STATUS); // 读取状态寄存器
-     0046 2107                      1-  382     	MOVIA	0x07
-                                    1-  383     	MCALL	_CS1630_read_byte
+     0046                           1-  379     _02009_DS_:
+                                    1-  380     	.line	75, "BSP\app_tx.c"; 	status = CS1630_read_byte(CS1630_BANK0_STATUS); // 读取状态寄存器
+     0046 2107                      1-  381     	MOVIA	0x07
+                                    1-  382     	MCALL	_CS1630_read_byte
      0047 2rrr                      3-   65 m1      LCALL rom_address
-                                    1-  384     	BANKSEL	r0x1023
+                                    1-  383     	BANKSEL	r0x1023
      0048 rrrr                      3-  109 m1      .banksel ram_address
-     0049 00rr                      1-  385     	MOVAR	r0x1023
-                                    1-  386     	.line	74, "BSP\app_tx.c"; 	if ((TX_DS & status) || (MAX_RT & status)) // 检查发送完成或重传达到最大次数
-     004A 0Err                      1-  387     	BTRSC	r0x1023,5
-                                    1-  388     	MGOTO	_02005_DS_
+     0049 00rr                      1-  384     	MOVAR	r0x1023
+                                    1-  385     	.line	76, "BSP\app_tx.c"; 	if ((TX_DS & status) || (MAX_RT & status)) // 检查发送完成或重传达到最大次数
+     004A 0Err                      1-  386     	BTRSC	r0x1023,5
+                                    1-  387     	MGOTO	_02005_DS_
      004B 3rrr                      3-   62 m1      LGOTO rom_address
-     004C 0Arr                      1-  389     	BTRSS	r0x1023,4
-                                    1-  390     	MGOTO	_02009_DS_
+     004C 0Arr                      1-  388     	BTRSS	r0x1023,4
+                                    1-  389     	MGOTO	_02009_DS_
      004D 3rrr                      3-   62 m1      LGOTO rom_address
-     004E                           1-  391     _02005_DS_:
-                                    1-  392     	.line	76, "BSP\app_tx.c"; 	CS1630_write_byte(CS1630_BANK0_STATUS, status); // 清除状态
-                                    1-  393     	BANKSEL	r0x1023
+     004E                           1-  390     _02005_DS_:
+                                    1-  391     	.line	78, "BSP\app_tx.c"; 	CS1630_write_byte(CS1630_BANK0_STATUS, status); // 清除状态
+                                    1-  392     	BANKSEL	r0x1023
      004E rrrr                      3-  109 m1      .banksel ram_address
-     004F 01rr                      1-  394     	MOVR	r0x1023,W
-     0050 00rr                      1-  395     	MOVAR	STK00
-     0051 2107                      1-  396     	MOVIA	0x07
-                                    1-  397     	MCALL	_CS1630_write_byte
+     004F 01rr                      1-  393     	MOVR	r0x1023,W
+     0050 00rr                      1-  394     	MOVAR	STK00
+     0051 2107                      1-  395     	MOVIA	0x07
+                                    1-  396     	MCALL	_CS1630_write_byte
      0052 2rrr                      3-   65 m1      LCALL rom_address
-                                    1-  398     	.line	64, "BSP\app_tx.c"; 	for(i = 0; i < 5; i++)
-                                    1-  399     	BANKSEL	r0x1022
+                                    1-  397     	.line	66, "BSP\app_tx.c"; 	for(i = 0; i < 3; i++)
+                                    1-  398     	BANKSEL	r0x1022
      0053 rrrr                      3-  109 m1      .banksel ram_address
-     0054 05rr                      1-  400     	INCR	r0x1022,F
-                                    1-  401     ;;unsigned compare: left < lit(0x5=5), size=1
-     0055 2105                      1-  402     	MOVIA	0x05
-     0056 04rr                      1-  403     	SUBAR	r0x1022,W
-     0057 0803                      1-  404     	BTRSS	STATUS,0
-                                    1-  405     	MGOTO	_02013_DS_
+     0054 05rr                      1-  399     	INCR	r0x1022,F
+                                    1-  400     ;;unsigned compare: left < lit(0x3=3), size=1
+     0055 2103                      1-  401     	MOVIA	0x03
+     0056 04rr                      1-  402     	SUBAR	r0x1022,W
+     0057 0803                      1-  403     	BTRSS	STATUS,0
+                                    1-  404     	MGOTO	_02014_DS_
      0058 3rrr                      3-   62 m1      LGOTO rom_address
-                                    1-  406     	.line	61, "BSP\app_tx.c"; 	for(idx = 0; idx < 3; idx++)
-                                    1-  407     	BANKSEL	r0x1021
+                                    1-  405     	.line	63, "BSP\app_tx.c"; 	for(idx = 0; idx < 3; idx++)
+                                    1-  406     	BANKSEL	r0x1021
      0059 rrrr                      3-  109 m1      .banksel ram_address
-     005A 05rr                      1-  408     	INCR	r0x1021,F
-                                    1-  409     ;;unsigned compare: left < lit(0x3=3), size=1
-     005B 2103                      1-  410     	MOVIA	0x03
-     005C 04rr                      1-  411     	SUBAR	r0x1021,W
-     005D 0803                      1-  412     	BTRSS	STATUS,0
-                                    1-  413     	MGOTO	_02015_DS_
+     005A 05rr                      1-  407     	INCR	r0x1021,F
+                                    1-  408     ;;unsigned compare: left < lit(0x3=3), size=1
+     005B 2103                      1-  409     	MOVIA	0x03
+     005C 04rr                      1-  410     	SUBAR	r0x1021,W
+     005D 0803                      1-  411     	BTRSS	STATUS,0
+                                    1-  412     	MGOTO	_02016_DS_
      005E 3rrr                      3-   62 m1      LGOTO rom_address
-                                    1-  414     	.line	84, "BSP\app_tx.c"; 	CS1630_write_byte(CS1630_BANK0_CONFIG, 0x00);
-     005F 2100                      1-  415     	MOVIA	0x00
-     0060 00rr                      1-  416     	MOVAR	STK00
-     0061 2100                      1-  417     	MOVIA	0x00
-                                    1-  418     	MCALL	_CS1630_write_byte
-     0062 2rrr                      3-   65 m1      LCALL rom_address
-                                    1-  419     	.line	85, "BSP\app_tx.c"; 	}
-                                    1-  420     	RETURN	
-     0063 0010                      3-   39 m1      ret
-                                    1-  421     ; exit point of _send_ble_packet
-                                    1-  424     ;	code size estimation:
-                                    1-  425     ;	   77+   23 =   100 instructions (  246 byte)
-                                    1-  427     	end
+                                    1-  413     	.line	60, "BSP\app_tx.c"; 	for ( k = 0; k < 4; i++)
+                                    1-  414     	MGOTO	_02026_DS_
+     005F 3rrr                      3-   62 m1      LGOTO rom_address
+                                    1-  415     	.line	87, "BSP\app_tx.c"; 	}
+                                    1-  416     	RETURN	
+     0060 0010                      3-   39 m1      ret
+                                    1-  417     ; exit point of _send_ble_packet
+                                    1-  420     ;	code size estimation:
+                                    1-  421     ;	   74+   23 =    97 instructions (  240 byte)
+                                    1-  423     	end
 
 SYMBOL TABLE            TYPE     VALUE
 __pin_count__           Constant 0000000E

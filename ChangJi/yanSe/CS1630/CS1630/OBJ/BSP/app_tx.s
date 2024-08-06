@@ -199,7 +199,7 @@ _CS1630_Tx_Payload:
 	dw	0x45	; 69	'E'
 	dw	0x00	; 0
 	dw	0x00	; 0
-	dw	0x01	; 1
+	dw	0xbf	; 191
 	dw	0xaa	; 170
 	dw	0xff	; 255
 	dw	0xff	; 255
@@ -254,7 +254,6 @@ _channel_index:
 ;   _CS1630_CE_Low
 ;   _CS1630_read_byte
 ;   _CS1630_write_byte
-;   _CS1630_write_byte
 ;   _CS1630_CE_Low
 ;   _CS1630_Flush_Tx
 ;   _CS1630_Clear_All_Irq
@@ -267,7 +266,6 @@ _channel_index:
 ;   _delay_40us
 ;   _CS1630_CE_Low
 ;   _CS1630_read_byte
-;   _CS1630_write_byte
 ;   _CS1630_write_byte
 ;9 compiler assigned registers:
 ;   r0x1021
@@ -284,45 +282,46 @@ _channel_index:
 	.debuginfo subprogram _send_ble_packet
 ;local variable name mapping:
 	.debuginfo complex-type (local-sym "_code_value" 1 "BSP\app_tx.c" 35 (basetype 1 unsigned) split "r0x1021")
-	.debuginfo complex-type (local-sym "_idx" 1 "BSP\app_tx.c" 39 (basetype 1 unsigned) split "r0x1021")
+	.debuginfo complex-type (local-sym "_idx" 1 "BSP\app_tx.c" 40 (basetype 1 unsigned) split "r0x1021")
 	.debuginfo complex-type (local-sym "_i" 1 "BSP\app_tx.c" 37 (basetype 1 unsigned) split "r0x1022")
-	.debuginfo complex-type (local-sym "_status" 1 "BSP\app_tx.c" 40 (basetype 1 unsigned) split "r0x1023")
+	.debuginfo complex-type (local-sym "_status" 1 "BSP\app_tx.c" 41 (basetype 1 unsigned) split "r0x1023")
 _send_ble_packet:
 ; 2 exit points
 	.line	35, "BSP\app_tx.c"; 	void send_ble_packet(unsigned char code_value)
 	BANKSEL	r0x1021
 	MOVAR	r0x1021
-	.line	42, "BSP\app_tx.c"; 	s_data_num++;
+	.line	43, "BSP\app_tx.c"; 	s_data_num++;
 	BANKSEL	_s_data_num
 	INCR	_s_data_num,F
-	.line	46, "BSP\app_tx.c"; 	CS1630_Tx_Payload[7] = s_data_num; // 序号，用于区分不同数据包
+	.line	47, "BSP\app_tx.c"; 	CS1630_Tx_Payload[7] = s_data_num; // 序号，用于区分不同数据包
 	MOVR	_s_data_num,W
 	BANKSEL	_CS1630_Tx_Payload
 	MOVAR	(_CS1630_Tx_Payload + 7)
-	.line	47, "BSP\app_tx.c"; 	CS1630_Tx_Payload[8] = code_value; // 码值，用于指示功能
+	.line	48, "BSP\app_tx.c"; 	CS1630_Tx_Payload[8] = code_value; // 码值，用于指示功能
 	BANKSEL	r0x1021
 	MOVR	r0x1021,W
 	BANKSEL	_CS1630_Tx_Payload
 	MOVAR	(_CS1630_Tx_Payload + 8)
-	.line	51, "BSP\app_tx.c"; 	CS1630_CE_Low();
+	.line	52, "BSP\app_tx.c"; 	CS1630_CE_Low();
 	MCALL	_CS1630_CE_Low
-	.line	52, "BSP\app_tx.c"; 	CS1630_Flush_Tx();
+	.line	53, "BSP\app_tx.c"; 	CS1630_Flush_Tx();
 	MCALL	_CS1630_Flush_Tx
-	.line	53, "BSP\app_tx.c"; 	CS1630_Clear_All_Irq();
+	.line	54, "BSP\app_tx.c"; 	CS1630_Clear_All_Irq();
 	MCALL	_CS1630_Clear_All_Irq
-	.line	56, "BSP\app_tx.c"; 	CS1630_write_byte(CS1630_BANK0_CONFIG, 0x0e);
+	.line	57, "BSP\app_tx.c"; 	CS1630_write_byte(CS1630_BANK0_CONFIG, 0x0e);
 	MOVIA	0x0e
 	MOVAR	STK00
 	MOVIA	0x00
 	MCALL	_CS1630_write_byte
-	.line	57, "BSP\app_tx.c"; 	delay_ms(5);
+	.line	58, "BSP\app_tx.c"; 	delay_ms(5);
 	MOVIA	0x05
 	MCALL	_delay_ms
-	.line	61, "BSP\app_tx.c"; 	for(idx = 0; idx < 3; idx++)
+_02026_DS_:
+	.line	63, "BSP\app_tx.c"; 	for(idx = 0; idx < 3; idx++)
 	BANKSEL	r0x1021
 	CLRR	r0x1021
-_02015_DS_:
-	.line	63, "BSP\app_tx.c"; 	CS1630_write_byte(CS1630_BANK0_RF_CH, channel_index[idx]); // 设置射频频道
+_02016_DS_:
+	.line	65, "BSP\app_tx.c"; 	CS1630_write_byte(CS1630_BANK0_RF_CH, channel_index[idx]); // 设置射频频道
 	BANKSEL	r0x1021
 	MOVR	r0x1021,W
 	ADDIA	(_channel_index + 0)
@@ -346,11 +345,11 @@ _02015_DS_:
 	MOVAR	STK00
 	MOVIA	0x05
 	MCALL	_CS1630_write_byte
-	.line	64, "BSP\app_tx.c"; 	for(i = 0; i < 5; i++)
+	.line	66, "BSP\app_tx.c"; 	for(i = 0; i < 3; i++)
 	BANKSEL	r0x1022
 	CLRR	r0x1022
-_02013_DS_:
-	.line	66, "BSP\app_tx.c"; 	CS1630_SendPack(RF_W_TX_PAYLOAD, CS1630_Tx_Payload, 0x14); // 发送数据包
+_02014_DS_:
+	.line	68, "BSP\app_tx.c"; 	CS1630_SendPack(RF_W_TX_PAYLOAD, CS1630_Tx_Payload, 0x14); // 发送数据包
 	MOVIA	(_CS1630_Tx_Payload + 0)
 	BANKSEL	r0x1023
 	MOVAR	r0x1023
@@ -371,57 +370,54 @@ _02013_DS_:
 	MOVAR	STK00
 	MOVIA	0xa0
 	MCALL	_CS1630_SendPack
-	.line	67, "BSP\app_tx.c"; 	CS1630_CE_High(); // 产生CE脉冲，开始发送
+	.line	69, "BSP\app_tx.c"; 	CS1630_CE_High(); // 产生CE脉冲，开始发送
 	MCALL	_CS1630_CE_High
-	.line	68, "BSP\app_tx.c"; 	delay_40us(); // 等待脉冲稳定
+	.line	70, "BSP\app_tx.c"; 	delay_40us(); // 等待脉冲稳定
 	MCALL	_delay_40us
-	.line	69, "BSP\app_tx.c"; 	CS1630_CE_Low(); // 结束脉冲
+	.line	71, "BSP\app_tx.c"; 	CS1630_CE_Low(); // 结束脉冲
 	MCALL	_CS1630_CE_Low
 _02009_DS_:
-	.line	73, "BSP\app_tx.c"; 	status = CS1630_read_byte(CS1630_BANK0_STATUS); // 读取状态寄存器
+	.line	75, "BSP\app_tx.c"; 	status = CS1630_read_byte(CS1630_BANK0_STATUS); // 读取状态寄存器
 	MOVIA	0x07
 	MCALL	_CS1630_read_byte
 	BANKSEL	r0x1023
 	MOVAR	r0x1023
-	.line	74, "BSP\app_tx.c"; 	if ((TX_DS & status) || (MAX_RT & status)) // 检查发送完成或重传达到最大次数
+	.line	76, "BSP\app_tx.c"; 	if ((TX_DS & status) || (MAX_RT & status)) // 检查发送完成或重传达到最大次数
 	BTRSC	r0x1023,5
 	MGOTO	_02005_DS_
 	BTRSS	r0x1023,4
 	MGOTO	_02009_DS_
 _02005_DS_:
-	.line	76, "BSP\app_tx.c"; 	CS1630_write_byte(CS1630_BANK0_STATUS, status); // 清除状态
+	.line	78, "BSP\app_tx.c"; 	CS1630_write_byte(CS1630_BANK0_STATUS, status); // 清除状态
 	BANKSEL	r0x1023
 	MOVR	r0x1023,W
 	MOVAR	STK00
 	MOVIA	0x07
 	MCALL	_CS1630_write_byte
-	.line	64, "BSP\app_tx.c"; 	for(i = 0; i < 5; i++)
+	.line	66, "BSP\app_tx.c"; 	for(i = 0; i < 3; i++)
 	BANKSEL	r0x1022
 	INCR	r0x1022,F
-;;unsigned compare: left < lit(0x5=5), size=1
-	MOVIA	0x05
+;;unsigned compare: left < lit(0x3=3), size=1
+	MOVIA	0x03
 	SUBAR	r0x1022,W
 	BTRSS	STATUS,0
-	MGOTO	_02013_DS_
-	.line	61, "BSP\app_tx.c"; 	for(idx = 0; idx < 3; idx++)
+	MGOTO	_02014_DS_
+	.line	63, "BSP\app_tx.c"; 	for(idx = 0; idx < 3; idx++)
 	BANKSEL	r0x1021
 	INCR	r0x1021,F
 ;;unsigned compare: left < lit(0x3=3), size=1
 	MOVIA	0x03
 	SUBAR	r0x1021,W
 	BTRSS	STATUS,0
-	MGOTO	_02015_DS_
-	.line	84, "BSP\app_tx.c"; 	CS1630_write_byte(CS1630_BANK0_CONFIG, 0x00);
-	MOVIA	0x00
-	MOVAR	STK00
-	MOVIA	0x00
-	MCALL	_CS1630_write_byte
-	.line	85, "BSP\app_tx.c"; 	}
+	MGOTO	_02016_DS_
+	.line	60, "BSP\app_tx.c"; 	for ( k = 0; k < 4; i++)
+	MGOTO	_02026_DS_
+	.line	87, "BSP\app_tx.c"; 	}
 	RETURN	
 ; exit point of _send_ble_packet
 
 
 ;	code size estimation:
-;	   77+   23 =   100 instructions (  246 byte)
+;	   74+   23 =    97 instructions (  240 byte)
 
 	end
