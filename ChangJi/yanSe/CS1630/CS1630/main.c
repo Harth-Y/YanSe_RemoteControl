@@ -45,7 +45,7 @@ void go_to_sleep(void)
 
 void sleep_count(unsigned char s_sleep_status)
 {
-  if(s_sleep_status == 0)
+  if(s_sleep_status == 0) // 有按键被按下，重新计时
   {
     sleep_conut_1 = 0;
     sleep_conut_2 = 0;

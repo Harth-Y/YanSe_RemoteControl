@@ -350,22 +350,22 @@ _02046_DS_:
 	BANKSEL	r0x1001
 	ADDAR	r0x1001,F
 _02047_DS_:
-	.line	136, "BSP\key.c"; 	key_init();
+	.line	119, "BSP\key.c"; 	key_init();
 	MCALL	_key_init
-	.line	138, "BSP\key.c"; 	sCodeValue = KeyValue - 0x01;
+	.line	121, "BSP\key.c"; 	sCodeValue = KeyValue - 0x01;
 	BANKSEL	r0x1001
 	DECR	r0x1001,F
-	.line	140, "BSP\key.c"; 	KeyStatus = PORTA & 0xfc;
+	.line	123, "BSP\key.c"; 	KeyStatus = PORTA & 0xfc;
 	MOVIA	0xfc
 	ANDAR	_PORTA,W
 	BANKSEL	r0x1002
 	MOVAR	r0x1002
-	.line	141, "BSP\key.c"; 	KeyStatus_s = 1;
+	.line	124, "BSP\key.c"; 	KeyStatus_s = 1;
 	MOVIA	0x01
 	BANKSEL	r0x1003
 	MOVAR	r0x1003
 _02052_DS_:
-	.line	142, "BSP\key.c"; 	while(0xfc != (PORTA & 0xfC))
+	.line	126, "BSP\key.c"; 	while(0xfc != (PORTA & 0xfC))
 	MOVIA	0xfc
 	ANDAR	_PORTA,W
 	BANKSEL	r0x1004
@@ -376,31 +376,31 @@ _02052_DS_:
 	MGOTO	_02151_DS_
 	MGOTO	_02054_DS_
 _02151_DS_:
-	.line	146, "BSP\key.c"; 	send_ble_packet(sCodeValue);
+	.line	128, "BSP\key.c"; 	send_ble_packet(sCodeValue);
 	BANKSEL	r0x1001
 	MOVR	r0x1001,W
 	MCALL	_send_ble_packet
-	.line	148, "BSP\key.c"; 	led();
+	.line	129, "BSP\key.c"; 	led();
 	MCALL	_led
-	.line	149, "BSP\key.c"; 	if(KeyStatus_s == 1) // 按键屏蔽时间，在按下后的250ms内不会再次发送数据包，需要长按超过250ms才会持续发送
+	.line	130, "BSP\key.c"; 	if(KeyStatus_s == 1)
 	BANKSEL	r0x1003
 	MOVR	r0x1003,W
 	XORIA	0x01
 	BTRSS	STATUS,2
 	MGOTO	_02049_DS_
-	.line	151, "BSP\key.c"; 	send_ble_packet(sCodeValue);
+	.line	132, "BSP\key.c"; 	send_ble_packet(sCodeValue);
 	BANKSEL	r0x1001
 	MOVR	r0x1001,W
 	MCALL	_send_ble_packet
-	.line	152, "BSP\key.c"; 	KeyStatus_s = 0;
+	.line	133, "BSP\key.c"; 	KeyStatus_s = 0;
 	BANKSEL	r0x1003
 	CLRR	r0x1003
-	.line	153, "BSP\key.c"; 	delay_250ms();
+	.line	134, "BSP\key.c"; 	delay_250ms();
 	MCALL	_delay_250ms
 _02049_DS_:
-	.line	155, "BSP\key.c"; 	key_init();
+	.line	136, "BSP\key.c"; 	key_init();
 	MCALL	_key_init
-	.line	157, "BSP\key.c"; 	if(KeyStatus != (PORTA & 0xfc))
+	.line	138, "BSP\key.c"; 	if(KeyStatus != (PORTA & 0xfc))
 	MOVIA	0xfc
 	ANDAR	_PORTA,W
 	BANKSEL	r0x1004
@@ -412,22 +412,22 @@ _02049_DS_:
 	MGOTO	_02152_DS_
 	MGOTO	_02052_DS_
 _02152_DS_:
-	.line	158, "BSP\key.c"; 	return 0;
+	.line	139, "BSP\key.c"; 	return 0;
 	MOVIA	0x00
 	MGOTO	_02060_DS_
 _02054_DS_:
-	.line	160, "BSP\key.c"; 	return 0;
+	.line	141, "BSP\key.c"; 	return 0;
 	MOVIA	0x00
 	MGOTO	_02060_DS_
 _02056_DS_:
-	.line	165, "BSP\key.c"; 	return 1;
+	.line	146, "BSP\key.c"; 	return 1;
 	MOVIA	0x01
 	MGOTO	_02060_DS_
 _02059_DS_:
-	.line	169, "BSP\key.c"; 	return 1;
+	.line	150, "BSP\key.c"; 	return 1;
 	MOVIA	0x01
 _02060_DS_:
-	.line	170, "BSP\key.c"; 	}
+	.line	151, "BSP\key.c"; 	}
 	RETURN	
 ; exit point of _Check_Keydown
 

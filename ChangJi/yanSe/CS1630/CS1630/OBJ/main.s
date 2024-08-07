@@ -390,7 +390,7 @@ _main:
 	DISI
 	.line	72, "main.c"; 	key_init();
 	MCALL	_key_init
-	.line	73, "main.c"; 	CS1630_Init(); // 初始化CS1630模块
+	.line	73, "main.c"; 	CS1630_Init();
 	MCALL	_CS1630_Init
 	.line	74, "main.c"; 	open_WDT();
 	MCALL	_open_WDT
@@ -467,10 +467,10 @@ _02022_DS_:
 	INCR	r0x1005,W
 	BANKSEL	_sleep_conut_2
 	MOVAR	_sleep_conut_2
-;;unsigned compare: left < lit(0x1E=30), size=1
+;;unsigned compare: left < lit(0x20=32), size=1
 _02024_DS_:
-	.line	62, "main.c"; 	if(sleep_conut_2 >= 30) // 5s
-	MOVIA	0x1e
+	.line	62, "main.c"; 	if(sleep_conut_2 >= 32) // 5s
+	MOVIA	0x20
 	BANKSEL	_sleep_conut_2
 	SUBAR	_sleep_conut_2,W
 	BTRSS	STATUS,0

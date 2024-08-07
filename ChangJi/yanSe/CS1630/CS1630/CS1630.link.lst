@@ -1020,7 +1020,7 @@ main.o:_02022_DS_:
 000003b1 e0fc                BCR      STATUS, BK0
 000003b2 ff14                MOVAR    0x6b
 main.o:_02024_DS_:
-000003b3 dee1                MOVIA    0x1e
+000003b3 dedf                MOVIA    0x20
 000003b4 e0fc                BCR      STATUS, BK0
 000003b5 fb94                SUBAR    0x6b, ToAcc
 000003b6 f7fc                BTRSS    STATUS, C

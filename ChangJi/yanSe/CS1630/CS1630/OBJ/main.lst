@@ -430,7 +430,7 @@ NYASM 2.42
                                     1-  391     	.line	72, "main.c"; 	key_init();
                                     1-  392     	MCALL	_key_init
      0001 2rrr                      3-   65 m1      LCALL rom_address
-                                    1-  393     	.line	73, "main.c"; 	CS1630_Init(); // 初始化CS1630模块
+                                    1-  393     	.line	73, "main.c"; 	CS1630_Init();
                                     1-  394     	MCALL	_CS1630_Init
      0002 2rrr                      3-   65 m1      LCALL rom_address
                                     1-  395     	.line	74, "main.c"; 	open_WDT();
@@ -523,10 +523,10 @@ NYASM 2.42
                                     1-  468     	BANKSEL	_sleep_conut_2
      001A rrrr                      3-  109 m1      .banksel ram_address
      001B 00rr                      1-  469     	MOVAR	_sleep_conut_2
-                                    1-  470     ;;unsigned compare: left < lit(0x1E=30), size=1
+                                    1-  470     ;;unsigned compare: left < lit(0x20=32), size=1
      001C                           1-  471     _02024_DS_:
-                                    1-  472     	.line	62, "main.c"; 	if(sleep_conut_2 >= 30) // 5s
-     001C 211E                      1-  473     	MOVIA	0x1e
+                                    1-  472     	.line	62, "main.c"; 	if(sleep_conut_2 >= 32) // 5s
+     001C 2120                      1-  473     	MOVIA	0x20
                                     1-  474     	BANKSEL	_sleep_conut_2
      001D rrrr                      3-  109 m1      .banksel ram_address
      001E 04rr                      1-  475     	SUBAR	_sleep_conut_2,W

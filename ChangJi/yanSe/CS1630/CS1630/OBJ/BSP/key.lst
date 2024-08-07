@@ -440,26 +440,26 @@ NYASM 2.42
      0070 rrrr                      3-  109 m1      .banksel ram_address
      0071 03rr                      1-  351     	ADDAR	r0x1001,F
      0072                           1-  352     _02047_DS_:
-                                    1-  353     	.line	136, "BSP\key.c"; 	key_init();
+                                    1-  353     	.line	119, "BSP\key.c"; 	key_init();
                                     1-  354     	MCALL	_key_init
      0072 2rrr                      3-   65 m1      LCALL rom_address
-                                    1-  355     	.line	138, "BSP\key.c"; 	sCodeValue = KeyValue - 0x01;
+                                    1-  355     	.line	121, "BSP\key.c"; 	sCodeValue = KeyValue - 0x01;
                                     1-  356     	BANKSEL	r0x1001
      0073 rrrr                      3-  109 m1      .banksel ram_address
      0074 06rr                      1-  357     	DECR	r0x1001,F
-                                    1-  358     	.line	140, "BSP\key.c"; 	KeyStatus = PORTA & 0xfc;
+                                    1-  358     	.line	123, "BSP\key.c"; 	KeyStatus = PORTA & 0xfc;
      0075 21FC                      1-  359     	MOVIA	0xfc
      0076 10rr                      1-  360     	ANDAR	_PORTA,W
                                     1-  361     	BANKSEL	r0x1002
      0077 rrrr                      3-  109 m1      .banksel ram_address
      0078 00rr                      1-  362     	MOVAR	r0x1002
-                                    1-  363     	.line	141, "BSP\key.c"; 	KeyStatus_s = 1;
+                                    1-  363     	.line	124, "BSP\key.c"; 	KeyStatus_s = 1;
      0079 2101                      1-  364     	MOVIA	0x01
                                     1-  365     	BANKSEL	r0x1003
      007A rrrr                      3-  109 m1      .banksel ram_address
      007B 00rr                      1-  366     	MOVAR	r0x1003
      007C                           1-  367     _02052_DS_:
-                                    1-  368     	.line	142, "BSP\key.c"; 	while(0xfc != (PORTA & 0xfC))
+                                    1-  368     	.line	126, "BSP\key.c"; 	while(0xfc != (PORTA & 0xfC))
      007C 21FC                      1-  369     	MOVIA	0xfc
      007D 10rr                      1-  370     	ANDAR	_PORTA,W
                                     1-  371     	BANKSEL	r0x1004
@@ -473,16 +473,16 @@ NYASM 2.42
                                     1-  377     	MGOTO	_02054_DS_
      0084 3rrr                      3-   62 m1      LGOTO rom_address
      0085                           1-  378     _02151_DS_:
-                                    1-  379     	.line	146, "BSP\key.c"; 	send_ble_packet(sCodeValue);
+                                    1-  379     	.line	128, "BSP\key.c"; 	send_ble_packet(sCodeValue);
                                     1-  380     	BANKSEL	r0x1001
      0085 rrrr                      3-  109 m1      .banksel ram_address
      0086 01rr                      1-  381     	MOVR	r0x1001,W
                                     1-  382     	MCALL	_send_ble_packet
      0087 2rrr                      3-   65 m1      LCALL rom_address
-                                    1-  383     	.line	148, "BSP\key.c"; 	led();
+                                    1-  383     	.line	129, "BSP\key.c"; 	led();
                                     1-  384     	MCALL	_led
      0088 2rrr                      3-   65 m1      LCALL rom_address
-                                    1-  385     	.line	149, "BSP\key.c"; 	if(KeyStatus_s == 1) // 按键屏蔽时间，在按下后的250ms内不会再次发送数据包，需要长按超过250ms才会持续发送
+                                    1-  385     	.line	130, "BSP\key.c"; 	if(KeyStatus_s == 1)
                                     1-  386     	BANKSEL	r0x1003
      0089 rrrr                      3-  109 m1      .banksel ram_address
      008A 01rr                      1-  387     	MOVR	r0x1003,W
@@ -490,24 +490,24 @@ NYASM 2.42
      008C 0903                      1-  389     	BTRSS	STATUS,2
                                     1-  390     	MGOTO	_02049_DS_
      008D 3rrr                      3-   62 m1      LGOTO rom_address
-                                    1-  391     	.line	151, "BSP\key.c"; 	send_ble_packet(sCodeValue);
+                                    1-  391     	.line	132, "BSP\key.c"; 	send_ble_packet(sCodeValue);
                                     1-  392     	BANKSEL	r0x1001
      008E rrrr                      3-  109 m1      .banksel ram_address
      008F 01rr                      1-  393     	MOVR	r0x1001,W
                                     1-  394     	MCALL	_send_ble_packet
      0090 2rrr                      3-   65 m1      LCALL rom_address
-                                    1-  395     	.line	152, "BSP\key.c"; 	KeyStatus_s = 0;
+                                    1-  395     	.line	133, "BSP\key.c"; 	KeyStatus_s = 0;
                                     1-  396     	BANKSEL	r0x1003
      0091 rrrr                      3-  109 m1      .banksel ram_address
      0092 02rr                      1-  397     	CLRR	r0x1003
-                                    1-  398     	.line	153, "BSP\key.c"; 	delay_250ms();
+                                    1-  398     	.line	134, "BSP\key.c"; 	delay_250ms();
                                     1-  399     	MCALL	_delay_250ms
      0093 2rrr                      3-   65 m1      LCALL rom_address
      0094                           1-  400     _02049_DS_:
-                                    1-  401     	.line	155, "BSP\key.c"; 	key_init();
+                                    1-  401     	.line	136, "BSP\key.c"; 	key_init();
                                     1-  402     	MCALL	_key_init
      0094 2rrr                      3-   65 m1      LCALL rom_address
-                                    1-  403     	.line	157, "BSP\key.c"; 	if(KeyStatus != (PORTA & 0xfc))
+                                    1-  403     	.line	138, "BSP\key.c"; 	if(KeyStatus != (PORTA & 0xfc))
      0095 21FC                      1-  404     	MOVIA	0xfc
      0096 10rr                      1-  405     	ANDAR	_PORTA,W
                                     1-  406     	BANKSEL	r0x1004
@@ -523,25 +523,25 @@ NYASM 2.42
                                     1-  413     	MGOTO	_02052_DS_
      009E 3rrr                      3-   62 m1      LGOTO rom_address
      009F                           1-  414     _02152_DS_:
-                                    1-  415     	.line	158, "BSP\key.c"; 	return 0;
+                                    1-  415     	.line	139, "BSP\key.c"; 	return 0;
      009F 2100                      1-  416     	MOVIA	0x00
                                     1-  417     	MGOTO	_02060_DS_
      00A0 3rrr                      3-   62 m1      LGOTO rom_address
      00A1                           1-  418     _02054_DS_:
-                                    1-  419     	.line	160, "BSP\key.c"; 	return 0;
+                                    1-  419     	.line	141, "BSP\key.c"; 	return 0;
      00A1 2100                      1-  420     	MOVIA	0x00
                                     1-  421     	MGOTO	_02060_DS_
      00A2 3rrr                      3-   62 m1      LGOTO rom_address
      00A3                           1-  422     _02056_DS_:
-                                    1-  423     	.line	165, "BSP\key.c"; 	return 1;
+                                    1-  423     	.line	146, "BSP\key.c"; 	return 1;
      00A3 2101                      1-  424     	MOVIA	0x01
                                     1-  425     	MGOTO	_02060_DS_
      00A4 3rrr                      3-   62 m1      LGOTO rom_address
      00A5                           1-  426     _02059_DS_:
-                                    1-  427     	.line	169, "BSP\key.c"; 	return 1;
+                                    1-  427     	.line	150, "BSP\key.c"; 	return 1;
      00A5 2101                      1-  428     	MOVIA	0x01
      00A6                           1-  429     _02060_DS_:
-                                    1-  430     	.line	170, "BSP\key.c"; 	}
+                                    1-  430     	.line	151, "BSP\key.c"; 	}
                                     1-  431     	RETURN	
      00A6 0010                      3-   39 m1      ret
                                     1-  432     ; exit point of _Check_Keydown

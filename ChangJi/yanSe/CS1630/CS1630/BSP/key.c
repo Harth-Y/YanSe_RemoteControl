@@ -67,10 +67,10 @@ void toggle_key(void)
 
 unsigned char Check_Keydown()
 {
-    unsigned char KeyValue=0;
-    unsigned char sCodeValue = 0;
-    unsigned char KeyStatus = 0;
-    unsigned char KeyStatus_s = 0;
+    unsigned char KeyValue=0;       // 按键值
+    unsigned char sCodeValue = 0;   // 码值
+    unsigned char KeyStatus = 0;    // 按键状态
+    unsigned char KeyStatus_s = 0;  // 首次按下标志位
 
     KeyStatus = PORTA;
     KeyStatus = KeyStatus & 0xfc; // 0xfc 0x7c
@@ -135,7 +135,7 @@ unsigned char Check_Keydown()
                 }
                 key_init();
 
-                if(KeyStatus != (PORTA & 0xfc))
+                if(KeyStatus != (PORTA & 0xfc)) // 若与一开始按的不是同一个按键则退出重新检测
                 return 0;
             }
             return 0;
