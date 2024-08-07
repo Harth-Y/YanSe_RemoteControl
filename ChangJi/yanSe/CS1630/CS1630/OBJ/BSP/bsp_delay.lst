@@ -206,11 +206,11 @@ NYASM 2.42
                                     1-  160     .segment "code"; module=bsp_delay, function=_delay_40us
      0000                           1-  162     _delay_40us:
                                     1-  163     ; 2 exit points
-                                    1-  164     	.line	30, "BSP\bsp_delay.c"; 	delay_us(6);
+                                    1-  164     	.line	31, "BSP\bsp_delay.c"; 	delay_us(6);
      0000 2106                      1-  165     	MOVIA	0x06
                                     1-  166     	MCALL	_delay_us
      0001 2rrr                      3-   65 m1      LCALL rom_address
-                                    1-  167     	.line	31, "BSP\bsp_delay.c"; 	}
+                                    1-  167     	.line	32, "BSP\bsp_delay.c"; 	}
                                     1-  168     	RETURN	
      0002 0010                      3-   39 m1      ret
                                     1-  169     ; exit point of _delay_40us
@@ -226,11 +226,11 @@ NYASM 2.42
                                     1-  181     ;local variable name mapping:
      0000                           1-  184     _delay_us:
                                     1-  185     ; 2 exit points
-                                    1-  186     	.line	21, "BSP\bsp_delay.c"; 	void delay_us(unsigned char nus)
+                                    1-  186     	.line	22, "BSP\bsp_delay.c"; 	void delay_us(unsigned char nus)
                                     1-  187     	BANKSEL	r0x1000
      0000 rrrr                      3-  109 m1      .banksel ram_address
      0001 00rr                      1-  188     	MOVAR	r0x1000
-                                    1-  189     	.line	24, "BSP\bsp_delay.c"; 	for(i=1;i<=nus;i++)
+                                    1-  189     	.line	25, "BSP\bsp_delay.c"; 	for(i=1;i<=nus;i++)
      0002 2101                      1-  190     	MOVIA	0x01
                                     1-  191     	BANKSEL	r0x1001
      0003 rrrr                      3-  109 m1      .banksel ram_address
@@ -245,16 +245,16 @@ NYASM 2.42
      0009 0803                      1-  198     	BTRSS	STATUS,0
                                     1-  199     	MGOTO	_02026_DS_
      000A 3rrr                      3-   62 m1      LGOTO rom_address
-                                    1-  200     	.line	25, "BSP\bsp_delay.c"; 	NOP(); // 3.5239us
+                                    1-  200     	.line	26, "BSP\bsp_delay.c"; 	NOP(); // 3.5239us
      000B 0000                      1-  201     	nop
-                                    1-  202     	.line	24, "BSP\bsp_delay.c"; 	for(i=1;i<=nus;i++)
+                                    1-  202     	.line	25, "BSP\bsp_delay.c"; 	for(i=1;i<=nus;i++)
                                     1-  203     	BANKSEL	r0x1001
      000C rrrr                      3-  109 m1      .banksel ram_address
      000D 05rr                      1-  204     	INCR	r0x1001,F
                                     1-  205     	MGOTO	_02024_DS_
      000E 3rrr                      3-   62 m1      LGOTO rom_address
      000F                           1-  206     _02026_DS_:
-                                    1-  207     	.line	26, "BSP\bsp_delay.c"; 	}
+                                    1-  207     	.line	27, "BSP\bsp_delay.c"; 	}
                                     1-  208     	RETURN	
      000F 0010                      3-   39 m1      ret
                                     1-  209     ; exit point of _delay_us
@@ -275,75 +275,77 @@ NYASM 2.42
      0000 219B                      1-  226     	MOVIA	0x9b
                                     1-  227     	MCALL	_delay_ms
      0001 2rrr                      3-   65 m1      LCALL rom_address
-                                    1-  228     	.line	18, "BSP\bsp_delay.c"; 	delay_ms(124);
-     0002 217C                      1-  229     	MOVIA	0x7c
-                                    1-  230     	MCALL	_delay_ms
-     0003 2rrr                      3-   65 m1      LCALL rom_address
-                                    1-  231     	.line	19, "BSP\bsp_delay.c"; 	}
-                                    1-  232     	RETURN	
-     0004 0010                      3-   39 m1      ret
-                                    1-  233     ; exit point of _delay_250ms
-                                    1-  235     ;***
-                                    1-  236     ;  pBlock Stats: dbName = C
+                                    1-  228     	.line	18, "BSP\bsp_delay.c"; 	CLRWDT();			//清理看门狗
+     0002 0002                      1-  229     	clrwdt
+                                    1-  230     	.line	19, "BSP\bsp_delay.c"; 	delay_ms(124);
+     0003 217C                      1-  231     	MOVIA	0x7c
+                                    1-  232     	MCALL	_delay_ms
+     0004 2rrr                      3-   65 m1      LCALL rom_address
+                                    1-  233     	.line	20, "BSP\bsp_delay.c"; 	}
+                                    1-  234     	RETURN	
+     0005 0010                      3-   39 m1      ret
+                                    1-  235     ; exit point of _delay_250ms
                                     1-  237     ;***
-                                    1-  238     ;has an exit
-                                    1-  239     ;3 compiler assigned registers:
-                                    1-  240     ;   r0x1002
-                                    1-  241     ;   r0x1003
-                                    1-  242     ;   r0x1004
-                                    1-  243     ;; Starting pCode block
-                                    1-  244     .segment "code"; module=bsp_delay, function=_delay_ms
-                                    1-  246     ;local variable name mapping:
-     0000                           1-  250     _delay_ms:
-                                    1-  251     ; 2 exit points
-                                    1-  252     	.line	5, "BSP\bsp_delay.c"; 	void delay_ms(unsigned char count)
-                                    1-  253     	BANKSEL	r0x1002
+                                    1-  238     ;  pBlock Stats: dbName = C
+                                    1-  239     ;***
+                                    1-  240     ;has an exit
+                                    1-  241     ;3 compiler assigned registers:
+                                    1-  242     ;   r0x1002
+                                    1-  243     ;   r0x1003
+                                    1-  244     ;   r0x1004
+                                    1-  245     ;; Starting pCode block
+                                    1-  246     .segment "code"; module=bsp_delay, function=_delay_ms
+                                    1-  248     ;local variable name mapping:
+     0000                           1-  252     _delay_ms:
+                                    1-  253     ; 2 exit points
+                                    1-  254     	.line	5, "BSP\bsp_delay.c"; 	void delay_ms(unsigned char count)
+                                    1-  255     	BANKSEL	r0x1002
      0000 rrrr                      3-  109 m1      .banksel ram_address
-     0001 00rr                      1-  254     	MOVAR	r0x1002
-                                    1-  255     	.line	9, "BSP\bsp_delay.c"; 	for(i = 0; i < count; i++)
-                                    1-  256     	BANKSEL	r0x1003
+     0001 00rr                      1-  256     	MOVAR	r0x1002
+                                    1-  257     	.line	9, "BSP\bsp_delay.c"; 	for(i = 0; i < count; i++)
+                                    1-  258     	BANKSEL	r0x1003
      0002 rrrr                      3-  109 m1      .banksel ram_address
-     0003 02rr                      1-  257     	CLRR	r0x1003
-     0004                           1-  258     _02011_DS_:
-                                    1-  259     	BANKSEL	r0x1002
+     0003 02rr                      1-  259     	CLRR	r0x1003
+     0004                           1-  260     _02011_DS_:
+                                    1-  261     	BANKSEL	r0x1002
      0004 rrrr                      3-  109 m1      .banksel ram_address
-     0005 01rr                      1-  260     	MOVR	r0x1002,W
-                                    1-  261     	BANKSEL	r0x1003
+     0005 01rr                      1-  262     	MOVR	r0x1002,W
+                                    1-  263     	BANKSEL	r0x1003
      0006 rrrr                      3-  109 m1      .banksel ram_address
-     0007 04rr                      1-  262     	SUBAR	r0x1003,W
-     0008 0C03                      1-  263     	BTRSC	STATUS,0
-                                    1-  264     	MGOTO	_02013_DS_
+     0007 04rr                      1-  264     	SUBAR	r0x1003,W
+     0008 0C03                      1-  265     	BTRSC	STATUS,0
+                                    1-  266     	MGOTO	_02013_DS_
      0009 3rrr                      3-   62 m1      LGOTO rom_address
-                                    1-  265     	.line	11, "BSP\bsp_delay.c"; 	for(j = 0; j < 254; j++)
-     000A 21FE                      1-  266     	MOVIA	0xfe
-                                    1-  267     	BANKSEL	r0x1004
+                                    1-  267     	.line	11, "BSP\bsp_delay.c"; 	for(j = 0; j < 254; j++)
+     000A 21FE                      1-  268     	MOVIA	0xfe
+                                    1-  269     	BANKSEL	r0x1004
      000B rrrr                      3-  109 m1      .banksel ram_address
-     000C 00rr                      1-  268     	MOVAR	r0x1004
-     000D                           1-  269     _02009_DS_:
-                                    1-  270     	.line	12, "BSP\bsp_delay.c"; 	NOP();
-     000D 0000                      1-  271     	nop
-                                    1-  272     	BANKSEL	r0x1004
+     000C 00rr                      1-  270     	MOVAR	r0x1004
+     000D                           1-  271     _02009_DS_:
+                                    1-  272     	.line	12, "BSP\bsp_delay.c"; 	NOP();
+     000D 0000                      1-  273     	nop
+                                    1-  274     	BANKSEL	r0x1004
      000E rrrr                      3-  109 m1      .banksel ram_address
-     000F 06rr                      1-  273     	DECR	r0x1004,F
-                                    1-  274     	.line	11, "BSP\bsp_delay.c"; 	for(j = 0; j < 254; j++)
-     0010 01rr                      1-  275     	MOVR	r0x1004,W
-     0011 0903                      1-  276     	BTRSS	STATUS,2
-                                    1-  277     	MGOTO	_02009_DS_
+     000F 06rr                      1-  275     	DECR	r0x1004,F
+                                    1-  276     	.line	11, "BSP\bsp_delay.c"; 	for(j = 0; j < 254; j++)
+     0010 01rr                      1-  277     	MOVR	r0x1004,W
+     0011 0903                      1-  278     	BTRSS	STATUS,2
+                                    1-  279     	MGOTO	_02009_DS_
      0012 3rrr                      3-   62 m1      LGOTO rom_address
-                                    1-  278     	.line	9, "BSP\bsp_delay.c"; 	for(i = 0; i < count; i++)
-                                    1-  279     	BANKSEL	r0x1003
+                                    1-  280     	.line	9, "BSP\bsp_delay.c"; 	for(i = 0; i < count; i++)
+                                    1-  281     	BANKSEL	r0x1003
      0013 rrrr                      3-  109 m1      .banksel ram_address
-     0014 05rr                      1-  280     	INCR	r0x1003,F
-                                    1-  281     	MGOTO	_02011_DS_
+     0014 05rr                      1-  282     	INCR	r0x1003,F
+                                    1-  283     	MGOTO	_02011_DS_
      0015 3rrr                      3-   62 m1      LGOTO rom_address
-     0016                           1-  282     _02013_DS_:
-                                    1-  283     	.line	14, "BSP\bsp_delay.c"; 	}
-                                    1-  284     	RETURN	
+     0016                           1-  284     _02013_DS_:
+                                    1-  285     	.line	14, "BSP\bsp_delay.c"; 	}
+                                    1-  286     	RETURN	
      0016 0010                      3-   39 m1      ret
-                                    1-  285     ; exit point of _delay_ms
-                                    1-  288     ;	code size estimation:
-                                    1-  289     ;	   33+   12 =    45 instructions (  114 byte)
-                                    1-  291     	end
+                                    1-  287     ; exit point of _delay_ms
+                                    1-  290     ;	code size estimation:
+                                    1-  291     ;	   33+   12 =    45 instructions (  114 byte)
+                                    1-  293     	end
 
 SYMBOL TABLE            TYPE     VALUE
 __pin_count__           Constant 0000000E

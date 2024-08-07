@@ -320,11 +320,11 @@ _isr:
 	.line	17, "main.c"; 	if(INTFbits.PABIF)
 	BTRSS	_INTFbits,1
 	MGOTO	_02007_DS_
-	.line	19, "main.c"; 	INTFbits.PABIF = 0;					// 清除PABIF（PortB输入变化中断标志位）
+	.line	21, "main.c"; 	INTFbits.PABIF = 0;					// 清除PABIF（PortB输入变化中断标志位）
 	MOVIA	0xfd
 	MOVAR	(_INTFbits + 0)
 _02007_DS_:
-	.line	21, "main.c"; 	}
+	.line	23, "main.c"; 	}
 	BANKSEL	___sdcc_saved_stk01
 	MOVR	___sdcc_saved_stk01,W
 	MOVAR	STK01
@@ -369,36 +369,42 @@ END_OF_INTERRUPT:
 .segment "code"; module=main, function=_main
 	.debuginfo subprogram _main
 ;local variable name mapping:
-	.debuginfo complex-type (local-sym "_sleep_status" 1 "main.c" 39 (basetype 1 unsigned) split "r0x1005")
+	.debuginfo complex-type (local-sym "_sleep_status" 1 "main.c" 44 (basetype 1 unsigned) split "r0x1005")
 _main:
 ; 2 exit points
-	.line	35, "main.c"; 	DISI();
+	.line	37, "main.c"; 	DISI();
 	DISI
-	.line	36, "main.c"; 	key_init();
+	.line	38, "main.c"; 	key_init();
 	MCALL	_key_init
-	.line	37, "main.c"; 	CS1630_Init(); // 初始化CS1630模块
+	.line	39, "main.c"; 	CS1630_Init(); // 初始化CS1630模块
 	MCALL	_CS1630_Init
-	.line	38, "main.c"; 	ENI();
+	.line	40, "main.c"; 	PCON |= C_WDT_En;	//使能看门狗
+	BSR	_PCON,7
+	.line	41, "main.c"; 	PCON |= C_LVR_En;	//低压复位使能
+	BSR	_PCON,3
+	.line	42, "main.c"; 	ENI();
 	ENI
 _02023_DS_:
-	.line	43, "main.c"; 	key_init();
+	.line	48, "main.c"; 	CLRWDT();			//清理看门狗
+	clrwdt
+	.line	49, "main.c"; 	key_init();
 	MCALL	_key_init
-	.line	44, "main.c"; 	sleep_status = Check_Keydown();
+	.line	50, "main.c"; 	sleep_status = Check_Keydown();
 	MCALL	_Check_Keydown
 	BANKSEL	r0x1005
 	MOVAR	r0x1005
-	.line	46, "main.c"; 	if(sleep_status == 0)
+	.line	52, "main.c"; 	if(sleep_status == 0)
 	MOVR	r0x1005,W
 	BTRSS	STATUS,2
 	MGOTO	_02017_DS_
-	.line	48, "main.c"; 	g_timer0_delay_conut_1 = 0;
+	.line	54, "main.c"; 	g_timer0_delay_conut_1 = 0;
 	BANKSEL	_g_timer0_delay_conut_1
 	CLRR	_g_timer0_delay_conut_1
-	.line	49, "main.c"; 	g_timer0_delay_conut_2 = 0;
+	.line	55, "main.c"; 	g_timer0_delay_conut_2 = 0;
 	BANKSEL	_g_timer0_delay_conut_2
 	CLRR	_g_timer0_delay_conut_2
 _02017_DS_:
-	.line	52, "main.c"; 	g_timer0_delay_conut_1 ++;
+	.line	58, "main.c"; 	g_timer0_delay_conut_1 ++;
 	BANKSEL	_g_timer0_delay_conut_1
 	MOVR	_g_timer0_delay_conut_1,W
 	BANKSEL	r0x1005
@@ -406,14 +412,15 @@ _02017_DS_:
 	INCR	r0x1005,W
 	BANKSEL	_g_timer0_delay_conut_1
 	MOVAR	_g_timer0_delay_conut_1
-	.line	54, "main.c"; 	if(g_timer0_delay_conut_1 == 255)
-	MOVR	_g_timer0_delay_conut_1,W
-	XORIA	0xff
-	BTRSS	STATUS,2
+;;unsigned compare: left < lit(0xFF=255), size=1
+	.line	60, "main.c"; 	if(g_timer0_delay_conut_1 >= 255)
+	MOVIA	0xff
+	SUBAR	_g_timer0_delay_conut_1,W
+	BTRSS	STATUS,0
 	MGOTO	_02019_DS_
-	.line	56, "main.c"; 	g_timer0_delay_conut_1 = 0;
+	.line	62, "main.c"; 	g_timer0_delay_conut_1 = 0;
 	CLRR	_g_timer0_delay_conut_1
-	.line	57, "main.c"; 	g_timer0_delay_conut_2 ++;
+	.line	63, "main.c"; 	g_timer0_delay_conut_2 ++;
 	BANKSEL	_g_timer0_delay_conut_2
 	MOVR	_g_timer0_delay_conut_2,W
 	BANKSEL	r0x1005
@@ -421,28 +428,33 @@ _02017_DS_:
 	INCR	r0x1005,W
 	BANKSEL	_g_timer0_delay_conut_2
 	MOVAR	_g_timer0_delay_conut_2
+;;unsigned compare: left < lit(0x40=64), size=1
 _02019_DS_:
-	.line	60, "main.c"; 	if(g_timer0_delay_conut_2 == 255)
+	.line	66, "main.c"; 	if(g_timer0_delay_conut_2 >= 64)
+	MOVIA	0x40
 	BANKSEL	_g_timer0_delay_conut_2
-	MOVR	_g_timer0_delay_conut_2,W
-	XORIA	0xff
-	BTRSS	STATUS,2
+	SUBAR	_g_timer0_delay_conut_2,W
+	BTRSS	STATUS,0
 	MGOTO	_02023_DS_
-	.line	62, "main.c"; 	g_timer0_delay_conut_2 = 0;
+	.line	68, "main.c"; 	g_timer0_delay_conut_2 = 0;
 	CLRR	_g_timer0_delay_conut_2
-	.line	63, "main.c"; 	wake_up_init();
+	.line	69, "main.c"; 	PCON &= ~C_WDT_En;
+	BCR	_PCON,7
+	.line	70, "main.c"; 	PCON &= ~C_LVR_En;
+	BCR	_PCON,3
+	.line	71, "main.c"; 	wake_up_init();
 	MCALL	_wake_up_init
-	.line	64, "main.c"; 	UPDATE_REG(PORTA);
+	.line	72, "main.c"; 	UPDATE_REG(PORTA);
 	MOVR	_PORTA,F
-	.line	65, "main.c"; 	INTF = 0x00;
+	.line	73, "main.c"; 	INTF = 0x00;
 	CLRR	_INTF
-	.line	66, "main.c"; 	SLEEP();
+	.line	74, "main.c"; 	SLEEP();
 	sleep
-	.line	67, "main.c"; 	INTFbits.PABIF = 0;	// 清除PABIF（PortB输入变化中断标志位）
+	.line	75, "main.c"; 	INTFbits.PABIF = 0;	// 清除PABIF（PortB输入变化中断标志位）
 	MOVIA	0xfd
 	MOVAR	(_INTFbits + 0)
 	MGOTO	_02023_DS_
-	.line	70, "main.c"; 	}
+	.line	78, "main.c"; 	}
 	RETURN	
 ; exit point of _main
 
@@ -455,28 +467,28 @@ _02019_DS_:
 	.debuginfo subprogram _wake_up_init
 _wake_up_init:
 ; 2 exit points
-	.line	25, "main.c"; 	AWUCON = 0xfc;
+	.line	27, "main.c"; 	AWUCON = 0xfc;
 	MOVIA	0xfc
 	MOVAR	_AWUCON
-	.line	26, "main.c"; 	BWUCON = 0x00;
+	.line	28, "main.c"; 	BWUCON = 0x00;
 	CLRR	_BWUCON
-	.line	27, "main.c"; 	IOSTA = C_PA2_Input | C_PA3_Input | C_PA4_Input | C_PA5_Input | C_PA6_Input | C_PA7_Input;  // 配置PA2、3、4、5、6、7为输入
+	.line	29, "main.c"; 	IOSTA = C_PA2_Input | C_PA3_Input | C_PA4_Input | C_PA5_Input | C_PA6_Input | C_PA7_Input;  // 配置PA2、3、4、5、6、7为输入
 	MOVIA	0xfc
 	IOST	_IOSTA
-	.line	28, "main.c"; 	APHCON = 0b00100011; // 设置2、3、4、6、7上拉
+	.line	30, "main.c"; 	APHCON = 0b00100011; // 设置2、3、4、6、7上拉
 	MOVIA	0x23
 	IOST	_APHCON
-	.line	29, "main.c"; 	INTE = C_INT_PABKey;
+	.line	31, "main.c"; 	INTE = C_INT_PABKey;
 	MOVIA	0x02
 	MOVAR	_INTE
-	.line	30, "main.c"; 	INTF = 0x00;
+	.line	32, "main.c"; 	INTF = 0x00;
 	CLRR	_INTF
-	.line	31, "main.c"; 	}
+	.line	33, "main.c"; 	}
 	RETURN	
 ; exit point of _wake_up_init
 
 
 ;	code size estimation:
-;	   76+   16 =    92 instructions (  216 byte)
+;	   80+   16 =    96 instructions (  224 byte)
 
 	end

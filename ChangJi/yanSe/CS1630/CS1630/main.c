@@ -16,6 +16,8 @@ void isr(void) __interrupt(0)
 {
   if(INTFbits.PABIF)
   {
+    // PCON |= C_WDT_En;	//使能看门狗
+    // PCON |= C_LVR_En;	//低压复位使能
     INTFbits.PABIF = 0;					// 清除PABIF（PortB输入变化中断标志位）
   }
 }
@@ -35,36 +37,42 @@ void main(void)
   DISI();
   key_init();
   CS1630_Init(); // 初始化CS1630模块
+  PCON |= C_WDT_En;	//使能看门狗
+  PCON |= C_LVR_En;	//低压复位使能
   ENI();
+
   unsigned char sleep_status = 1;
 
   while (1)
   {
+    CLRWDT();			//清理看门狗
     key_init();
     sleep_status = Check_Keydown();
 
     if(sleep_status == 0)
     {
-     g_timer0_delay_conut_1 = 0;
-     g_timer0_delay_conut_2 = 0;
+      g_timer0_delay_conut_1 = 0;
+      g_timer0_delay_conut_2 = 0;
     }
 
     g_timer0_delay_conut_1 ++;
 
-    if(g_timer0_delay_conut_1 == 255)
+    if(g_timer0_delay_conut_1 >= 255)
     {
-     g_timer0_delay_conut_1 = 0;
-     g_timer0_delay_conut_2 ++;
+      g_timer0_delay_conut_1 = 0;
+      g_timer0_delay_conut_2 ++;
     }
 
-    if(g_timer0_delay_conut_2 == 255)
+    if(g_timer0_delay_conut_2 >= 64)
     {
-     g_timer0_delay_conut_2 = 0;
-     wake_up_init();
-     UPDATE_REG(PORTA);
-     INTF = 0x00;
-     SLEEP();
-     INTFbits.PABIF = 0;	// 清除PABIF（PortB输入变化中断标志位）
+      g_timer0_delay_conut_2 = 0;
+      PCON &= ~C_WDT_En;
+      PCON &= ~C_LVR_En;
+      wake_up_init();
+      UPDATE_REG(PORTA);
+      INTF = 0x00;
+      SLEEP();
+      INTFbits.PABIF = 0;	// 清除PABIF（PortB输入变化中断标志位）
     }
 	}
 }

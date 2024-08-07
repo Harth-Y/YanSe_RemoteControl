@@ -39,13 +39,7 @@ void send_ble_packet(unsigned char code_value)
     unsigned char idx = 0;           // 用于遍历频道索引的计数器
     unsigned char status = 0x00;     // 状态寄存器，用于读取发送状态
     s_data_num++;
-    CS1630_Init(); // 初始化CS1630模块
-    CS1630_CE_Low(); // 设置CE引脚为低电平，准备发送数据
-    CS1630_ModeSwitch(Rf_PTX_Mode); // 切换到发送模式
-    // 配置CS1630模块的寄存器
-    CS1630_write_byte(CS1630_BANK0_FEATURE, 0x04);
-    CS1630_write_byte(CS1630_BANK0_CONFIG, 0x0e);
-    CS1630_write_byte(CS1630_BANK0_SETUP_VALUE, 0x04); // 配置值
+
     // 构建数据包
     CS1630_Tx_Payload[7] = s_data_num; // 序号，用于区分不同数据包
     CS1630_Tx_Payload[8] = code_value; // 码值，用于指示功能
@@ -83,6 +77,7 @@ void send_ble_packet(unsigned char code_value)
             }
         }
     }
+    CLRWDT();			//清理看门狗s
     // 重置配置寄存器
     CS1630_write_byte(CS1630_BANK0_CONFIG, 0x00);
     delay_ms(1);

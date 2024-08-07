@@ -330,37 +330,37 @@ _CS1630_Init_temp_65536_58:
 .segment "code"; module=bsp_cs1630, function=_Enter_sleep
 	.debuginfo subprogram _Enter_sleep
 ;local variable name mapping:
-	.debuginfo complex-type (local-sym "_ret" 1 "BSP\bsp_cs1630.c" 232 (basetype 1 unsigned) split "r0x100A")
+	.debuginfo complex-type (local-sym "_ret" 1 "BSP\bsp_cs1630.c" 237 (basetype 1 unsigned) split "r0x100A")
 _Enter_sleep:
 ; 2 exit points
-	.line	236, "BSP\bsp_cs1630.c"; 	ret = CS1630_read_byte(CS1630_BANK0_CONFIG);
+	.line	241, "BSP\bsp_cs1630.c"; 	ret = CS1630_read_byte(CS1630_BANK0_CONFIG);
 	MOVIA	0x00
 	MCALL	_CS1630_read_byte
 	BANKSEL	r0x100A
 	MOVAR	r0x100A
-	.line	237, "BSP\bsp_cs1630.c"; 	ret &= ~0x02;
+	.line	242, "BSP\bsp_cs1630.c"; 	ret &= ~0x02;
 	BCR	r0x100A,1
-	.line	238, "BSP\bsp_cs1630.c"; 	CS1630_CSN_LOW;
+	.line	243, "BSP\bsp_cs1630.c"; 	CS1630_CSN_LOW;
 	BCR	_PORTAbits,1
-	.line	239, "BSP\bsp_cs1630.c"; 	SPI_SendByte(RF_W_REGISTER | CS1630_BANK0_CONFIG);
+	.line	244, "BSP\bsp_cs1630.c"; 	SPI_SendByte(RF_W_REGISTER | CS1630_BANK0_CONFIG);
 	MOVIA	0x20
 	MCALL	_SPI_SendByte
-	.line	240, "BSP\bsp_cs1630.c"; 	SPI_SendByte(ret);
+	.line	245, "BSP\bsp_cs1630.c"; 	SPI_SendByte(ret);
 	BANKSEL	r0x100A
 	MOVR	r0x100A,W
 	MCALL	_SPI_SendByte
-	.line	242, "BSP\bsp_cs1630.c"; 	IOSTB = C_PB5_Input;
+	.line	247, "BSP\bsp_cs1630.c"; 	IOSTB = C_PB5_Input;
 	MOVIA	0x20
 	IOST	_IOSTB
-	.line	244, "BSP\bsp_cs1630.c"; 	CS1630_CSN_HIGH;
+	.line	249, "BSP\bsp_cs1630.c"; 	CS1630_CSN_HIGH;
 	BSR	_PORTAbits,1
 	MOVIA	0x01
 	MCALL	_delay_us
-	.line	246, "BSP\bsp_cs1630.c"; 	delay_us(10);
+	.line	251, "BSP\bsp_cs1630.c"; 	delay_us(10);
 	MOVIA	0x0a
 	MCALL	_delay_us
 _02089_DS_:
-	.line	248, "BSP\bsp_cs1630.c"; 	while(1 == RF_Reag_SDIO());
+	.line	253, "BSP\bsp_cs1630.c"; 	while(1 == RF_Reag_SDIO());
 	BANKSEL	r0x100A
 	CLRR	r0x100A
 	BTRSC	_PORTBbits,5
@@ -374,19 +374,19 @@ _02089_DS_:
 	MGOTO	_02107_DS_
 	MGOTO	_02089_DS_
 _02107_DS_:
-	.line	250, "BSP\bsp_cs1630.c"; 	CS1630_CSN_LOW;
+	.line	255, "BSP\bsp_cs1630.c"; 	CS1630_CSN_LOW;
 	BCR	_PORTAbits,1
-	.line	251, "BSP\bsp_cs1630.c"; 	delay_us(10);
+	.line	256, "BSP\bsp_cs1630.c"; 	delay_us(10);
 	MOVIA	0x0a
 	MCALL	_delay_us
-	.line	252, "BSP\bsp_cs1630.c"; 	CS1630_CSN_HIGH;
+	.line	257, "BSP\bsp_cs1630.c"; 	CS1630_CSN_HIGH;
 	BSR	_PORTAbits,1
 	MOVIA	0x01
 	MCALL	_delay_us
-	.line	253, "BSP\bsp_cs1630.c"; 	IOSTB = C_PB5_Output;
+	.line	258, "BSP\bsp_cs1630.c"; 	IOSTB = C_PB5_Output;
 	CLRA	
 	IOST	_IOSTB
-	.line	255, "BSP\bsp_cs1630.c"; 	}
+	.line	260, "BSP\bsp_cs1630.c"; 	}
 	RETURN	
 ; exit point of _Enter_sleep
 
@@ -406,22 +406,22 @@ _02107_DS_:
 .segment "code"; module=bsp_cs1630, function=_CS1630_CE_Low
 	.debuginfo subprogram _CS1630_CE_Low
 ;local variable name mapping:
-	.debuginfo complex-type (local-sym "_reg_val" 1 "BSP\bsp_cs1630.c" 224 (basetype 1 unsigned) split "r0x100E")
+	.debuginfo complex-type (local-sym "_reg_val" 1 "BSP\bsp_cs1630.c" 229 (basetype 1 unsigned) split "r0x100E")
 _CS1630_CE_Low:
 ; 2 exit points
-	.line	225, "BSP\bsp_cs1630.c"; 	reg_val = CS1630_read_byte(CS1630_BANK0_SETUP_VALUE);
+	.line	230, "BSP\bsp_cs1630.c"; 	reg_val = CS1630_read_byte(CS1630_BANK0_SETUP_VALUE);
 	MOVIA	0x1e
 	MCALL	_CS1630_read_byte
 	BANKSEL	r0x100E
 	MOVAR	r0x100E
-	.line	226, "BSP\bsp_cs1630.c"; 	reg_val &= ~BIT3;
+	.line	231, "BSP\bsp_cs1630.c"; 	reg_val &= ~BIT3;
 	BCR	r0x100E,3
-	.line	227, "BSP\bsp_cs1630.c"; 	CS1630_write_byte(CS1630_BANK0_SETUP_VALUE, reg_val);
+	.line	232, "BSP\bsp_cs1630.c"; 	CS1630_write_byte(CS1630_BANK0_SETUP_VALUE, reg_val);
 	MOVR	r0x100E,W
 	MOVAR	STK00
 	MOVIA	0x1e
 	MCALL	_CS1630_write_byte
-	.line	228, "BSP\bsp_cs1630.c"; 	}
+	.line	233, "BSP\bsp_cs1630.c"; 	}
 	RETURN	
 ; exit point of _CS1630_CE_Low
 
@@ -441,22 +441,22 @@ _CS1630_CE_Low:
 .segment "code"; module=bsp_cs1630, function=_CS1630_CE_High
 	.debuginfo subprogram _CS1630_CE_High
 ;local variable name mapping:
-	.debuginfo complex-type (local-sym "_reg_val" 1 "BSP\bsp_cs1630.c" 214 (basetype 1 unsigned) split "r0x100F")
+	.debuginfo complex-type (local-sym "_reg_val" 1 "BSP\bsp_cs1630.c" 219 (basetype 1 unsigned) split "r0x100F")
 _CS1630_CE_High:
 ; 2 exit points
-	.line	216, "BSP\bsp_cs1630.c"; 	reg_val = CS1630_read_byte(CS1630_BANK0_SETUP_VALUE);
+	.line	221, "BSP\bsp_cs1630.c"; 	reg_val = CS1630_read_byte(CS1630_BANK0_SETUP_VALUE);
 	MOVIA	0x1e
 	MCALL	_CS1630_read_byte
 	BANKSEL	r0x100F
 	MOVAR	r0x100F
-	.line	217, "BSP\bsp_cs1630.c"; 	reg_val |= BIT3;
+	.line	222, "BSP\bsp_cs1630.c"; 	reg_val |= BIT3;
 	BSR	r0x100F,3
-	.line	218, "BSP\bsp_cs1630.c"; 	CS1630_write_byte(CS1630_BANK0_SETUP_VALUE, reg_val);
+	.line	223, "BSP\bsp_cs1630.c"; 	CS1630_write_byte(CS1630_BANK0_SETUP_VALUE, reg_val);
 	MOVR	r0x100F,W
 	MOVAR	STK00
 	MOVIA	0x1e
 	MCALL	_CS1630_write_byte
-	.line	219, "BSP\bsp_cs1630.c"; 	}
+	.line	224, "BSP\bsp_cs1630.c"; 	}
 	RETURN	
 ; exit point of _CS1630_CE_High
 
@@ -474,16 +474,16 @@ _CS1630_CE_High:
 	.debuginfo subprogram _CS1630_Flush_Tx
 _CS1630_Flush_Tx:
 ; 2 exit points
-	.line	207, "BSP\bsp_cs1630.c"; 	CS1630_CSN_LOW;
+	.line	212, "BSP\bsp_cs1630.c"; 	CS1630_CSN_LOW;
 	BCR	_PORTAbits,1
-	.line	208, "BSP\bsp_cs1630.c"; 	SPI_SendByte(RF_FLUSH_TX);
+	.line	213, "BSP\bsp_cs1630.c"; 	SPI_SendByte(RF_FLUSH_TX);
 	MOVIA	0xe1
 	MCALL	_SPI_SendByte
-	.line	209, "BSP\bsp_cs1630.c"; 	CS1630_CSN_HIGH;
+	.line	214, "BSP\bsp_cs1630.c"; 	CS1630_CSN_HIGH;
 	BSR	_PORTAbits,1
 	MOVIA	0x01
 	MCALL	_delay_us
-	.line	210, "BSP\bsp_cs1630.c"; 	}
+	.line	215, "BSP\bsp_cs1630.c"; 	}
 	RETURN	
 ; exit point of _CS1630_Flush_Tx
 
@@ -501,12 +501,12 @@ _CS1630_Flush_Tx:
 	.debuginfo subprogram _CS1630_Clear_All_Irq
 _CS1630_Clear_All_Irq:
 ; 2 exit points
-	.line	201, "BSP\bsp_cs1630.c"; 	CS1630_write_byte(CS1630_BANK0_STATUS, 0x70);
+	.line	206, "BSP\bsp_cs1630.c"; 	CS1630_write_byte(CS1630_BANK0_STATUS, 0x70);
 	MOVIA	0x70
 	MOVAR	STK00
 	MOVIA	0x07
 	MCALL	_CS1630_write_byte
-	.line	202, "BSP\bsp_cs1630.c"; 	}
+	.line	207, "BSP\bsp_cs1630.c"; 	}
 	RETURN	
 ; exit point of _CS1630_Clear_All_Irq
 
@@ -532,24 +532,24 @@ _CS1630_Clear_All_Irq:
 .segment "code"; module=bsp_cs1630, function=_CS1630_ModeSwitch
 	.debuginfo subprogram _CS1630_ModeSwitch
 ;local variable name mapping:
-	.debuginfo complex-type (local-sym "_mod" 1 "BSP\bsp_cs1630.c" 176 (basetype 1 unsigned) split "r0x1010")
-	.debuginfo complex-type (local-sym "_tmp" 1 "BSP\bsp_cs1630.c" 178 (basetype 1 unsigned) split "r0x1011")
+	.debuginfo complex-type (local-sym "_mod" 1 "BSP\bsp_cs1630.c" 181 (basetype 1 unsigned) split "r0x1010")
+	.debuginfo complex-type (local-sym "_tmp" 1 "BSP\bsp_cs1630.c" 183 (basetype 1 unsigned) split "r0x1011")
 _CS1630_ModeSwitch:
 ; 2 exit points
-	.line	176, "BSP\bsp_cs1630.c"; 	void CS1630_ModeSwitch(RF_ModeTypeDef mod)
+	.line	181, "BSP\bsp_cs1630.c"; 	void CS1630_ModeSwitch(RF_ModeTypeDef mod)
 	BANKSEL	r0x1010
 	MOVAR	r0x1010
-	.line	180, "BSP\bsp_cs1630.c"; 	tmp = CS1630_read_byte(CS1630_BANK0_CONFIG);
+	.line	185, "BSP\bsp_cs1630.c"; 	tmp = CS1630_read_byte(CS1630_BANK0_CONFIG);
 	MOVIA	0x00
 	MCALL	_CS1630_read_byte
 	BANKSEL	r0x1011
 	MOVAR	r0x1011
-	.line	181, "BSP\bsp_cs1630.c"; 	if(mod != Rf_PRX_Mode)
+	.line	186, "BSP\bsp_cs1630.c"; 	if(mod != Rf_PRX_Mode)
 	BANKSEL	r0x1010
 	MOVR	r0x1010,W
 	BTRSC	STATUS,2
 	MGOTO	_02061_DS_
-	.line	183, "BSP\bsp_cs1630.c"; 	tmp &= 0xFE;
+	.line	188, "BSP\bsp_cs1630.c"; 	tmp &= 0xFE;
 	MOVIA	0xfe
 	BANKSEL	r0x1011
 	ANDAR	r0x1011,W
@@ -557,38 +557,38 @@ _CS1630_ModeSwitch:
 	MOVAR	r0x1012
 	MGOTO	_02062_DS_
 _02061_DS_:
-	.line	187, "BSP\bsp_cs1630.c"; 	tmp |= 0x01;
+	.line	192, "BSP\bsp_cs1630.c"; 	tmp |= 0x01;
 	MOVIA	0x01
 	BANKSEL	r0x1011
 	IORAR	r0x1011,W
 	BANKSEL	r0x1012
 	MOVAR	r0x1012
 _02062_DS_:
-	.line	189, "BSP\bsp_cs1630.c"; 	CS1630_write_byte(CS1630_BANK0_CONFIG, tmp);
+	.line	194, "BSP\bsp_cs1630.c"; 	CS1630_write_byte(CS1630_BANK0_CONFIG, tmp);
 	BANKSEL	r0x1012
 	MOVR	r0x1012,W
 	MOVAR	STK00
 	MOVIA	0x00
 	MCALL	_CS1630_write_byte
-	.line	191, "BSP\bsp_cs1630.c"; 	if(mod == Rf_Carrier_Mode)
+	.line	196, "BSP\bsp_cs1630.c"; 	if(mod == Rf_Carrier_Mode)
 	BANKSEL	r0x1010
 	MOVR	r0x1010,W
 	XORIA	0x02
 	BTRSS	STATUS,2
 	MGOTO	_02065_DS_
-	.line	193, "BSP\bsp_cs1630.c"; 	tmp = 0x80 | CS1630_read_byte(CS1630_BANK0_RF_SETUP);
+	.line	198, "BSP\bsp_cs1630.c"; 	tmp = 0x80 | CS1630_read_byte(CS1630_BANK0_RF_SETUP);
 	MOVIA	0x06
 	MCALL	_CS1630_read_byte
 	BANKSEL	r0x1010
 	MOVAR	r0x1010
 	BSR	r0x1010,7
-	.line	194, "BSP\bsp_cs1630.c"; 	CS1630_write_byte(CS1630_BANK0_RF_SETUP, tmp);
+	.line	199, "BSP\bsp_cs1630.c"; 	CS1630_write_byte(CS1630_BANK0_RF_SETUP, tmp);
 	MOVR	r0x1010,W
 	MOVAR	STK00
 	MOVIA	0x06
 	MCALL	_CS1630_write_byte
 _02065_DS_:
-	.line	196, "BSP\bsp_cs1630.c"; 	}
+	.line	201, "BSP\bsp_cs1630.c"; 	}
 	RETURN	
 ; exit point of _CS1630_ModeSwitch
 
@@ -616,13 +616,13 @@ _02065_DS_:
 .segment "code"; module=bsp_cs1630, function=_CS1630_SendPack
 	.debuginfo subprogram _CS1630_SendPack
 ;local variable name mapping:
-	.debuginfo complex-type (local-sym "_cmd" 1 "BSP\bsp_cs1630.c" 165 (basetype 1 unsigned) split "r0x1018")
-	.debuginfo complex-type (local-sym "_buf" 3 "BSP\bsp_cs1630.c" 165 (pointer gptr 3 (basetype 1 unsigned)) split "r0x101B" "r0x101A" "r0x1019")
-	.debuginfo complex-type (local-sym "_len" 1 "BSP\bsp_cs1630.c" 165 (basetype 1 unsigned) split "r0x101C")
-	.debuginfo complex-type (local-sym "_sta" 1 "BSP\bsp_cs1630.c" 167 (basetype 1 unsigned) split "r0x101D")
+	.debuginfo complex-type (local-sym "_cmd" 1 "BSP\bsp_cs1630.c" 170 (basetype 1 unsigned) split "r0x1018")
+	.debuginfo complex-type (local-sym "_buf" 3 "BSP\bsp_cs1630.c" 170 (pointer gptr 3 (basetype 1 unsigned)) split "r0x101B" "r0x101A" "r0x1019")
+	.debuginfo complex-type (local-sym "_len" 1 "BSP\bsp_cs1630.c" 170 (basetype 1 unsigned) split "r0x101C")
+	.debuginfo complex-type (local-sym "_sta" 1 "BSP\bsp_cs1630.c" 172 (basetype 1 unsigned) split "r0x101D")
 _CS1630_SendPack:
 ; 2 exit points
-	.line	165, "BSP\bsp_cs1630.c"; 	void CS1630_SendPack(unsigned char cmd, unsigned char* buf, unsigned char len)
+	.line	170, "BSP\bsp_cs1630.c"; 	void CS1630_SendPack(unsigned char cmd, unsigned char* buf, unsigned char len)
 	BANKSEL	r0x1018
 	MOVAR	r0x1018
 	MOVR	STK00,W
@@ -637,15 +637,15 @@ _CS1630_SendPack:
 	MOVR	STK03,W
 	BANKSEL	r0x101C
 	MOVAR	r0x101C
-	.line	169, "BSP\bsp_cs1630.c"; 	sta = CS1630_read_byte(CS1630_BANK0_STATUS);
+	.line	174, "BSP\bsp_cs1630.c"; 	sta = CS1630_read_byte(CS1630_BANK0_STATUS);
 	MOVIA	0x07
 	MCALL	_CS1630_read_byte
 	BANKSEL	r0x101D
 	MOVAR	r0x101D
-	.line	170, "BSP\bsp_cs1630.c"; 	if(!(sta&RF_STATUS_TX_FULL))
+	.line	175, "BSP\bsp_cs1630.c"; 	if(!(sta&RF_STATUS_TX_FULL))
 	BTRSC	r0x101D,0
 	MGOTO	_02055_DS_
-	.line	172, "BSP\bsp_cs1630.c"; 	CS1630_wr_buffer(cmd, buf, len);
+	.line	177, "BSP\bsp_cs1630.c"; 	CS1630_wr_buffer(cmd, buf, len);
 	BANKSEL	r0x101C
 	MOVR	r0x101C,W
 	MOVAR	STK03
@@ -662,7 +662,7 @@ _CS1630_SendPack:
 	MOVR	r0x1018,W
 	MCALL	_CS1630_wr_buffer
 _02055_DS_:
-	.line	174, "BSP\bsp_cs1630.c"; 	}
+	.line	179, "BSP\bsp_cs1630.c"; 	}
 	RETURN	
 ; exit point of _CS1630_SendPack
 
@@ -685,41 +685,41 @@ _02055_DS_:
 .segment "code"; module=bsp_cs1630, function=_CS1630_Bank_Switch
 	.debuginfo subprogram _CS1630_Bank_Switch
 ;local variable name mapping:
-	.debuginfo complex-type (local-sym "_bank" 1 "BSP\bsp_cs1630.c" 142 (basetype 1 unsigned) split "r0x1020")
-	.debuginfo complex-type (local-sym "_sta" 1 "BSP\bsp_cs1630.c" 144 (basetype 1 unsigned) split "r0x1021")
+	.debuginfo complex-type (local-sym "_bank" 1 "BSP\bsp_cs1630.c" 147 (basetype 1 unsigned) split "r0x1020")
+	.debuginfo complex-type (local-sym "_sta" 1 "BSP\bsp_cs1630.c" 149 (basetype 1 unsigned) split "r0x1021")
 _CS1630_Bank_Switch:
 ; 2 exit points
-	.line	142, "BSP\bsp_cs1630.c"; 	void CS1630_Bank_Switch(unsigned char bank)
+	.line	147, "BSP\bsp_cs1630.c"; 	void CS1630_Bank_Switch(unsigned char bank)
 	BANKSEL	r0x1020
 	MOVAR	r0x1020
-	.line	146, "BSP\bsp_cs1630.c"; 	sta = CS1630_read_byte(CS1630_BANK0_STATUS);
+	.line	151, "BSP\bsp_cs1630.c"; 	sta = CS1630_read_byte(CS1630_BANK0_STATUS);
 	MOVIA	0x07
 	MCALL	_CS1630_read_byte
 	BANKSEL	r0x1021
 	MOVAR	r0x1021
-	.line	148, "BSP\bsp_cs1630.c"; 	if(bank != RF_Bank0) // 切1
+	.line	153, "BSP\bsp_cs1630.c"; 	if(bank != RF_Bank0) // 切1
 	BANKSEL	r0x1020
 	MOVR	r0x1020,W
 	BTRSC	STATUS,2
 	MGOTO	_02046_DS_
-	.line	152, "BSP\bsp_cs1630.c"; 	CS1630_wr_cmd(RF_ACTIVATE, RF_ACTIVATE_DATA);
+	.line	157, "BSP\bsp_cs1630.c"; 	CS1630_wr_cmd(RF_ACTIVATE, RF_ACTIVATE_DATA);
 	MOVIA	0x53
 	MOVAR	STK00
 	MOVIA	0x50
 	MCALL	_CS1630_wr_cmd
 	MGOTO	_02048_DS_
 _02046_DS_:
-	.line	157, "BSP\bsp_cs1630.c"; 	if(sta & RF_BANK1) // 切0
+	.line	162, "BSP\bsp_cs1630.c"; 	if(sta & RF_BANK1) // 切0
 	BANKSEL	r0x1021
 	BTRSS	r0x1021,7
 	MGOTO	_02048_DS_
-	.line	159, "BSP\bsp_cs1630.c"; 	CS1630_wr_cmd(RF_ACTIVATE, RF_ACTIVATE_DATA);
+	.line	164, "BSP\bsp_cs1630.c"; 	CS1630_wr_cmd(RF_ACTIVATE, RF_ACTIVATE_DATA);
 	MOVIA	0x53
 	MOVAR	STK00
 	MOVIA	0x50
 	MCALL	_CS1630_wr_cmd
 _02048_DS_:
-	.line	162, "BSP\bsp_cs1630.c"; 	}
+	.line	167, "BSP\bsp_cs1630.c"; 	}
 	RETURN	
 ; exit point of _CS1630_Bank_Switch
 
@@ -742,31 +742,31 @@ _02048_DS_:
 .segment "code"; module=bsp_cs1630, function=_CS1630_wr_cmd
 	.debuginfo subprogram _CS1630_wr_cmd
 ;local variable name mapping:
-	.debuginfo complex-type (local-sym "_cmd" 1 "BSP\bsp_cs1630.c" 133 (basetype 1 unsigned) split "r0x101E")
-	.debuginfo complex-type (local-sym "_D" 1 "BSP\bsp_cs1630.c" 133 (basetype 1 unsigned) split "r0x101F")
+	.debuginfo complex-type (local-sym "_cmd" 1 "BSP\bsp_cs1630.c" 138 (basetype 1 unsigned) split "r0x101E")
+	.debuginfo complex-type (local-sym "_D" 1 "BSP\bsp_cs1630.c" 138 (basetype 1 unsigned) split "r0x101F")
 _CS1630_wr_cmd:
 ; 2 exit points
-	.line	133, "BSP\bsp_cs1630.c"; 	void CS1630_wr_cmd(unsigned char cmd,unsigned char D)
+	.line	138, "BSP\bsp_cs1630.c"; 	void CS1630_wr_cmd(unsigned char cmd,unsigned char D)
 	BANKSEL	r0x101E
 	MOVAR	r0x101E
 	MOVR	STK00,W
 	BANKSEL	r0x101F
 	MOVAR	r0x101F
-	.line	135, "BSP\bsp_cs1630.c"; 	CS1630_CSN_LOW;
+	.line	140, "BSP\bsp_cs1630.c"; 	CS1630_CSN_LOW;
 	BCR	_PORTAbits,1
-	.line	136, "BSP\bsp_cs1630.c"; 	SPI_SendByte(cmd);
+	.line	141, "BSP\bsp_cs1630.c"; 	SPI_SendByte(cmd);
 	BANKSEL	r0x101E
 	MOVR	r0x101E,W
 	MCALL	_SPI_SendByte
-	.line	137, "BSP\bsp_cs1630.c"; 	SPI_SendByte(D);
+	.line	142, "BSP\bsp_cs1630.c"; 	SPI_SendByte(D);
 	BANKSEL	r0x101F
 	MOVR	r0x101F,W
 	MCALL	_SPI_SendByte
-	.line	138, "BSP\bsp_cs1630.c"; 	CS1630_CSN_HIGH;
+	.line	143, "BSP\bsp_cs1630.c"; 	CS1630_CSN_HIGH;
 	BSR	_PORTAbits,1
 	MOVIA	0x01
 	MCALL	_delay_us
-	.line	139, "BSP\bsp_cs1630.c"; 	}
+	.line	144, "BSP\bsp_cs1630.c"; 	}
 	RETURN	
 ; exit point of _CS1630_wr_cmd
 
@@ -797,10 +797,10 @@ _CS1630_wr_cmd:
 .segment "code"; module=bsp_cs1630, function=_CS1630_wr_buffer
 	.debuginfo subprogram _CS1630_wr_buffer
 ;local variable name mapping:
-	.debuginfo complex-type (local-sym "_addr" 1 "BSP\bsp_cs1630.c" 119 (basetype 1 unsigned) split "r0x1013")
+	.debuginfo complex-type (local-sym "_addr" 1 "BSP\bsp_cs1630.c" 124 (basetype 1 unsigned) split "r0x1013")
 _CS1630_wr_buffer:
 ; 2 exit points
-	.line	119, "BSP\bsp_cs1630.c"; 	void CS1630_wr_buffer(unsigned char addr, unsigned char* buf,unsigned char len)
+	.line	124, "BSP\bsp_cs1630.c"; 	void CS1630_wr_buffer(unsigned char addr, unsigned char* buf,unsigned char len)
 	BANKSEL	r0x1013
 	MOVAR	r0x1013
 	MOVR	STK00,W
@@ -815,15 +815,15 @@ _CS1630_wr_buffer:
 	MOVR	STK03,W
 	BANKSEL	r0x1017
 	MOVAR	r0x1017
-	.line	122, "BSP\bsp_cs1630.c"; 	CS1630_CSN_LOW;
+	.line	127, "BSP\bsp_cs1630.c"; 	CS1630_CSN_LOW;
 	BCR	_PORTAbits,1
-	.line	123, "BSP\bsp_cs1630.c"; 	SPI_SendByte(RF_W_REGISTER|addr);
+	.line	128, "BSP\bsp_cs1630.c"; 	SPI_SendByte(RF_W_REGISTER|addr);
 	BANKSEL	r0x1013
 	BSR	r0x1013,5
 	MOVR	r0x1013,W
 	MCALL	_SPI_SendByte
 _02029_DS_:
-	.line	124, "BSP\bsp_cs1630.c"; 	while(len--)
+	.line	129, "BSP\bsp_cs1630.c"; 	while(len--)
 	BANKSEL	r0x1017
 	MOVR	r0x1017,W
 	BANKSEL	r0x1013
@@ -834,7 +834,7 @@ _02029_DS_:
 	MOVR	r0x1013,W
 	BTRSC	STATUS,2
 	MGOTO	_02032_DS_
-	.line	126, "BSP\bsp_cs1630.c"; 	SPI_SendByte(*buf++);
+	.line	131, "BSP\bsp_cs1630.c"; 	SPI_SendByte(*buf++);
 	BANKSEL	r0x1016
 	MOVR	r0x1016,W
 	MOVAR	STK01
@@ -863,11 +863,11 @@ _00002_DS_:
 	MCALL	_SPI_SendByte
 	MGOTO	_02029_DS_
 _02032_DS_:
-	.line	128, "BSP\bsp_cs1630.c"; 	CS1630_CSN_HIGH;
+	.line	133, "BSP\bsp_cs1630.c"; 	CS1630_CSN_HIGH;
 	BSR	_PORTAbits,1
 	MOVIA	0x01
 	MCALL	_delay_us
-	.line	130, "BSP\bsp_cs1630.c"; 	}
+	.line	135, "BSP\bsp_cs1630.c"; 	}
 	RETURN	
 ; exit point of _CS1630_wr_buffer
 
@@ -890,32 +890,32 @@ _02032_DS_:
 .segment "code"; module=bsp_cs1630, function=_CS1630_write_byte
 	.debuginfo subprogram _CS1630_write_byte
 ;local variable name mapping:
-	.debuginfo complex-type (local-sym "_addr" 1 "BSP\bsp_cs1630.c" 109 (basetype 1 unsigned) split "r0x100C")
-	.debuginfo complex-type (local-sym "_D" 1 "BSP\bsp_cs1630.c" 109 (basetype 1 unsigned) split "r0x100D")
+	.debuginfo complex-type (local-sym "_addr" 1 "BSP\bsp_cs1630.c" 114 (basetype 1 unsigned) split "r0x100C")
+	.debuginfo complex-type (local-sym "_D" 1 "BSP\bsp_cs1630.c" 114 (basetype 1 unsigned) split "r0x100D")
 _CS1630_write_byte:
 ; 2 exit points
-	.line	109, "BSP\bsp_cs1630.c"; 	void CS1630_write_byte(unsigned char addr,unsigned char D)
+	.line	114, "BSP\bsp_cs1630.c"; 	void CS1630_write_byte(unsigned char addr,unsigned char D)
 	BANKSEL	r0x100C
 	MOVAR	r0x100C
 	MOVR	STK00,W
 	BANKSEL	r0x100D
 	MOVAR	r0x100D
-	.line	112, "BSP\bsp_cs1630.c"; 	CS1630_CSN_LOW;
+	.line	117, "BSP\bsp_cs1630.c"; 	CS1630_CSN_LOW;
 	BCR	_PORTAbits,1
-	.line	113, "BSP\bsp_cs1630.c"; 	SPI_SendByte(RF_W_REGISTER|addr);
+	.line	118, "BSP\bsp_cs1630.c"; 	SPI_SendByte(RF_W_REGISTER|addr);
 	BANKSEL	r0x100C
 	BSR	r0x100C,5
 	MOVR	r0x100C,W
 	MCALL	_SPI_SendByte
-	.line	114, "BSP\bsp_cs1630.c"; 	SPI_SendByte(D);
+	.line	119, "BSP\bsp_cs1630.c"; 	SPI_SendByte(D);
 	BANKSEL	r0x100D
 	MOVR	r0x100D,W
 	MCALL	_SPI_SendByte
-	.line	115, "BSP\bsp_cs1630.c"; 	CS1630_CSN_HIGH;
+	.line	120, "BSP\bsp_cs1630.c"; 	CS1630_CSN_HIGH;
 	BSR	_PORTAbits,1
 	MOVIA	0x01
 	MCALL	_delay_us
-	.line	117, "BSP\bsp_cs1630.c"; 	}
+	.line	122, "BSP\bsp_cs1630.c"; 	}
 	RETURN	
 ; exit point of _CS1630_write_byte
 
@@ -936,30 +936,30 @@ _CS1630_write_byte:
 .segment "code"; module=bsp_cs1630, function=_CS1630_read_byte
 	.debuginfo subprogram _CS1630_read_byte
 ;local variable name mapping:
-	.debuginfo complex-type (local-sym "_addr" 1 "BSP\bsp_cs1630.c" 96 (basetype 1 unsigned) split "r0x1009")
-	.debuginfo complex-type (local-sym "_rxdata" 1 "BSP\bsp_cs1630.c" 98 (basetype 1 unsigned) split "r0x1009")
+	.debuginfo complex-type (local-sym "_addr" 1 "BSP\bsp_cs1630.c" 101 (basetype 1 unsigned) split "r0x1009")
+	.debuginfo complex-type (local-sym "_rxdata" 1 "BSP\bsp_cs1630.c" 103 (basetype 1 unsigned) split "r0x1009")
 _CS1630_read_byte:
 ; 2 exit points
-	.line	96, "BSP\bsp_cs1630.c"; 	unsigned char CS1630_read_byte(unsigned char addr)
+	.line	101, "BSP\bsp_cs1630.c"; 	unsigned char CS1630_read_byte(unsigned char addr)
 	BANKSEL	r0x1009
 	MOVAR	r0x1009
-	.line	100, "BSP\bsp_cs1630.c"; 	CS1630_CSN_LOW;
+	.line	105, "BSP\bsp_cs1630.c"; 	CS1630_CSN_LOW;
 	BCR	_PORTAbits,1
-	.line	101, "BSP\bsp_cs1630.c"; 	SPI_SendByte(RF_R_REGISTER|addr);
+	.line	106, "BSP\bsp_cs1630.c"; 	SPI_SendByte(RF_R_REGISTER|addr);
 	MOVR	r0x1009,W
 	MCALL	_SPI_SendByte
-	.line	102, "BSP\bsp_cs1630.c"; 	rxdata = SPI_ReadByte();
+	.line	107, "BSP\bsp_cs1630.c"; 	rxdata = SPI_ReadByte();
 	MCALL	_SPI_ReadByte
 	BANKSEL	r0x1009
 	MOVAR	r0x1009
-	.line	103, "BSP\bsp_cs1630.c"; 	CS1630_CSN_HIGH;
+	.line	108, "BSP\bsp_cs1630.c"; 	CS1630_CSN_HIGH;
 	BSR	_PORTAbits,1
 	MOVIA	0x01
 	MCALL	_delay_us
-	.line	105, "BSP\bsp_cs1630.c"; 	return(rxdata);
+	.line	110, "BSP\bsp_cs1630.c"; 	return(rxdata);
 	BANKSEL	r0x1009
 	MOVR	r0x1009,W
-	.line	106, "BSP\bsp_cs1630.c"; 	}
+	.line	111, "BSP\bsp_cs1630.c"; 	}
 	RETURN	
 ; exit point of _CS1630_read_byte
 
@@ -992,10 +992,10 @@ _CS1630_read_byte:
 .segment "code"; module=bsp_cs1630, function=_CS1630_read_buffer
 	.debuginfo subprogram _CS1630_read_buffer
 ;local variable name mapping:
-	.debuginfo complex-type (local-sym "_addr" 1 "BSP\bsp_cs1630.c" 80 (basetype 1 unsigned) split "r0x1022")
+	.debuginfo complex-type (local-sym "_addr" 1 "BSP\bsp_cs1630.c" 85 (basetype 1 unsigned) split "r0x1022")
 _CS1630_read_buffer:
 ; 2 exit points
-	.line	80, "BSP\bsp_cs1630.c"; 	void CS1630_read_buffer(unsigned char addr, unsigned char* buf, unsigned char len)
+	.line	85, "BSP\bsp_cs1630.c"; 	void CS1630_read_buffer(unsigned char addr, unsigned char* buf, unsigned char len)
 	BANKSEL	r0x1022
 	MOVAR	r0x1022
 	MOVR	STK00,W
@@ -1010,14 +1010,14 @@ _CS1630_read_buffer:
 	MOVR	STK03,W
 	BANKSEL	r0x1026
 	MOVAR	r0x1026
-	.line	83, "BSP\bsp_cs1630.c"; 	CS1630_CSN_LOW;
+	.line	88, "BSP\bsp_cs1630.c"; 	CS1630_CSN_LOW;
 	BCR	_PORTAbits,1
-	.line	84, "BSP\bsp_cs1630.c"; 	SPI_SendByte(RF_R_REGISTER|addr);
+	.line	89, "BSP\bsp_cs1630.c"; 	SPI_SendByte(RF_R_REGISTER|addr);
 	BANKSEL	r0x1022
 	MOVR	r0x1022,W
 	MCALL	_SPI_SendByte
 _02014_DS_:
-	.line	86, "BSP\bsp_cs1630.c"; 	while(len--)
+	.line	91, "BSP\bsp_cs1630.c"; 	while(len--)
 	BANKSEL	r0x1026
 	MOVR	r0x1026,W
 	BANKSEL	r0x1022
@@ -1028,7 +1028,7 @@ _02014_DS_:
 	MOVR	r0x1022,W
 	BTRSC	STATUS,2
 	MGOTO	_02016_DS_
-	.line	88, "BSP\bsp_cs1630.c"; 	*buf++ = SPI_ReadByte();
+	.line	93, "BSP\bsp_cs1630.c"; 	*buf++ = SPI_ReadByte();
 	MCALL	_SPI_ReadByte
 	BANKSEL	r0x1022
 	MOVAR	r0x1022
@@ -1057,14 +1057,14 @@ _00003_DS_:
 _00004_DS_:
 	MGOTO	_02014_DS_
 _02016_DS_:
-	.line	91, "BSP\bsp_cs1630.c"; 	delay_us(1);
+	.line	96, "BSP\bsp_cs1630.c"; 	delay_us(1);
 	MOVIA	0x01
 	MCALL	_delay_us
-	.line	92, "BSP\bsp_cs1630.c"; 	CS1630_CSN_HIGH;
+	.line	97, "BSP\bsp_cs1630.c"; 	CS1630_CSN_HIGH;
 	BSR	_PORTAbits,1
 	MOVIA	0x01
 	MCALL	_delay_us
-	.line	93, "BSP\bsp_cs1630.c"; 	}
+	.line	98, "BSP\bsp_cs1630.c"; 	}
 	RETURN	
 ; exit point of _CS1630_read_buffer
 
@@ -1092,6 +1092,11 @@ _02016_DS_:
 ;   _CS1630_wr_buffer
 ;   _CS1630_Clear_All_Irq
 ;   _CS1630_Flush_Tx
+;   _CS1630_CE_Low
+;   _CS1630_ModeSwitch
+;   _CS1630_write_byte
+;   _CS1630_write_byte
+;   _CS1630_write_byte
 ;   _RF_softSPI_Init
 ;   _CS1630_CE_Low
 ;   _CS1630_write_byte
@@ -1111,6 +1116,11 @@ _02016_DS_:
 ;   _CS1630_wr_buffer
 ;   _CS1630_Clear_All_Irq
 ;   _CS1630_Flush_Tx
+;   _CS1630_CE_Low
+;   _CS1630_ModeSwitch
+;   _CS1630_write_byte
+;   _CS1630_write_byte
+;   _CS1630_write_byte
 ;8 compiler assigned registers:
 ;   STK00
 ;   r0x102A
@@ -1278,9 +1288,29 @@ _02009_DS_:
 	MCALL	_CS1630_Clear_All_Irq
 	.line	75, "BSP\bsp_cs1630.c"; 	CS1630_Flush_Tx();
 	MCALL	_CS1630_Flush_Tx
-	.line	76, "BSP\bsp_cs1630.c"; 	CLRWDT();
+	.line	76, "BSP\bsp_cs1630.c"; 	CS1630_CE_Low(); // 设置CE引脚为低电平，准备发送数据
+	MCALL	_CS1630_CE_Low
+	.line	77, "BSP\bsp_cs1630.c"; 	CS1630_ModeSwitch(Rf_PTX_Mode); // 切换到发送模式
+	MOVIA	0x01
+	MCALL	_CS1630_ModeSwitch
+	.line	79, "BSP\bsp_cs1630.c"; 	CS1630_write_byte(CS1630_BANK0_FEATURE, 0x04);
+	MOVIA	0x04
+	MOVAR	STK00
+	MOVIA	0x1d
+	MCALL	_CS1630_write_byte
+	.line	80, "BSP\bsp_cs1630.c"; 	CS1630_write_byte(CS1630_BANK0_CONFIG, 0x0e);
+	MOVIA	0x0e
+	MOVAR	STK00
+	MOVIA	0x00
+	MCALL	_CS1630_write_byte
+	.line	81, "BSP\bsp_cs1630.c"; 	CS1630_write_byte(CS1630_BANK0_SETUP_VALUE, 0x04); // 配置值
+	MOVIA	0x04
+	MOVAR	STK00
+	MOVIA	0x1e
+	MCALL	_CS1630_write_byte
+	.line	82, "BSP\bsp_cs1630.c"; 	CLRWDT();
 	clrwdt
-	.line	78, "BSP\bsp_cs1630.c"; 	}
+	.line	83, "BSP\bsp_cs1630.c"; 	}
 	RETURN	
 ; exit point of _CS1630_Init
 
@@ -1398,6 +1428,6 @@ _CS1630_Soft_Rst:
 
 
 ;	code size estimation:
-;	  408+  123 =   531 instructions ( 1308 byte)
+;	  423+  123 =   546 instructions ( 1338 byte)
 
 	end

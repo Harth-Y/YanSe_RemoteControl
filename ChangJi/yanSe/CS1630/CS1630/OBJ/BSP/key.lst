@@ -147,579 +147,609 @@ NYASM 2.42
                                     1-  100     ; global declarations
                                     1-  101     ;--------------------------------------------------------
                                     1-  102     	extern	_Check_Keydown
-                                    1-  103     	extern	_led
-                                    1-  104     	extern	_led_open
-                                    1-  105     	extern	_key_init
-                                    1-  106     	extern	_set_PB_low
-                                    1-  107     	extern	_set_PA_low
-                                    1-  108     	extern	_INTE2
-                                    1-  109     	extern	_RFC
-                                    1-  110     	extern	_INTEDG
-                                    1-  111     	extern	_AWUCON
-                                    1-  112     	extern	_INTF
-                                    1-  113     	extern	_INTE
-                                    1-  114     	extern	_BPHCON
-                                    1-  115     	extern	_ABPLCON
-                                    1-  116     	extern	_BWUCON
-                                    1-  117     	extern	_PCON
-                                    1-  118     	extern	_PORTB
-                                    1-  119     	extern	_PORTA
-                                    1-  121     ;--------------------------------------------------------
-                                    1-  122     ; global definitions
-                                    1-  123     ;--------------------------------------------------------
+                                    1-  103     	extern	_toggle_key
+                                    1-  104     	extern	_led
+                                    1-  105     	extern	_led_open
+                                    1-  106     	extern	_key_init
+                                    1-  107     	extern	_set_PB_low
+                                    1-  108     	extern	_set_PA_low
+                                    1-  109     	extern	_INTE2
+                                    1-  110     	extern	_RFC
+                                    1-  111     	extern	_INTEDG
+                                    1-  112     	extern	_AWUCON
+                                    1-  113     	extern	_INTF
+                                    1-  114     	extern	_INTE
+                                    1-  115     	extern	_BPHCON
+                                    1-  116     	extern	_ABPLCON
+                                    1-  117     	extern	_BWUCON
+                                    1-  118     	extern	_PCON
+                                    1-  119     	extern	_PORTB
+                                    1-  120     	extern	_PORTA
+                                    1-  122     ;--------------------------------------------------------
+                                    1-  123     ; global definitions
                                     1-  124     ;--------------------------------------------------------
-                                    1-  125     ; absolute symbol definitions
-                                    1-  126     ;--------------------------------------------------------
+                                    1-  125     ;--------------------------------------------------------
+                                    1-  126     ; absolute symbol definitions
                                     1-  127     ;--------------------------------------------------------
-                                    1-  128     ; compiler-defined variables
-                                    1-  129     ;--------------------------------------------------------
-                                    1-  130     .segment "uninit"
-     0000                           1-  131     r0x1000:
-                                    1-  132     	.res	1
-                                    1-  133     .segment "uninit"
-     0000                           1-  134     r0x1001:
-                                    1-  135     	.res	1
-                                    1-  136     .segment "uninit"
-     0000                           1-  137     r0x1002:
-                                    1-  138     	.res	1
-                                    1-  139     .segment "uninit"
-     0000                           1-  140     r0x1003:
-                                    1-  141     	.res	1
-                                    1-  142     .segment "uninit"
-     0000                           1-  143     r0x1004:
-                                    1-  144     	.res	1
-                                    1-  145     ;--------------------------------------------------------
-                                    1-  146     ; initialized data
-                                    1-  147     ;--------------------------------------------------------
+                                    1-  128     ;--------------------------------------------------------
+                                    1-  129     ; compiler-defined variables
+                                    1-  130     ;--------------------------------------------------------
+                                    1-  131     .segment "uninit"
+     0000                           1-  132     r0x1000:
+                                    1-  133     	.res	1
+                                    1-  134     .segment "uninit"
+     0000                           1-  135     r0x1001:
+                                    1-  136     	.res	1
+                                    1-  137     .segment "uninit"
+     0000                           1-  138     r0x1002:
+                                    1-  139     	.res	1
+                                    1-  140     .segment "uninit"
+     0000                           1-  141     r0x1003:
+                                    1-  142     	.res	1
+                                    1-  143     .segment "uninit"
+     0000                           1-  144     r0x1004:
+                                    1-  145     	.res	1
+                                    1-  146     ;--------------------------------------------------------
+                                    1-  147     ; initialized data
                                     1-  148     ;--------------------------------------------------------
-                                    1-  149     ; initialized absolute data
-                                    1-  150     ;--------------------------------------------------------
+                                    1-  149     ;--------------------------------------------------------
+                                    1-  150     ; initialized absolute data
                                     1-  151     ;--------------------------------------------------------
-                                    1-  152     ; overlayable items in internal ram 
-                                    1-  153     ;--------------------------------------------------------
-                                    1-  154     ;	udata_ovr
-                                    1-  155     ;--------------------------------------------------------
-                                    1-  156     ; code
-                                    1-  157     ;--------------------------------------------------------
-                                    1-  158     ; code_key	code
-                                    1-  159     ;***
-                                    1-  160     ;  pBlock Stats: dbName = C
-                                    1-  161     ;***
-                                    1-  162     ;has an exit
-                                    1-  163     ;functions called:
-                                    1-  164     ;   _delay_ms
-                                    1-  165     ;   _set_PA_low
-                                    1-  166     ;   _key_init
-                                    1-  167     ;   _send_ble_packet
-                                    1-  168     ;   _led
-                                    1-  169     ;   _delay_250ms
-                                    1-  170     ;   _key_init
-                                    1-  171     ;   _delay_ms
-                                    1-  172     ;   _set_PA_low
-                                    1-  173     ;   _key_init
-                                    1-  174     ;   _send_ble_packet
-                                    1-  175     ;   _led
-                                    1-  176     ;   _delay_250ms
-                                    1-  177     ;   _key_init
-                                    1-  178     ;4 compiler assigned registers:
-                                    1-  179     ;   r0x1001
-                                    1-  180     ;   r0x1002
-                                    1-  181     ;   r0x1003
-                                    1-  182     ;   r0x1004
-                                    1-  183     ;; Starting pCode block
-                                    1-  184     .segment "code"; module=key, function=_Check_Keydown
-                                    1-  186     ;local variable name mapping:
-     0000                           1-  191     _Check_Keydown:
-                                    1-  192     ; 2 exit points
-                                    1-  193     	.line	60, "BSP\key.c"; 	unsigned char KeyValue=0;
-                                    1-  194     	BANKSEL	r0x1001
+                                    1-  152     ;--------------------------------------------------------
+                                    1-  153     ; overlayable items in internal ram 
+                                    1-  154     ;--------------------------------------------------------
+                                    1-  155     ;	udata_ovr
+                                    1-  156     ;--------------------------------------------------------
+                                    1-  157     ; code
+                                    1-  158     ;--------------------------------------------------------
+                                    1-  159     ; code_key	code
+                                    1-  160     ;***
+                                    1-  161     ;  pBlock Stats: dbName = C
+                                    1-  162     ;***
+                                    1-  163     ;has an exit
+                                    1-  164     ;functions called:
+                                    1-  165     ;   _delay_ms
+                                    1-  166     ;   _toggle_key
+                                    1-  167     ;   _key_init
+                                    1-  168     ;   _send_ble_packet
+                                    1-  169     ;   _led
+                                    1-  170     ;   _send_ble_packet
+                                    1-  171     ;   _delay_250ms
+                                    1-  172     ;   _key_init
+                                    1-  173     ;   _delay_ms
+                                    1-  174     ;   _toggle_key
+                                    1-  175     ;   _key_init
+                                    1-  176     ;   _send_ble_packet
+                                    1-  177     ;   _led
+                                    1-  178     ;   _send_ble_packet
+                                    1-  179     ;   _delay_250ms
+                                    1-  180     ;   _key_init
+                                    1-  181     ;4 compiler assigned registers:
+                                    1-  182     ;   r0x1001
+                                    1-  183     ;   r0x1002
+                                    1-  184     ;   r0x1003
+                                    1-  185     ;   r0x1004
+                                    1-  186     ;; Starting pCode block
+                                    1-  187     .segment "code"; module=key, function=_Check_Keydown
+                                    1-  189     ;local variable name mapping:
+     0000                           1-  194     _Check_Keydown:
+                                    1-  195     ; 2 exit points
+                                    1-  196     	.line	70, "BSP\key.c"; 	unsigned char KeyValue=0;
+                                    1-  197     	BANKSEL	r0x1001
      0000 rrrr                      3-  109 m1      .banksel ram_address
-     0001 02rr                      1-  195     	CLRR	r0x1001
-                                    1-  196     	.line	65, "BSP\key.c"; 	KeyStatus = PORTA;
-     0002 01rr                      1-  197     	MOVR	_PORTA,W
-                                    1-  198     	BANKSEL	r0x1002
+     0001 02rr                      1-  198     	CLRR	r0x1001
+                                    1-  199     	.line	75, "BSP\key.c"; 	KeyStatus = PORTA;
+     0002 01rr                      1-  200     	MOVR	_PORTA,W
+                                    1-  201     	BANKSEL	r0x1002
      0003 rrrr                      3-  109 m1      .banksel ram_address
-     0004 00rr                      1-  199     	MOVAR	r0x1002
-                                    1-  200     	.line	66, "BSP\key.c"; 	KeyStatus = KeyStatus & 0xfc; // 0xfc 0x7c
-     0005 21FC                      1-  201     	MOVIA	0xfc
-     0006 10rr                      1-  202     	ANDAR	r0x1002,F
-                                    1-  203     	.line	68, "BSP\key.c"; 	if(KeyStatus != 0xfc) // 0xfc 0x7c
-     0007 01rr                      1-  204     	MOVR	r0x1002,W
-     0008 24FC                      1-  205     	XORIA	0xfc
-     0009 0903                      1-  206     	BTRSS	STATUS,2
-                                    1-  207     	MGOTO	_02144_DS_
+     0004 00rr                      1-  202     	MOVAR	r0x1002
+                                    1-  203     	.line	76, "BSP\key.c"; 	KeyStatus = KeyStatus & 0xfc; // 0xfc 0x7c
+     0005 21FC                      1-  204     	MOVIA	0xfc
+     0006 10rr                      1-  205     	ANDAR	r0x1002,F
+                                    1-  206     	.line	78, "BSP\key.c"; 	if(KeyStatus != 0xfc) // 0xfc 0x7c
+     0007 01rr                      1-  207     	MOVR	r0x1002,W
+     0008 24FC                      1-  208     	XORIA	0xfc
+     0009 0903                      1-  209     	BTRSS	STATUS,2
+                                    1-  210     	MGOTO	_02142_DS_
      000A 3rrr                      3-   62 m1      LGOTO rom_address
-                                    1-  208     	MGOTO	_02061_DS_
+                                    1-  211     	MGOTO	_02059_DS_
      000B 3rrr                      3-   62 m1      LGOTO rom_address
-     000C                           1-  209     _02144_DS_:
-                                    1-  210     	.line	70, "BSP\key.c"; 	delay_ms(5);
-     000C 2105                      1-  211     	MOVIA	0x05
-                                    1-  212     	MCALL	_delay_ms
+     000C                           1-  212     _02142_DS_:
+                                    1-  213     	.line	80, "BSP\key.c"; 	delay_ms(5);
+     000C 2105                      1-  214     	MOVIA	0x05
+                                    1-  215     	MCALL	_delay_ms
      000D 2rrr                      3-   65 m1      LCALL rom_address
-                                    1-  213     	.line	71, "BSP\key.c"; 	KeyStatus = PORTA;
-     000E 01rr                      1-  214     	MOVR	_PORTA,W
-                                    1-  215     	BANKSEL	r0x1002
+                                    1-  216     	.line	81, "BSP\key.c"; 	KeyStatus = PORTA;
+     000E 01rr                      1-  217     	MOVR	_PORTA,W
+                                    1-  218     	BANKSEL	r0x1002
      000F rrrr                      3-  109 m1      .banksel ram_address
-     0010 00rr                      1-  216     	MOVAR	r0x1002
-                                    1-  217     	.line	72, "BSP\key.c"; 	KeyStatus = KeyStatus & 0xfc;
-     0011 21FC                      1-  218     	MOVIA	0xfc
-     0012 10rr                      1-  219     	ANDAR	r0x1002,F
-                                    1-  220     	.line	74, "BSP\key.c"; 	if(KeyStatus != 0xfc)
-     0013 01rr                      1-  221     	MOVR	r0x1002,W
-     0014 24FC                      1-  222     	XORIA	0xfc
-     0015 0903                      1-  223     	BTRSS	STATUS,2
-                                    1-  224     	MGOTO	_02145_DS_
+     0010 00rr                      1-  219     	MOVAR	r0x1002
+                                    1-  220     	.line	82, "BSP\key.c"; 	KeyStatus = KeyStatus & 0xfc;
+     0011 21FC                      1-  221     	MOVIA	0xfc
+     0012 10rr                      1-  222     	ANDAR	r0x1002,F
+                                    1-  223     	.line	84, "BSP\key.c"; 	if(KeyStatus != 0xfc)
+     0013 01rr                      1-  224     	MOVR	r0x1002,W
+     0014 24FC                      1-  225     	XORIA	0xfc
+     0015 0903                      1-  226     	BTRSS	STATUS,2
+                                    1-  227     	MGOTO	_02143_DS_
      0016 3rrr                      3-   62 m1      LGOTO rom_address
-                                    1-  225     	MGOTO	_02058_DS_
+                                    1-  228     	MGOTO	_02056_DS_
      0017 3rrr                      3-   62 m1      LGOTO rom_address
-     0018                           1-  226     _02145_DS_:
-                                    1-  227     	.line	76, "BSP\key.c"; 	if(!PORTAbits.PA6)
-     0018 0Frr                      1-  228     	BTRSC	_PORTAbits,6
-                                    1-  229     	MGOTO	_02031_DS_
+     0018                           1-  229     _02143_DS_:
+                                    1-  230     	.line	86, "BSP\key.c"; 	if(!PORTAbits.PA6)
+     0018 0Frr                      1-  231     	BTRSC	_PORTAbits,6
+                                    1-  232     	MGOTO	_02035_DS_
      0019 3rrr                      3-   62 m1      LGOTO rom_address
-                                    1-  230     	.line	78, "BSP\key.c"; 	KeyValue=0x11;
-     001A 2111                      1-  231     	MOVIA	0x11
-                                    1-  232     	BANKSEL	r0x1001
+                                    1-  233     	.line	88, "BSP\key.c"; 	KeyValue=0x11;
+     001A 2111                      1-  234     	MOVIA	0x11
+                                    1-  235     	BANKSEL	r0x1001
      001B rrrr                      3-  109 m1      .banksel ram_address
-     001C 00rr                      1-  233     	MOVAR	r0x1001
-     001D                           1-  234     _02031_DS_:
-                                    1-  235     	.line	80, "BSP\key.c"; 	if(!PORTAbits.PA7)
-     001D 0Frr                      1-  236     	BTRSC	_PORTAbits,7
-                                    1-  237     	MGOTO	_02033_DS_
+     001C 00rr                      1-  236     	MOVAR	r0x1001
+     001D                           1-  237     _02035_DS_:
+                                    1-  238     	.line	90, "BSP\key.c"; 	if(!PORTAbits.PA7)
+     001D 0Frr                      1-  239     	BTRSC	_PORTAbits,7
+                                    1-  240     	MGOTO	_02037_DS_
      001E 3rrr                      3-   62 m1      LGOTO rom_address
-                                    1-  238     	.line	82, "BSP\key.c"; 	KeyValue=0x12;
-     001F 2112                      1-  239     	MOVIA	0x12
-                                    1-  240     	BANKSEL	r0x1001
+                                    1-  241     	.line	92, "BSP\key.c"; 	KeyValue=0x12;
+     001F 2112                      1-  242     	MOVIA	0x12
+                                    1-  243     	BANKSEL	r0x1001
      0020 rrrr                      3-  109 m1      .banksel ram_address
-     0021 00rr                      1-  241     	MOVAR	r0x1001
-     0022                           1-  242     _02033_DS_:
-                                    1-  243     	.line	85, "BSP\key.c"; 	KeyStatus = KeyStatus & 0x3c;
-     0022 213C                      1-  244     	MOVIA	0x3c
-                                    1-  245     	BANKSEL	r0x1002
+     0021 00rr                      1-  244     	MOVAR	r0x1001
+     0022                           1-  245     _02037_DS_:
+                                    1-  246     	.line	95, "BSP\key.c"; 	KeyStatus = KeyStatus & 0x3c;
+     0022 213C                      1-  247     	MOVIA	0x3c
+                                    1-  248     	BANKSEL	r0x1002
      0023 rrrr                      3-  109 m1      .banksel ram_address
-     0024 10rr                      1-  246     	ANDAR	r0x1002,F
-                                    1-  247     	.line	87, "BSP\key.c"; 	switch(KeyStatus)
-     0025 01rr                      1-  248     	MOVR	r0x1002,W
-     0026 241C                      1-  249     	XORIA	0x1c
-     0027 0903                      1-  250     	BTRSS	STATUS,2
-                                    1-  251     	MGOTO	_02146_DS_
+     0024 10rr                      1-  249     	ANDAR	r0x1002,F
+                                    1-  250     	.line	97, "BSP\key.c"; 	switch(KeyStatus)
+     0025 01rr                      1-  251     	MOVR	r0x1002,W
+     0026 241C                      1-  252     	XORIA	0x1c
+     0027 0903                      1-  253     	BTRSS	STATUS,2
+                                    1-  254     	MGOTO	_02144_DS_
      0028 3rrr                      3-   62 m1      LGOTO rom_address
-                                    1-  252     	MGOTO	_02037_DS_
+                                    1-  255     	MGOTO	_02041_DS_
      0029 3rrr                      3-   62 m1      LGOTO rom_address
-     002A                           1-  253     _02146_DS_:
-                                    1-  254     	BANKSEL	r0x1002
+     002A                           1-  256     _02144_DS_:
+                                    1-  257     	BANKSEL	r0x1002
      002A rrrr                      3-  109 m1      .banksel ram_address
-     002B 01rr                      1-  255     	MOVR	r0x1002,W
-     002C 242C                      1-  256     	XORIA	0x2c
-     002D 0903                      1-  257     	BTRSS	STATUS,2
-                                    1-  258     	MGOTO	_02147_DS_
+     002B 01rr                      1-  258     	MOVR	r0x1002,W
+     002C 242C                      1-  259     	XORIA	0x2c
+     002D 0903                      1-  260     	BTRSS	STATUS,2
+                                    1-  261     	MGOTO	_02145_DS_
      002E 3rrr                      3-   62 m1      LGOTO rom_address
-                                    1-  259     	MGOTO	_02036_DS_
+                                    1-  262     	MGOTO	_02040_DS_
      002F 3rrr                      3-   62 m1      LGOTO rom_address
-     0030                           1-  260     _02147_DS_:
-                                    1-  261     	BANKSEL	r0x1002
+     0030                           1-  263     _02145_DS_:
+                                    1-  264     	BANKSEL	r0x1002
      0030 rrrr                      3-  109 m1      .banksel ram_address
-     0031 01rr                      1-  262     	MOVR	r0x1002,W
-     0032 2434                      1-  263     	XORIA	0x34
-     0033 0903                      1-  264     	BTRSS	STATUS,2
-                                    1-  265     	MGOTO	_02148_DS_
+     0031 01rr                      1-  265     	MOVR	r0x1002,W
+     0032 2434                      1-  266     	XORIA	0x34
+     0033 0903                      1-  267     	BTRSS	STATUS,2
+                                    1-  268     	MGOTO	_02146_DS_
      0034 3rrr                      3-   62 m1      LGOTO rom_address
-                                    1-  266     	MGOTO	_02035_DS_
+                                    1-  269     	MGOTO	_02039_DS_
      0035 3rrr                      3-   62 m1      LGOTO rom_address
-     0036                           1-  267     _02148_DS_:
-                                    1-  268     	BANKSEL	r0x1002
+     0036                           1-  270     _02146_DS_:
+                                    1-  271     	BANKSEL	r0x1002
      0036 rrrr                      3-  109 m1      .banksel ram_address
-     0037 01rr                      1-  269     	MOVR	r0x1002,W
-     0038 2438                      1-  270     	XORIA	0x38
-     0039 0903                      1-  271     	BTRSS	STATUS,2
-                                    1-  272     	MGOTO	_02038_DS_
+     0037 01rr                      1-  272     	MOVR	r0x1002,W
+     0038 2438                      1-  273     	XORIA	0x38
+     0039 0903                      1-  274     	BTRSS	STATUS,2
+                                    1-  275     	MGOTO	_02042_DS_
      003A 3rrr                      3-   62 m1      LGOTO rom_address
-                                    1-  273     	.line	90, "BSP\key.c"; 	case(0X38): KeyValue=0x01;break;
-     003B 2101                      1-  274     	MOVIA	0x01
-                                    1-  275     	BANKSEL	r0x1001
+                                    1-  276     	.line	100, "BSP\key.c"; 	case(0X38): KeyValue=0x01;break;
+     003B 2101                      1-  277     	MOVIA	0x01
+                                    1-  278     	BANKSEL	r0x1001
      003C rrrr                      3-  109 m1      .banksel ram_address
-     003D 00rr                      1-  276     	MOVAR	r0x1001
-                                    1-  277     	MGOTO	_02038_DS_
+     003D 00rr                      1-  279     	MOVAR	r0x1001
+                                    1-  280     	MGOTO	_02042_DS_
      003E 3rrr                      3-   62 m1      LGOTO rom_address
-     003F                           1-  278     _02035_DS_:
-                                    1-  279     	.line	91, "BSP\key.c"; 	case(0X34): KeyValue=0x02;break;
-     003F 2102                      1-  280     	MOVIA	0x02
-                                    1-  281     	BANKSEL	r0x1001
+     003F                           1-  281     _02039_DS_:
+                                    1-  282     	.line	101, "BSP\key.c"; 	case(0X34): KeyValue=0x02;break;
+     003F 2102                      1-  283     	MOVIA	0x02
+                                    1-  284     	BANKSEL	r0x1001
      0040 rrrr                      3-  109 m1      .banksel ram_address
-     0041 00rr                      1-  282     	MOVAR	r0x1001
-                                    1-  283     	MGOTO	_02038_DS_
+     0041 00rr                      1-  285     	MOVAR	r0x1001
+                                    1-  286     	MGOTO	_02042_DS_
      0042 3rrr                      3-   62 m1      LGOTO rom_address
-     0043                           1-  284     _02036_DS_:
-                                    1-  285     	.line	92, "BSP\key.c"; 	case(0X2C): KeyValue=0x03;break;
-     0043 2103                      1-  286     	MOVIA	0x03
-                                    1-  287     	BANKSEL	r0x1001
+     0043                           1-  287     _02040_DS_:
+                                    1-  288     	.line	102, "BSP\key.c"; 	case(0X2C): KeyValue=0x03;break;
+     0043 2103                      1-  289     	MOVIA	0x03
+                                    1-  290     	BANKSEL	r0x1001
      0044 rrrr                      3-  109 m1      .banksel ram_address
-     0045 00rr                      1-  288     	MOVAR	r0x1001
-                                    1-  289     	MGOTO	_02038_DS_
+     0045 00rr                      1-  291     	MOVAR	r0x1001
+                                    1-  292     	MGOTO	_02042_DS_
      0046 3rrr                      3-   62 m1      LGOTO rom_address
-     0047                           1-  290     _02037_DS_:
-                                    1-  291     	.line	93, "BSP\key.c"; 	case(0X1C): KeyValue=0x04;break;
-     0047 2104                      1-  292     	MOVIA	0x04
-                                    1-  293     	BANKSEL	r0x1001
+     0047                           1-  293     _02041_DS_:
+                                    1-  294     	.line	103, "BSP\key.c"; 	case(0X1C): KeyValue=0x04;break;
+     0047 2104                      1-  295     	MOVIA	0x04
+                                    1-  296     	BANKSEL	r0x1001
      0048 rrrr                      3-  109 m1      .banksel ram_address
-     0049 00rr                      1-  294     	MOVAR	r0x1001
-     004A                           1-  295     _02038_DS_:
-                                    1-  296     	.line	96, "BSP\key.c"; 	APHCON = 0b00111111; // 2、3、4上拉取消
-     004A 213F                      1-  297     	MOVIA	0x3f
-     004B 000r                      1-  298     	IOST	_APHCON
-                                    1-  299     	.line	97, "BSP\key.c"; 	PCON = 0xe8; // 5上拉取消
-     004C 21E8                      1-  300     	MOVIA	0xe8
-     004D 00rr                      1-  301     	MOVAR	_PCON
-                                    1-  302     	.line	98, "BSP\key.c"; 	IOSTA = 0b11000000; // 配置PA2、3、4、5为输出低电平
-     004E 21C0                      1-  303     	MOVIA	0xc0
-     004F 000r                      1-  304     	IOST	_IOSTA
-                                    1-  305     	.line	99, "BSP\key.c"; 	set_PA_low();
-                                    1-  306     	MCALL	_set_PA_low
-     0050 2rrr                      3-   65 m1      LCALL rom_address
-                                    1-  307     	.line	101, "BSP\key.c"; 	IOSTB = 0b00001111; // 配置PB0、1、2、3为输入
-     0051 210F                      1-  308     	MOVIA	0x0f
-     0052 000r                      1-  309     	IOST	_IOSTB
-                                    1-  310     	.line	102, "BSP\key.c"; 	BPHCON = 0xF0; // 0、1、2、3上拉
-     0053 21F0                      1-  311     	MOVIA	0xf0
-     0054 00rr                      1-  312     	MOVAR	_BPHCON
-                                    1-  313     	.line	104, "BSP\key.c"; 	if(0b00000111 == (PORTB & 0x0f))
-     0055 210F                      1-  314     	MOVIA	0x0f
-     0056 10rr                      1-  315     	ANDAR	_PORTB,W
-                                    1-  316     	BANKSEL	r0x1002
-     0057 rrrr                      3-  109 m1      .banksel ram_address
-     0058 00rr                      1-  317     	MOVAR	r0x1002
-     0059 01rr                      1-  318     	MOVR	r0x1002,W
-     005A 2407                      1-  319     	XORIA	0x07
-     005B 0903                      1-  320     	BTRSS	STATUS,2
-                                    1-  321     	MGOTO	_02149_DS_
-     005C 3rrr                      3-   62 m1      LGOTO rom_address
-                                    1-  322     	MGOTO	_02049_DS_
-     005D 3rrr                      3-   62 m1      LGOTO rom_address
-     005E                           1-  323     _02149_DS_:
-                                    1-  324     	.line	108, "BSP\key.c"; 	else if(0b00001011 == (PORTB & 0x0f))
-     005E 210F                      1-  325     	MOVIA	0x0f
-     005F 10rr                      1-  326     	ANDAR	_PORTB,W
+     0049 00rr                      1-  297     	MOVAR	r0x1001
+     004A                           1-  298     _02042_DS_:
+                                    1-  299     	.line	106, "BSP\key.c"; 	toggle_key();
+                                    1-  300     	MCALL	_toggle_key
+     004A 2rrr                      3-   65 m1      LCALL rom_address
+                                    1-  301     	.line	109, "BSP\key.c"; 	KeyStatus = PORTB &0x0f;
+     004B 210F                      1-  302     	MOVIA	0x0f
+     004C 10rr                      1-  303     	ANDAR	_PORTB,W
+                                    1-  304     	BANKSEL	r0x1002
+     004D rrrr                      3-  109 m1      .banksel ram_address
+     004E 00rr                      1-  305     	MOVAR	r0x1002
+                                    1-  306     	.line	111, "BSP\key.c"; 	switch (KeyStatus)
+     004F 01rr                      1-  307     	MOVR	r0x1002,W
+     0050 2407                      1-  308     	XORIA	0x07
+     0051 0903                      1-  309     	BTRSS	STATUS,2
+                                    1-  310     	MGOTO	_02147_DS_
+     0052 3rrr                      3-   62 m1      LGOTO rom_address
+                                    1-  311     	MGOTO	_02047_DS_
+     0053 3rrr                      3-   62 m1      LGOTO rom_address
+     0054                           1-  312     _02147_DS_:
+                                    1-  313     	BANKSEL	r0x1002
+     0054 rrrr                      3-  109 m1      .banksel ram_address
+     0055 01rr                      1-  314     	MOVR	r0x1002,W
+     0056 240B                      1-  315     	XORIA	0x0b
+     0057 0903                      1-  316     	BTRSS	STATUS,2
+                                    1-  317     	MGOTO	_02148_DS_
+     0058 3rrr                      3-   62 m1      LGOTO rom_address
+                                    1-  318     	MGOTO	_02044_DS_
+     0059 3rrr                      3-   62 m1      LGOTO rom_address
+     005A                           1-  319     _02148_DS_:
+                                    1-  320     	BANKSEL	r0x1002
+     005A rrrr                      3-  109 m1      .banksel ram_address
+     005B 01rr                      1-  321     	MOVR	r0x1002,W
+     005C 240D                      1-  322     	XORIA	0x0d
+     005D 0903                      1-  323     	BTRSS	STATUS,2
+                                    1-  324     	MGOTO	_02149_DS_
+     005E 3rrr                      3-   62 m1      LGOTO rom_address
+                                    1-  325     	MGOTO	_02045_DS_
+     005F 3rrr                      3-   62 m1      LGOTO rom_address
+     0060                           1-  326     _02149_DS_:
                                     1-  327     	BANKSEL	r0x1002
      0060 rrrr                      3-  109 m1      .banksel ram_address
-     0061 00rr                      1-  328     	MOVAR	r0x1002
-     0062 01rr                      1-  329     	MOVR	r0x1002,W
-     0063 240B                      1-  330     	XORIA	0x0b
-     0064 0903                      1-  331     	BTRSS	STATUS,2
-                                    1-  332     	MGOTO	_02045_DS_
+     0061 01rr                      1-  328     	MOVR	r0x1002,W
+     0062 240E                      1-  329     	XORIA	0x0e
+     0063 0903                      1-  330     	BTRSS	STATUS,2
+                                    1-  331     	MGOTO	_02150_DS_
+     0064 3rrr                      3-   62 m1      LGOTO rom_address
+                                    1-  332     	MGOTO	_02046_DS_
      0065 3rrr                      3-   62 m1      LGOTO rom_address
-                                    1-  333     	.line	110, "BSP\key.c"; 	KeyValue=KeyValue+0x04;
-     0066 2104                      1-  334     	MOVIA	0x04
-                                    1-  335     	BANKSEL	r0x1001
-     0067 rrrr                      3-  109 m1      .banksel ram_address
-     0068 03rr                      1-  336     	ADDAR	r0x1001,F
-                                    1-  337     	MGOTO	_02049_DS_
-     0069 3rrr                      3-   62 m1      LGOTO rom_address
-     006A                           1-  338     _02045_DS_:
-                                    1-  339     	.line	112, "BSP\key.c"; 	else if(0b00001101 == (PORTB & 0x0f))
-     006A 210F                      1-  340     	MOVIA	0x0f
-     006B 10rr                      1-  341     	ANDAR	_PORTB,W
-                                    1-  342     	BANKSEL	r0x1002
+     0066                           1-  333     _02150_DS_:
+                                    1-  334     	MGOTO	_02047_DS_
+     0066 3rrr                      3-   62 m1      LGOTO rom_address
+     0067                           1-  335     _02044_DS_:
+                                    1-  336     	.line	114, "BSP\key.c"; 	case(0x0B): KeyValue=KeyValue+0X04;break;
+     0067 2104                      1-  337     	MOVIA	0x04
+                                    1-  338     	BANKSEL	r0x1001
+     0068 rrrr                      3-  109 m1      .banksel ram_address
+     0069 03rr                      1-  339     	ADDAR	r0x1001,F
+                                    1-  340     	MGOTO	_02047_DS_
+     006A 3rrr                      3-   62 m1      LGOTO rom_address
+     006B                           1-  341     _02045_DS_:
+                                    1-  342     	.line	115, "BSP\key.c"; 	case(0x0D): KeyValue=KeyValue+0X08;break;
+     006B 2108                      1-  343     	MOVIA	0x08
+                                    1-  344     	BANKSEL	r0x1001
      006C rrrr                      3-  109 m1      .banksel ram_address
-     006D 00rr                      1-  343     	MOVAR	r0x1002
-     006E 01rr                      1-  344     	MOVR	r0x1002,W
-     006F 240D                      1-  345     	XORIA	0x0d
-     0070 0903                      1-  346     	BTRSS	STATUS,2
-                                    1-  347     	MGOTO	_02042_DS_
-     0071 3rrr                      3-   62 m1      LGOTO rom_address
-                                    1-  348     	.line	114, "BSP\key.c"; 	KeyValue=KeyValue+0x08;
-     0072 2108                      1-  349     	MOVIA	0x08
+     006D 03rr                      1-  345     	ADDAR	r0x1001,F
+                                    1-  346     	MGOTO	_02047_DS_
+     006E 3rrr                      3-   62 m1      LGOTO rom_address
+     006F                           1-  347     _02046_DS_:
+                                    1-  348     	.line	116, "BSP\key.c"; 	case(0x0E): KeyValue=KeyValue+0X08;break;
+     006F 2108                      1-  349     	MOVIA	0x08
                                     1-  350     	BANKSEL	r0x1001
+     0070 rrrr                      3-  109 m1      .banksel ram_address
+     0071 03rr                      1-  351     	ADDAR	r0x1001,F
+     0072                           1-  352     _02047_DS_:
+                                    1-  353     	.line	136, "BSP\key.c"; 	key_init();
+                                    1-  354     	MCALL	_key_init
+     0072 2rrr                      3-   65 m1      LCALL rom_address
+                                    1-  355     	.line	138, "BSP\key.c"; 	sCodeValue = KeyValue - 0x01;
+                                    1-  356     	BANKSEL	r0x1001
      0073 rrrr                      3-  109 m1      .banksel ram_address
-     0074 03rr                      1-  351     	ADDAR	r0x1001,F
-                                    1-  352     	MGOTO	_02049_DS_
-     0075 3rrr                      3-   62 m1      LGOTO rom_address
-     0076                           1-  353     _02042_DS_:
-                                    1-  354     	.line	116, "BSP\key.c"; 	else if(0b00001110 == (PORTB & 0x0f))
-     0076 210F                      1-  355     	MOVIA	0x0f
-     0077 10rr                      1-  356     	ANDAR	_PORTB,W
-                                    1-  357     	BANKSEL	r0x1002
-     0078 rrrr                      3-  109 m1      .banksel ram_address
-     0079 00rr                      1-  358     	MOVAR	r0x1002
-     007A 01rr                      1-  359     	MOVR	r0x1002,W
-     007B 240E                      1-  360     	XORIA	0x0e
-     007C 0903                      1-  361     	BTRSS	STATUS,2
-                                    1-  362     	MGOTO	_02049_DS_
-     007D 3rrr                      3-   62 m1      LGOTO rom_address
-                                    1-  363     	.line	118, "BSP\key.c"; 	KeyValue=KeyValue+0x0c;
-     007E 210C                      1-  364     	MOVIA	0x0c
-                                    1-  365     	BANKSEL	r0x1001
-     007F rrrr                      3-  109 m1      .banksel ram_address
-     0080 03rr                      1-  366     	ADDAR	r0x1001,F
-     0081                           1-  367     _02049_DS_:
-                                    1-  368     	.line	121, "BSP\key.c"; 	key_init();
-                                    1-  369     	MCALL	_key_init
-     0081 2rrr                      3-   65 m1      LCALL rom_address
-                                    1-  370     	.line	123, "BSP\key.c"; 	sCodeValue = KeyValue - 0x01;
-                                    1-  371     	BANKSEL	r0x1001
-     0082 rrrr                      3-  109 m1      .banksel ram_address
-     0083 06rr                      1-  372     	DECR	r0x1001,F
-                                    1-  373     	.line	125, "BSP\key.c"; 	KeyStatus = PORTA & 0xfc;
-     0084 21FC                      1-  374     	MOVIA	0xfc
-     0085 10rr                      1-  375     	ANDAR	_PORTA,W
-                                    1-  376     	BANKSEL	r0x1002
-     0086 rrrr                      3-  109 m1      .banksel ram_address
-     0087 00rr                      1-  377     	MOVAR	r0x1002
-                                    1-  378     	.line	126, "BSP\key.c"; 	KeyStatus_s = 1;
-     0088 2101                      1-  379     	MOVIA	0x01
-                                    1-  380     	BANKSEL	r0x1003
+     0074 06rr                      1-  357     	DECR	r0x1001,F
+                                    1-  358     	.line	140, "BSP\key.c"; 	KeyStatus = PORTA & 0xfc;
+     0075 21FC                      1-  359     	MOVIA	0xfc
+     0076 10rr                      1-  360     	ANDAR	_PORTA,W
+                                    1-  361     	BANKSEL	r0x1002
+     0077 rrrr                      3-  109 m1      .banksel ram_address
+     0078 00rr                      1-  362     	MOVAR	r0x1002
+                                    1-  363     	.line	141, "BSP\key.c"; 	KeyStatus_s = 1;
+     0079 2101                      1-  364     	MOVIA	0x01
+                                    1-  365     	BANKSEL	r0x1003
+     007A rrrr                      3-  109 m1      .banksel ram_address
+     007B 00rr                      1-  366     	MOVAR	r0x1003
+     007C                           1-  367     _02052_DS_:
+                                    1-  368     	.line	142, "BSP\key.c"; 	while(0xfc != (PORTA & 0xfC))
+     007C 21FC                      1-  369     	MOVIA	0xfc
+     007D 10rr                      1-  370     	ANDAR	_PORTA,W
+                                    1-  371     	BANKSEL	r0x1004
+     007E rrrr                      3-  109 m1      .banksel ram_address
+     007F 00rr                      1-  372     	MOVAR	r0x1004
+     0080 01rr                      1-  373     	MOVR	r0x1004,W
+     0081 24FC                      1-  374     	XORIA	0xfc
+     0082 0903                      1-  375     	BTRSS	STATUS,2
+                                    1-  376     	MGOTO	_02151_DS_
+     0083 3rrr                      3-   62 m1      LGOTO rom_address
+                                    1-  377     	MGOTO	_02054_DS_
+     0084 3rrr                      3-   62 m1      LGOTO rom_address
+     0085                           1-  378     _02151_DS_:
+                                    1-  379     	.line	146, "BSP\key.c"; 	send_ble_packet(sCodeValue);
+                                    1-  380     	BANKSEL	r0x1001
+     0085 rrrr                      3-  109 m1      .banksel ram_address
+     0086 01rr                      1-  381     	MOVR	r0x1001,W
+                                    1-  382     	MCALL	_send_ble_packet
+     0087 2rrr                      3-   65 m1      LCALL rom_address
+                                    1-  383     	.line	148, "BSP\key.c"; 	led();
+                                    1-  384     	MCALL	_led
+     0088 2rrr                      3-   65 m1      LCALL rom_address
+                                    1-  385     	.line	149, "BSP\key.c"; 	if(KeyStatus_s == 1) // 按键屏蔽时间，在按下后的250ms内不会再次发送数据包，需要长按超过250ms才会持续发送
+                                    1-  386     	BANKSEL	r0x1003
      0089 rrrr                      3-  109 m1      .banksel ram_address
-     008A 00rr                      1-  381     	MOVAR	r0x1003
-     008B                           1-  382     _02054_DS_:
-                                    1-  383     	.line	127, "BSP\key.c"; 	while(0xfc != (PORTA & 0xfC))
-     008B 21FC                      1-  384     	MOVIA	0xfc
-     008C 10rr                      1-  385     	ANDAR	_PORTA,W
-                                    1-  386     	BANKSEL	r0x1004
-     008D rrrr                      3-  109 m1      .banksel ram_address
-     008E 00rr                      1-  387     	MOVAR	r0x1004
-     008F 01rr                      1-  388     	MOVR	r0x1004,W
-     0090 24FC                      1-  389     	XORIA	0xfc
-     0091 0903                      1-  390     	BTRSS	STATUS,2
-                                    1-  391     	MGOTO	_02150_DS_
-     0092 3rrr                      3-   62 m1      LGOTO rom_address
-                                    1-  392     	MGOTO	_02056_DS_
-     0093 3rrr                      3-   62 m1      LGOTO rom_address
-     0094                           1-  393     _02150_DS_:
-                                    1-  394     	.line	131, "BSP\key.c"; 	send_ble_packet(sCodeValue);
-                                    1-  395     	BANKSEL	r0x1001
-     0094 rrrr                      3-  109 m1      .banksel ram_address
-     0095 01rr                      1-  396     	MOVR	r0x1001,W
-                                    1-  397     	MCALL	_send_ble_packet
-     0096 2rrr                      3-   65 m1      LCALL rom_address
-                                    1-  398     	.line	133, "BSP\key.c"; 	led();
-                                    1-  399     	MCALL	_led
-     0097 2rrr                      3-   65 m1      LCALL rom_address
-                                    1-  400     	.line	134, "BSP\key.c"; 	if(KeyStatus_s == 1) // 按键屏蔽时间，在按下后的250ms内不会再次发送数据包，需要长按超过250ms才会持续发送
-                                    1-  401     	BANKSEL	r0x1003
-     0098 rrrr                      3-  109 m1      .banksel ram_address
-     0099 01rr                      1-  402     	MOVR	r0x1003,W
-     009A 2401                      1-  403     	XORIA	0x01
-     009B 0903                      1-  404     	BTRSS	STATUS,2
-                                    1-  405     	MGOTO	_02051_DS_
-     009C 3rrr                      3-   62 m1      LGOTO rom_address
-                                    1-  406     	.line	136, "BSP\key.c"; 	KeyStatus_s = 0;
-     009D 02rr                      1-  407     	CLRR	r0x1003
-                                    1-  408     	.line	137, "BSP\key.c"; 	delay_250ms();
-                                    1-  409     	MCALL	_delay_250ms
-     009E 2rrr                      3-   65 m1      LCALL rom_address
-     009F                           1-  410     _02051_DS_:
-                                    1-  411     	.line	139, "BSP\key.c"; 	key_init();
-                                    1-  412     	MCALL	_key_init
-     009F 2rrr                      3-   65 m1      LCALL rom_address
-                                    1-  413     	.line	140, "BSP\key.c"; 	if(KeyStatus != (PORTA & 0xfc))
-     00A0 21FC                      1-  414     	MOVIA	0xfc
-     00A1 10rr                      1-  415     	ANDAR	_PORTA,W
-                                    1-  416     	BANKSEL	r0x1004
-     00A2 rrrr                      3-  109 m1      .banksel ram_address
-     00A3 00rr                      1-  417     	MOVAR	r0x1004
-     00A4 01rr                      1-  418     	MOVR	r0x1004,W
-                                    1-  419     	BANKSEL	r0x1002
-     00A5 rrrr                      3-  109 m1      .banksel ram_address
-     00A6 12rr                      1-  420     	XORAR	r0x1002,W
-     00A7 0903                      1-  421     	BTRSS	STATUS,2
-                                    1-  422     	MGOTO	_02151_DS_
-     00A8 3rrr                      3-   62 m1      LGOTO rom_address
-                                    1-  423     	MGOTO	_02054_DS_
-     00A9 3rrr                      3-   62 m1      LGOTO rom_address
-     00AA                           1-  424     _02151_DS_:
-                                    1-  425     	.line	141, "BSP\key.c"; 	return 0;
-     00AA 2100                      1-  426     	MOVIA	0x00
-                                    1-  427     	MGOTO	_02062_DS_
-     00AB 3rrr                      3-   62 m1      LGOTO rom_address
-     00AC                           1-  428     _02056_DS_:
-                                    1-  429     	.line	143, "BSP\key.c"; 	return 0;
-     00AC 2100                      1-  430     	MOVIA	0x00
-                                    1-  431     	MGOTO	_02062_DS_
-     00AD 3rrr                      3-   62 m1      LGOTO rom_address
-     00AE                           1-  432     _02058_DS_:
-                                    1-  433     	.line	148, "BSP\key.c"; 	return 1;
-     00AE 2101                      1-  434     	MOVIA	0x01
-                                    1-  435     	MGOTO	_02062_DS_
-     00AF 3rrr                      3-   62 m1      LGOTO rom_address
-     00B0                           1-  436     _02061_DS_:
-                                    1-  437     	.line	152, "BSP\key.c"; 	return 1;
-     00B0 2101                      1-  438     	MOVIA	0x01
-     00B1                           1-  439     _02062_DS_:
-                                    1-  440     	.line	153, "BSP\key.c"; 	}
-                                    1-  441     	RETURN	
-     00B1 0010                      3-   39 m1      ret
-                                    1-  442     ; exit point of _Check_Keydown
-                                    1-  444     ;***
-                                    1-  445     ;  pBlock Stats: dbName = C
-                                    1-  446     ;***
-                                    1-  447     ;has an exit
-                                    1-  448     ;functions called:
-                                    1-  449     ;   _led_open
-                                    1-  450     ;   _delay_ms
-                                    1-  451     ;   _led_open
-                                    1-  452     ;   _delay_ms
-                                    1-  453     ;   _led_open
-                                    1-  454     ;   _delay_ms
-                                    1-  455     ;   _led_open
-                                    1-  456     ;   _delay_ms
-                                    1-  457     ;; Starting pCode block
-                                    1-  458     .segment "code"; module=key, function=_led
-     0000                           1-  460     _led:
-                                    1-  461     ; 2 exit points
-                                    1-  462     	.line	49, "BSP\key.c"; 	led_open();
-                                    1-  463     	MCALL	_led_open
+     008A 01rr                      1-  387     	MOVR	r0x1003,W
+     008B 2401                      1-  388     	XORIA	0x01
+     008C 0903                      1-  389     	BTRSS	STATUS,2
+                                    1-  390     	MGOTO	_02049_DS_
+     008D 3rrr                      3-   62 m1      LGOTO rom_address
+                                    1-  391     	.line	151, "BSP\key.c"; 	send_ble_packet(sCodeValue);
+                                    1-  392     	BANKSEL	r0x1001
+     008E rrrr                      3-  109 m1      .banksel ram_address
+     008F 01rr                      1-  393     	MOVR	r0x1001,W
+                                    1-  394     	MCALL	_send_ble_packet
+     0090 2rrr                      3-   65 m1      LCALL rom_address
+                                    1-  395     	.line	152, "BSP\key.c"; 	KeyStatus_s = 0;
+                                    1-  396     	BANKSEL	r0x1003
+     0091 rrrr                      3-  109 m1      .banksel ram_address
+     0092 02rr                      1-  397     	CLRR	r0x1003
+                                    1-  398     	.line	153, "BSP\key.c"; 	delay_250ms();
+                                    1-  399     	MCALL	_delay_250ms
+     0093 2rrr                      3-   65 m1      LCALL rom_address
+     0094                           1-  400     _02049_DS_:
+                                    1-  401     	.line	155, "BSP\key.c"; 	key_init();
+                                    1-  402     	MCALL	_key_init
+     0094 2rrr                      3-   65 m1      LCALL rom_address
+                                    1-  403     	.line	157, "BSP\key.c"; 	if(KeyStatus != (PORTA & 0xfc))
+     0095 21FC                      1-  404     	MOVIA	0xfc
+     0096 10rr                      1-  405     	ANDAR	_PORTA,W
+                                    1-  406     	BANKSEL	r0x1004
+     0097 rrrr                      3-  109 m1      .banksel ram_address
+     0098 00rr                      1-  407     	MOVAR	r0x1004
+     0099 01rr                      1-  408     	MOVR	r0x1004,W
+                                    1-  409     	BANKSEL	r0x1002
+     009A rrrr                      3-  109 m1      .banksel ram_address
+     009B 12rr                      1-  410     	XORAR	r0x1002,W
+     009C 0903                      1-  411     	BTRSS	STATUS,2
+                                    1-  412     	MGOTO	_02152_DS_
+     009D 3rrr                      3-   62 m1      LGOTO rom_address
+                                    1-  413     	MGOTO	_02052_DS_
+     009E 3rrr                      3-   62 m1      LGOTO rom_address
+     009F                           1-  414     _02152_DS_:
+                                    1-  415     	.line	158, "BSP\key.c"; 	return 0;
+     009F 2100                      1-  416     	MOVIA	0x00
+                                    1-  417     	MGOTO	_02060_DS_
+     00A0 3rrr                      3-   62 m1      LGOTO rom_address
+     00A1                           1-  418     _02054_DS_:
+                                    1-  419     	.line	160, "BSP\key.c"; 	return 0;
+     00A1 2100                      1-  420     	MOVIA	0x00
+                                    1-  421     	MGOTO	_02060_DS_
+     00A2 3rrr                      3-   62 m1      LGOTO rom_address
+     00A3                           1-  422     _02056_DS_:
+                                    1-  423     	.line	165, "BSP\key.c"; 	return 1;
+     00A3 2101                      1-  424     	MOVIA	0x01
+                                    1-  425     	MGOTO	_02060_DS_
+     00A4 3rrr                      3-   62 m1      LGOTO rom_address
+     00A5                           1-  426     _02059_DS_:
+                                    1-  427     	.line	169, "BSP\key.c"; 	return 1;
+     00A5 2101                      1-  428     	MOVIA	0x01
+     00A6                           1-  429     _02060_DS_:
+                                    1-  430     	.line	170, "BSP\key.c"; 	}
+                                    1-  431     	RETURN	
+     00A6 0010                      3-   39 m1      ret
+                                    1-  432     ; exit point of _Check_Keydown
+                                    1-  434     ;***
+                                    1-  435     ;  pBlock Stats: dbName = C
+                                    1-  436     ;***
+                                    1-  437     ;has an exit
+                                    1-  438     ;functions called:
+                                    1-  439     ;   _set_PA_low
+                                    1-  440     ;   _set_PA_low
+                                    1-  441     ;; Starting pCode block
+                                    1-  442     .segment "code"; module=key, function=_toggle_key
+     0000                           1-  444     _toggle_key:
+                                    1-  445     ; 2 exit points
+                                    1-  446     	.line	59, "BSP\key.c"; 	APHCON = 0b00111111; // 2、3、4上拉取消
+     0000 213F                      1-  447     	MOVIA	0x3f
+     0001 000r                      1-  448     	IOST	_APHCON
+                                    1-  449     	.line	60, "BSP\key.c"; 	PCON = 0xe8; // 5上拉取消
+     0002 21E8                      1-  450     	MOVIA	0xe8
+     0003 00rr                      1-  451     	MOVAR	_PCON
+                                    1-  452     	.line	61, "BSP\key.c"; 	IOSTA = 0b11000000; // 配置PA2、3、4、5为输出低电平
+     0004 21C0                      1-  453     	MOVIA	0xc0
+     0005 000r                      1-  454     	IOST	_IOSTA
+                                    1-  455     	.line	62, "BSP\key.c"; 	set_PA_low();
+                                    1-  456     	MCALL	_set_PA_low
+     0006 2rrr                      3-   65 m1      LCALL rom_address
+                                    1-  457     	.line	64, "BSP\key.c"; 	IOSTB = 0b00001111; // 配置PB0、1、2、3为输入
+     0007 210F                      1-  458     	MOVIA	0x0f
+     0008 000r                      1-  459     	IOST	_IOSTB
+                                    1-  460     	.line	65, "BSP\key.c"; 	BPHCON = 0xF0; // 0、1、2、3上拉
+     0009 21F0                      1-  461     	MOVIA	0xf0
+     000A 00rr                      1-  462     	MOVAR	_BPHCON
+                                    1-  463     	.line	66, "BSP\key.c"; 	}
+                                    1-  464     	RETURN	
+     000B 0010                      3-   39 m1      ret
+                                    1-  465     ; exit point of _toggle_key
+                                    1-  467     ;***
+                                    1-  468     ;  pBlock Stats: dbName = C
+                                    1-  469     ;***
+                                    1-  470     ;has an exit
+                                    1-  471     ;functions called:
+                                    1-  472     ;   _led_open
+                                    1-  473     ;   _delay_ms
+                                    1-  474     ;   _led_open
+                                    1-  475     ;   _delay_ms
+                                    1-  476     ;   _led_open
+                                    1-  477     ;   _delay_ms
+                                    1-  478     ;   _led_open
+                                    1-  479     ;   _delay_ms
+                                    1-  480     ;; Starting pCode block
+                                    1-  481     .segment "code"; module=key, function=_led
+     0000                           1-  483     _led:
+                                    1-  484     ; 2 exit points
+                                    1-  485     	.line	49, "BSP\key.c"; 	led_open();
+                                    1-  486     	MCALL	_led_open
      0000 2rrr                      3-   65 m1      LCALL rom_address
-                                    1-  464     	.line	50, "BSP\key.c"; 	PORTBbits.PB4 = 0;
-     0001 1Err                      1-  465     	BCR	_PORTBbits,4
-                                    1-  466     	.line	51, "BSP\key.c"; 	delay_ms(20);
-     0002 2114                      1-  467     	MOVIA	0x14
-                                    1-  468     	MCALL	_delay_ms
+                                    1-  487     	.line	50, "BSP\key.c"; 	PORTBbits.PB4 = 0;
+     0001 1Err                      1-  488     	BCR	_PORTBbits,4
+                                    1-  489     	.line	51, "BSP\key.c"; 	delay_ms(20);
+     0002 2114                      1-  490     	MOVIA	0x14
+                                    1-  491     	MCALL	_delay_ms
      0003 2rrr                      3-   65 m1      LCALL rom_address
-                                    1-  469     	.line	52, "BSP\key.c"; 	led_open();
-                                    1-  470     	MCALL	_led_open
+                                    1-  492     	.line	52, "BSP\key.c"; 	led_open();
+                                    1-  493     	MCALL	_led_open
      0004 2rrr                      3-   65 m1      LCALL rom_address
-                                    1-  471     	.line	53, "BSP\key.c"; 	PORTBbits.PB4 = 0;
-     0005 1Err                      1-  472     	BCR	_PORTBbits,4
-                                    1-  473     	.line	54, "BSP\key.c"; 	delay_ms(20);
-     0006 2114                      1-  474     	MOVIA	0x14
-                                    1-  475     	MCALL	_delay_ms
+                                    1-  494     	.line	53, "BSP\key.c"; 	PORTBbits.PB4 = 0;
+     0005 1Err                      1-  495     	BCR	_PORTBbits,4
+                                    1-  496     	.line	54, "BSP\key.c"; 	delay_ms(20);
+     0006 2114                      1-  497     	MOVIA	0x14
+                                    1-  498     	MCALL	_delay_ms
      0007 2rrr                      3-   65 m1      LCALL rom_address
-                                    1-  476     	.line	55, "BSP\key.c"; 	}
-                                    1-  477     	RETURN	
+                                    1-  499     	.line	55, "BSP\key.c"; 	}
+                                    1-  500     	RETURN	
      0008 0010                      3-   39 m1      ret
-                                    1-  478     ; exit point of _led
-                                    1-  480     ;***
-                                    1-  481     ;  pBlock Stats: dbName = C
-                                    1-  482     ;***
-                                    1-  483     ;has an exit
-                                    1-  484     ;functions called:
-                                    1-  485     ;   _delay_us
-                                    1-  486     ;   _delay_us
-                                    1-  487     ;   _delay_us
-                                    1-  488     ;   _delay_us
-                                    1-  489     ;1 compiler assigned register :
-                                    1-  490     ;   r0x1000
-                                    1-  491     ;; Starting pCode block
-                                    1-  492     .segment "code"; module=key, function=_led_open
-                                    1-  494     ;local variable name mapping:
-     0000                           1-  496     _led_open:
-                                    1-  497     ; 2 exit points
-                                    1-  498     	.line	39, "BSP\key.c"; 	for(unsigned char i = 0; i < 200; i++)
-                                    1-  499     	BANKSEL	r0x1000
+                                    1-  501     ; exit point of _led
+                                    1-  503     ;***
+                                    1-  504     ;  pBlock Stats: dbName = C
+                                    1-  505     ;***
+                                    1-  506     ;has an exit
+                                    1-  507     ;functions called:
+                                    1-  508     ;   _delay_us
+                                    1-  509     ;   _delay_us
+                                    1-  510     ;   _delay_us
+                                    1-  511     ;   _delay_us
+                                    1-  512     ;1 compiler assigned register :
+                                    1-  513     ;   r0x1000
+                                    1-  514     ;; Starting pCode block
+                                    1-  515     .segment "code"; module=key, function=_led_open
+                                    1-  517     ;local variable name mapping:
+     0000                           1-  519     _led_open:
+                                    1-  520     ; 2 exit points
+                                    1-  521     	.line	39, "BSP\key.c"; 	for(unsigned char i = 0; i < 200; i++)
+                                    1-  522     	BANKSEL	r0x1000
      0000 rrrr                      3-  109 m1      .banksel ram_address
-     0001 02rr                      1-  500     	CLRR	r0x1000
-                                    1-  501     ;;unsigned compare: left < lit(0xC8=200), size=1
-     0002                           1-  502     _02019_DS_:
-     0002 21C8                      1-  503     	MOVIA	0xc8
-                                    1-  504     	BANKSEL	r0x1000
+     0001 02rr                      1-  523     	CLRR	r0x1000
+                                    1-  524     ;;unsigned compare: left < lit(0xC8=200), size=1
+     0002                           1-  525     _02019_DS_:
+     0002 21C8                      1-  526     	MOVIA	0xc8
+                                    1-  527     	BANKSEL	r0x1000
      0003 rrrr                      3-  109 m1      .banksel ram_address
-     0004 04rr                      1-  505     	SUBAR	r0x1000,W
-     0005 0C03                      1-  506     	BTRSC	STATUS,0
-                                    1-  507     	MGOTO	_02021_DS_
+     0004 04rr                      1-  528     	SUBAR	r0x1000,W
+     0005 0C03                      1-  529     	BTRSC	STATUS,0
+                                    1-  530     	MGOTO	_02021_DS_
      0006 3rrr                      3-   62 m1      LGOTO rom_address
-                                    1-  508     	.line	41, "BSP\key.c"; 	PORTBbits.PB4 = 1;
-     0007 1Arr                      1-  509     	BSR	_PORTBbits,4
-                                    1-  510     	.line	42, "BSP\key.c"; 	delay_us(5);
-     0008 2105                      1-  511     	MOVIA	0x05
-                                    1-  512     	MCALL	_delay_us
+                                    1-  531     	.line	41, "BSP\key.c"; 	PORTBbits.PB4 = 1;
+     0007 1Arr                      1-  532     	BSR	_PORTBbits,4
+                                    1-  533     	.line	42, "BSP\key.c"; 	delay_us(5);
+     0008 2105                      1-  534     	MOVIA	0x05
+                                    1-  535     	MCALL	_delay_us
      0009 2rrr                      3-   65 m1      LCALL rom_address
-                                    1-  513     	.line	43, "BSP\key.c"; 	PORTBbits.PB4 = 0;
-     000A 1Err                      1-  514     	BCR	_PORTBbits,4
-                                    1-  515     	.line	44, "BSP\key.c"; 	delay_us(15);
-     000B 210F                      1-  516     	MOVIA	0x0f
-                                    1-  517     	MCALL	_delay_us
+                                    1-  536     	.line	43, "BSP\key.c"; 	PORTBbits.PB4 = 0;
+     000A 1Err                      1-  537     	BCR	_PORTBbits,4
+                                    1-  538     	.line	44, "BSP\key.c"; 	delay_us(15);
+     000B 210F                      1-  539     	MOVIA	0x0f
+                                    1-  540     	MCALL	_delay_us
      000C 2rrr                      3-   65 m1      LCALL rom_address
-                                    1-  518     	.line	39, "BSP\key.c"; 	for(unsigned char i = 0; i < 200; i++)
-                                    1-  519     	BANKSEL	r0x1000
+                                    1-  541     	.line	39, "BSP\key.c"; 	for(unsigned char i = 0; i < 200; i++)
+                                    1-  542     	BANKSEL	r0x1000
      000D rrrr                      3-  109 m1      .banksel ram_address
-     000E 05rr                      1-  520     	INCR	r0x1000,F
-                                    1-  521     	MGOTO	_02019_DS_
+     000E 05rr                      1-  543     	INCR	r0x1000,F
+                                    1-  544     	MGOTO	_02019_DS_
      000F 3rrr                      3-   62 m1      LGOTO rom_address
-     0010                           1-  522     _02021_DS_:
-                                    1-  523     	.line	46, "BSP\key.c"; 	}
-                                    1-  524     	RETURN	
+     0010                           1-  545     _02021_DS_:
+                                    1-  546     	.line	46, "BSP\key.c"; 	}
+                                    1-  547     	RETURN	
      0010 0010                      3-   39 m1      ret
-                                    1-  525     ; exit point of _led_open
-                                    1-  527     ;***
-                                    1-  528     ;  pBlock Stats: dbName = C
-                                    1-  529     ;***
-                                    1-  530     ;has an exit
-                                    1-  531     ;functions called:
-                                    1-  532     ;   _delay_us
-                                    1-  533     ;   _set_PB_low
-                                    1-  534     ;   _delay_us
-                                    1-  535     ;   _set_PB_low
-                                    1-  536     ;; Starting pCode block
-                                    1-  537     .segment "code"; module=key, function=_key_init
-     0000                           1-  539     _key_init:
-                                    1-  540     ; 2 exit points
-                                    1-  541     	.line	24, "BSP\key.c"; 	delay_us(100);
-     0000 2164                      1-  542     	MOVIA	0x64
-                                    1-  543     	MCALL	_delay_us
+                                    1-  548     ; exit point of _led_open
+                                    1-  550     ;***
+                                    1-  551     ;  pBlock Stats: dbName = C
+                                    1-  552     ;***
+                                    1-  553     ;has an exit
+                                    1-  554     ;functions called:
+                                    1-  555     ;   _delay_us
+                                    1-  556     ;   _set_PB_low
+                                    1-  557     ;   _delay_us
+                                    1-  558     ;   _set_PB_low
+                                    1-  559     ;; Starting pCode block
+                                    1-  560     .segment "code"; module=key, function=_key_init
+     0000                           1-  562     _key_init:
+                                    1-  563     ; 2 exit points
+                                    1-  564     	.line	24, "BSP\key.c"; 	delay_us(100);
+     0000 2164                      1-  565     	MOVIA	0x64
+                                    1-  566     	MCALL	_delay_us
      0001 2rrr                      3-   65 m1      LCALL rom_address
-                                    1-  544     	.line	26, "BSP\key.c"; 	IOSTA = C_PA2_Input | C_PA3_Input | C_PA4_Input | C_PA5_Input | C_PA6_Input | C_PA7_Input;  // 配置PA2、3、4、5、6、7为输入
-     0002 21FC                      1-  545     	MOVIA	0xfc
-     0003 000r                      1-  546     	IOST	_IOSTA
-                                    1-  547     	.line	28, "BSP\key.c"; 	APHCON = 0b00100011; // 设置2、3、4、6、7上拉
-     0004 2123                      1-  548     	MOVIA	0x23
-     0005 000r                      1-  549     	IOST	_APHCON
-                                    1-  550     	.line	30, "BSP\key.c"; 	PCON = 0xc8; // 设置5上拉
-     0006 21C8                      1-  551     	MOVIA	0xc8
-     0007 00rr                      1-  552     	MOVAR	_PCON
-                                    1-  553     	.line	32, "BSP\key.c"; 	IOSTB = C_PB0_Output | C_PB1_Output | C_PB2_Output | C_PB3_Output | C_PB4_Output; // 配置PB为输出低电平
-     0008 0200                      1-  554     	CLRA	
-     0009 000r                      1-  555     	IOST	_IOSTB
-                                    1-  556     	.line	33, "BSP\key.c"; 	set_PB_low();
-                                    1-  557     	MCALL	_set_PB_low
+                                    1-  567     	.line	26, "BSP\key.c"; 	IOSTA = C_PA2_Input | C_PA3_Input | C_PA4_Input | C_PA5_Input | C_PA6_Input | C_PA7_Input;  // 配置PA2、3、4、5、6、7为输入
+     0002 21FC                      1-  568     	MOVIA	0xfc
+     0003 000r                      1-  569     	IOST	_IOSTA
+                                    1-  570     	.line	28, "BSP\key.c"; 	APHCON = 0b00100011; // 设置2、3、4、6、7上拉
+     0004 2123                      1-  571     	MOVIA	0x23
+     0005 000r                      1-  572     	IOST	_APHCON
+                                    1-  573     	.line	30, "BSP\key.c"; 	PCON = 0xc8; // 设置5上拉
+     0006 21C8                      1-  574     	MOVIA	0xc8
+     0007 00rr                      1-  575     	MOVAR	_PCON
+                                    1-  576     	.line	32, "BSP\key.c"; 	IOSTB = C_PB0_Output | C_PB1_Output | C_PB2_Output | C_PB3_Output | C_PB4_Output; // 配置PB为输出低电平
+     0008 0200                      1-  577     	CLRA	
+     0009 000r                      1-  578     	IOST	_IOSTB
+                                    1-  579     	.line	33, "BSP\key.c"; 	set_PB_low();
+                                    1-  580     	MCALL	_set_PB_low
      000A 2rrr                      3-   65 m1      LCALL rom_address
-                                    1-  558     	.line	34, "BSP\key.c"; 	PORTBbits.PB4 = 0;
-     000B 1Err                      1-  559     	BCR	_PORTBbits,4
-                                    1-  560     	.line	35, "BSP\key.c"; 	}
-                                    1-  561     	RETURN	
+                                    1-  581     	.line	34, "BSP\key.c"; 	PORTBbits.PB4 = 0;
+     000B 1Err                      1-  582     	BCR	_PORTBbits,4
+                                    1-  583     	.line	35, "BSP\key.c"; 	}
+                                    1-  584     	RETURN	
      000C 0010                      3-   39 m1      ret
-                                    1-  562     ; exit point of _key_init
-                                    1-  564     ;***
-                                    1-  565     ;  pBlock Stats: dbName = C
-                                    1-  566     ;***
-                                    1-  567     ;has an exit
-                                    1-  568     ;; Starting pCode block
-                                    1-  569     .segment "code"; module=key, function=_set_PB_low
-     0000                           1-  571     _set_PB_low:
-                                    1-  572     ; 2 exit points
-                                    1-  573     	.line	16, "BSP\key.c"; 	PORTBbits.PB0 = 0;
-     0000 1Crr                      1-  574     	BCR	_PORTBbits,0
-                                    1-  575     	.line	17, "BSP\key.c"; 	PORTBbits.PB1 = 0;
-     0001 1Crr                      1-  576     	BCR	_PORTBbits,1
-                                    1-  577     	.line	18, "BSP\key.c"; 	PORTBbits.PB2 = 0;
-     0002 1Drr                      1-  578     	BCR	_PORTBbits,2
-                                    1-  579     	.line	19, "BSP\key.c"; 	PORTBbits.PB3 = 0;
-     0003 1Drr                      1-  580     	BCR	_PORTBbits,3
-                                    1-  581     	.line	20, "BSP\key.c"; 	}
-                                    1-  582     	RETURN	
-     0004 0010                      3-   39 m1      ret
-                                    1-  583     ; exit point of _set_PB_low
-                                    1-  585     ;***
-                                    1-  586     ;  pBlock Stats: dbName = C
+                                    1-  585     ; exit point of _key_init
                                     1-  587     ;***
-                                    1-  588     ;has an exit
-                                    1-  589     ;; Starting pCode block
-                                    1-  590     .segment "code"; module=key, function=_set_PA_low
-     0000                           1-  592     _set_PA_low:
-                                    1-  593     ; 2 exit points
-                                    1-  594     	.line	9, "BSP\key.c"; 	PORTAbits.PA2 = 0;
-     0000 1Drr                      1-  595     	BCR	_PORTAbits,2
-                                    1-  596     	.line	10, "BSP\key.c"; 	PORTAbits.PA3 = 0;
-     0001 1Drr                      1-  597     	BCR	_PORTAbits,3
-                                    1-  598     	.line	11, "BSP\key.c"; 	PORTAbits.PA4 = 0;
-     0002 1Err                      1-  599     	BCR	_PORTAbits,4
-                                    1-  600     	.line	12, "BSP\key.c"; 	PORTAbits.PA5 = 0;
-     0003 1Err                      1-  601     	BCR	_PORTAbits,5
-                                    1-  602     	.line	13, "BSP\key.c"; 	}
-                                    1-  603     	RETURN	
+                                    1-  588     ;  pBlock Stats: dbName = C
+                                    1-  589     ;***
+                                    1-  590     ;has an exit
+                                    1-  591     ;; Starting pCode block
+                                    1-  592     .segment "code"; module=key, function=_set_PB_low
+     0000                           1-  594     _set_PB_low:
+                                    1-  595     ; 2 exit points
+                                    1-  596     	.line	16, "BSP\key.c"; 	PORTBbits.PB0 = 0;
+     0000 1Crr                      1-  597     	BCR	_PORTBbits,0
+                                    1-  598     	.line	17, "BSP\key.c"; 	PORTBbits.PB1 = 0;
+     0001 1Crr                      1-  599     	BCR	_PORTBbits,1
+                                    1-  600     	.line	18, "BSP\key.c"; 	PORTBbits.PB2 = 0;
+     0002 1Drr                      1-  601     	BCR	_PORTBbits,2
+                                    1-  602     	.line	19, "BSP\key.c"; 	PORTBbits.PB3 = 0;
+     0003 1Drr                      1-  603     	BCR	_PORTBbits,3
+                                    1-  604     	.line	20, "BSP\key.c"; 	}
+                                    1-  605     	RETURN	
      0004 0010                      3-   39 m1      ret
-                                    1-  604     ; exit point of _set_PA_low
-                                    1-  607     ;	code size estimation:
-                                    1-  608     ;	  196+   31 =   227 instructions (  516 byte)
-                                    1-  610     	end
+                                    1-  606     ; exit point of _set_PB_low
+                                    1-  608     ;***
+                                    1-  609     ;  pBlock Stats: dbName = C
+                                    1-  610     ;***
+                                    1-  611     ;has an exit
+                                    1-  612     ;; Starting pCode block
+                                    1-  613     .segment "code"; module=key, function=_set_PA_low
+     0000                           1-  615     _set_PA_low:
+                                    1-  616     ; 2 exit points
+                                    1-  617     	.line	9, "BSP\key.c"; 	PORTAbits.PA2 = 0;
+     0000 1Drr                      1-  618     	BCR	_PORTAbits,2
+                                    1-  619     	.line	10, "BSP\key.c"; 	PORTAbits.PA3 = 0;
+     0001 1Drr                      1-  620     	BCR	_PORTAbits,3
+                                    1-  621     	.line	11, "BSP\key.c"; 	PORTAbits.PA4 = 0;
+     0002 1Err                      1-  622     	BCR	_PORTAbits,4
+                                    1-  623     	.line	12, "BSP\key.c"; 	PORTAbits.PA5 = 0;
+     0003 1Err                      1-  624     	BCR	_PORTAbits,5
+                                    1-  625     	.line	13, "BSP\key.c"; 	}
+                                    1-  626     	RETURN	
+     0004 0010                      3-   39 m1      ret
+                                    1-  627     ; exit point of _set_PA_low
+                                    1-  630     ;	code size estimation:
+                                    1-  631     ;	  195+   33 =   228 instructions (  522 byte)
+                                    1-  633     	end
 
 SYMBOL TABLE            TYPE     VALUE
 __pin_count__           Constant 0000000E

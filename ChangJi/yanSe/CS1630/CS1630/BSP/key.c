@@ -54,6 +54,16 @@ void led(void)
     delay_ms(20);
 }
 
+void toggle_key(void)
+{
+    APHCON = 0b00111111; // 2、3、4上拉取消
+    PCON = 0xe8; // 5上拉取消
+    IOSTA = 0b11000000; // 配置PA2、3、4、5为输出低电平
+    set_PA_low();
+
+    IOSTB = 0b00001111; // 配置PB0、1、2、3为输入
+    BPHCON = 0xF0; // 0、1、2、3上拉
+}
 
 unsigned char Check_Keydown()
 {
@@ -93,30 +103,35 @@ unsigned char Check_Keydown()
                 case(0X1C): KeyValue=0x04;break;
             }
 
-            APHCON = 0b00111111; // 2、3、4上拉取消
-            PCON = 0xe8; // 5上拉取消
-            IOSTA = 0b11000000; // 配置PA2、3、4、5为输出低电平
-            set_PA_low();
+            toggle_key();
 
-            IOSTB = 0b00001111; // 配置PB0、1、2、3为输入
-            BPHCON = 0xF0; // 0、1、2、3上拉
+            KeyStatus = 0;
+            KeyStatus = PORTB &0x0f;
 
-			if(0b00000111 == (PORTB & 0x0f))
-			{
-				KeyValue=KeyValue;
-			}
-			else if(0b00001011 == (PORTB & 0x0f))
-			{
-				KeyValue=KeyValue+0x04;
-			}
-			else if(0b00001101 == (PORTB & 0x0f))
-			{
-				KeyValue=KeyValue+0x08;
-			}
-			else if(0b00001110 == (PORTB & 0x0f))
-			{
-				KeyValue=KeyValue+0x0c;
-			}
+            switch (KeyStatus)
+            {
+                case(0x07): KeyValue=KeyValue;break;
+                case(0x0B): KeyValue=KeyValue+0X04;break;
+                case(0x0D): KeyValue=KeyValue+0X08;break;
+                case(0x0E): KeyValue=KeyValue+0X08;break;
+            }
+
+			// if(0b00000111 == (PORTB & 0x0f))
+			// {
+			// 	KeyValue=KeyValue;
+			// }
+			// else if(0b00001011 == (PORTB & 0x0f))
+			// {
+			// 	KeyValue=KeyValue+0x04;
+			// }
+			// else if(0b00001101 == (PORTB & 0x0f))
+			// {
+			// 	KeyValue=KeyValue+0x08;
+			// }
+			// else if(0b00001110 == (PORTB & 0x0f))
+			// {
+			// 	KeyValue=KeyValue+0x0c;
+			// }
 
             key_init();
 
@@ -133,10 +148,12 @@ unsigned char Check_Keydown()
                 led();
                 if(KeyStatus_s == 1) // 按键屏蔽时间，在按下后的250ms内不会再次发送数据包，需要长按超过250ms才会持续发送
                 {
+                    send_ble_packet(sCodeValue);
                     KeyStatus_s = 0;
                     delay_250ms();
                 }
                 key_init();
+
                 if(KeyStatus != (PORTA & 0xfc))
                 return 0;
             }

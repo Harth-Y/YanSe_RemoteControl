@@ -161,10 +161,10 @@ r0x1001:
 	.debuginfo subprogram _delay_40us
 _delay_40us:
 ; 2 exit points
-	.line	30, "BSP\bsp_delay.c"; 	delay_us(6);
+	.line	31, "BSP\bsp_delay.c"; 	delay_us(6);
 	MOVIA	0x06
 	MCALL	_delay_us
-	.line	31, "BSP\bsp_delay.c"; 	}
+	.line	32, "BSP\bsp_delay.c"; 	}
 	RETURN	
 ; exit point of _delay_40us
 
@@ -179,14 +179,14 @@ _delay_40us:
 .segment "code"; module=bsp_delay, function=_delay_us
 	.debuginfo subprogram _delay_us
 ;local variable name mapping:
-	.debuginfo complex-type (local-sym "_nus" 1 "BSP\bsp_delay.c" 21 (basetype 1 unsigned) split "r0x1000")
-	.debuginfo complex-type (local-sym "_i" 1 "BSP\bsp_delay.c" 23 (basetype 1 unsigned) split "r0x1001")
+	.debuginfo complex-type (local-sym "_nus" 1 "BSP\bsp_delay.c" 22 (basetype 1 unsigned) split "r0x1000")
+	.debuginfo complex-type (local-sym "_i" 1 "BSP\bsp_delay.c" 24 (basetype 1 unsigned) split "r0x1001")
 _delay_us:
 ; 2 exit points
-	.line	21, "BSP\bsp_delay.c"; 	void delay_us(unsigned char nus)
+	.line	22, "BSP\bsp_delay.c"; 	void delay_us(unsigned char nus)
 	BANKSEL	r0x1000
 	MOVAR	r0x1000
-	.line	24, "BSP\bsp_delay.c"; 	for(i=1;i<=nus;i++)
+	.line	25, "BSP\bsp_delay.c"; 	for(i=1;i<=nus;i++)
 	MOVIA	0x01
 	BANKSEL	r0x1001
 	MOVAR	r0x1001
@@ -197,14 +197,14 @@ _02024_DS_:
 	SUBAR	r0x1000,W
 	BTRSS	STATUS,0
 	MGOTO	_02026_DS_
-	.line	25, "BSP\bsp_delay.c"; 	NOP(); // 3.5239us
+	.line	26, "BSP\bsp_delay.c"; 	NOP(); // 3.5239us
 	nop
-	.line	24, "BSP\bsp_delay.c"; 	for(i=1;i<=nus;i++)
+	.line	25, "BSP\bsp_delay.c"; 	for(i=1;i<=nus;i++)
 	BANKSEL	r0x1001
 	INCR	r0x1001,F
 	MGOTO	_02024_DS_
 _02026_DS_:
-	.line	26, "BSP\bsp_delay.c"; 	}
+	.line	27, "BSP\bsp_delay.c"; 	}
 	RETURN	
 ; exit point of _delay_us
 
@@ -225,10 +225,12 @@ _delay_250ms:
 	.line	17, "BSP\bsp_delay.c"; 	delay_ms(155);
 	MOVIA	0x9b
 	MCALL	_delay_ms
-	.line	18, "BSP\bsp_delay.c"; 	delay_ms(124);
+	.line	18, "BSP\bsp_delay.c"; 	CLRWDT();			//清理看门狗
+	clrwdt
+	.line	19, "BSP\bsp_delay.c"; 	delay_ms(124);
 	MOVIA	0x7c
 	MCALL	_delay_ms
-	.line	19, "BSP\bsp_delay.c"; 	}
+	.line	20, "BSP\bsp_delay.c"; 	}
 	RETURN	
 ; exit point of _delay_250ms
 

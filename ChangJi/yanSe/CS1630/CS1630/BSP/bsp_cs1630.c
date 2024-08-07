@@ -73,8 +73,13 @@ void CS1630_Init(void)
 
 	CS1630_Clear_All_Irq();
 	CS1630_Flush_Tx();
+	CS1630_CE_Low(); // 设置CE引脚为低电平，准备发送数据
+	CS1630_ModeSwitch(Rf_PTX_Mode); // 切换到发送模式
+	// 配置CS1630模块的寄存器
+	CS1630_write_byte(CS1630_BANK0_FEATURE, 0x04);
+	CS1630_write_byte(CS1630_BANK0_CONFIG, 0x0e);
+	CS1630_write_byte(CS1630_BANK0_SETUP_VALUE, 0x04); // 配置值
 	CLRWDT();
-
 }
 
 void CS1630_read_buffer(unsigned char addr, unsigned char* buf, unsigned char len)
