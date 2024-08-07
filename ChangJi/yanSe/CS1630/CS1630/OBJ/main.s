@@ -320,6 +320,10 @@ _isr:
 	.line	17, "main.c"; 	if(INTFbits.PABIF)
 	BTRSS	_INTFbits,1
 	MGOTO	_02007_DS_
+	.line	19, "main.c"; 	PCON |= C_WDT_En;	//使能看门狗
+	BSR	_PCON,7
+	.line	20, "main.c"; 	PCON |= C_LVR_En;	//低压复位使能
+	BSR	_PCON,3
 	.line	21, "main.c"; 	INTFbits.PABIF = 0;					// 清除PABIF（PortB输入变化中断标志位）
 	MOVIA	0xfd
 	MOVAR	(_INTFbits + 0)
@@ -489,6 +493,6 @@ _wake_up_init:
 
 
 ;	code size estimation:
-;	   80+   16 =    96 instructions (  224 byte)
+;	   82+   16 =    98 instructions (  228 byte)
 
 	end

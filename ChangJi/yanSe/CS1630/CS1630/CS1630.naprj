@@ -39,7 +39,7 @@
     <RootNamespace>CS1630</RootNamespace>
     <TrimSetting>+ 0%</TrimSetting>
     <WarningMsgCode0>110</WarningMsgCode0>
-    <WarningMsgCode1>94</WarningMsgCode1>
+    <WarningMsgCode1>112</WarningMsgCode1>
     <WarningMsgCode10>112</WarningMsgCode10>
     <WarningMsgCode11>112</WarningMsgCode11>
     <WarningMsgCode12>112</WarningMsgCode12>
@@ -50,7 +50,7 @@
     <WarningMsgCode17>112</WarningMsgCode17>
     <WarningMsgCode18>112</WarningMsgCode18>
     <WarningMsgCode19>112</WarningMsgCode19>
-    <WarningMsgCode2>94</WarningMsgCode2>
+    <WarningMsgCode2>84</WarningMsgCode2>
     <WarningMsgCode20>112</WarningMsgCode20>
     <WarningMsgCode21>112</WarningMsgCode21>
     <WarningMsgCode3>126</WarningMsgCode3>
@@ -84,7 +84,7 @@
     <WarningMsgFileName8>D:\code\ChangJi\ChangJi\yanSe\CS1630\CS1630\BSP\bsp_cs1630.c</WarningMsgFileName8>
     <WarningMsgFileName9>D:\code\Master\ChangJi\yanSe\CS1630\CS1630\BSP\bsp_cs1630.c</WarningMsgFileName9>
     <WarningMsgLineNumber0>155</WarningMsgLineNumber0>
-    <WarningMsgLineNumber1>60</WarningMsgLineNumber1>
+    <WarningMsgLineNumber1>43</WarningMsgLineNumber1>
     <WarningMsgLineNumber10>44</WarningMsgLineNumber10>
     <WarningMsgLineNumber11>46</WarningMsgLineNumber11>
     <WarningMsgLineNumber12>47</WarningMsgLineNumber12>
@@ -95,7 +95,7 @@
     <WarningMsgLineNumber17>67</WarningMsgLineNumber17>
     <WarningMsgLineNumber18>74</WarningMsgLineNumber18>
     <WarningMsgLineNumber19>75</WarningMsgLineNumber19>
-    <WarningMsgLineNumber2>66</WarningMsgLineNumber2>
+    <WarningMsgLineNumber2>43</WarningMsgLineNumber2>
     <WarningMsgLineNumber20>295</WarningMsgLineNumber20>
     <WarningMsgLineNumber21>297</WarningMsgLineNumber21>
     <WarningMsgLineNumber3>75</WarningMsgLineNumber3>
@@ -106,7 +106,7 @@
     <WarningMsgLineNumber8>150</WarningMsgLineNumber8>
     <WarningMsgLineNumber9>41</WarningMsgLineNumber9>
     <WarningMsgMessage0>BSP\bsp_cs1630.c:155: warning 110: conditional flow changed by optimizer.</WarningMsgMessage0>
-    <WarningMsgMessage1>main.c:60: warning 94: comparison is always true due to limited range of data type</WarningMsgMessage1>
+    <WarningMsgMessage1>main.c:43: warning 112: function 'wake_up_init' implicit declaration</WarningMsgMessage1>
     <WarningMsgMessage10>BSP\bsp_cs1630.c:44: warning 112: function 'HS6230_Bank_Switch' implicit declaration</WarningMsgMessage10>
     <WarningMsgMessage11>BSP\bsp_cs1630.c:46: warning 112: function 'HS6230_read_byte' implicit declaration</WarningMsgMessage11>
     <WarningMsgMessage12>BSP\bsp_cs1630.c:47: warning 112: function 'HS6230_read_buffer' implicit declaration</WarningMsgMessage12>
@@ -117,7 +117,7 @@
     <WarningMsgMessage17>BSP\bsp_cs1630.c:67: warning 112: function 'HS6230_wr_buffer' implicit declaration</WarningMsgMessage17>
     <WarningMsgMessage18>BSP\bsp_cs1630.c:74: warning 112: function 'HS6230_Clear_All_Irq' implicit declaration</WarningMsgMessage18>
     <WarningMsgMessage19>BSP\bsp_cs1630.c:75: warning 112: function 'HS6230_Flush_Tx' implicit declaration</WarningMsgMessage19>
-    <WarningMsgMessage2>main.c:66: warning 94: comparison is always true due to limited range of data type</WarningMsgMessage2>
+    <WarningMsgMessage2>main.c:43: warning 84: 'auto' variable 'wake_up_init' may be used before initialization</WarningMsgMessage2>
     <WarningMsgMessage20>BSP\bsp_hs6230.c:295: warning 112: function 'GPIO_ResetBits' implicit declaration</WarningMsgMessage20>
     <WarningMsgMessage21>BSP\bsp_hs6230.c:297: warning 112: function 'GPIO_SetBits' implicit declaration</WarningMsgMessage21>
     <WarningMsgMessage3>BSP\app_tx.c:75: warning 126: unreachable code</WarningMsgMessage3>

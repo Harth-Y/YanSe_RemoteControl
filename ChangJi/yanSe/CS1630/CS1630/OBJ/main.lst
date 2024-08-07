@@ -358,194 +358,198 @@ NYASM 2.42
      0010 08rr                      1-  321     	BTRSS	_INTFbits,1
                                     1-  322     	MGOTO	_02007_DS_
      0011 3rrr                      3-   62 m1      LGOTO rom_address
-                                    1-  323     	.line	21, "main.c"; 	INTFbits.PABIF = 0;					// 清除PABIF（PortB输入变化中断标志位）
-     0012 21FD                      1-  324     	MOVIA	0xfd
-     0013 00rr                      1-  325     	MOVAR	(_INTFbits + 0)
-     0014                           1-  326     _02007_DS_:
-                                    1-  327     	.line	23, "main.c"; 	}
-                                    1-  328     	BANKSEL	___sdcc_saved_stk01
-     0014 rrrr                      3-  109 m1      .banksel ram_address
-     0015 01rr                      1-  329     	MOVR	___sdcc_saved_stk01,W
-     0016 00rr                      1-  330     	MOVAR	STK01
-                                    1-  331     	BANKSEL	___sdcc_saved_stk00
-     0017 rrrr                      3-  109 m1      .banksel ram_address
-     0018 01rr                      1-  332     	MOVR	___sdcc_saved_stk00,W
-     0019 00rr                      1-  333     	MOVAR	STK00
-                                    1-  334     	BANKSEL	___sdcc_saved_fsr
-     001A rrrr                      3-  109 m1      .banksel ram_address
-     001B 01rr                      1-  335     	MOVR	___sdcc_saved_fsr,W
-     001C 0084                      1-  336     	MOVAR	FSR
-     001D 01rr                      1-  337     	MOVR	PSAVE,W
-     001E 008A                      1-  338     	MOVAR	PCHBUF
-     001F 0283                      1-  339     	CLRR	STATUS
-     0020 15rr                      1-  340     	SWAPR	SSAVE,W
-     0021 0083                      1-  341     	MOVAR	STATUS
-     0022 15rr                      1-  342     	SWAPR	WSAVE,F
-     0023 15rr                      1-  343     	SWAPR	WSAVE,W
-     0024                           1-  344     END_OF_INTERRUPT:
-     0024 0011                      1-  345     	RETIE	
-                                    1-  347     ;--------------------------------------------------------
-                                    1-  348     ; code
-                                    1-  349     ;--------------------------------------------------------
-                                    1-  350     ; code_main	code
-                                    1-  351     ;***
-                                    1-  352     ;  pBlock Stats: dbName = M
-                                    1-  353     ;***
-                                    1-  354     ;has an exit
-                                    1-  355     ;functions called:
-                                    1-  356     ;   _key_init
-                                    1-  357     ;   _CS1630_Init
-                                    1-  358     ;   _key_init
-                                    1-  359     ;   _Check_Keydown
-                                    1-  360     ;   _wake_up_init
-                                    1-  361     ;   _key_init
-                                    1-  362     ;   _CS1630_Init
-                                    1-  363     ;   _key_init
-                                    1-  364     ;   _Check_Keydown
-                                    1-  365     ;   _wake_up_init
-                                    1-  366     ;1 compiler assigned register :
-                                    1-  367     ;   r0x1005
-                                    1-  368     ;; Starting pCode block
-                                    1-  369     .segment "code"; module=main, function=_main
-                                    1-  371     ;local variable name mapping:
-     0000                           1-  373     _main:
-                                    1-  374     ; 2 exit points
-                                    1-  375     	.line	37, "main.c"; 	DISI();
-     0000 0013                      1-  376     	DISI
-                                    1-  377     	.line	38, "main.c"; 	key_init();
-                                    1-  378     	MCALL	_key_init
+                                    1-  323     	.line	19, "main.c"; 	PCON |= C_WDT_En;	//使能看门狗
+     0012 1Brr                      1-  324     	BSR	_PCON,7
+                                    1-  325     	.line	20, "main.c"; 	PCON |= C_LVR_En;	//低压复位使能
+     0013 19rr                      1-  326     	BSR	_PCON,3
+                                    1-  327     	.line	21, "main.c"; 	INTFbits.PABIF = 0;					// 清除PABIF（PortB输入变化中断标志位）
+     0014 21FD                      1-  328     	MOVIA	0xfd
+     0015 00rr                      1-  329     	MOVAR	(_INTFbits + 0)
+     0016                           1-  330     _02007_DS_:
+                                    1-  331     	.line	23, "main.c"; 	}
+                                    1-  332     	BANKSEL	___sdcc_saved_stk01
+     0016 rrrr                      3-  109 m1      .banksel ram_address
+     0017 01rr                      1-  333     	MOVR	___sdcc_saved_stk01,W
+     0018 00rr                      1-  334     	MOVAR	STK01
+                                    1-  335     	BANKSEL	___sdcc_saved_stk00
+     0019 rrrr                      3-  109 m1      .banksel ram_address
+     001A 01rr                      1-  336     	MOVR	___sdcc_saved_stk00,W
+     001B 00rr                      1-  337     	MOVAR	STK00
+                                    1-  338     	BANKSEL	___sdcc_saved_fsr
+     001C rrrr                      3-  109 m1      .banksel ram_address
+     001D 01rr                      1-  339     	MOVR	___sdcc_saved_fsr,W
+     001E 0084                      1-  340     	MOVAR	FSR
+     001F 01rr                      1-  341     	MOVR	PSAVE,W
+     0020 008A                      1-  342     	MOVAR	PCHBUF
+     0021 0283                      1-  343     	CLRR	STATUS
+     0022 15rr                      1-  344     	SWAPR	SSAVE,W
+     0023 0083                      1-  345     	MOVAR	STATUS
+     0024 15rr                      1-  346     	SWAPR	WSAVE,F
+     0025 15rr                      1-  347     	SWAPR	WSAVE,W
+     0026                           1-  348     END_OF_INTERRUPT:
+     0026 0011                      1-  349     	RETIE	
+                                    1-  351     ;--------------------------------------------------------
+                                    1-  352     ; code
+                                    1-  353     ;--------------------------------------------------------
+                                    1-  354     ; code_main	code
+                                    1-  355     ;***
+                                    1-  356     ;  pBlock Stats: dbName = M
+                                    1-  357     ;***
+                                    1-  358     ;has an exit
+                                    1-  359     ;functions called:
+                                    1-  360     ;   _key_init
+                                    1-  361     ;   _CS1630_Init
+                                    1-  362     ;   _key_init
+                                    1-  363     ;   _Check_Keydown
+                                    1-  364     ;   _wake_up_init
+                                    1-  365     ;   _key_init
+                                    1-  366     ;   _CS1630_Init
+                                    1-  367     ;   _key_init
+                                    1-  368     ;   _Check_Keydown
+                                    1-  369     ;   _wake_up_init
+                                    1-  370     ;1 compiler assigned register :
+                                    1-  371     ;   r0x1005
+                                    1-  372     ;; Starting pCode block
+                                    1-  373     .segment "code"; module=main, function=_main
+                                    1-  375     ;local variable name mapping:
+     0000                           1-  377     _main:
+                                    1-  378     ; 2 exit points
+                                    1-  379     	.line	37, "main.c"; 	DISI();
+     0000 0013                      1-  380     	DISI
+                                    1-  381     	.line	38, "main.c"; 	key_init();
+                                    1-  382     	MCALL	_key_init
      0001 2rrr                      3-   65 m1      LCALL rom_address
-                                    1-  379     	.line	39, "main.c"; 	CS1630_Init(); // 初始化CS1630模块
-                                    1-  380     	MCALL	_CS1630_Init
+                                    1-  383     	.line	39, "main.c"; 	CS1630_Init(); // 初始化CS1630模块
+                                    1-  384     	MCALL	_CS1630_Init
      0002 2rrr                      3-   65 m1      LCALL rom_address
-                                    1-  381     	.line	40, "main.c"; 	PCON |= C_WDT_En;	//使能看门狗
-     0003 1Brr                      1-  382     	BSR	_PCON,7
-                                    1-  383     	.line	41, "main.c"; 	PCON |= C_LVR_En;	//低压复位使能
-     0004 19rr                      1-  384     	BSR	_PCON,3
-                                    1-  385     	.line	42, "main.c"; 	ENI();
-     0005 0004                      1-  386     	ENI
-     0006                           1-  387     _02023_DS_:
-                                    1-  388     	.line	48, "main.c"; 	CLRWDT();			//清理看门狗
-     0006 0002                      1-  389     	clrwdt
-                                    1-  390     	.line	49, "main.c"; 	key_init();
-                                    1-  391     	MCALL	_key_init
+                                    1-  385     	.line	40, "main.c"; 	PCON |= C_WDT_En;	//使能看门狗
+     0003 1Brr                      1-  386     	BSR	_PCON,7
+                                    1-  387     	.line	41, "main.c"; 	PCON |= C_LVR_En;	//低压复位使能
+     0004 19rr                      1-  388     	BSR	_PCON,3
+                                    1-  389     	.line	42, "main.c"; 	ENI();
+     0005 0004                      1-  390     	ENI
+     0006                           1-  391     _02023_DS_:
+                                    1-  392     	.line	48, "main.c"; 	CLRWDT();			//清理看门狗
+     0006 0002                      1-  393     	clrwdt
+                                    1-  394     	.line	49, "main.c"; 	key_init();
+                                    1-  395     	MCALL	_key_init
      0007 2rrr                      3-   65 m1      LCALL rom_address
-                                    1-  392     	.line	50, "main.c"; 	sleep_status = Check_Keydown();
-                                    1-  393     	MCALL	_Check_Keydown
+                                    1-  396     	.line	50, "main.c"; 	sleep_status = Check_Keydown();
+                                    1-  397     	MCALL	_Check_Keydown
      0008 2rrr                      3-   65 m1      LCALL rom_address
-                                    1-  394     	BANKSEL	r0x1005
+                                    1-  398     	BANKSEL	r0x1005
      0009 rrrr                      3-  109 m1      .banksel ram_address
-     000A 00rr                      1-  395     	MOVAR	r0x1005
-                                    1-  396     	.line	52, "main.c"; 	if(sleep_status == 0)
-     000B 01rr                      1-  397     	MOVR	r0x1005,W
-     000C 0903                      1-  398     	BTRSS	STATUS,2
-                                    1-  399     	MGOTO	_02017_DS_
+     000A 00rr                      1-  399     	MOVAR	r0x1005
+                                    1-  400     	.line	52, "main.c"; 	if(sleep_status == 0)
+     000B 01rr                      1-  401     	MOVR	r0x1005,W
+     000C 0903                      1-  402     	BTRSS	STATUS,2
+                                    1-  403     	MGOTO	_02017_DS_
      000D 3rrr                      3-   62 m1      LGOTO rom_address
-                                    1-  400     	.line	54, "main.c"; 	g_timer0_delay_conut_1 = 0;
-                                    1-  401     	BANKSEL	_g_timer0_delay_conut_1
+                                    1-  404     	.line	54, "main.c"; 	g_timer0_delay_conut_1 = 0;
+                                    1-  405     	BANKSEL	_g_timer0_delay_conut_1
      000E rrrr                      3-  109 m1      .banksel ram_address
-     000F 02rr                      1-  402     	CLRR	_g_timer0_delay_conut_1
-                                    1-  403     	.line	55, "main.c"; 	g_timer0_delay_conut_2 = 0;
-                                    1-  404     	BANKSEL	_g_timer0_delay_conut_2
+     000F 02rr                      1-  406     	CLRR	_g_timer0_delay_conut_1
+                                    1-  407     	.line	55, "main.c"; 	g_timer0_delay_conut_2 = 0;
+                                    1-  408     	BANKSEL	_g_timer0_delay_conut_2
      0010 rrrr                      3-  109 m1      .banksel ram_address
-     0011 02rr                      1-  405     	CLRR	_g_timer0_delay_conut_2
-     0012                           1-  406     _02017_DS_:
-                                    1-  407     	.line	58, "main.c"; 	g_timer0_delay_conut_1 ++;
-                                    1-  408     	BANKSEL	_g_timer0_delay_conut_1
+     0011 02rr                      1-  409     	CLRR	_g_timer0_delay_conut_2
+     0012                           1-  410     _02017_DS_:
+                                    1-  411     	.line	58, "main.c"; 	g_timer0_delay_conut_1 ++;
+                                    1-  412     	BANKSEL	_g_timer0_delay_conut_1
      0012 rrrr                      3-  109 m1      .banksel ram_address
-     0013 01rr                      1-  409     	MOVR	_g_timer0_delay_conut_1,W
-                                    1-  410     	BANKSEL	r0x1005
+     0013 01rr                      1-  413     	MOVR	_g_timer0_delay_conut_1,W
+                                    1-  414     	BANKSEL	r0x1005
      0014 rrrr                      3-  109 m1      .banksel ram_address
-     0015 00rr                      1-  411     	MOVAR	r0x1005
-     0016 05rr                      1-  412     	INCR	r0x1005,W
-                                    1-  413     	BANKSEL	_g_timer0_delay_conut_1
+     0015 00rr                      1-  415     	MOVAR	r0x1005
+     0016 05rr                      1-  416     	INCR	r0x1005,W
+                                    1-  417     	BANKSEL	_g_timer0_delay_conut_1
      0017 rrrr                      3-  109 m1      .banksel ram_address
-     0018 00rr                      1-  414     	MOVAR	_g_timer0_delay_conut_1
-                                    1-  415     ;;unsigned compare: left < lit(0xFF=255), size=1
-                                    1-  416     	.line	60, "main.c"; 	if(g_timer0_delay_conut_1 >= 255)
-     0019 21FF                      1-  417     	MOVIA	0xff
-     001A 04rr                      1-  418     	SUBAR	_g_timer0_delay_conut_1,W
-     001B 0803                      1-  419     	BTRSS	STATUS,0
-                                    1-  420     	MGOTO	_02019_DS_
+     0018 00rr                      1-  418     	MOVAR	_g_timer0_delay_conut_1
+                                    1-  419     ;;unsigned compare: left < lit(0xFF=255), size=1
+                                    1-  420     	.line	60, "main.c"; 	if(g_timer0_delay_conut_1 >= 255)
+     0019 21FF                      1-  421     	MOVIA	0xff
+     001A 04rr                      1-  422     	SUBAR	_g_timer0_delay_conut_1,W
+     001B 0803                      1-  423     	BTRSS	STATUS,0
+                                    1-  424     	MGOTO	_02019_DS_
      001C 3rrr                      3-   62 m1      LGOTO rom_address
-                                    1-  421     	.line	62, "main.c"; 	g_timer0_delay_conut_1 = 0;
-     001D 02rr                      1-  422     	CLRR	_g_timer0_delay_conut_1
-                                    1-  423     	.line	63, "main.c"; 	g_timer0_delay_conut_2 ++;
-                                    1-  424     	BANKSEL	_g_timer0_delay_conut_2
+                                    1-  425     	.line	62, "main.c"; 	g_timer0_delay_conut_1 = 0;
+     001D 02rr                      1-  426     	CLRR	_g_timer0_delay_conut_1
+                                    1-  427     	.line	63, "main.c"; 	g_timer0_delay_conut_2 ++;
+                                    1-  428     	BANKSEL	_g_timer0_delay_conut_2
      001E rrrr                      3-  109 m1      .banksel ram_address
-     001F 01rr                      1-  425     	MOVR	_g_timer0_delay_conut_2,W
-                                    1-  426     	BANKSEL	r0x1005
+     001F 01rr                      1-  429     	MOVR	_g_timer0_delay_conut_2,W
+                                    1-  430     	BANKSEL	r0x1005
      0020 rrrr                      3-  109 m1      .banksel ram_address
-     0021 00rr                      1-  427     	MOVAR	r0x1005
-     0022 05rr                      1-  428     	INCR	r0x1005,W
-                                    1-  429     	BANKSEL	_g_timer0_delay_conut_2
+     0021 00rr                      1-  431     	MOVAR	r0x1005
+     0022 05rr                      1-  432     	INCR	r0x1005,W
+                                    1-  433     	BANKSEL	_g_timer0_delay_conut_2
      0023 rrrr                      3-  109 m1      .banksel ram_address
-     0024 00rr                      1-  430     	MOVAR	_g_timer0_delay_conut_2
-                                    1-  431     ;;unsigned compare: left < lit(0x40=64), size=1
-     0025                           1-  432     _02019_DS_:
-                                    1-  433     	.line	66, "main.c"; 	if(g_timer0_delay_conut_2 >= 64)
-     0025 2140                      1-  434     	MOVIA	0x40
-                                    1-  435     	BANKSEL	_g_timer0_delay_conut_2
+     0024 00rr                      1-  434     	MOVAR	_g_timer0_delay_conut_2
+                                    1-  435     ;;unsigned compare: left < lit(0x40=64), size=1
+     0025                           1-  436     _02019_DS_:
+                                    1-  437     	.line	66, "main.c"; 	if(g_timer0_delay_conut_2 >= 64)
+     0025 2140                      1-  438     	MOVIA	0x40
+                                    1-  439     	BANKSEL	_g_timer0_delay_conut_2
      0026 rrrr                      3-  109 m1      .banksel ram_address
-     0027 04rr                      1-  436     	SUBAR	_g_timer0_delay_conut_2,W
-     0028 0803                      1-  437     	BTRSS	STATUS,0
-                                    1-  438     	MGOTO	_02023_DS_
+     0027 04rr                      1-  440     	SUBAR	_g_timer0_delay_conut_2,W
+     0028 0803                      1-  441     	BTRSS	STATUS,0
+                                    1-  442     	MGOTO	_02023_DS_
      0029 3rrr                      3-   62 m1      LGOTO rom_address
-                                    1-  439     	.line	68, "main.c"; 	g_timer0_delay_conut_2 = 0;
-     002A 02rr                      1-  440     	CLRR	_g_timer0_delay_conut_2
-                                    1-  441     	.line	69, "main.c"; 	PCON &= ~C_WDT_En;
-     002B 1Frr                      1-  442     	BCR	_PCON,7
-                                    1-  443     	.line	70, "main.c"; 	PCON &= ~C_LVR_En;
-     002C 1Drr                      1-  444     	BCR	_PCON,3
-                                    1-  445     	.line	71, "main.c"; 	wake_up_init();
-                                    1-  446     	MCALL	_wake_up_init
+                                    1-  443     	.line	68, "main.c"; 	g_timer0_delay_conut_2 = 0;
+     002A 02rr                      1-  444     	CLRR	_g_timer0_delay_conut_2
+                                    1-  445     	.line	69, "main.c"; 	PCON &= ~C_WDT_En;
+     002B 1Frr                      1-  446     	BCR	_PCON,7
+                                    1-  447     	.line	70, "main.c"; 	PCON &= ~C_LVR_En;
+     002C 1Drr                      1-  448     	BCR	_PCON,3
+                                    1-  449     	.line	71, "main.c"; 	wake_up_init();
+                                    1-  450     	MCALL	_wake_up_init
      002D 2rrr                      3-   65 m1      LCALL rom_address
-                                    1-  447     	.line	72, "main.c"; 	UPDATE_REG(PORTA);
-     002E 01rr                      1-  448     	MOVR	_PORTA,F
-                                    1-  449     	.line	73, "main.c"; 	INTF = 0x00;
-     002F 02rr                      1-  450     	CLRR	_INTF
-                                    1-  451     	.line	74, "main.c"; 	SLEEP();
-     0030 0001                      1-  452     	sleep
-                                    1-  453     	.line	75, "main.c"; 	INTFbits.PABIF = 0;	// 清除PABIF（PortB输入变化中断标志位）
-     0031 21FD                      1-  454     	MOVIA	0xfd
-     0032 00rr                      1-  455     	MOVAR	(_INTFbits + 0)
-                                    1-  456     	MGOTO	_02023_DS_
+                                    1-  451     	.line	72, "main.c"; 	UPDATE_REG(PORTA);
+     002E 01rr                      1-  452     	MOVR	_PORTA,F
+                                    1-  453     	.line	73, "main.c"; 	INTF = 0x00;
+     002F 02rr                      1-  454     	CLRR	_INTF
+                                    1-  455     	.line	74, "main.c"; 	SLEEP();
+     0030 0001                      1-  456     	sleep
+                                    1-  457     	.line	75, "main.c"; 	INTFbits.PABIF = 0;	// 清除PABIF（PortB输入变化中断标志位）
+     0031 21FD                      1-  458     	MOVIA	0xfd
+     0032 00rr                      1-  459     	MOVAR	(_INTFbits + 0)
+                                    1-  460     	MGOTO	_02023_DS_
      0033 3rrr                      3-   62 m1      LGOTO rom_address
-                                    1-  457     	.line	78, "main.c"; 	}
-                                    1-  458     	RETURN	
+                                    1-  461     	.line	78, "main.c"; 	}
+                                    1-  462     	RETURN	
      0034 0010                      3-   39 m1      ret
-                                    1-  459     ; exit point of _main
-                                    1-  461     ;***
-                                    1-  462     ;  pBlock Stats: dbName = C
-                                    1-  463     ;***
-                                    1-  464     ;has an exit
-                                    1-  465     ;; Starting pCode block
-                                    1-  466     .segment "code"; module=main, function=_wake_up_init
-     0000                           1-  468     _wake_up_init:
-                                    1-  469     ; 2 exit points
-                                    1-  470     	.line	27, "main.c"; 	AWUCON = 0xfc;
-     0000 21FC                      1-  471     	MOVIA	0xfc
-     0001 00rr                      1-  472     	MOVAR	_AWUCON
-                                    1-  473     	.line	28, "main.c"; 	BWUCON = 0x00;
-     0002 02rr                      1-  474     	CLRR	_BWUCON
-                                    1-  475     	.line	29, "main.c"; 	IOSTA = C_PA2_Input | C_PA3_Input | C_PA4_Input | C_PA5_Input | C_PA6_Input | C_PA7_Input;  // 配置PA2、3、4、5、6、7为输入
-     0003 21FC                      1-  476     	MOVIA	0xfc
-     0004 000r                      1-  477     	IOST	_IOSTA
-                                    1-  478     	.line	30, "main.c"; 	APHCON = 0b00100011; // 设置2、3、4、6、7上拉
-     0005 2123                      1-  479     	MOVIA	0x23
-     0006 000r                      1-  480     	IOST	_APHCON
-                                    1-  481     	.line	31, "main.c"; 	INTE = C_INT_PABKey;
-     0007 2102                      1-  482     	MOVIA	0x02
-     0008 00rr                      1-  483     	MOVAR	_INTE
-                                    1-  484     	.line	32, "main.c"; 	INTF = 0x00;
-     0009 02rr                      1-  485     	CLRR	_INTF
-                                    1-  486     	.line	33, "main.c"; 	}
-                                    1-  487     	RETURN	
+                                    1-  463     ; exit point of _main
+                                    1-  465     ;***
+                                    1-  466     ;  pBlock Stats: dbName = C
+                                    1-  467     ;***
+                                    1-  468     ;has an exit
+                                    1-  469     ;; Starting pCode block
+                                    1-  470     .segment "code"; module=main, function=_wake_up_init
+     0000                           1-  472     _wake_up_init:
+                                    1-  473     ; 2 exit points
+                                    1-  474     	.line	27, "main.c"; 	AWUCON = 0xfc;
+     0000 21FC                      1-  475     	MOVIA	0xfc
+     0001 00rr                      1-  476     	MOVAR	_AWUCON
+                                    1-  477     	.line	28, "main.c"; 	BWUCON = 0x00;
+     0002 02rr                      1-  478     	CLRR	_BWUCON
+                                    1-  479     	.line	29, "main.c"; 	IOSTA = C_PA2_Input | C_PA3_Input | C_PA4_Input | C_PA5_Input | C_PA6_Input | C_PA7_Input;  // 配置PA2、3、4、5、6、7为输入
+     0003 21FC                      1-  480     	MOVIA	0xfc
+     0004 000r                      1-  481     	IOST	_IOSTA
+                                    1-  482     	.line	30, "main.c"; 	APHCON = 0b00100011; // 设置2、3、4、6、7上拉
+     0005 2123                      1-  483     	MOVIA	0x23
+     0006 000r                      1-  484     	IOST	_APHCON
+                                    1-  485     	.line	31, "main.c"; 	INTE = C_INT_PABKey;
+     0007 2102                      1-  486     	MOVIA	0x02
+     0008 00rr                      1-  487     	MOVAR	_INTE
+                                    1-  488     	.line	32, "main.c"; 	INTF = 0x00;
+     0009 02rr                      1-  489     	CLRR	_INTF
+                                    1-  490     	.line	33, "main.c"; 	}
+                                    1-  491     	RETURN	
      000A 0010                      3-   39 m1      ret
-                                    1-  488     ; exit point of _wake_up_init
-                                    1-  491     ;	code size estimation:
-                                    1-  492     ;	   80+   16 =    96 instructions (  224 byte)
-                                    1-  494     	end
+                                    1-  492     ; exit point of _wake_up_init
+                                    1-  495     ;	code size estimation:
+                                    1-  496     ;	   82+   16 =    98 instructions (  228 byte)
+                                    1-  498     	end
 
 SYMBOL TABLE            TYPE     VALUE
 __pin_count__           Constant 0000000E

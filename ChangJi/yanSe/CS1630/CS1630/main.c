@@ -16,8 +16,8 @@ void isr(void) __interrupt(0)
 {
   if(INTFbits.PABIF)
   {
-    // PCON |= C_WDT_En;	//使能看门狗
-    // PCON |= C_LVR_En;	//低压复位使能
+    PCON |= C_WDT_En;	//使能看门狗
+    PCON |= C_LVR_En;	//低压复位使能
     INTFbits.PABIF = 0;					// 清除PABIF（PortB输入变化中断标志位）
   }
 }
