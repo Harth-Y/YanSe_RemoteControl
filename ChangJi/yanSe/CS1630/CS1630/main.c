@@ -43,11 +43,34 @@ void go_to_sleep(void)
   SLEEP();
 }
 
+void sleep_count(unsigned char s_sleep_status)
+{
+  if(s_sleep_status == 0)
+  {
+    sleep_conut_1 = 0;
+    sleep_conut_2 = 0;
+  }
+
+  sleep_conut_1 ++;
+
+  if(sleep_conut_1 >= 255)
+  {
+    sleep_conut_1 = 0;
+    sleep_conut_2 ++;
+  }
+
+  if(sleep_conut_2 >= 32) // 5s
+  {
+    sleep_conut_2 = 0;
+    go_to_sleep();
+  }
+}
+
 void main(void)
 {
   DISI();
   key_init();
-  CS1630_Init(); // 初始化CS1630模块
+  CS1630_Init();
   open_WDT();
   ENI();
 
@@ -55,29 +78,10 @@ void main(void)
 
   while (1)
   {
-    CLRWDT();			//清理看门狗
+    CLRWDT();
     key_init();
     sleep_status = Check_Keydown();
-
-    if(sleep_status == 0)
-    {
-      sleep_conut_1 = 0;
-      sleep_conut_2 = 0;
-    }
-
-    sleep_conut_1 ++; // 1.225ms
-
-    if(sleep_conut_1 >= 255) // 312.5ms
-    {
-      sleep_conut_1 = 0;
-      sleep_conut_2 ++;
-    }
-
-    if(sleep_conut_2 >= 32) // 10s
-    {
-      sleep_conut_2 = 0;
-      go_to_sleep();
-    }
+    sleep_count(sleep_status);
 	}
 }
 
@@ -88,7 +92,7 @@ void isr(void) __interrupt(0)
   if(INTFbits.PABIF)
   {
     open_WDT();
-    INTFbits.PABIF = 0;	// 清除PABIF（PortB输入变化中断标志位）
+    INTFbits.PABIF = 0;
   }
 }
 

@@ -122,7 +122,10 @@
 ;--------------------------------------------------------
 	extern	_isr
 	extern	_main
+	extern	_sleep_count
 	extern	_go_to_sleep
+	extern	_close_WDT
+	extern	_open_WDT
 	extern	_wake_up_init
 	extern	_INTE2
 	extern	_RFC
@@ -136,8 +139,8 @@
 	extern	_PCON
 	extern	_PORTB
 	extern	_PORTA
-	extern	_g_timer0_delay_conut_2
-	extern	_g_timer0_delay_conut_1
+	extern	_sleep_conut_2
+	extern	_sleep_conut_1
 
 	extern PSAVE
 	extern SSAVE
@@ -244,6 +247,9 @@ STK00:
 r0x1005:
 	.res	1
 .segment "uninit"
+r0x1006:
+	.res	1
+.segment "uninit"
 ___sdcc_saved_fsr:
 	.res	1
 	.debuginfo complex-type (symbol "___sdcc_saved_fsr" 1 global "" 0 (basetype 1 unsigned))
@@ -260,15 +266,15 @@ ___sdcc_saved_stk01:
 ;--------------------------------------------------------
 
 .segment "idata"
-_g_timer0_delay_conut_1:
-	.debuginfo complex-type (symbol "_g_timer0_delay_conut_1" 1 global "main.c" 12 (basetype 1 unsigned))
+_sleep_conut_1:
+	.debuginfo complex-type (symbol "_sleep_conut_1" 1 global "main.c" 12 (basetype 1 unsigned))
 
 	dw	0x00	; 0
 
 
 .segment "idata"
-_g_timer0_delay_conut_2:
-	.debuginfo complex-type (symbol "_g_timer0_delay_conut_2" 1 global "main.c" 13 (basetype 1 unsigned))
+_sleep_conut_2:
+	.debuginfo complex-type (symbol "_sleep_conut_2" 1 global "main.c" 13 (basetype 1 unsigned))
 
 	dw	0x00	; 0
 
@@ -295,13 +301,16 @@ __sdcc_interrupt:
 ;***
 ;  pBlock Stats: dbName = I
 ;***
+;functions called:
+;   _open_WDT
+;   _open_WDT
 ;2 compiler assigned registers:
 ;   STK00
 ;   STK01
 ;; Starting pCode block
 _isr:
 ; 0 exit points
-	.line	76, "main.c"; 	void isr(void) __interrupt(0)
+	.line	90, "main.c"; 	void isr(void) __interrupt(0)
 	MOVAR	WSAVE
 	SWAPR	STATUS,W
 	CLRR	STATUS
@@ -318,18 +327,16 @@ _isr:
 	MOVR	STK01,W
 	BANKSEL	___sdcc_saved_stk01
 	MOVAR	___sdcc_saved_stk01
-	.line	78, "main.c"; 	if(INTFbits.PABIF)
+	.line	92, "main.c"; 	if(INTFbits.PABIF)
 	BTRSS	_INTFbits,1
-	MGOTO	_02027_DS_
-	.line	80, "main.c"; 	PCON |= C_WDT_En;	  // 使能看门狗
-	BSR	_PCON,7
-	.line	81, "main.c"; 	PCON |= C_LVR_En;	  // 低压复位使能
-	BSR	_PCON,3
-	.line	82, "main.c"; 	INTFbits.PABIF = 0;	// 清除PABIF（PortB输入变化中断标志位）
+	MGOTO	_02040_DS_
+	.line	94, "main.c"; 	open_WDT();
+	MCALL	_open_WDT
+	.line	95, "main.c"; 	INTFbits.PABIF = 0;
 	MOVIA	0xfd
 	MOVAR	(_INTFbits + 0)
-_02027_DS_:
-	.line	84, "main.c"; 	}
+_02040_DS_:
+	.line	97, "main.c"; 	}
 	BANKSEL	___sdcc_saved_stk01
 	MOVR	___sdcc_saved_stk01,W
 	MOVAR	STK01
@@ -360,93 +367,49 @@ END_OF_INTERRUPT:
 ;functions called:
 ;   _key_init
 ;   _CS1630_Init
+;   _open_WDT
 ;   _key_init
 ;   _Check_Keydown
-;   _go_to_sleep
+;   _sleep_count
 ;   _key_init
 ;   _CS1630_Init
+;   _open_WDT
 ;   _key_init
 ;   _Check_Keydown
-;   _go_to_sleep
+;   _sleep_count
 ;1 compiler assigned register :
-;   r0x1005
+;   r0x1006
 ;; Starting pCode block
 .segment "code"; module=main, function=_main
 	.debuginfo subprogram _main
 ;local variable name mapping:
-	.debuginfo complex-type (local-sym "_sleep_status" 1 "main.c" 44 (basetype 1 unsigned) split "r0x1005")
+	.debuginfo complex-type (local-sym "_sleep_status" 1 "main.c" 77 (basetype 1 unsigned) split "r0x1006")
 _main:
 ; 2 exit points
-	.line	37, "main.c"; 	DISI();
+	.line	71, "main.c"; 	DISI();
 	DISI
-	.line	38, "main.c"; 	key_init();
+	.line	72, "main.c"; 	key_init();
 	MCALL	_key_init
-	.line	39, "main.c"; 	CS1630_Init(); // 初始化CS1630模块
+	.line	73, "main.c"; 	CS1630_Init(); // 初始化CS1630模块
 	MCALL	_CS1630_Init
-	.line	40, "main.c"; 	PCON |= C_WDT_En;	//使能看门狗
-	BSR	_PCON,7
-	.line	41, "main.c"; 	PCON |= C_LVR_En;	//低压复位使能
-	BSR	_PCON,3
-	.line	42, "main.c"; 	ENI();
+	.line	74, "main.c"; 	open_WDT();
+	MCALL	_open_WDT
+	.line	75, "main.c"; 	ENI();
 	ENI
-_02020_DS_:
-	.line	48, "main.c"; 	CLRWDT();			//清理看门狗
+_02033_DS_:
+	.line	81, "main.c"; 	CLRWDT();
 	clrwdt
-	.line	49, "main.c"; 	key_init();
+	.line	82, "main.c"; 	key_init();
 	MCALL	_key_init
-	.line	50, "main.c"; 	sleep_status = Check_Keydown();
+	.line	83, "main.c"; 	sleep_status = Check_Keydown();
 	MCALL	_Check_Keydown
-	BANKSEL	r0x1005
-	MOVAR	r0x1005
-	.line	52, "main.c"; 	if(sleep_status == 0)
-	MOVR	r0x1005,W
-	BTRSS	STATUS,2
-	MGOTO	_02014_DS_
-	.line	54, "main.c"; 	g_timer0_delay_conut_1 = 0;
-	BANKSEL	_g_timer0_delay_conut_1
-	CLRR	_g_timer0_delay_conut_1
-	.line	55, "main.c"; 	g_timer0_delay_conut_2 = 0;
-	BANKSEL	_g_timer0_delay_conut_2
-	CLRR	_g_timer0_delay_conut_2
-_02014_DS_:
-	.line	58, "main.c"; 	g_timer0_delay_conut_1 ++;
-	BANKSEL	_g_timer0_delay_conut_1
-	MOVR	_g_timer0_delay_conut_1,W
-	BANKSEL	r0x1005
-	MOVAR	r0x1005
-	INCR	r0x1005,W
-	BANKSEL	_g_timer0_delay_conut_1
-	MOVAR	_g_timer0_delay_conut_1
-;;unsigned compare: left < lit(0xFF=255), size=1
-	.line	60, "main.c"; 	if(g_timer0_delay_conut_1 >= 255)
-	MOVIA	0xff
-	SUBAR	_g_timer0_delay_conut_1,W
-	BTRSS	STATUS,0
-	MGOTO	_02016_DS_
-	.line	62, "main.c"; 	g_timer0_delay_conut_1 = 0;
-	CLRR	_g_timer0_delay_conut_1
-	.line	63, "main.c"; 	g_timer0_delay_conut_2 ++;
-	BANKSEL	_g_timer0_delay_conut_2
-	MOVR	_g_timer0_delay_conut_2,W
-	BANKSEL	r0x1005
-	MOVAR	r0x1005
-	INCR	r0x1005,W
-	BANKSEL	_g_timer0_delay_conut_2
-	MOVAR	_g_timer0_delay_conut_2
-;;unsigned compare: left < lit(0x40=64), size=1
-_02016_DS_:
-	.line	66, "main.c"; 	if(g_timer0_delay_conut_2 >= 64)
-	MOVIA	0x40
-	BANKSEL	_g_timer0_delay_conut_2
-	SUBAR	_g_timer0_delay_conut_2,W
-	BTRSS	STATUS,0
-	MGOTO	_02020_DS_
-	.line	68, "main.c"; 	g_timer0_delay_conut_2 = 0;
-	CLRR	_g_timer0_delay_conut_2
-	.line	69, "main.c"; 	go_to_sleep();
-	MCALL	_go_to_sleep
-	MGOTO	_02020_DS_
-	.line	72, "main.c"; 	}
+	BANKSEL	r0x1006
+	MOVAR	r0x1006
+	.line	84, "main.c"; 	sleep_count(sleep_status);
+	MOVR	r0x1006,W
+	MCALL	_sleep_count
+	MGOTO	_02033_DS_
+	.line	86, "main.c"; 	}
 	RETURN	
 ; exit point of _main
 
@@ -455,28 +418,133 @@ _02016_DS_:
 ;***
 ;has an exit
 ;functions called:
+;   _go_to_sleep
+;   _go_to_sleep
+;1 compiler assigned register :
+;   r0x1005
+;; Starting pCode block
+.segment "code"; module=main, function=_sleep_count
+	.debuginfo subprogram _sleep_count
+;local variable name mapping:
+	.debuginfo complex-type (local-sym "_s_sleep_status" 1 "main.c" 46 (basetype 1 unsigned) split "r0x1005")
+_sleep_count:
+; 2 exit points
+	.line	46, "main.c"; 	void sleep_count(unsigned char s_sleep_status)
+	BANKSEL	r0x1005
+	MOVAR	r0x1005
+	.line	48, "main.c"; 	if(s_sleep_status == 0)
+	MOVR	r0x1005,W
+	BTRSS	STATUS,2
+	MGOTO	_02022_DS_
+	.line	50, "main.c"; 	sleep_conut_1 = 0;
+	BANKSEL	_sleep_conut_1
+	CLRR	_sleep_conut_1
+	.line	51, "main.c"; 	sleep_conut_2 = 0;
+	BANKSEL	_sleep_conut_2
+	CLRR	_sleep_conut_2
+_02022_DS_:
+	.line	54, "main.c"; 	sleep_conut_1 ++;
+	BANKSEL	_sleep_conut_1
+	MOVR	_sleep_conut_1,W
+	BANKSEL	r0x1005
+	MOVAR	r0x1005
+	INCR	r0x1005,W
+	BANKSEL	_sleep_conut_1
+	MOVAR	_sleep_conut_1
+;;unsigned compare: left < lit(0xFF=255), size=1
+	.line	56, "main.c"; 	if(sleep_conut_1 >= 255)
+	MOVIA	0xff
+	SUBAR	_sleep_conut_1,W
+	BTRSS	STATUS,0
+	MGOTO	_02024_DS_
+	.line	58, "main.c"; 	sleep_conut_1 = 0;
+	CLRR	_sleep_conut_1
+	.line	59, "main.c"; 	sleep_conut_2 ++;
+	BANKSEL	_sleep_conut_2
+	MOVR	_sleep_conut_2,W
+	BANKSEL	r0x1005
+	MOVAR	r0x1005
+	INCR	r0x1005,W
+	BANKSEL	_sleep_conut_2
+	MOVAR	_sleep_conut_2
+;;unsigned compare: left < lit(0x1E=30), size=1
+_02024_DS_:
+	.line	62, "main.c"; 	if(sleep_conut_2 >= 30) // 5s
+	MOVIA	0x1e
+	BANKSEL	_sleep_conut_2
+	SUBAR	_sleep_conut_2,W
+	BTRSS	STATUS,0
+	MGOTO	_02027_DS_
+	.line	64, "main.c"; 	sleep_conut_2 = 0;
+	CLRR	_sleep_conut_2
+	.line	65, "main.c"; 	go_to_sleep();
+	MCALL	_go_to_sleep
+_02027_DS_:
+	.line	67, "main.c"; 	}
+	RETURN	
+; exit point of _sleep_count
+
+;***
+;  pBlock Stats: dbName = C
+;***
+;has an exit
+;functions called:
+;   _close_WDT
 ;   _wake_up_init
+;   _close_WDT
 ;   _wake_up_init
 ;; Starting pCode block
 .segment "code"; module=main, function=_go_to_sleep
 	.debuginfo subprogram _go_to_sleep
 _go_to_sleep:
 ; 2 exit points
-	.line	27, "main.c"; 	PCON &= ~C_WDT_En;
-	BCR	_PCON,7
-	.line	28, "main.c"; 	PCON &= ~C_LVR_En;
-	BCR	_PCON,3
-	.line	29, "main.c"; 	wake_up_init();
+	.line	39, "main.c"; 	close_WDT();
+	MCALL	_close_WDT
+	.line	40, "main.c"; 	wake_up_init();
 	MCALL	_wake_up_init
-	.line	30, "main.c"; 	UPDATE_REG(PORTA);
+	.line	41, "main.c"; 	UPDATE_REG(PORTA);
 	MOVR	_PORTA,F
-	.line	31, "main.c"; 	INTF = 0x00;
+	.line	42, "main.c"; 	INTF = 0x00;
 	CLRR	_INTF
-	.line	32, "main.c"; 	SLEEP();
+	.line	43, "main.c"; 	SLEEP();
 	sleep
-	.line	33, "main.c"; 	}
+	.line	44, "main.c"; 	}
 	RETURN	
 ; exit point of _go_to_sleep
+
+;***
+;  pBlock Stats: dbName = C
+;***
+;has an exit
+;; Starting pCode block
+.segment "code"; module=main, function=_close_WDT
+	.debuginfo subprogram _close_WDT
+_close_WDT:
+; 2 exit points
+	.line	33, "main.c"; 	PCON &= ~C_WDT_En;
+	BCR	_PCON,7
+	.line	34, "main.c"; 	PCON &= ~C_LVR_En;
+	BCR	_PCON,3
+	.line	35, "main.c"; 	}
+	RETURN	
+; exit point of _close_WDT
+
+;***
+;  pBlock Stats: dbName = C
+;***
+;has an exit
+;; Starting pCode block
+.segment "code"; module=main, function=_open_WDT
+	.debuginfo subprogram _open_WDT
+_open_WDT:
+; 2 exit points
+	.line	27, "main.c"; 	PCON |= C_WDT_En;	//使能看门狗
+	BSR	_PCON,7
+	.line	28, "main.c"; 	PCON |= C_LVR_En;	//低压复位使能
+	BSR	_PCON,3
+	.line	29, "main.c"; 	}
+	RETURN	
+; exit point of _open_WDT
 
 ;***
 ;  pBlock Stats: dbName = C
@@ -509,6 +577,6 @@ _wake_up_init:
 
 
 ;	code size estimation:
-;	   82+   16 =    98 instructions (  228 byte)
+;	   89+   17 =   106 instructions (  246 byte)
 
 	end

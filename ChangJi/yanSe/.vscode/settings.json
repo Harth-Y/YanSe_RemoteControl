@@ -1,6 +1,8 @@
 {
     "C_Cpp.errorSquiggles": "disabled",
     "files.associations": {
-        "key.h": "c"
+        "key.h": "c",
+        "bsp_cs1630.h": "c",
+        "bsp_rf.h": "c"
     }
 }
