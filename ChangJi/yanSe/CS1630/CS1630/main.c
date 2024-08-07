@@ -9,18 +9,8 @@
 //#include "bsp_usart.h"
 
 #define UPDATE_REG(x)  __asm__("MOVR _" #x ",F")
-volatile unsigned char g_timer0_delay_conut_1 = 0;
-volatile unsigned char g_timer0_delay_conut_2 = 0;
-
-void isr(void) __interrupt(0)
-{
-  if(INTFbits.PABIF)
-  {
-    PCON |= C_WDT_En;	//使能看门狗
-    PCON |= C_LVR_En;	//低压复位使能
-    INTFbits.PABIF = 0;					// 清除PABIF（PortB输入变化中断标志位）
-  }
-}
+volatile unsigned char sleep_conut_1 = 0;
+volatile unsigned char sleep_conut_2 = 0;
 
 void wake_up_init(void)
 {
@@ -32,13 +22,33 @@ void wake_up_init(void)
   INTF = 0x00;
 }
 
+void open_WDT(void)
+{
+  PCON |= C_WDT_En;	//使能看门狗
+  PCON |= C_LVR_En;	//低压复位使能
+}
+
+void close_WDT(void)
+{
+  PCON &= ~C_WDT_En;
+  PCON &= ~C_LVR_En;
+}
+
+void go_to_sleep(void)
+{
+  close_WDT();
+  wake_up_init();
+  UPDATE_REG(PORTA);
+  INTF = 0x00;
+  SLEEP();
+}
+
 void main(void)
 {
   DISI();
   key_init();
   CS1630_Init(); // 初始化CS1630模块
-  PCON |= C_WDT_En;	//使能看门狗
-  PCON |= C_LVR_En;	//低压复位使能
+  open_WDT();
   ENI();
 
   unsigned char sleep_status = 1;
@@ -51,34 +61,35 @@ void main(void)
 
     if(sleep_status == 0)
     {
-      g_timer0_delay_conut_1 = 0;
-      g_timer0_delay_conut_2 = 0;
+      sleep_conut_1 = 0;
+      sleep_conut_2 = 0;
     }
 
-    g_timer0_delay_conut_1 ++;
+    sleep_conut_1 ++; // 1.225ms
 
-    if(g_timer0_delay_conut_1 >= 255)
+    if(sleep_conut_1 >= 255) // 312.5ms
     {
-      g_timer0_delay_conut_1 = 0;
-      g_timer0_delay_conut_2 ++;
+      sleep_conut_1 = 0;
+      sleep_conut_2 ++;
     }
 
-    if(g_timer0_delay_conut_2 >= 64)
+    if(sleep_conut_2 >= 32) // 10s
     {
-      g_timer0_delay_conut_2 = 0;
-      PCON &= ~C_WDT_En;
-      PCON &= ~C_LVR_En;
-      wake_up_init();
-      UPDATE_REG(PORTA);
-      INTF = 0x00;
-      SLEEP();
-      INTFbits.PABIF = 0;	// 清除PABIF（PortB输入变化中断标志位）
+      sleep_conut_2 = 0;
+      go_to_sleep();
     }
 	}
 }
 
 /*************************************************************************************************/
 
-
+void isr(void) __interrupt(0)
+{
+  if(INTFbits.PABIF)
+  {
+    open_WDT();
+    INTFbits.PABIF = 0;	// 清除PABIF（PortB输入变化中断标志位）
+  }
+}
 
 /*************************************************************************************************/

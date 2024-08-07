@@ -120,9 +120,10 @@
 ;--------------------------------------------------------
 ; global declarations
 ;--------------------------------------------------------
-	extern	_main
-	extern	_wake_up_init
 	extern	_isr
+	extern	_main
+	extern	_go_to_sleep
+	extern	_wake_up_init
 	extern	_INTE2
 	extern	_RFC
 	extern	_INTEDG
@@ -300,7 +301,7 @@ __sdcc_interrupt:
 ;; Starting pCode block
 _isr:
 ; 0 exit points
-	.line	15, "main.c"; 	void isr(void) __interrupt(0)
+	.line	76, "main.c"; 	void isr(void) __interrupt(0)
 	MOVAR	WSAVE
 	SWAPR	STATUS,W
 	CLRR	STATUS
@@ -317,18 +318,18 @@ _isr:
 	MOVR	STK01,W
 	BANKSEL	___sdcc_saved_stk01
 	MOVAR	___sdcc_saved_stk01
-	.line	17, "main.c"; 	if(INTFbits.PABIF)
+	.line	78, "main.c"; 	if(INTFbits.PABIF)
 	BTRSS	_INTFbits,1
-	MGOTO	_02007_DS_
-	.line	19, "main.c"; 	PCON |= C_WDT_En;	//使能看门狗
+	MGOTO	_02027_DS_
+	.line	80, "main.c"; 	PCON |= C_WDT_En;	  // 使能看门狗
 	BSR	_PCON,7
-	.line	20, "main.c"; 	PCON |= C_LVR_En;	//低压复位使能
+	.line	81, "main.c"; 	PCON |= C_LVR_En;	  // 低压复位使能
 	BSR	_PCON,3
-	.line	21, "main.c"; 	INTFbits.PABIF = 0;					// 清除PABIF（PortB输入变化中断标志位）
+	.line	82, "main.c"; 	INTFbits.PABIF = 0;	// 清除PABIF（PortB输入变化中断标志位）
 	MOVIA	0xfd
 	MOVAR	(_INTFbits + 0)
-_02007_DS_:
-	.line	23, "main.c"; 	}
+_02027_DS_:
+	.line	84, "main.c"; 	}
 	BANKSEL	___sdcc_saved_stk01
 	MOVR	___sdcc_saved_stk01,W
 	MOVAR	STK01
@@ -361,12 +362,12 @@ END_OF_INTERRUPT:
 ;   _CS1630_Init
 ;   _key_init
 ;   _Check_Keydown
-;   _wake_up_init
+;   _go_to_sleep
 ;   _key_init
 ;   _CS1630_Init
 ;   _key_init
 ;   _Check_Keydown
-;   _wake_up_init
+;   _go_to_sleep
 ;1 compiler assigned register :
 ;   r0x1005
 ;; Starting pCode block
@@ -388,7 +389,7 @@ _main:
 	BSR	_PCON,3
 	.line	42, "main.c"; 	ENI();
 	ENI
-_02023_DS_:
+_02020_DS_:
 	.line	48, "main.c"; 	CLRWDT();			//清理看门狗
 	clrwdt
 	.line	49, "main.c"; 	key_init();
@@ -400,14 +401,14 @@ _02023_DS_:
 	.line	52, "main.c"; 	if(sleep_status == 0)
 	MOVR	r0x1005,W
 	BTRSS	STATUS,2
-	MGOTO	_02017_DS_
+	MGOTO	_02014_DS_
 	.line	54, "main.c"; 	g_timer0_delay_conut_1 = 0;
 	BANKSEL	_g_timer0_delay_conut_1
 	CLRR	_g_timer0_delay_conut_1
 	.line	55, "main.c"; 	g_timer0_delay_conut_2 = 0;
 	BANKSEL	_g_timer0_delay_conut_2
 	CLRR	_g_timer0_delay_conut_2
-_02017_DS_:
+_02014_DS_:
 	.line	58, "main.c"; 	g_timer0_delay_conut_1 ++;
 	BANKSEL	_g_timer0_delay_conut_1
 	MOVR	_g_timer0_delay_conut_1,W
@@ -421,7 +422,7 @@ _02017_DS_:
 	MOVIA	0xff
 	SUBAR	_g_timer0_delay_conut_1,W
 	BTRSS	STATUS,0
-	MGOTO	_02019_DS_
+	MGOTO	_02016_DS_
 	.line	62, "main.c"; 	g_timer0_delay_conut_1 = 0;
 	CLRR	_g_timer0_delay_conut_1
 	.line	63, "main.c"; 	g_timer0_delay_conut_2 ++;
@@ -433,34 +434,49 @@ _02017_DS_:
 	BANKSEL	_g_timer0_delay_conut_2
 	MOVAR	_g_timer0_delay_conut_2
 ;;unsigned compare: left < lit(0x40=64), size=1
-_02019_DS_:
+_02016_DS_:
 	.line	66, "main.c"; 	if(g_timer0_delay_conut_2 >= 64)
 	MOVIA	0x40
 	BANKSEL	_g_timer0_delay_conut_2
 	SUBAR	_g_timer0_delay_conut_2,W
 	BTRSS	STATUS,0
-	MGOTO	_02023_DS_
+	MGOTO	_02020_DS_
 	.line	68, "main.c"; 	g_timer0_delay_conut_2 = 0;
 	CLRR	_g_timer0_delay_conut_2
-	.line	69, "main.c"; 	PCON &= ~C_WDT_En;
-	BCR	_PCON,7
-	.line	70, "main.c"; 	PCON &= ~C_LVR_En;
-	BCR	_PCON,3
-	.line	71, "main.c"; 	wake_up_init();
-	MCALL	_wake_up_init
-	.line	72, "main.c"; 	UPDATE_REG(PORTA);
-	MOVR	_PORTA,F
-	.line	73, "main.c"; 	INTF = 0x00;
-	CLRR	_INTF
-	.line	74, "main.c"; 	SLEEP();
-	sleep
-	.line	75, "main.c"; 	INTFbits.PABIF = 0;	// 清除PABIF（PortB输入变化中断标志位）
-	MOVIA	0xfd
-	MOVAR	(_INTFbits + 0)
-	MGOTO	_02023_DS_
-	.line	78, "main.c"; 	}
+	.line	69, "main.c"; 	go_to_sleep();
+	MCALL	_go_to_sleep
+	MGOTO	_02020_DS_
+	.line	72, "main.c"; 	}
 	RETURN	
 ; exit point of _main
+
+;***
+;  pBlock Stats: dbName = C
+;***
+;has an exit
+;functions called:
+;   _wake_up_init
+;   _wake_up_init
+;; Starting pCode block
+.segment "code"; module=main, function=_go_to_sleep
+	.debuginfo subprogram _go_to_sleep
+_go_to_sleep:
+; 2 exit points
+	.line	27, "main.c"; 	PCON &= ~C_WDT_En;
+	BCR	_PCON,7
+	.line	28, "main.c"; 	PCON &= ~C_LVR_En;
+	BCR	_PCON,3
+	.line	29, "main.c"; 	wake_up_init();
+	MCALL	_wake_up_init
+	.line	30, "main.c"; 	UPDATE_REG(PORTA);
+	MOVR	_PORTA,F
+	.line	31, "main.c"; 	INTF = 0x00;
+	CLRR	_INTF
+	.line	32, "main.c"; 	SLEEP();
+	sleep
+	.line	33, "main.c"; 	}
+	RETURN	
+; exit point of _go_to_sleep
 
 ;***
 ;  pBlock Stats: dbName = C
@@ -471,23 +487,23 @@ _02019_DS_:
 	.debuginfo subprogram _wake_up_init
 _wake_up_init:
 ; 2 exit points
-	.line	27, "main.c"; 	AWUCON = 0xfc;
+	.line	17, "main.c"; 	AWUCON = 0xfc;
 	MOVIA	0xfc
 	MOVAR	_AWUCON
-	.line	28, "main.c"; 	BWUCON = 0x00;
+	.line	18, "main.c"; 	BWUCON = 0x00;
 	CLRR	_BWUCON
-	.line	29, "main.c"; 	IOSTA = C_PA2_Input | C_PA3_Input | C_PA4_Input | C_PA5_Input | C_PA6_Input | C_PA7_Input;  // 配置PA2、3、4、5、6、7为输入
+	.line	19, "main.c"; 	IOSTA = C_PA2_Input | C_PA3_Input | C_PA4_Input | C_PA5_Input | C_PA6_Input | C_PA7_Input;  // 配置PA2、3、4、5、6、7为输入
 	MOVIA	0xfc
 	IOST	_IOSTA
-	.line	30, "main.c"; 	APHCON = 0b00100011; // 设置2、3、4、6、7上拉
+	.line	20, "main.c"; 	APHCON = 0b00100011; // 设置2、3、4、6、7上拉
 	MOVIA	0x23
 	IOST	_APHCON
-	.line	31, "main.c"; 	INTE = C_INT_PABKey;
+	.line	21, "main.c"; 	INTE = C_INT_PABKey;
 	MOVIA	0x02
 	MOVAR	_INTE
-	.line	32, "main.c"; 	INTF = 0x00;
+	.line	22, "main.c"; 	INTF = 0x00;
 	CLRR	_INTF
-	.line	33, "main.c"; 	}
+	.line	23, "main.c"; 	}
 	RETURN	
 ; exit point of _wake_up_init
 
