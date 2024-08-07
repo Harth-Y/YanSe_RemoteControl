@@ -116,37 +116,18 @@ unsigned char Check_Keydown()
                 case(0x0E): KeyValue=KeyValue+0X08;break;
             }
 
-			// if(0b00000111 == (PORTB & 0x0f))
-			// {
-			// 	KeyValue=KeyValue;
-			// }
-			// else if(0b00001011 == (PORTB & 0x0f))
-			// {
-			// 	KeyValue=KeyValue+0x04;
-			// }
-			// else if(0b00001101 == (PORTB & 0x0f))
-			// {
-			// 	KeyValue=KeyValue+0x08;
-			// }
-			// else if(0b00001110 == (PORTB & 0x0f))
-			// {
-			// 	KeyValue=KeyValue+0x0c;
-			// }
-
             key_init();
 
             sCodeValue = KeyValue - 0x01;
             KeyStatus = 0;
             KeyStatus = PORTA & 0xfc;
             KeyStatus_s = 1;
+
             while(0xfc != (PORTA & 0xfC))
             {
-                // 等待，准备下一次发送
-                // 发送数据包
                 send_ble_packet(sCodeValue);
-                // led
                 led();
-                if(KeyStatus_s == 1) // 按键屏蔽时间，在按下后的250ms内不会再次发送数据包，需要长按超过250ms才会持续发送
+                if(KeyStatus_s == 1)
                 {
                     send_ble_packet(sCodeValue);
                     KeyStatus_s = 0;
