@@ -13,6 +13,8 @@
 ;--------------------------------------------------------
 	extern	_send_ble_packet
 	extern	_Check_Keydown
+	extern	_led
+	extern	_led_open
 	extern	_set_PB_low
 	extern	_set_PA_low
 	extern	_key_init
@@ -122,6 +124,7 @@
 ;--------------------------------------------------------
 	extern	_isr
 	extern	_main
+	extern	_send_data
 	extern	_sleep_count
 	extern	_go_to_sleep
 	extern	_close_WDT
@@ -250,6 +253,15 @@ r0x1005:
 r0x1006:
 	.res	1
 .segment "uninit"
+r0x1007:
+	.res	1
+.segment "uninit"
+r0x1008:
+	.res	1
+.segment "uninit"
+r0x1009:
+	.res	1
+.segment "uninit"
 ___sdcc_saved_fsr:
 	.res	1
 	.debuginfo complex-type (symbol "___sdcc_saved_fsr" 1 global "" 0 (basetype 1 unsigned))
@@ -310,7 +322,7 @@ __sdcc_interrupt:
 ;; Starting pCode block
 _isr:
 ; 0 exit points
-	.line	90, "main.c"; 	void isr(void) __interrupt(0)
+	.line	120, "main.c"; 	void isr(void) __interrupt(0)
 	MOVAR	WSAVE
 	SWAPR	STATUS,W
 	CLRR	STATUS
@@ -327,16 +339,16 @@ _isr:
 	MOVR	STK01,W
 	BANKSEL	___sdcc_saved_stk01
 	MOVAR	___sdcc_saved_stk01
-	.line	92, "main.c"; 	if(INTFbits.PABIF)
+	.line	122, "main.c"; 	if(INTFbits.PABIF)
 	BTRSS	_INTFbits,1
-	MGOTO	_02040_DS_
-	.line	94, "main.c"; 	open_WDT();
+	MGOTO	_02073_DS_
+	.line	124, "main.c"; 	open_WDT();
 	MCALL	_open_WDT
-	.line	95, "main.c"; 	INTFbits.PABIF = 0;
+	.line	125, "main.c"; 	INTFbits.PABIF = 0;
 	MOVIA	0xfd
 	MOVAR	(_INTFbits + 0)
-_02040_DS_:
-	.line	97, "main.c"; 	}
+_02073_DS_:
+	.line	127, "main.c"; 	}
 	BANKSEL	___sdcc_saved_stk01
 	MOVR	___sdcc_saved_stk01,W
 	MOVAR	STK01
@@ -370,48 +382,155 @@ END_OF_INTERRUPT:
 ;   _open_WDT
 ;   _key_init
 ;   _Check_Keydown
+;   _send_data
 ;   _sleep_count
 ;   _key_init
 ;   _CS1630_Init
 ;   _open_WDT
 ;   _key_init
 ;   _Check_Keydown
+;   _send_data
 ;   _sleep_count
 ;1 compiler assigned register :
-;   r0x1006
+;   r0x1009
 ;; Starting pCode block
 .segment "code"; module=main, function=_main
 	.debuginfo subprogram _main
 ;local variable name mapping:
-	.debuginfo complex-type (local-sym "_sleep_status" 1 "main.c" 77 (basetype 1 unsigned) split "r0x1006")
+	.debuginfo complex-type (local-sym "_sCodeValue" 1 "main.c" 106 (basetype 1 unsigned) split "r0x1009")
 _main:
 ; 2 exit points
-	.line	71, "main.c"; 	DISI();
+	.line	100, "main.c"; 	DISI();
 	DISI
-	.line	72, "main.c"; 	key_init();
+	.line	101, "main.c"; 	key_init();
 	MCALL	_key_init
-	.line	73, "main.c"; 	CS1630_Init();
+	.line	102, "main.c"; 	CS1630_Init();
 	MCALL	_CS1630_Init
-	.line	74, "main.c"; 	open_WDT();
+	.line	103, "main.c"; 	open_WDT();
 	MCALL	_open_WDT
-	.line	75, "main.c"; 	ENI();
+	.line	104, "main.c"; 	ENI();
 	ENI
-_02033_DS_:
-	.line	81, "main.c"; 	CLRWDT();
+_02066_DS_:
+	.line	110, "main.c"; 	CLRWDT();
 	clrwdt
-	.line	82, "main.c"; 	key_init();
+	.line	111, "main.c"; 	key_init();
 	MCALL	_key_init
-	.line	83, "main.c"; 	sleep_status = Check_Keydown();
+	.line	112, "main.c"; 	sCodeValue = Check_Keydown();
 	MCALL	_Check_Keydown
-	BANKSEL	r0x1006
-	MOVAR	r0x1006
-	.line	84, "main.c"; 	sleep_count(sleep_status);
-	MOVR	r0x1006,W
+	BANKSEL	r0x1009
+	MOVAR	r0x1009
+	.line	113, "main.c"; 	send_data(sCodeValue);
+	MOVR	r0x1009,W
+	MCALL	_send_data
+	.line	114, "main.c"; 	sleep_count(sCodeValue);
+	BANKSEL	r0x1009
+	MOVR	r0x1009,W
 	MCALL	_sleep_count
-	MGOTO	_02033_DS_
-	.line	86, "main.c"; 	}
+	MGOTO	_02066_DS_
+	.line	116, "main.c"; 	}
 	RETURN	
 ; exit point of _main
+
+;***
+;  pBlock Stats: dbName = C
+;***
+;has an exit
+;functions called:
+;   _key_init
+;   _send_ble_packet
+;   _led
+;   _send_ble_packet
+;   _delay_250ms
+;   _key_init
+;   _key_init
+;   _send_ble_packet
+;   _led
+;   _send_ble_packet
+;   _delay_250ms
+;   _key_init
+;4 compiler assigned registers:
+;   r0x1005
+;   r0x1006
+;   r0x1007
+;   r0x1008
+;; Starting pCode block
+.segment "code"; module=main, function=_send_data
+	.debuginfo subprogram _send_data
+;local variable name mapping:
+	.debuginfo complex-type (local-sym "_CodeValue" 1 "main.c" 69 (basetype 1 unsigned) split "r0x1005")
+	.debuginfo complex-type (local-sym "_KeyStatus" 1 "main.c" 71 (basetype 1 unsigned) split "r0x1006")
+	.debuginfo complex-type (local-sym "_KeyStatus_s" 1 "main.c" 72 (basetype 1 unsigned) split "r0x1007")
+_send_data:
+; 2 exit points
+	.line	69, "main.c"; 	void send_data(unsigned char CodeValue)
+	BANKSEL	r0x1005
+	MOVAR	r0x1005
+	.line	73, "main.c"; 	if(CodeValue != 0)
+	MOVR	r0x1005,W
+	BTRSC	STATUS,2
+	MGOTO	_02041_DS_
+	.line	75, "main.c"; 	key_init();
+	MCALL	_key_init
+	.line	77, "main.c"; 	KeyStatus = PORTA & 0xfc;
+	MOVIA	0xfc
+	ANDAR	_PORTA,W
+	BANKSEL	r0x1006
+	MOVAR	r0x1006
+	.line	78, "main.c"; 	KeyStatus_s = 1;
+	MOVIA	0x01
+	BANKSEL	r0x1007
+	MOVAR	r0x1007
+_02036_DS_:
+	.line	80, "main.c"; 	while(0xfc != (PORTA & 0xfC))
+	MOVIA	0xfc
+	ANDAR	_PORTA,W
+	BANKSEL	r0x1008
+	MOVAR	r0x1008
+	MOVR	r0x1008,W
+	XORIA	0xfc
+	BTRSS	STATUS,2
+	MGOTO	_02059_DS_
+	MGOTO	_02041_DS_
+_02059_DS_:
+	.line	82, "main.c"; 	send_ble_packet(CodeValue);
+	BANKSEL	r0x1005
+	MOVR	r0x1005,W
+	MCALL	_send_ble_packet
+	.line	83, "main.c"; 	led();
+	MCALL	_led
+	.line	84, "main.c"; 	if(KeyStatus_s == 1)
+	BANKSEL	r0x1007
+	MOVR	r0x1007,W
+	XORIA	0x01
+	BTRSS	STATUS,2
+	MGOTO	_02033_DS_
+	.line	86, "main.c"; 	send_ble_packet(CodeValue);
+	BANKSEL	r0x1005
+	MOVR	r0x1005,W
+	MCALL	_send_ble_packet
+	.line	87, "main.c"; 	KeyStatus_s = 0;
+	BANKSEL	r0x1007
+	CLRR	r0x1007
+	.line	88, "main.c"; 	delay_250ms();
+	MCALL	_delay_250ms
+_02033_DS_:
+	.line	90, "main.c"; 	key_init();
+	MCALL	_key_init
+	.line	91, "main.c"; 	if(KeyStatus != (PORTA & 0xfc)) // 若与一开始按的不是同一个按键则退出重新检测
+	MOVIA	0xfc
+	ANDAR	_PORTA,W
+	BANKSEL	r0x1008
+	MOVAR	r0x1008
+	MOVR	r0x1008,W
+	BANKSEL	r0x1006
+	XORAR	r0x1006,W
+	BTRSS	STATUS,2
+	MGOTO	_02041_DS_
+	MGOTO	_02036_DS_
+_02041_DS_:
+	.line	95, "main.c"; 	}
+	RETURN	
+; exit point of _send_data
 
 ;***
 ;  pBlock Stats: dbName = C
@@ -432,8 +551,9 @@ _sleep_count:
 	.line	46, "main.c"; 	void sleep_count(unsigned char s_sleep_status)
 	BANKSEL	r0x1005
 	MOVAR	r0x1005
-	.line	48, "main.c"; 	if(s_sleep_status == 0)
+	.line	48, "main.c"; 	if(s_sleep_status == 1) // 有按键被按下，重新计时
 	MOVR	r0x1005,W
+	XORIA	0x01
 	BTRSS	STATUS,2
 	MGOTO	_02022_DS_
 	.line	50, "main.c"; 	sleep_conut_1 = 0;
@@ -577,6 +697,6 @@ _wake_up_init:
 
 
 ;	code size estimation:
-;	   89+   17 =   106 instructions (  246 byte)
+;	  131+   28 =   159 instructions (  374 byte)
 
 	end

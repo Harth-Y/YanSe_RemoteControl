@@ -12,11 +12,14 @@
 volatile unsigned char sleep_conut_1 = 0;
 volatile unsigned char sleep_conut_2 = 0;
 
+/*************************************************************************************************/
+
 void wake_up_init(void)
 {
   AWUCON = 0xfc;
   BWUCON = 0x00;
-  IOSTA = C_PA2_Input | C_PA3_Input | C_PA4_Input | C_PA5_Input | C_PA6_Input | C_PA7_Input;  // 配置PA2、3、4、5、6、7为输入
+  // 配置PA2、3、4、5、6、7为输入
+  IOSTA = C_PA2_Input | C_PA3_Input | C_PA4_Input | C_PA5_Input | C_PA6_Input | C_PA7_Input;
   APHCON = 0b00100011; // 设置2、3、4、6、7上拉
   INTE = C_INT_PABKey;
   INTF = 0x00;
@@ -45,7 +48,7 @@ void go_to_sleep(void)
 
 void sleep_count(unsigned char s_sleep_status)
 {
-  if(s_sleep_status == 0) // 有按键被按下，重新计时
+  if(s_sleep_status == 1) // 有按键被按下，重新计时
   {
     sleep_conut_1 = 0;
     sleep_conut_2 = 0;
@@ -66,6 +69,36 @@ void sleep_count(unsigned char s_sleep_status)
   }
 }
 
+void send_data(unsigned char CodeValue)
+{
+  unsigned char KeyStatus = 0;
+  unsigned char KeyStatus_s = 0;
+  if(CodeValue != 0)
+  {
+    key_init();
+    KeyStatus = 0;
+    KeyStatus = PORTA & 0xfc;
+    KeyStatus_s = 1;
+
+    while(0xfc != (PORTA & 0xfC))
+    {
+      send_ble_packet(CodeValue);
+      led();
+      if(KeyStatus_s == 1)
+      {
+        send_ble_packet(CodeValue);
+        KeyStatus_s = 0;
+        delay_250ms();
+      }
+      key_init();
+      if(KeyStatus != (PORTA & 0xfc)) // 若与一开始按的不是同一个按键则退出重新检测
+      break;
+    }
+  }
+}
+
+/*************************************************************************************************/
+
 void main(void)
 {
   DISI();
@@ -74,14 +107,15 @@ void main(void)
   open_WDT();
   ENI();
 
-  unsigned char sleep_status = 1;
+  unsigned char sCodeValue = 0;
 
   while (1)
   {
     CLRWDT();
     key_init();
-    sleep_status = Check_Keydown();
-    sleep_count(sleep_status);
+    sCodeValue = Check_Keydown();
+    send_data(sCodeValue);
+    sleep_count(sCodeValue);
 	}
 }
 

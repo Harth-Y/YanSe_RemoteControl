@@ -115,37 +115,14 @@ unsigned char Check_Keydown()
                 case(0x0D): KeyValue=KeyValue+0X08;break;
                 case(0x0E): KeyValue=KeyValue+0X08;break;
             }
-
-            key_init();
-
             sCodeValue = KeyValue - 0x01;
-            KeyStatus = 0;
-            KeyStatus = PORTA & 0xfc;
-            KeyStatus_s = 1;
-
-            while(0xfc != (PORTA & 0xfC))
-            {
-                send_ble_packet(sCodeValue);
-                led();
-                if(KeyStatus_s == 1)
-                {
-                    send_ble_packet(sCodeValue);
-                    KeyStatus_s = 0;
-                    delay_250ms();
-                }
-                key_init();
-
-                if(KeyStatus != (PORTA & 0xfc)) // 若与一开始按的不是同一个按键则退出重新检测
-                return 0;
-            }
-            return 0;
-
+            return sCodeValue;
         }
         else
         {
-            return 1;
+            return 0;
         }
 
     }
-    return 1;
+    return 0;
 }
