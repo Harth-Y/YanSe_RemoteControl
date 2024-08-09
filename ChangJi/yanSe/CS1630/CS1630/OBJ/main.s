@@ -279,14 +279,14 @@ ___sdcc_saved_stk01:
 
 .segment "idata"
 _sleep_conut_1:
-	.debuginfo complex-type (symbol "_sleep_conut_1" 1 global "main.c" 12 (basetype 1 unsigned))
+	.debuginfo complex-type (symbol "_sleep_conut_1" 1 global "main.c" 16 (basetype 1 unsigned))
 
 	dw	0x00	; 0
 
 
 .segment "idata"
 _sleep_conut_2:
-	.debuginfo complex-type (symbol "_sleep_conut_2" 1 global "main.c" 13 (basetype 1 unsigned))
+	.debuginfo complex-type (symbol "_sleep_conut_2" 1 global "main.c" 17 (basetype 1 unsigned))
 
 	dw	0x00	; 0
 
@@ -322,7 +322,7 @@ __sdcc_interrupt:
 ;; Starting pCode block
 _isr:
 ; 0 exit points
-	.line	120, "main.c"; 	void isr(void) __interrupt(0)
+	.line	139, "main.c"; 	void isr(void) __interrupt(0)
 	MOVAR	WSAVE
 	SWAPR	STATUS,W
 	CLRR	STATUS
@@ -339,16 +339,16 @@ _isr:
 	MOVR	STK01,W
 	BANKSEL	___sdcc_saved_stk01
 	MOVAR	___sdcc_saved_stk01
-	.line	122, "main.c"; 	if(INTFbits.PABIF)
+	.line	141, "main.c"; 	if(INTFbits.PABIF)
 	BTRSS	_INTFbits,1
-	MGOTO	_02073_DS_
-	.line	124, "main.c"; 	open_WDT();
+	MGOTO	_02075_DS_
+	.line	143, "main.c"; 	open_WDT();
 	MCALL	_open_WDT
-	.line	125, "main.c"; 	INTFbits.PABIF = 0;
+	.line	144, "main.c"; 	INTFbits.PABIF = 0;
 	MOVIA	0xfd
 	MOVAR	(_INTFbits + 0)
-_02073_DS_:
-	.line	127, "main.c"; 	}
+_02075_DS_:
+	.line	146, "main.c"; 	}
 	BANKSEL	___sdcc_saved_stk01
 	MOVR	___sdcc_saved_stk01,W
 	MOVAR	STK01
@@ -397,37 +397,43 @@ END_OF_INTERRUPT:
 .segment "code"; module=main, function=_main
 	.debuginfo subprogram _main
 ;local variable name mapping:
-	.debuginfo complex-type (local-sym "_sCodeValue" 1 "main.c" 106 (basetype 1 unsigned) split "r0x1009")
+	.debuginfo complex-type (local-sym "_sCodeValue" 1 "main.c" 121 (basetype 1 unsigned) split "r0x1009")
 _main:
 ; 2 exit points
-	.line	100, "main.c"; 	DISI();
+	.line	115, "main.c"; 	DISI();
 	DISI
-	.line	101, "main.c"; 	key_init();
+	.line	116, "main.c"; 	key_init();
 	MCALL	_key_init
-	.line	102, "main.c"; 	CS1630_Init();
+	.line	117, "main.c"; 	CS1630_Init();
 	MCALL	_CS1630_Init
-	.line	103, "main.c"; 	open_WDT();
+	.line	118, "main.c"; 	open_WDT();
 	MCALL	_open_WDT
-	.line	104, "main.c"; 	ENI();
+	.line	119, "main.c"; 	ENI();
 	ENI
-_02066_DS_:
-	.line	110, "main.c"; 	CLRWDT();
+_02068_DS_:
+	.line	125, "main.c"; 	CLRWDT();
 	clrwdt
-	.line	111, "main.c"; 	key_init();
+	.line	126, "main.c"; 	key_init();
 	MCALL	_key_init
-	.line	112, "main.c"; 	sCodeValue = Check_Keydown();
+	.line	127, "main.c"; 	sCodeValue = Check_Keydown();
 	MCALL	_Check_Keydown
 	BANKSEL	r0x1009
 	MOVAR	r0x1009
-	.line	113, "main.c"; 	send_data(sCodeValue);
+	.line	128, "main.c"; 	if(sCodeValue != 0)
+	MOVR	r0x1009,W
+	BTRSC	STATUS,2
+	MGOTO	_02066_DS_
+	.line	130, "main.c"; 	send_data(sCodeValue);
 	MOVR	r0x1009,W
 	MCALL	_send_data
-	.line	114, "main.c"; 	sleep_count(sCodeValue);
+_02066_DS_:
+	.line	132, "main.c"; 	sleep_count(sCodeValue);
 	BANKSEL	r0x1009
 	MOVR	r0x1009,W
 	MCALL	_sleep_count
-	MGOTO	_02066_DS_
-	.line	116, "main.c"; 	}
+	.line	133, "main.c"; 	sCodeValue = 0;
+	MGOTO	_02068_DS_
+	.line	135, "main.c"; 	}
 	RETURN	
 ; exit point of _main
 
@@ -438,15 +444,15 @@ _02066_DS_:
 ;functions called:
 ;   _key_init
 ;   _send_ble_packet
-;   _led
 ;   _send_ble_packet
 ;   _delay_250ms
+;   _delay_ms
 ;   _key_init
 ;   _key_init
 ;   _send_ble_packet
-;   _led
 ;   _send_ble_packet
 ;   _delay_250ms
+;   _delay_ms
 ;   _key_init
 ;4 compiler assigned registers:
 ;   r0x1005
@@ -457,31 +463,31 @@ _02066_DS_:
 .segment "code"; module=main, function=_send_data
 	.debuginfo subprogram _send_data
 ;local variable name mapping:
-	.debuginfo complex-type (local-sym "_CodeValue" 1 "main.c" 69 (basetype 1 unsigned) split "r0x1005")
-	.debuginfo complex-type (local-sym "_KeyStatus" 1 "main.c" 71 (basetype 1 unsigned) split "r0x1006")
-	.debuginfo complex-type (local-sym "_KeyStatus_s" 1 "main.c" 72 (basetype 1 unsigned) split "r0x1007")
+	.debuginfo complex-type (local-sym "_CodeValue" 1 "main.c" 76 (basetype 1 unsigned) split "r0x1005")
+	.debuginfo complex-type (local-sym "_KeyStatus" 1 "main.c" 78 (basetype 1 unsigned) split "r0x1006")
+	.debuginfo complex-type (local-sym "_KeyStatus_s" 1 "main.c" 79 (basetype 1 unsigned) split "r0x1007")
 _send_data:
 ; 2 exit points
-	.line	69, "main.c"; 	void send_data(unsigned char CodeValue)
+	.line	76, "main.c"; 	void send_data(unsigned char CodeValue)
 	BANKSEL	r0x1005
 	MOVAR	r0x1005
-	.line	73, "main.c"; 	if(CodeValue != 0)
+	.line	80, "main.c"; 	if(CodeValue != 0)
 	MOVR	r0x1005,W
 	BTRSC	STATUS,2
 	MGOTO	_02041_DS_
-	.line	75, "main.c"; 	key_init();
+	.line	82, "main.c"; 	key_init();
 	MCALL	_key_init
-	.line	77, "main.c"; 	KeyStatus = PORTA & 0xfc;
+	.line	83, "main.c"; 	KeyStatus = PORTA & 0xfc;
 	MOVIA	0xfc
 	ANDAR	_PORTA,W
 	BANKSEL	r0x1006
 	MOVAR	r0x1006
-	.line	78, "main.c"; 	KeyStatus_s = 1;
+	.line	84, "main.c"; 	KeyStatus_s = 1;
 	MOVIA	0x01
 	BANKSEL	r0x1007
 	MOVAR	r0x1007
 _02036_DS_:
-	.line	80, "main.c"; 	while(0xfc != (PORTA & 0xfC))
+	.line	86, "main.c"; 	while(0xfc != (PORTA & 0xfC))
 	MOVIA	0xfc
 	ANDAR	_PORTA,W
 	BANKSEL	r0x1008
@@ -492,31 +498,38 @@ _02036_DS_:
 	MGOTO	_02059_DS_
 	MGOTO	_02041_DS_
 _02059_DS_:
-	.line	82, "main.c"; 	send_ble_packet(CodeValue);
+	.line	89, "main.c"; 	send_ble_packet(CodeValue);
 	BANKSEL	r0x1005
 	MOVR	r0x1005,W
 	MCALL	_send_ble_packet
-	.line	83, "main.c"; 	led();
-	MCALL	_led
-	.line	84, "main.c"; 	if(KeyStatus_s == 1)
+	.line	94, "main.c"; 	if(KeyStatus_s == 1)
 	BANKSEL	r0x1007
 	MOVR	r0x1007,W
 	XORIA	0x01
 	BTRSS	STATUS,2
 	MGOTO	_02033_DS_
-	.line	86, "main.c"; 	send_ble_packet(CodeValue);
+	.line	96, "main.c"; 	send_ble_packet(CodeValue);
 	BANKSEL	r0x1005
 	MOVR	r0x1005,W
 	MCALL	_send_ble_packet
-	.line	87, "main.c"; 	KeyStatus_s = 0;
+	.line	98, "main.c"; 	KeyStatus_s = 0;
 	BANKSEL	r0x1007
 	CLRR	r0x1007
-	.line	88, "main.c"; 	delay_250ms();
+	.line	99, "main.c"; 	PB4 = 0;
+	BANKSEL	_PORTB
+	BCR	_PORTB,4
+	.line	100, "main.c"; 	delay_250ms();
 	MCALL	_delay_250ms
 _02033_DS_:
-	.line	90, "main.c"; 	key_init();
+	.line	102, "main.c"; 	PB4 = 0;
+	BANKSEL	_PORTB
+	BCR	_PORTB,4
+	.line	103, "main.c"; 	delay_ms(50);
+	MOVIA	0x32
+	MCALL	_delay_ms
+	.line	104, "main.c"; 	key_init();
 	MCALL	_key_init
-	.line	91, "main.c"; 	if(KeyStatus != (PORTA & 0xfc)) // 若与一开始按的不是同一个按键则退出重新检测
+	.line	105, "main.c"; 	if(KeyStatus != (PORTA & 0xfc)) // 若与一开始按的不是同一个按键则退出重新检测
 	MOVIA	0xfc
 	ANDAR	_PORTA,W
 	BANKSEL	r0x1008
@@ -528,7 +541,7 @@ _02033_DS_:
 	MGOTO	_02041_DS_
 	MGOTO	_02036_DS_
 _02041_DS_:
-	.line	95, "main.c"; 	}
+	.line	109, "main.c"; 	}
 	RETURN	
 ; exit point of _send_data
 
@@ -545,25 +558,24 @@ _02041_DS_:
 .segment "code"; module=main, function=_sleep_count
 	.debuginfo subprogram _sleep_count
 ;local variable name mapping:
-	.debuginfo complex-type (local-sym "_s_sleep_status" 1 "main.c" 46 (basetype 1 unsigned) split "r0x1005")
+	.debuginfo complex-type (local-sym "_s_sleep_status" 1 "main.c" 53 (basetype 1 unsigned) split "r0x1005")
 _sleep_count:
 ; 2 exit points
-	.line	46, "main.c"; 	void sleep_count(unsigned char s_sleep_status)
+	.line	53, "main.c"; 	void sleep_count(unsigned char s_sleep_status)
 	BANKSEL	r0x1005
 	MOVAR	r0x1005
-	.line	48, "main.c"; 	if(s_sleep_status == 1) // 有按键被按下，重新计时
+	.line	55, "main.c"; 	if(s_sleep_status != 0) // 有按键被按下，重新计时
 	MOVR	r0x1005,W
-	XORIA	0x01
-	BTRSS	STATUS,2
+	BTRSC	STATUS,2
 	MGOTO	_02022_DS_
-	.line	50, "main.c"; 	sleep_conut_1 = 0;
+	.line	57, "main.c"; 	sleep_conut_1 = 0;
 	BANKSEL	_sleep_conut_1
 	CLRR	_sleep_conut_1
-	.line	51, "main.c"; 	sleep_conut_2 = 0;
+	.line	58, "main.c"; 	sleep_conut_2 = 0;
 	BANKSEL	_sleep_conut_2
 	CLRR	_sleep_conut_2
 _02022_DS_:
-	.line	54, "main.c"; 	sleep_conut_1 ++;
+	.line	61, "main.c"; 	sleep_conut_1 ++;
 	BANKSEL	_sleep_conut_1
 	MOVR	_sleep_conut_1,W
 	BANKSEL	r0x1005
@@ -572,14 +584,14 @@ _02022_DS_:
 	BANKSEL	_sleep_conut_1
 	MOVAR	_sleep_conut_1
 ;;unsigned compare: left < lit(0xFF=255), size=1
-	.line	56, "main.c"; 	if(sleep_conut_1 >= 255)
+	.line	63, "main.c"; 	if(sleep_conut_1 >= 255)
 	MOVIA	0xff
 	SUBAR	_sleep_conut_1,W
 	BTRSS	STATUS,0
 	MGOTO	_02024_DS_
-	.line	58, "main.c"; 	sleep_conut_1 = 0;
+	.line	65, "main.c"; 	sleep_conut_1 = 0;
 	CLRR	_sleep_conut_1
-	.line	59, "main.c"; 	sleep_conut_2 ++;
+	.line	66, "main.c"; 	sleep_conut_2 ++;
 	BANKSEL	_sleep_conut_2
 	MOVR	_sleep_conut_2,W
 	BANKSEL	r0x1005
@@ -589,18 +601,18 @@ _02022_DS_:
 	MOVAR	_sleep_conut_2
 ;;unsigned compare: left < lit(0x20=32), size=1
 _02024_DS_:
-	.line	62, "main.c"; 	if(sleep_conut_2 >= 32) // 5s
+	.line	69, "main.c"; 	if(sleep_conut_2 >= 32) // 5s
 	MOVIA	0x20
 	BANKSEL	_sleep_conut_2
 	SUBAR	_sleep_conut_2,W
 	BTRSS	STATUS,0
 	MGOTO	_02027_DS_
-	.line	64, "main.c"; 	sleep_conut_2 = 0;
+	.line	71, "main.c"; 	sleep_conut_2 = 0;
 	CLRR	_sleep_conut_2
-	.line	65, "main.c"; 	go_to_sleep();
+	.line	72, "main.c"; 	go_to_sleep();
 	MCALL	_go_to_sleep
 _02027_DS_:
-	.line	67, "main.c"; 	}
+	.line	74, "main.c"; 	}
 	RETURN	
 ; exit point of _sleep_count
 
@@ -618,17 +630,17 @@ _02027_DS_:
 	.debuginfo subprogram _go_to_sleep
 _go_to_sleep:
 ; 2 exit points
-	.line	39, "main.c"; 	close_WDT();
+	.line	46, "main.c"; 	close_WDT();
 	MCALL	_close_WDT
-	.line	40, "main.c"; 	wake_up_init();
+	.line	47, "main.c"; 	wake_up_init();
 	MCALL	_wake_up_init
-	.line	41, "main.c"; 	UPDATE_REG(PORTA);
+	.line	48, "main.c"; 	UPDATE_REG(PORTA);
 	MOVR	_PORTA,F
-	.line	42, "main.c"; 	INTF = 0x00;
+	.line	49, "main.c"; 	INTF = 0x00;
 	CLRR	_INTF
-	.line	43, "main.c"; 	SLEEP();
+	.line	50, "main.c"; 	SLEEP();
 	sleep
-	.line	44, "main.c"; 	}
+	.line	51, "main.c"; 	}
 	RETURN	
 ; exit point of _go_to_sleep
 
@@ -641,11 +653,11 @@ _go_to_sleep:
 	.debuginfo subprogram _close_WDT
 _close_WDT:
 ; 2 exit points
-	.line	33, "main.c"; 	PCON &= ~C_WDT_En;
+	.line	40, "main.c"; 	PCON &= ~C_WDT_En;
 	BCR	_PCON,7
-	.line	34, "main.c"; 	PCON &= ~C_LVR_En;
+	.line	41, "main.c"; 	PCON &= ~C_LVR_En;
 	BCR	_PCON,3
-	.line	35, "main.c"; 	}
+	.line	42, "main.c"; 	}
 	RETURN	
 ; exit point of _close_WDT
 
@@ -658,11 +670,11 @@ _close_WDT:
 	.debuginfo subprogram _open_WDT
 _open_WDT:
 ; 2 exit points
-	.line	27, "main.c"; 	PCON |= C_WDT_En;	//使能看门狗
+	.line	34, "main.c"; 	PCON |= C_WDT_En;	//使能看门狗
 	BSR	_PCON,7
-	.line	28, "main.c"; 	PCON |= C_LVR_En;	//低压复位使能
+	.line	35, "main.c"; 	PCON |= C_LVR_En;	//低压复位使能
 	BSR	_PCON,3
-	.line	29, "main.c"; 	}
+	.line	36, "main.c"; 	}
 	RETURN	
 ; exit point of _open_WDT
 
@@ -675,28 +687,28 @@ _open_WDT:
 	.debuginfo subprogram _wake_up_init
 _wake_up_init:
 ; 2 exit points
-	.line	17, "main.c"; 	AWUCON = 0xfc;
+	.line	23, "main.c"; 	AWUCON = 0xfc;
 	MOVIA	0xfc
 	MOVAR	_AWUCON
-	.line	18, "main.c"; 	BWUCON = 0x00;
+	.line	24, "main.c"; 	BWUCON = 0x00;
 	CLRR	_BWUCON
-	.line	19, "main.c"; 	IOSTA = C_PA2_Input | C_PA3_Input | C_PA4_Input | C_PA5_Input | C_PA6_Input | C_PA7_Input;  // 配置PA2、3、4、5、6、7为输入
+	.line	26, "main.c"; 	IOSTA = C_PA2_Input | C_PA3_Input | C_PA4_Input | C_PA5_Input | C_PA6_Input | C_PA7_Input;
 	MOVIA	0xfc
 	IOST	_IOSTA
-	.line	20, "main.c"; 	APHCON = 0b00100011; // 设置2、3、4、6、7上拉
+	.line	27, "main.c"; 	APHCON = 0b00100011; // 设置2、3、4、6、7上拉
 	MOVIA	0x23
 	IOST	_APHCON
-	.line	21, "main.c"; 	INTE = C_INT_PABKey;
+	.line	28, "main.c"; 	INTE = C_INT_PABKey;
 	MOVIA	0x02
 	MOVAR	_INTE
-	.line	22, "main.c"; 	INTF = 0x00;
+	.line	29, "main.c"; 	INTF = 0x00;
 	CLRR	_INTF
-	.line	23, "main.c"; 	}
+	.line	30, "main.c"; 	}
 	RETURN	
 ; exit point of _wake_up_init
 
 
 ;	code size estimation:
-;	  131+   28 =   159 instructions (  374 byte)
+;	  136+   30 =   166 instructions (  392 byte)
 
 	end

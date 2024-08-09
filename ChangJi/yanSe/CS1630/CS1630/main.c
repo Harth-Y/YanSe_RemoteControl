@@ -9,6 +9,10 @@
 //#include "bsp_usart.h"
 
 #define UPDATE_REG(x)  __asm__("MOVR _" #x ",F")
+#define C_PWM_LB_DUTY_00H	0x00
+#define C_PWM_LB_DUTY_40H	0x40
+#define C_PWM_LB_DUTY_01H	0x01
+#define C_PWM_LB_DUTY_FFH	0xFF
 volatile unsigned char sleep_conut_1 = 0;
 volatile unsigned char sleep_conut_2 = 0;
 
@@ -48,7 +52,7 @@ void go_to_sleep(void)
 
 void sleep_count(unsigned char s_sleep_status)
 {
-  if(s_sleep_status == 1) // 有按键被按下，重新计时
+  if(s_sleep_status != 0) // 有按键被按下，重新计时
   {
     sleep_conut_1 = 0;
     sleep_conut_2 = 0;
@@ -76,20 +80,27 @@ void send_data(unsigned char CodeValue)
   if(CodeValue != 0)
   {
     key_init();
-    KeyStatus = 0;
     KeyStatus = PORTA & 0xfc;
     KeyStatus_s = 1;
 
     while(0xfc != (PORTA & 0xfC))
     {
+      // led();
       send_ble_packet(CodeValue);
-      led();
+      // if(KeyStatus == 0)
+      // {
+      //   led();
+      // }
       if(KeyStatus_s == 1)
       {
         send_ble_packet(CodeValue);
+        // led();
         KeyStatus_s = 0;
+        PB4 = 0;
         delay_250ms();
       }
+      PB4 = 0;
+      delay_ms(50);
       key_init();
       if(KeyStatus != (PORTA & 0xfc)) // 若与一开始按的不是同一个按键则退出重新检测
       break;
@@ -114,8 +125,12 @@ void main(void)
     CLRWDT();
     key_init();
     sCodeValue = Check_Keydown();
-    send_data(sCodeValue);
+    if(sCodeValue != 0)
+    {
+      send_data(sCodeValue);
+    }
     sleep_count(sCodeValue);
+    sCodeValue = 0;
 	}
 }
 

@@ -167,66 +167,66 @@ r0x1001:
 .segment "code"; module=key, function=_Check_Keydown
 	.debuginfo subprogram _Check_Keydown
 ;local variable name mapping:
-	.debuginfo complex-type (local-sym "_KeyValue" 1 "BSP\key.c" 70 (basetype 1 unsigned) split "r0x1000")
-	.debuginfo complex-type (local-sym "_KeyStatus" 1 "BSP\key.c" 72 (basetype 1 unsigned) split "r0x1001")
-	.debuginfo complex-type (local-sym "_sCodeValue" 1 "BSP\key.c" 71 (basetype 1 unsigned) split "r0x1000")
+	.debuginfo complex-type (local-sym "_KeyValue" 1 "BSP\key.c" 67 (basetype 1 unsigned) split "r0x1000")
+	.debuginfo complex-type (local-sym "_KeyStatus" 1 "BSP\key.c" 69 (basetype 1 unsigned) split "r0x1001")
+	.debuginfo complex-type (local-sym "_sCodeValue" 1 "BSP\key.c" 68 (basetype 1 unsigned) split "r0x1000")
 _Check_Keydown:
 ; 2 exit points
-	.line	70, "BSP\key.c"; 	unsigned char KeyValue=0;       // 按键值
+	.line	67, "BSP\key.c"; 	unsigned char KeyValue=0;       // 按键值
 	BANKSEL	r0x1000
 	CLRR	r0x1000
-	.line	75, "BSP\key.c"; 	KeyStatus = PORTA;
+	.line	72, "BSP\key.c"; 	KeyStatus = PORTA;
 	MOVR	_PORTA,W
 	BANKSEL	r0x1001
 	MOVAR	r0x1001
-	.line	76, "BSP\key.c"; 	KeyStatus = KeyStatus & 0xfc; // 0xfc 0x7c
+	.line	73, "BSP\key.c"; 	KeyStatus = KeyStatus & 0xfc; // 0xfc 0x7c
 	MOVIA	0xfc
 	ANDAR	r0x1001,F
-	.line	78, "BSP\key.c"; 	if(KeyStatus != 0xfc) // 0xfc 0x7c
+	.line	75, "BSP\key.c"; 	if(KeyStatus != 0xfc) // 0xfc 0x7c
 	MOVR	r0x1001,W
 	XORIA	0xfc
 	BTRSS	STATUS,2
 	MGOTO	_02115_DS_
 	MGOTO	_02052_DS_
 _02115_DS_:
-	.line	80, "BSP\key.c"; 	delay_ms(5);
+	.line	77, "BSP\key.c"; 	delay_ms(5);
 	MOVIA	0x05
 	MCALL	_delay_ms
-	.line	81, "BSP\key.c"; 	KeyStatus = PORTA;
+	.line	78, "BSP\key.c"; 	KeyStatus = PORTA;
 	MOVR	_PORTA,W
 	BANKSEL	r0x1001
 	MOVAR	r0x1001
-	.line	82, "BSP\key.c"; 	KeyStatus = KeyStatus & 0xfc;
+	.line	79, "BSP\key.c"; 	KeyStatus = KeyStatus & 0xfc;
 	MOVIA	0xfc
 	ANDAR	r0x1001,F
-	.line	84, "BSP\key.c"; 	if(KeyStatus != 0xfc)
+	.line	81, "BSP\key.c"; 	if(KeyStatus != 0xfc)
 	MOVR	r0x1001,W
 	XORIA	0xfc
 	BTRSS	STATUS,2
 	MGOTO	_02116_DS_
 	MGOTO	_02049_DS_
 _02116_DS_:
-	.line	86, "BSP\key.c"; 	if(!PORTAbits.PA6)
+	.line	83, "BSP\key.c"; 	if(!PORTAbits.PA6)
 	BTRSC	_PORTAbits,6
 	MGOTO	_02035_DS_
-	.line	88, "BSP\key.c"; 	KeyValue=0x11;
+	.line	85, "BSP\key.c"; 	KeyValue=0x11;
 	MOVIA	0x11
 	BANKSEL	r0x1000
 	MOVAR	r0x1000
 _02035_DS_:
-	.line	90, "BSP\key.c"; 	if(!PORTAbits.PA7)
+	.line	87, "BSP\key.c"; 	if(!PORTAbits.PA7)
 	BTRSC	_PORTAbits,7
 	MGOTO	_02037_DS_
-	.line	92, "BSP\key.c"; 	KeyValue=0x12;
+	.line	89, "BSP\key.c"; 	KeyValue=0x12;
 	MOVIA	0x12
 	BANKSEL	r0x1000
 	MOVAR	r0x1000
 _02037_DS_:
-	.line	95, "BSP\key.c"; 	KeyStatus = KeyStatus & 0x3c;
+	.line	92, "BSP\key.c"; 	KeyStatus = KeyStatus & 0x3c;
 	MOVIA	0x3c
 	BANKSEL	r0x1001
 	ANDAR	r0x1001,F
-	.line	97, "BSP\key.c"; 	switch(KeyStatus)
+	.line	94, "BSP\key.c"; 	switch(KeyStatus)
 	MOVR	r0x1001,W
 	XORIA	0x1c
 	BTRSS	STATUS,2
@@ -252,37 +252,37 @@ _02119_DS_:
 	XORIA	0x38
 	BTRSS	STATUS,2
 	MGOTO	_02042_DS_
-	.line	100, "BSP\key.c"; 	case(0X38): KeyValue=0x01;break;
+	.line	97, "BSP\key.c"; 	case(0X38): KeyValue=0x01;break;
 	MOVIA	0x01
 	BANKSEL	r0x1000
 	MOVAR	r0x1000
 	MGOTO	_02042_DS_
 _02039_DS_:
-	.line	101, "BSP\key.c"; 	case(0X34): KeyValue=0x02;break;
+	.line	98, "BSP\key.c"; 	case(0X34): KeyValue=0x02;break;
 	MOVIA	0x02
 	BANKSEL	r0x1000
 	MOVAR	r0x1000
 	MGOTO	_02042_DS_
 _02040_DS_:
-	.line	102, "BSP\key.c"; 	case(0X2C): KeyValue=0x03;break;
+	.line	99, "BSP\key.c"; 	case(0X2C): KeyValue=0x03;break;
 	MOVIA	0x03
 	BANKSEL	r0x1000
 	MOVAR	r0x1000
 	MGOTO	_02042_DS_
 _02041_DS_:
-	.line	103, "BSP\key.c"; 	case(0X1C): KeyValue=0x04;break;
+	.line	100, "BSP\key.c"; 	case(0X1C): KeyValue=0x04;break;
 	MOVIA	0x04
 	BANKSEL	r0x1000
 	MOVAR	r0x1000
 _02042_DS_:
-	.line	106, "BSP\key.c"; 	toggle_key();
+	.line	103, "BSP\key.c"; 	toggle_key();
 	MCALL	_toggle_key
-	.line	109, "BSP\key.c"; 	KeyStatus = PORTB &0x0f;
+	.line	106, "BSP\key.c"; 	KeyStatus = PORTB &0x0f;
 	MOVIA	0x0f
 	ANDAR	_PORTB,W
 	BANKSEL	r0x1001
 	MOVAR	r0x1001
-	.line	111, "BSP\key.c"; 	switch (KeyStatus)
+	.line	108, "BSP\key.c"; 	switch (KeyStatus)
 	MOVR	r0x1001,W
 	XORIA	0x07
 	BTRSS	STATUS,2
@@ -312,38 +312,38 @@ _02122_DS_:
 _02123_DS_:
 	MGOTO	_02047_DS_
 _02044_DS_:
-	.line	114, "BSP\key.c"; 	case(0x0B): KeyValue=KeyValue+0X04;break;
+	.line	111, "BSP\key.c"; 	case(0x0B): KeyValue=KeyValue+0X04;break;
 	MOVIA	0x04
 	BANKSEL	r0x1000
 	ADDAR	r0x1000,F
 	MGOTO	_02047_DS_
 _02045_DS_:
-	.line	115, "BSP\key.c"; 	case(0x0D): KeyValue=KeyValue+0X08;break;
+	.line	112, "BSP\key.c"; 	case(0x0D): KeyValue=KeyValue+0X08;break;
 	MOVIA	0x08
 	BANKSEL	r0x1000
 	ADDAR	r0x1000,F
 	MGOTO	_02047_DS_
 _02046_DS_:
-	.line	116, "BSP\key.c"; 	case(0x0E): KeyValue=KeyValue+0X08;break;
+	.line	113, "BSP\key.c"; 	case(0x0E): KeyValue=KeyValue+0X08;break;
 	MOVIA	0x08
 	BANKSEL	r0x1000
 	ADDAR	r0x1000,F
 _02047_DS_:
-	.line	118, "BSP\key.c"; 	sCodeValue = KeyValue - 0x01;
+	.line	115, "BSP\key.c"; 	sCodeValue = KeyValue - 0x01;
 	BANKSEL	r0x1000
 	DECR	r0x1000,F
-	.line	119, "BSP\key.c"; 	return sCodeValue;
+	.line	116, "BSP\key.c"; 	return sCodeValue;
 	MOVR	r0x1000,W
 	MGOTO	_02053_DS_
 _02049_DS_:
-	.line	123, "BSP\key.c"; 	return 0;
+	.line	120, "BSP\key.c"; 	return 0;
 	MOVIA	0x00
 	MGOTO	_02053_DS_
 _02052_DS_:
-	.line	127, "BSP\key.c"; 	return 0;
+	.line	124, "BSP\key.c"; 	return 0;
 	MOVIA	0x00
 _02053_DS_:
-	.line	128, "BSP\key.c"; 	}
+	.line	125, "BSP\key.c"; 	}
 	RETURN	
 ; exit point of _Check_Keydown
 
@@ -359,24 +359,24 @@ _02053_DS_:
 	.debuginfo subprogram _toggle_key
 _toggle_key:
 ; 2 exit points
-	.line	59, "BSP\key.c"; 	APHCON = 0b00111111; // 2、3、4上拉取消
+	.line	56, "BSP\key.c"; 	APHCON = 0b00111111; // 2、3、4上拉取消
 	MOVIA	0x3f
 	IOST	_APHCON
-	.line	60, "BSP\key.c"; 	PCON = 0xe8; // 5上拉取消
+	.line	57, "BSP\key.c"; 	PCON = 0xe8; // 5上拉取消
 	MOVIA	0xe8
 	MOVAR	_PCON
-	.line	61, "BSP\key.c"; 	IOSTA = 0b11000000; // 配置PA2、3、4、5为输出低电平
+	.line	58, "BSP\key.c"; 	IOSTA = 0b11000000; // 配置PA2、3、4、5为输出低电平
 	MOVIA	0xc0
 	IOST	_IOSTA
-	.line	62, "BSP\key.c"; 	set_PA_low();
+	.line	59, "BSP\key.c"; 	set_PA_low();
 	MCALL	_set_PA_low
-	.line	64, "BSP\key.c"; 	IOSTB = 0b00001111; // 配置PB0、1、2、3为输入
+	.line	61, "BSP\key.c"; 	IOSTB = 0b00001111; // 配置PB0、1、2、3为输入
 	MOVIA	0x0f
 	IOST	_IOSTB
-	.line	65, "BSP\key.c"; 	BPHCON = 0xF0; // 0、1、2、3上拉
+	.line	62, "BSP\key.c"; 	BPHCON = 0xF0; // 0、1、2、3上拉
 	MOVIA	0xf0
 	MOVAR	_BPHCON
-	.line	66, "BSP\key.c"; 	}
+	.line	63, "BSP\key.c"; 	}
 	RETURN	
 ; exit point of _toggle_key
 
@@ -385,10 +385,6 @@ _toggle_key:
 ;***
 ;has an exit
 ;functions called:
-;   _led_open
-;   _delay_ms
-;   _led_open
-;   _delay_ms
 ;   _led_open
 ;   _delay_ms
 ;   _led_open
@@ -402,17 +398,10 @@ _led:
 	MCALL	_led_open
 	.line	50, "BSP\key.c"; 	PORTBbits.PB4 = 0;
 	BCR	_PORTBbits,4
-	.line	51, "BSP\key.c"; 	delay_ms(20);
-	MOVIA	0x14
+	.line	51, "BSP\key.c"; 	delay_ms(10);
+	MOVIA	0x0a
 	MCALL	_delay_ms
-	.line	52, "BSP\key.c"; 	led_open();
-	MCALL	_led_open
-	.line	53, "BSP\key.c"; 	PORTBbits.PB4 = 0;
-	BCR	_PORTBbits,4
-	.line	54, "BSP\key.c"; 	delay_ms(20);
-	MOVIA	0x14
-	MCALL	_delay_ms
-	.line	55, "BSP\key.c"; 	}
+	.line	52, "BSP\key.c"; 	}
 	RETURN	
 ; exit point of _led
 
@@ -446,13 +435,13 @@ _02019_DS_:
 	MGOTO	_02021_DS_
 	.line	41, "BSP\key.c"; 	PORTBbits.PB4 = 1;
 	BSR	_PORTBbits,4
-	.line	42, "BSP\key.c"; 	delay_us(5);
-	MOVIA	0x05
+	.line	42, "BSP\key.c"; 	delay_us(8);
+	MOVIA	0x08
 	MCALL	_delay_us
 	.line	43, "BSP\key.c"; 	PORTBbits.PB4 = 0;
 	BCR	_PORTBbits,4
-	.line	44, "BSP\key.c"; 	delay_us(15);
-	MOVIA	0x0f
+	.line	44, "BSP\key.c"; 	delay_us(12);
+	MOVIA	0x0c
 	MCALL	_delay_us
 	.line	39, "BSP\key.c"; 	for(unsigned char i = 0; i < 200; i++)
 	BANKSEL	r0x1002
@@ -544,6 +533,6 @@ _set_PA_low:
 
 
 ;	code size estimation:
-;	  159+   24 =   183 instructions (  414 byte)
+;	  155+   24 =   179 instructions (  406 byte)
 
 	end

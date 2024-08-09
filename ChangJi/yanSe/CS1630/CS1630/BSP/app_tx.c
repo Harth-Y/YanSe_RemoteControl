@@ -2,6 +2,7 @@
 #include "bsp_CS1630.h"
 #include "bsp_delay.h"
 #include "app_tx.h"
+#include "key.h"
 //#include "bsp_usart.h"
 static unsigned char CS1630_Tx_Payload[32] = {
     0x02, // 数据包长度的首字节
@@ -33,6 +34,7 @@ static const unsigned char channel_index[3] = {
 static unsigned char s_data_num = 0;
 void send_ble_packet(unsigned char code_value)
 {
+
     unsigned char i = 0;             // 循环计数器
     unsigned char j = 0;             // 循环计数器
     unsigned char k = 0;             // 循环计数器
@@ -51,8 +53,9 @@ void send_ble_packet(unsigned char code_value)
     // 配置寄存器以发送数据
     CS1630_write_byte(CS1630_BANK0_CONFIG, 0x0e);
     delay_ms(5);
+    PB4 = 1;
     // 发送数据包的循环
-    for (k = 0; k < 3; k++)
+    for (k = 0; k < 2; k++)
     {
         // 遍历频道索引数组，发送数据
         for(idx = 0; idx < 3; idx++)
@@ -80,6 +83,7 @@ void send_ble_packet(unsigned char code_value)
     CLRWDT();			//清理看门狗s
     // 重置配置寄存器
     CS1630_write_byte(CS1630_BANK0_CONFIG, 0x00);
+    PB4 = 0;
     delay_ms(1);
 
 }

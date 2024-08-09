@@ -39,19 +39,16 @@ void led_open(void)
     for(unsigned char i = 0; i < 200; i++)
     {
         PORTBbits.PB4 = 1;
-        delay_us(5);
+        delay_us(8);
         PORTBbits.PB4 = 0;
-        delay_us(15);
+        delay_us(12);
     }
 }
 void led(void)
 {
     led_open();
     PORTBbits.PB4 = 0;
-    delay_ms(20);
-    led_open();
-    PORTBbits.PB4 = 0;
-    delay_ms(20);
+    delay_ms(10);
 }
 
 void toggle_key(void)
