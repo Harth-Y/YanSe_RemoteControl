@@ -15,7 +15,7 @@ void delay_ms(unsigned char count)
 void delay_250ms(void)
 {
     delay_ms(155);
-	CLRWDT();			//清理看门狗
+	CLRWDT();
     delay_ms(124);
 }
 

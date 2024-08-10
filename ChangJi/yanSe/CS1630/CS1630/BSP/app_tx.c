@@ -2,8 +2,8 @@
 #include "bsp_CS1630.h"
 #include "bsp_delay.h"
 #include "app_tx.h"
-#include "key.h"
 //#include "bsp_usart.h"
+
 static unsigned char CS1630_Tx_Payload[32] = {
     0x02, // 数据包长度的首字节
     0x01, // 数据包类型
@@ -32,14 +32,16 @@ static const unsigned char channel_index[3] = {
                                                 80  // 2.480G  // 39
                                               };
 static unsigned char s_data_num = 0;
-void send_ble_packet(unsigned char code_value)
+void send_ble_packet(unsigned char code_value, unsigned char keydown_times)
 {
-
+    CLRWDT();
+    PB4 = 1;
     unsigned char i = 0;             // 循环计数器
     unsigned char j = 0;             // 循环计数器
     unsigned char k = 0;             // 循环计数器
     unsigned char idx = 0;           // 用于遍历频道索引的计数器
     unsigned char status = 0x00;     // 状态寄存器，用于读取发送状态
+
     s_data_num++;
 
     // 构建数据包
@@ -50,16 +52,47 @@ void send_ble_packet(unsigned char code_value)
     CS1630_CE_Low();
     CS1630_Flush_Tx();
     CS1630_Clear_All_Irq();
+
     // 配置寄存器以发送数据
     CS1630_write_byte(CS1630_BANK0_CONFIG, 0x0e);
     delay_ms(5);
-    PB4 = 1;
-    // 发送数据包的循环
-    for (k = 0; k < 2; k++)
+    if(keydown_times)
+    {
+        // 发送数据包的循环
+        for(k =0; k < 2; k++)
+        {
+            CLRWDT();
+            // 遍历频道索引数组，发送数据
+            for(idx = 0; idx < 3; idx++)
+            {
+                CLRWDT();
+                CS1630_write_byte(CS1630_BANK0_RF_CH, channel_index[idx]); // 设置射频频道
+                for(i = 0; i < 3; i++)
+                {
+                    CS1630_SendPack(RF_W_TX_PAYLOAD, CS1630_Tx_Payload, 0x14); // 发送数据包
+                    CS1630_CE_High(); // 产生CE脉冲，开始发送
+                    delay_40us(); // 等待脉冲稳定
+                    CS1630_CE_Low(); // 结束脉冲
+                    // 等待数据发送完成
+                    while(1)
+                    {
+                        status = CS1630_read_byte(CS1630_BANK0_STATUS); // 读取状态寄存器
+                        if ((TX_DS & status) || (MAX_RT & status)) // 检查发送完成或重传达到最大次数
+                        {
+                            CS1630_write_byte(CS1630_BANK0_STATUS, status); // 清除状态
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    else
     {
         // 遍历频道索引数组，发送数据
         for(idx = 0; idx < 3; idx++)
         {
+            CLRWDT();
             CS1630_write_byte(CS1630_BANK0_RF_CH, channel_index[idx]); // 设置射频频道
             for(i = 0; i < 3; i++)
             {
@@ -80,10 +113,8 @@ void send_ble_packet(unsigned char code_value)
             }
         }
     }
-    CLRWDT();			//清理看门狗s
     // 重置配置寄存器
     CS1630_write_byte(CS1630_BANK0_CONFIG, 0x00);
-    PB4 = 0;
     delay_ms(1);
-
+    PB4=0;
 }

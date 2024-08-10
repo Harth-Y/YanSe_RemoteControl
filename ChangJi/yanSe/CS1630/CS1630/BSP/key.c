@@ -21,36 +21,19 @@ void set_PB_low(void)
 
 void key_init(void)
 {
-    delay_us(100);
+    delay_ms(1);
     // 配置PA按钮
 	IOSTA = C_PA2_Input | C_PA3_Input | C_PA4_Input | C_PA5_Input | C_PA6_Input | C_PA7_Input;  // 配置PA2、3、4、5、6、7为输入
-	//IOSTA = C_PA2_Input | C_PA3_Input | C_PA4_Input | C_PA5_Input | C_PA6_Input; // 配置PA2、3、4、5、6为输入
+
     APHCON = 0b00100011; // 设置2、3、4、6、7上拉
-    //APHCON = 0b10100011; // 设置2、3、4、6上拉
+
 	PCON = 0xc8; // 设置5上拉
+
     //配置PB按钮
 	IOSTB = C_PB0_Output | C_PB1_Output | C_PB2_Output | C_PB3_Output | C_PB4_Output; // 配置PB为输出低电平
 	set_PB_low();
 	PORTBbits.PB4 = 0;
 }
-
-void led_open(void)
-{
-    for(unsigned char i = 0; i < 200; i++)
-    {
-        PORTBbits.PB4 = 1;
-        delay_us(8);
-        PORTBbits.PB4 = 0;
-        delay_us(12);
-    }
-}
-void led(void)
-{
-    led_open();
-    PORTBbits.PB4 = 0;
-    delay_ms(10);
-}
-
 void toggle_key(void)
 {
     APHCON = 0b00111111; // 2、3、4上拉取消
@@ -64,17 +47,16 @@ void toggle_key(void)
 
 unsigned char Check_Keydown()
 {
-    unsigned char KeyValue=0;       // 按键值
-    unsigned char sCodeValue = 0;   // 码值
-    unsigned char KeyStatus = 0;    // 按键状态
-    unsigned char KeyStatus_s = 0;  // 首次按下标志位
+    unsigned char KeyValue=0;
+    unsigned char sCodeValue = 0;
+    unsigned char KeyStatus = 0;
 
     KeyStatus = PORTA;
-    KeyStatus = KeyStatus & 0xfc; // 0xfc 0x7c
+    KeyStatus = KeyStatus & 0xfc;
 
-    if(KeyStatus != 0xfc) // 0xfc 0x7c
+    if(KeyStatus != 0xfc)
     {
-        delay_ms(5);
+        delay_us(100);
         KeyStatus = PORTA;
         KeyStatus = KeyStatus & 0xfc;
 
@@ -86,7 +68,7 @@ unsigned char Check_Keydown()
             }
             if(!PORTAbits.PA7)
             {
-                KeyValue=0x12;
+             KeyValue=0x12;
             }
 
             KeyStatus = KeyStatus & 0x3c;
@@ -101,25 +83,71 @@ unsigned char Check_Keydown()
             }
 
             toggle_key();
-
             KeyStatus = 0;
-            KeyStatus = PORTB &0x0f;
+            KeyStatus = PORTB;
+            KeyStatus = KeyStatus & 0x0f;
 
-            switch (KeyStatus)
+            switch(KeyStatus)
             {
+
                 case(0x07): KeyValue=KeyValue;break;
-                case(0x0B): KeyValue=KeyValue+0X04;break;
-                case(0x0D): KeyValue=KeyValue+0X08;break;
-                case(0x0E): KeyValue=KeyValue+0X08;break;
+                case(0x0B): KeyValue=KeyValue+0x04;break;
+                case(0x0D): KeyValue=KeyValue+0x08;break;
+                case(0x0E): KeyValue=KeyValue+0x0c;break;
             }
-            sCodeValue = KeyValue - 0x01;
-            return sCodeValue;
+
+			// if(0x07 == (PORTB & 0x0f))  // 1行
+			// {
+			// 	KeyValue=KeyValue;
+			// }
+			// else if(0x0B == (PORTB & 0x0f))  // 2行
+			// {
+			// 	KeyValue=KeyValue+0x04;
+			// }
+			// else if(0x0D == (PORTB & 0x0f))  // 3行
+			// {
+			// 	KeyValue=KeyValue+0x08;
+			// }
+			// else if(0x0E == (PORTB & 0x0f))  // 4行
+			// {
+			// 	KeyValue=KeyValue+0x0c;
+			// }
         }
         else
         {
-            return 0;
+            return 1;
         }
 
+        sCodeValue = KeyValue - 0x01;
+        unsigned char led_status = 1;
+        unsigned char keydown_times = 1;
+        key_init();
+        KeyStatus = 0;
+        KeyStatus = PORTA;
+        KeyStatus = KeyStatus & 0xfc;
+   		while(0xfc != (PORTA & 0xfc)) // 0x7c
+		{
+            CLRWDT();
+            send_ble_packet(sCodeValue, keydown_times);
+            keydown_times = 0;
+            if(led_status != 0)
+            {
+                led_status = 0;
+                delay_250ms();
+                CLRWDT();
+            }
+            else
+            {
+                delay_ms(90);
+            }
+			key_init();
+            if(KeyStatus != (PORTA & 0xfc))
+            {
+                return 0;
+            }
+		}
+        sCodeValue = 0;
+        return 0;
     }
-    return 0;
+    return 1;
 }

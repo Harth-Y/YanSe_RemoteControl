@@ -27,6 +27,6 @@
 #define CS1630_BANK1_DAC_RANGE_RESET_VALUE          0x00
 #define CS1630_BANK1_CHAN_RESET_VALUE               0x99
 
-void send_ble_packet(unsigned char code_value);
+void send_ble_packet(unsigned char code_value, unsigned char keydown_times);
 
 #endif
