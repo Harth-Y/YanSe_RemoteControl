@@ -1,4 +1,7 @@
-﻿#include <ny8.h>
+﻿/*****************************************************************************************************************/
+// *使用线反转法对按键状态进行检测，随后根据按下后一定时间内发送18包数据并且屏蔽按键，长按知道屏蔽时间过去开始持续性的按9包发送
+/*****************************************************************************************************************/
+#include <ny8.h>
 #include "NY8_constant.h"
 #include "bsp_delay.h"
 #include "app_tx.h"
@@ -75,7 +78,6 @@ unsigned char Check_Keydown()
 
             switch(KeyStatus)
             {
-
                 case(0X38): KeyValue=0x01;break;
                 case(0X34): KeyValue=0x02;break;
                 case(0X2C): KeyValue=0x03;break;
@@ -89,29 +91,11 @@ unsigned char Check_Keydown()
 
             switch(KeyStatus)
             {
-
                 case(0x07): KeyValue=KeyValue;break;
                 case(0x0B): KeyValue=KeyValue+0x04;break;
                 case(0x0D): KeyValue=KeyValue+0x08;break;
                 case(0x0E): KeyValue=KeyValue+0x0c;break;
             }
-
-			// if(0x07 == (PORTB & 0x0f))  // 1行
-			// {
-			// 	KeyValue=KeyValue;
-			// }
-			// else if(0x0B == (PORTB & 0x0f))  // 2行
-			// {
-			// 	KeyValue=KeyValue+0x04;
-			// }
-			// else if(0x0D == (PORTB & 0x0f))  // 3行
-			// {
-			// 	KeyValue=KeyValue+0x08;
-			// }
-			// else if(0x0E == (PORTB & 0x0f))  // 4行
-			// {
-			// 	KeyValue=KeyValue+0x0c;
-			// }
         }
         else
         {
@@ -121,11 +105,12 @@ unsigned char Check_Keydown()
         sCodeValue = KeyValue - 0x01;
         unsigned char led_status = 1;
         unsigned char keydown_times = 1;
+
         key_init();
         KeyStatus = 0;
         KeyStatus = PORTA;
         KeyStatus = KeyStatus & 0xfc;
-   		while(0xfc != (PORTA & 0xfc)) // 0x7c
+   		while(KeyStatus)
 		{
             CLRWDT();
             send_ble_packet(sCodeValue, keydown_times);
@@ -146,7 +131,6 @@ unsigned char Check_Keydown()
                 return 0;
             }
 		}
-        sCodeValue = 0;
         return 0;
     }
     return 1;

@@ -375,41 +375,41 @@ NYASM 2.42
                                     1-  332     ;local variable name mapping:
      0000                           1-  334     _Enter_sleep:
                                     1-  335     ; 2 exit points
-                                    1-  336     	.line	241, "BSP\bsp_cs1630.c"; 	ret = CS1630_read_byte(CS1630_BANK0_CONFIG);
+                                    1-  336     	.line	236, "BSP\bsp_cs1630.c"; 	ret = CS1630_read_byte(CS1630_BANK0_CONFIG);
      0000 2100                      1-  337     	MOVIA	0x00
                                     1-  338     	MCALL	_CS1630_read_byte
      0001 2rrr                      3-   65 m1      LCALL rom_address
                                     1-  339     	BANKSEL	r0x100A
      0002 rrrr                      3-  109 m1      .banksel ram_address
      0003 00rr                      1-  340     	MOVAR	r0x100A
-                                    1-  341     	.line	242, "BSP\bsp_cs1630.c"; 	ret &= ~0x02;
+                                    1-  341     	.line	237, "BSP\bsp_cs1630.c"; 	ret &= ~0x02;
      0004 1Crr                      1-  342     	BCR	r0x100A,1
-                                    1-  343     	.line	243, "BSP\bsp_cs1630.c"; 	CS1630_CSN_LOW;
+                                    1-  343     	.line	238, "BSP\bsp_cs1630.c"; 	CS1630_CSN_LOW;
      0005 1Crr                      1-  344     	BCR	_PORTAbits,1
-                                    1-  345     	.line	244, "BSP\bsp_cs1630.c"; 	SPI_SendByte(RF_W_REGISTER | CS1630_BANK0_CONFIG);
+                                    1-  345     	.line	239, "BSP\bsp_cs1630.c"; 	SPI_SendByte(RF_W_REGISTER | CS1630_BANK0_CONFIG);
      0006 2120                      1-  346     	MOVIA	0x20
                                     1-  347     	MCALL	_SPI_SendByte
      0007 2rrr                      3-   65 m1      LCALL rom_address
-                                    1-  348     	.line	245, "BSP\bsp_cs1630.c"; 	SPI_SendByte(ret);
+                                    1-  348     	.line	240, "BSP\bsp_cs1630.c"; 	SPI_SendByte(ret);
                                     1-  349     	BANKSEL	r0x100A
      0008 rrrr                      3-  109 m1      .banksel ram_address
      0009 01rr                      1-  350     	MOVR	r0x100A,W
                                     1-  351     	MCALL	_SPI_SendByte
      000A 2rrr                      3-   65 m1      LCALL rom_address
-                                    1-  352     	.line	247, "BSP\bsp_cs1630.c"; 	IOSTB = C_PB5_Input;
+                                    1-  352     	.line	242, "BSP\bsp_cs1630.c"; 	IOSTB = C_PB5_Input;
      000B 2120                      1-  353     	MOVIA	0x20
      000C 000r                      1-  354     	IOST	_IOSTB
-                                    1-  355     	.line	249, "BSP\bsp_cs1630.c"; 	CS1630_CSN_HIGH;
+                                    1-  355     	.line	244, "BSP\bsp_cs1630.c"; 	CS1630_CSN_HIGH;
      000D 18rr                      1-  356     	BSR	_PORTAbits,1
      000E 2101                      1-  357     	MOVIA	0x01
                                     1-  358     	MCALL	_delay_us
      000F 2rrr                      3-   65 m1      LCALL rom_address
-                                    1-  359     	.line	251, "BSP\bsp_cs1630.c"; 	delay_us(10);
+                                    1-  359     	.line	246, "BSP\bsp_cs1630.c"; 	delay_us(10);
      0010 210A                      1-  360     	MOVIA	0x0a
                                     1-  361     	MCALL	_delay_us
      0011 2rrr                      3-   65 m1      LCALL rom_address
      0012                           1-  362     _02089_DS_:
-                                    1-  363     	.line	253, "BSP\bsp_cs1630.c"; 	while(1 == RF_Reag_SDIO());
+                                    1-  363     	.line	248, "BSP\bsp_cs1630.c"; 	while(1 == RF_Reag_SDIO());
                                     1-  364     	BANKSEL	r0x100A
      0012 rrrr                      3-  109 m1      .banksel ram_address
      0013 02rr                      1-  365     	CLRR	r0x100A
@@ -427,21 +427,21 @@ NYASM 2.42
                                     1-  375     	MGOTO	_02089_DS_
      001D 3rrr                      3-   62 m1      LGOTO rom_address
      001E                           1-  376     _02107_DS_:
-                                    1-  377     	.line	255, "BSP\bsp_cs1630.c"; 	CS1630_CSN_LOW;
+                                    1-  377     	.line	250, "BSP\bsp_cs1630.c"; 	CS1630_CSN_LOW;
      001E 1Crr                      1-  378     	BCR	_PORTAbits,1
-                                    1-  379     	.line	256, "BSP\bsp_cs1630.c"; 	delay_us(10);
+                                    1-  379     	.line	251, "BSP\bsp_cs1630.c"; 	delay_us(10);
      001F 210A                      1-  380     	MOVIA	0x0a
                                     1-  381     	MCALL	_delay_us
      0020 2rrr                      3-   65 m1      LCALL rom_address
-                                    1-  382     	.line	257, "BSP\bsp_cs1630.c"; 	CS1630_CSN_HIGH;
+                                    1-  382     	.line	252, "BSP\bsp_cs1630.c"; 	CS1630_CSN_HIGH;
      0021 18rr                      1-  383     	BSR	_PORTAbits,1
      0022 2101                      1-  384     	MOVIA	0x01
                                     1-  385     	MCALL	_delay_us
      0023 2rrr                      3-   65 m1      LCALL rom_address
-                                    1-  386     	.line	258, "BSP\bsp_cs1630.c"; 	IOSTB = C_PB5_Output;
+                                    1-  386     	.line	253, "BSP\bsp_cs1630.c"; 	IOSTB = C_PB5_Output;
      0024 0200                      1-  387     	CLRA	
      0025 000r                      1-  388     	IOST	_IOSTB
-                                    1-  389     	.line	260, "BSP\bsp_cs1630.c"; 	}
+                                    1-  389     	.line	255, "BSP\bsp_cs1630.c"; 	}
                                     1-  390     	RETURN	
      0026 0010                      3-   39 m1      ret
                                     1-  391     ; exit point of _Enter_sleep
@@ -462,22 +462,22 @@ NYASM 2.42
                                     1-  408     ;local variable name mapping:
      0000                           1-  410     _CS1630_CE_Low:
                                     1-  411     ; 2 exit points
-                                    1-  412     	.line	230, "BSP\bsp_cs1630.c"; 	reg_val = CS1630_read_byte(CS1630_BANK0_SETUP_VALUE);
+                                    1-  412     	.line	225, "BSP\bsp_cs1630.c"; 	reg_val = CS1630_read_byte(CS1630_BANK0_SETUP_VALUE);
      0000 211E                      1-  413     	MOVIA	0x1e
                                     1-  414     	MCALL	_CS1630_read_byte
      0001 2rrr                      3-   65 m1      LCALL rom_address
                                     1-  415     	BANKSEL	r0x100E
      0002 rrrr                      3-  109 m1      .banksel ram_address
      0003 00rr                      1-  416     	MOVAR	r0x100E
-                                    1-  417     	.line	231, "BSP\bsp_cs1630.c"; 	reg_val &= ~BIT3;
+                                    1-  417     	.line	226, "BSP\bsp_cs1630.c"; 	reg_val &= ~BIT3;
      0004 1Drr                      1-  418     	BCR	r0x100E,3
-                                    1-  419     	.line	232, "BSP\bsp_cs1630.c"; 	CS1630_write_byte(CS1630_BANK0_SETUP_VALUE, reg_val);
+                                    1-  419     	.line	227, "BSP\bsp_cs1630.c"; 	CS1630_write_byte(CS1630_BANK0_SETUP_VALUE, reg_val);
      0005 01rr                      1-  420     	MOVR	r0x100E,W
      0006 00rr                      1-  421     	MOVAR	STK00
      0007 211E                      1-  422     	MOVIA	0x1e
                                     1-  423     	MCALL	_CS1630_write_byte
      0008 2rrr                      3-   65 m1      LCALL rom_address
-                                    1-  424     	.line	233, "BSP\bsp_cs1630.c"; 	}
+                                    1-  424     	.line	228, "BSP\bsp_cs1630.c"; 	}
                                     1-  425     	RETURN	
      0009 0010                      3-   39 m1      ret
                                     1-  426     ; exit point of _CS1630_CE_Low
@@ -498,22 +498,22 @@ NYASM 2.42
                                     1-  443     ;local variable name mapping:
      0000                           1-  445     _CS1630_CE_High:
                                     1-  446     ; 2 exit points
-                                    1-  447     	.line	221, "BSP\bsp_cs1630.c"; 	reg_val = CS1630_read_byte(CS1630_BANK0_SETUP_VALUE);
+                                    1-  447     	.line	216, "BSP\bsp_cs1630.c"; 	reg_val = CS1630_read_byte(CS1630_BANK0_SETUP_VALUE);
      0000 211E                      1-  448     	MOVIA	0x1e
                                     1-  449     	MCALL	_CS1630_read_byte
      0001 2rrr                      3-   65 m1      LCALL rom_address
                                     1-  450     	BANKSEL	r0x100F
      0002 rrrr                      3-  109 m1      .banksel ram_address
      0003 00rr                      1-  451     	MOVAR	r0x100F
-                                    1-  452     	.line	222, "BSP\bsp_cs1630.c"; 	reg_val |= BIT3;
+                                    1-  452     	.line	217, "BSP\bsp_cs1630.c"; 	reg_val |= BIT3;
      0004 19rr                      1-  453     	BSR	r0x100F,3
-                                    1-  454     	.line	223, "BSP\bsp_cs1630.c"; 	CS1630_write_byte(CS1630_BANK0_SETUP_VALUE, reg_val);
+                                    1-  454     	.line	218, "BSP\bsp_cs1630.c"; 	CS1630_write_byte(CS1630_BANK0_SETUP_VALUE, reg_val);
      0005 01rr                      1-  455     	MOVR	r0x100F,W
      0006 00rr                      1-  456     	MOVAR	STK00
      0007 211E                      1-  457     	MOVIA	0x1e
                                     1-  458     	MCALL	_CS1630_write_byte
      0008 2rrr                      3-   65 m1      LCALL rom_address
-                                    1-  459     	.line	224, "BSP\bsp_cs1630.c"; 	}
+                                    1-  459     	.line	219, "BSP\bsp_cs1630.c"; 	}
                                     1-  460     	RETURN	
      0009 0010                      3-   39 m1      ret
                                     1-  461     ; exit point of _CS1630_CE_High
@@ -530,18 +530,18 @@ NYASM 2.42
                                     1-  473     .segment "code"; module=bsp_cs1630, function=_CS1630_Flush_Tx
      0000                           1-  475     _CS1630_Flush_Tx:
                                     1-  476     ; 2 exit points
-                                    1-  477     	.line	212, "BSP\bsp_cs1630.c"; 	CS1630_CSN_LOW;
+                                    1-  477     	.line	207, "BSP\bsp_cs1630.c"; 	CS1630_CSN_LOW;
      0000 1Crr                      1-  478     	BCR	_PORTAbits,1
-                                    1-  479     	.line	213, "BSP\bsp_cs1630.c"; 	SPI_SendByte(RF_FLUSH_TX);
+                                    1-  479     	.line	208, "BSP\bsp_cs1630.c"; 	SPI_SendByte(RF_FLUSH_TX);
      0001 21E1                      1-  480     	MOVIA	0xe1
                                     1-  481     	MCALL	_SPI_SendByte
      0002 2rrr                      3-   65 m1      LCALL rom_address
-                                    1-  482     	.line	214, "BSP\bsp_cs1630.c"; 	CS1630_CSN_HIGH;
+                                    1-  482     	.line	209, "BSP\bsp_cs1630.c"; 	CS1630_CSN_HIGH;
      0003 18rr                      1-  483     	BSR	_PORTAbits,1
      0004 2101                      1-  484     	MOVIA	0x01
                                     1-  485     	MCALL	_delay_us
      0005 2rrr                      3-   65 m1      LCALL rom_address
-                                    1-  486     	.line	215, "BSP\bsp_cs1630.c"; 	}
+                                    1-  486     	.line	210, "BSP\bsp_cs1630.c"; 	}
                                     1-  487     	RETURN	
      0006 0010                      3-   39 m1      ret
                                     1-  488     ; exit point of _CS1630_Flush_Tx
@@ -558,13 +558,13 @@ NYASM 2.42
                                     1-  500     .segment "code"; module=bsp_cs1630, function=_CS1630_Clear_All_Irq
      0000                           1-  502     _CS1630_Clear_All_Irq:
                                     1-  503     ; 2 exit points
-                                    1-  504     	.line	206, "BSP\bsp_cs1630.c"; 	CS1630_write_byte(CS1630_BANK0_STATUS, 0x70);
+                                    1-  504     	.line	201, "BSP\bsp_cs1630.c"; 	CS1630_write_byte(CS1630_BANK0_STATUS, 0x70);
      0000 2170                      1-  505     	MOVIA	0x70
      0001 00rr                      1-  506     	MOVAR	STK00
      0002 2107                      1-  507     	MOVIA	0x07
                                     1-  508     	MCALL	_CS1630_write_byte
      0003 2rrr                      3-   65 m1      LCALL rom_address
-                                    1-  509     	.line	207, "BSP\bsp_cs1630.c"; 	}
+                                    1-  509     	.line	202, "BSP\bsp_cs1630.c"; 	}
                                     1-  510     	RETURN	
      0004 0010                      3-   39 m1      ret
                                     1-  511     ; exit point of _CS1630_Clear_All_Irq
@@ -591,25 +591,25 @@ NYASM 2.42
                                     1-  534     ;local variable name mapping:
      0000                           1-  537     _CS1630_ModeSwitch:
                                     1-  538     ; 2 exit points
-                                    1-  539     	.line	181, "BSP\bsp_cs1630.c"; 	void CS1630_ModeSwitch(RF_ModeTypeDef mod)
+                                    1-  539     	.line	176, "BSP\bsp_cs1630.c"; 	void CS1630_ModeSwitch(RF_ModeTypeDef mod)
                                     1-  540     	BANKSEL	r0x1010
      0000 rrrr                      3-  109 m1      .banksel ram_address
      0001 00rr                      1-  541     	MOVAR	r0x1010
-                                    1-  542     	.line	185, "BSP\bsp_cs1630.c"; 	tmp = CS1630_read_byte(CS1630_BANK0_CONFIG);
+                                    1-  542     	.line	180, "BSP\bsp_cs1630.c"; 	tmp = CS1630_read_byte(CS1630_BANK0_CONFIG);
      0002 2100                      1-  543     	MOVIA	0x00
                                     1-  544     	MCALL	_CS1630_read_byte
      0003 2rrr                      3-   65 m1      LCALL rom_address
                                     1-  545     	BANKSEL	r0x1011
      0004 rrrr                      3-  109 m1      .banksel ram_address
      0005 00rr                      1-  546     	MOVAR	r0x1011
-                                    1-  547     	.line	186, "BSP\bsp_cs1630.c"; 	if(mod != Rf_PRX_Mode)
+                                    1-  547     	.line	181, "BSP\bsp_cs1630.c"; 	if(mod != Rf_PRX_Mode)
                                     1-  548     	BANKSEL	r0x1010
      0006 rrrr                      3-  109 m1      .banksel ram_address
      0007 01rr                      1-  549     	MOVR	r0x1010,W
      0008 0D03                      1-  550     	BTRSC	STATUS,2
                                     1-  551     	MGOTO	_02061_DS_
      0009 3rrr                      3-   62 m1      LGOTO rom_address
-                                    1-  552     	.line	188, "BSP\bsp_cs1630.c"; 	tmp &= 0xFE;
+                                    1-  552     	.line	183, "BSP\bsp_cs1630.c"; 	tmp &= 0xFE;
      000A 21FE                      1-  553     	MOVIA	0xfe
                                     1-  554     	BANKSEL	r0x1011
      000B rrrr                      3-  109 m1      .banksel ram_address
@@ -620,7 +620,7 @@ NYASM 2.42
                                     1-  558     	MGOTO	_02062_DS_
      000F 3rrr                      3-   62 m1      LGOTO rom_address
      0010                           1-  559     _02061_DS_:
-                                    1-  560     	.line	192, "BSP\bsp_cs1630.c"; 	tmp |= 0x01;
+                                    1-  560     	.line	187, "BSP\bsp_cs1630.c"; 	tmp |= 0x01;
      0010 2101                      1-  561     	MOVIA	0x01
                                     1-  562     	BANKSEL	r0x1011
      0011 rrrr                      3-  109 m1      .banksel ram_address
@@ -629,7 +629,7 @@ NYASM 2.42
      0013 rrrr                      3-  109 m1      .banksel ram_address
      0014 00rr                      1-  565     	MOVAR	r0x1012
      0015                           1-  566     _02062_DS_:
-                                    1-  567     	.line	194, "BSP\bsp_cs1630.c"; 	CS1630_write_byte(CS1630_BANK0_CONFIG, tmp);
+                                    1-  567     	.line	189, "BSP\bsp_cs1630.c"; 	CS1630_write_byte(CS1630_BANK0_CONFIG, tmp);
                                     1-  568     	BANKSEL	r0x1012
      0015 rrrr                      3-  109 m1      .banksel ram_address
      0016 01rr                      1-  569     	MOVR	r0x1012,W
@@ -637,7 +637,7 @@ NYASM 2.42
      0018 2100                      1-  571     	MOVIA	0x00
                                     1-  572     	MCALL	_CS1630_write_byte
      0019 2rrr                      3-   65 m1      LCALL rom_address
-                                    1-  573     	.line	196, "BSP\bsp_cs1630.c"; 	if(mod == Rf_Carrier_Mode)
+                                    1-  573     	.line	191, "BSP\bsp_cs1630.c"; 	if(mod == Rf_Carrier_Mode)
                                     1-  574     	BANKSEL	r0x1010
      001A rrrr                      3-  109 m1      .banksel ram_address
      001B 01rr                      1-  575     	MOVR	r0x1010,W
@@ -645,7 +645,7 @@ NYASM 2.42
      001D 0903                      1-  577     	BTRSS	STATUS,2
                                     1-  578     	MGOTO	_02065_DS_
      001E 3rrr                      3-   62 m1      LGOTO rom_address
-                                    1-  579     	.line	198, "BSP\bsp_cs1630.c"; 	tmp = 0x80 | CS1630_read_byte(CS1630_BANK0_RF_SETUP);
+                                    1-  579     	.line	193, "BSP\bsp_cs1630.c"; 	tmp = 0x80 | CS1630_read_byte(CS1630_BANK0_RF_SETUP);
      001F 2106                      1-  580     	MOVIA	0x06
                                     1-  581     	MCALL	_CS1630_read_byte
      0020 2rrr                      3-   65 m1      LCALL rom_address
@@ -653,14 +653,14 @@ NYASM 2.42
      0021 rrrr                      3-  109 m1      .banksel ram_address
      0022 00rr                      1-  583     	MOVAR	r0x1010
      0023 1Brr                      1-  584     	BSR	r0x1010,7
-                                    1-  585     	.line	199, "BSP\bsp_cs1630.c"; 	CS1630_write_byte(CS1630_BANK0_RF_SETUP, tmp);
+                                    1-  585     	.line	194, "BSP\bsp_cs1630.c"; 	CS1630_write_byte(CS1630_BANK0_RF_SETUP, tmp);
      0024 01rr                      1-  586     	MOVR	r0x1010,W
      0025 00rr                      1-  587     	MOVAR	STK00
      0026 2106                      1-  588     	MOVIA	0x06
                                     1-  589     	MCALL	_CS1630_write_byte
      0027 2rrr                      3-   65 m1      LCALL rom_address
      0028                           1-  590     _02065_DS_:
-                                    1-  591     	.line	201, "BSP\bsp_cs1630.c"; 	}
+                                    1-  591     	.line	196, "BSP\bsp_cs1630.c"; 	}
                                     1-  592     	RETURN	
      0028 0010                      3-   39 m1      ret
                                     1-  593     ; exit point of _CS1630_ModeSwitch
@@ -689,7 +689,7 @@ NYASM 2.42
                                     1-  618     ;local variable name mapping:
      0000                           1-  623     _CS1630_SendPack:
                                     1-  624     ; 2 exit points
-                                    1-  625     	.line	170, "BSP\bsp_cs1630.c"; 	void CS1630_SendPack(unsigned char cmd, unsigned char* buf, unsigned char len)
+                                    1-  625     	.line	165, "BSP\bsp_cs1630.c"; 	void CS1630_SendPack(unsigned char cmd, unsigned char* buf, unsigned char len)
                                     1-  626     	BANKSEL	r0x1018
      0000 rrrr                      3-  109 m1      .banksel ram_address
      0001 00rr                      1-  627     	MOVAR	r0x1018
@@ -709,18 +709,18 @@ NYASM 2.42
                                     1-  638     	BANKSEL	r0x101C
      000C rrrr                      3-  109 m1      .banksel ram_address
      000D 00rr                      1-  639     	MOVAR	r0x101C
-                                    1-  640     	.line	174, "BSP\bsp_cs1630.c"; 	sta = CS1630_read_byte(CS1630_BANK0_STATUS);
+                                    1-  640     	.line	169, "BSP\bsp_cs1630.c"; 	sta = CS1630_read_byte(CS1630_BANK0_STATUS);
      000E 2107                      1-  641     	MOVIA	0x07
                                     1-  642     	MCALL	_CS1630_read_byte
      000F 2rrr                      3-   65 m1      LCALL rom_address
                                     1-  643     	BANKSEL	r0x101D
      0010 rrrr                      3-  109 m1      .banksel ram_address
      0011 00rr                      1-  644     	MOVAR	r0x101D
-                                    1-  645     	.line	175, "BSP\bsp_cs1630.c"; 	if(!(sta&RF_STATUS_TX_FULL))
+                                    1-  645     	.line	170, "BSP\bsp_cs1630.c"; 	if(!(sta&RF_STATUS_TX_FULL))
      0012 0Crr                      1-  646     	BTRSC	r0x101D,0
                                     1-  647     	MGOTO	_02055_DS_
      0013 3rrr                      3-   62 m1      LGOTO rom_address
-                                    1-  648     	.line	177, "BSP\bsp_cs1630.c"; 	CS1630_wr_buffer(cmd, buf, len);
+                                    1-  648     	.line	172, "BSP\bsp_cs1630.c"; 	CS1630_wr_buffer(cmd, buf, len);
                                     1-  649     	BANKSEL	r0x101C
      0014 rrrr                      3-  109 m1      .banksel ram_address
      0015 01rr                      1-  650     	MOVR	r0x101C,W
@@ -743,7 +743,7 @@ NYASM 2.42
                                     1-  663     	MCALL	_CS1630_wr_buffer
      0022 2rrr                      3-   65 m1      LCALL rom_address
      0023                           1-  664     _02055_DS_:
-                                    1-  665     	.line	179, "BSP\bsp_cs1630.c"; 	}
+                                    1-  665     	.line	174, "BSP\bsp_cs1630.c"; 	}
                                     1-  666     	RETURN	
      0023 0010                      3-   39 m1      ret
                                     1-  667     ; exit point of _CS1630_SendPack
@@ -767,25 +767,25 @@ NYASM 2.42
                                     1-  687     ;local variable name mapping:
      0000                           1-  690     _CS1630_Bank_Switch:
                                     1-  691     ; 2 exit points
-                                    1-  692     	.line	147, "BSP\bsp_cs1630.c"; 	void CS1630_Bank_Switch(unsigned char bank)
+                                    1-  692     	.line	142, "BSP\bsp_cs1630.c"; 	void CS1630_Bank_Switch(unsigned char bank)
                                     1-  693     	BANKSEL	r0x1020
      0000 rrrr                      3-  109 m1      .banksel ram_address
      0001 00rr                      1-  694     	MOVAR	r0x1020
-                                    1-  695     	.line	151, "BSP\bsp_cs1630.c"; 	sta = CS1630_read_byte(CS1630_BANK0_STATUS);
+                                    1-  695     	.line	146, "BSP\bsp_cs1630.c"; 	sta = CS1630_read_byte(CS1630_BANK0_STATUS);
      0002 2107                      1-  696     	MOVIA	0x07
                                     1-  697     	MCALL	_CS1630_read_byte
      0003 2rrr                      3-   65 m1      LCALL rom_address
                                     1-  698     	BANKSEL	r0x1021
      0004 rrrr                      3-  109 m1      .banksel ram_address
      0005 00rr                      1-  699     	MOVAR	r0x1021
-                                    1-  700     	.line	153, "BSP\bsp_cs1630.c"; 	if(bank != RF_Bank0) // 切1
+                                    1-  700     	.line	148, "BSP\bsp_cs1630.c"; 	if(bank != RF_Bank0) // 切1
                                     1-  701     	BANKSEL	r0x1020
      0006 rrrr                      3-  109 m1      .banksel ram_address
      0007 01rr                      1-  702     	MOVR	r0x1020,W
      0008 0D03                      1-  703     	BTRSC	STATUS,2
                                     1-  704     	MGOTO	_02046_DS_
      0009 3rrr                      3-   62 m1      LGOTO rom_address
-                                    1-  705     	.line	157, "BSP\bsp_cs1630.c"; 	CS1630_wr_cmd(RF_ACTIVATE, RF_ACTIVATE_DATA);
+                                    1-  705     	.line	152, "BSP\bsp_cs1630.c"; 	CS1630_wr_cmd(RF_ACTIVATE, RF_ACTIVATE_DATA);
      000A 2153                      1-  706     	MOVIA	0x53
      000B 00rr                      1-  707     	MOVAR	STK00
      000C 2150                      1-  708     	MOVIA	0x50
@@ -794,20 +794,20 @@ NYASM 2.42
                                     1-  710     	MGOTO	_02048_DS_
      000E 3rrr                      3-   62 m1      LGOTO rom_address
      000F                           1-  711     _02046_DS_:
-                                    1-  712     	.line	162, "BSP\bsp_cs1630.c"; 	if(sta & RF_BANK1) // 切0
+                                    1-  712     	.line	157, "BSP\bsp_cs1630.c"; 	if(sta & RF_BANK1) // 切0
                                     1-  713     	BANKSEL	r0x1021
      000F rrrr                      3-  109 m1      .banksel ram_address
      0010 0Brr                      1-  714     	BTRSS	r0x1021,7
                                     1-  715     	MGOTO	_02048_DS_
      0011 3rrr                      3-   62 m1      LGOTO rom_address
-                                    1-  716     	.line	164, "BSP\bsp_cs1630.c"; 	CS1630_wr_cmd(RF_ACTIVATE, RF_ACTIVATE_DATA);
+                                    1-  716     	.line	159, "BSP\bsp_cs1630.c"; 	CS1630_wr_cmd(RF_ACTIVATE, RF_ACTIVATE_DATA);
      0012 2153                      1-  717     	MOVIA	0x53
      0013 00rr                      1-  718     	MOVAR	STK00
      0014 2150                      1-  719     	MOVIA	0x50
                                     1-  720     	MCALL	_CS1630_wr_cmd
      0015 2rrr                      3-   65 m1      LCALL rom_address
      0016                           1-  721     _02048_DS_:
-                                    1-  722     	.line	167, "BSP\bsp_cs1630.c"; 	}
+                                    1-  722     	.line	162, "BSP\bsp_cs1630.c"; 	}
                                     1-  723     	RETURN	
      0016 0010                      3-   39 m1      ret
                                     1-  724     ; exit point of _CS1630_Bank_Switch
@@ -831,7 +831,7 @@ NYASM 2.42
                                     1-  744     ;local variable name mapping:
      0000                           1-  747     _CS1630_wr_cmd:
                                     1-  748     ; 2 exit points
-                                    1-  749     	.line	138, "BSP\bsp_cs1630.c"; 	void CS1630_wr_cmd(unsigned char cmd,unsigned char D)
+                                    1-  749     	.line	133, "BSP\bsp_cs1630.c"; 	void CS1630_wr_cmd(unsigned char cmd,unsigned char D)
                                     1-  750     	BANKSEL	r0x101E
      0000 rrrr                      3-  109 m1      .banksel ram_address
      0001 00rr                      1-  751     	MOVAR	r0x101E
@@ -839,26 +839,26 @@ NYASM 2.42
                                     1-  753     	BANKSEL	r0x101F
      0003 rrrr                      3-  109 m1      .banksel ram_address
      0004 00rr                      1-  754     	MOVAR	r0x101F
-                                    1-  755     	.line	140, "BSP\bsp_cs1630.c"; 	CS1630_CSN_LOW;
+                                    1-  755     	.line	135, "BSP\bsp_cs1630.c"; 	CS1630_CSN_LOW;
      0005 1Crr                      1-  756     	BCR	_PORTAbits,1
-                                    1-  757     	.line	141, "BSP\bsp_cs1630.c"; 	SPI_SendByte(cmd);
+                                    1-  757     	.line	136, "BSP\bsp_cs1630.c"; 	SPI_SendByte(cmd);
                                     1-  758     	BANKSEL	r0x101E
      0006 rrrr                      3-  109 m1      .banksel ram_address
      0007 01rr                      1-  759     	MOVR	r0x101E,W
                                     1-  760     	MCALL	_SPI_SendByte
      0008 2rrr                      3-   65 m1      LCALL rom_address
-                                    1-  761     	.line	142, "BSP\bsp_cs1630.c"; 	SPI_SendByte(D);
+                                    1-  761     	.line	137, "BSP\bsp_cs1630.c"; 	SPI_SendByte(D);
                                     1-  762     	BANKSEL	r0x101F
      0009 rrrr                      3-  109 m1      .banksel ram_address
      000A 01rr                      1-  763     	MOVR	r0x101F,W
                                     1-  764     	MCALL	_SPI_SendByte
      000B 2rrr                      3-   65 m1      LCALL rom_address
-                                    1-  765     	.line	143, "BSP\bsp_cs1630.c"; 	CS1630_CSN_HIGH;
+                                    1-  765     	.line	138, "BSP\bsp_cs1630.c"; 	CS1630_CSN_HIGH;
      000C 18rr                      1-  766     	BSR	_PORTAbits,1
      000D 2101                      1-  767     	MOVIA	0x01
                                     1-  768     	MCALL	_delay_us
      000E 2rrr                      3-   65 m1      LCALL rom_address
-                                    1-  769     	.line	144, "BSP\bsp_cs1630.c"; 	}
+                                    1-  769     	.line	139, "BSP\bsp_cs1630.c"; 	}
                                     1-  770     	RETURN	
      000F 0010                      3-   39 m1      ret
                                     1-  771     ; exit point of _CS1630_wr_cmd
@@ -890,7 +890,7 @@ NYASM 2.42
                                     1-  799     ;local variable name mapping:
      0000                           1-  801     _CS1630_wr_buffer:
                                     1-  802     ; 2 exit points
-                                    1-  803     	.line	124, "BSP\bsp_cs1630.c"; 	void CS1630_wr_buffer(unsigned char addr, unsigned char* buf,unsigned char len)
+                                    1-  803     	.line	119, "BSP\bsp_cs1630.c"; 	void CS1630_wr_buffer(unsigned char addr, unsigned char* buf,unsigned char len)
                                     1-  804     	BANKSEL	r0x1013
      0000 rrrr                      3-  109 m1      .banksel ram_address
      0001 00rr                      1-  805     	MOVAR	r0x1013
@@ -910,9 +910,9 @@ NYASM 2.42
                                     1-  816     	BANKSEL	r0x1017
      000C rrrr                      3-  109 m1      .banksel ram_address
      000D 00rr                      1-  817     	MOVAR	r0x1017
-                                    1-  818     	.line	127, "BSP\bsp_cs1630.c"; 	CS1630_CSN_LOW;
+                                    1-  818     	.line	122, "BSP\bsp_cs1630.c"; 	CS1630_CSN_LOW;
      000E 1Crr                      1-  819     	BCR	_PORTAbits,1
-                                    1-  820     	.line	128, "BSP\bsp_cs1630.c"; 	SPI_SendByte(RF_W_REGISTER|addr);
+                                    1-  820     	.line	123, "BSP\bsp_cs1630.c"; 	SPI_SendByte(RF_W_REGISTER|addr);
                                     1-  821     	BANKSEL	r0x1013
      000F rrrr                      3-  109 m1      .banksel ram_address
      0010 1Arr                      1-  822     	BSR	r0x1013,5
@@ -920,7 +920,7 @@ NYASM 2.42
                                     1-  824     	MCALL	_SPI_SendByte
      0012 2rrr                      3-   65 m1      LCALL rom_address
      0013                           1-  825     _02029_DS_:
-                                    1-  826     	.line	129, "BSP\bsp_cs1630.c"; 	while(len--)
+                                    1-  826     	.line	124, "BSP\bsp_cs1630.c"; 	while(len--)
                                     1-  827     	BANKSEL	r0x1017
      0013 rrrr                      3-  109 m1      .banksel ram_address
      0014 01rr                      1-  828     	MOVR	r0x1017,W
@@ -936,7 +936,7 @@ NYASM 2.42
      001B 0D03                      1-  835     	BTRSC	STATUS,2
                                     1-  836     	MGOTO	_02032_DS_
      001C 3rrr                      3-   62 m1      LGOTO rom_address
-                                    1-  837     	.line	131, "BSP\bsp_cs1630.c"; 	SPI_SendByte(*buf++);
+                                    1-  837     	.line	126, "BSP\bsp_cs1630.c"; 	SPI_SendByte(*buf++);
                                     1-  838     	BANKSEL	r0x1016
      001D rrrr                      3-  109 m1      .banksel ram_address
      001E 01rr                      1-  839     	MOVR	r0x1016,W
@@ -978,12 +978,12 @@ NYASM 2.42
                                     1-  864     	MGOTO	_02029_DS_
      0035 3rrr                      3-   62 m1      LGOTO rom_address
      0036                           1-  865     _02032_DS_:
-                                    1-  866     	.line	133, "BSP\bsp_cs1630.c"; 	CS1630_CSN_HIGH;
+                                    1-  866     	.line	128, "BSP\bsp_cs1630.c"; 	CS1630_CSN_HIGH;
      0036 18rr                      1-  867     	BSR	_PORTAbits,1
      0037 2101                      1-  868     	MOVIA	0x01
                                     1-  869     	MCALL	_delay_us
      0038 2rrr                      3-   65 m1      LCALL rom_address
-                                    1-  870     	.line	135, "BSP\bsp_cs1630.c"; 	}
+                                    1-  870     	.line	130, "BSP\bsp_cs1630.c"; 	}
                                     1-  871     	RETURN	
      0039 0010                      3-   39 m1      ret
                                     1-  872     ; exit point of _CS1630_wr_buffer
@@ -1007,7 +1007,7 @@ NYASM 2.42
                                     1-  892     ;local variable name mapping:
      0000                           1-  895     _CS1630_write_byte:
                                     1-  896     ; 2 exit points
-                                    1-  897     	.line	114, "BSP\bsp_cs1630.c"; 	void CS1630_write_byte(unsigned char addr,unsigned char D)
+                                    1-  897     	.line	109, "BSP\bsp_cs1630.c"; 	void CS1630_write_byte(unsigned char addr,unsigned char D)
                                     1-  898     	BANKSEL	r0x100C
      0000 rrrr                      3-  109 m1      .banksel ram_address
      0001 00rr                      1-  899     	MOVAR	r0x100C
@@ -1015,27 +1015,27 @@ NYASM 2.42
                                     1-  901     	BANKSEL	r0x100D
      0003 rrrr                      3-  109 m1      .banksel ram_address
      0004 00rr                      1-  902     	MOVAR	r0x100D
-                                    1-  903     	.line	117, "BSP\bsp_cs1630.c"; 	CS1630_CSN_LOW;
+                                    1-  903     	.line	112, "BSP\bsp_cs1630.c"; 	CS1630_CSN_LOW;
      0005 1Crr                      1-  904     	BCR	_PORTAbits,1
-                                    1-  905     	.line	118, "BSP\bsp_cs1630.c"; 	SPI_SendByte(RF_W_REGISTER|addr);
+                                    1-  905     	.line	113, "BSP\bsp_cs1630.c"; 	SPI_SendByte(RF_W_REGISTER|addr);
                                     1-  906     	BANKSEL	r0x100C
      0006 rrrr                      3-  109 m1      .banksel ram_address
      0007 1Arr                      1-  907     	BSR	r0x100C,5
      0008 01rr                      1-  908     	MOVR	r0x100C,W
                                     1-  909     	MCALL	_SPI_SendByte
      0009 2rrr                      3-   65 m1      LCALL rom_address
-                                    1-  910     	.line	119, "BSP\bsp_cs1630.c"; 	SPI_SendByte(D);
+                                    1-  910     	.line	114, "BSP\bsp_cs1630.c"; 	SPI_SendByte(D);
                                     1-  911     	BANKSEL	r0x100D
      000A rrrr                      3-  109 m1      .banksel ram_address
      000B 01rr                      1-  912     	MOVR	r0x100D,W
                                     1-  913     	MCALL	_SPI_SendByte
      000C 2rrr                      3-   65 m1      LCALL rom_address
-                                    1-  914     	.line	120, "BSP\bsp_cs1630.c"; 	CS1630_CSN_HIGH;
+                                    1-  914     	.line	115, "BSP\bsp_cs1630.c"; 	CS1630_CSN_HIGH;
      000D 18rr                      1-  915     	BSR	_PORTAbits,1
      000E 2101                      1-  916     	MOVIA	0x01
                                     1-  917     	MCALL	_delay_us
      000F 2rrr                      3-   65 m1      LCALL rom_address
-                                    1-  918     	.line	122, "BSP\bsp_cs1630.c"; 	}
+                                    1-  918     	.line	117, "BSP\bsp_cs1630.c"; 	}
                                     1-  919     	RETURN	
      0010 0010                      3-   39 m1      ret
                                     1-  920     ; exit point of _CS1630_write_byte
@@ -1057,32 +1057,32 @@ NYASM 2.42
                                     1-  938     ;local variable name mapping:
      0000                           1-  941     _CS1630_read_byte:
                                     1-  942     ; 2 exit points
-                                    1-  943     	.line	101, "BSP\bsp_cs1630.c"; 	unsigned char CS1630_read_byte(unsigned char addr)
+                                    1-  943     	.line	96, "BSP\bsp_cs1630.c"; 	unsigned char CS1630_read_byte(unsigned char addr)
                                     1-  944     	BANKSEL	r0x1009
      0000 rrrr                      3-  109 m1      .banksel ram_address
      0001 00rr                      1-  945     	MOVAR	r0x1009
-                                    1-  946     	.line	105, "BSP\bsp_cs1630.c"; 	CS1630_CSN_LOW;
+                                    1-  946     	.line	100, "BSP\bsp_cs1630.c"; 	CS1630_CSN_LOW;
      0002 1Crr                      1-  947     	BCR	_PORTAbits,1
-                                    1-  948     	.line	106, "BSP\bsp_cs1630.c"; 	SPI_SendByte(RF_R_REGISTER|addr);
+                                    1-  948     	.line	101, "BSP\bsp_cs1630.c"; 	SPI_SendByte(RF_R_REGISTER|addr);
      0003 01rr                      1-  949     	MOVR	r0x1009,W
                                     1-  950     	MCALL	_SPI_SendByte
      0004 2rrr                      3-   65 m1      LCALL rom_address
-                                    1-  951     	.line	107, "BSP\bsp_cs1630.c"; 	rxdata = SPI_ReadByte();
+                                    1-  951     	.line	102, "BSP\bsp_cs1630.c"; 	rxdata = SPI_ReadByte();
                                     1-  952     	MCALL	_SPI_ReadByte
      0005 2rrr                      3-   65 m1      LCALL rom_address
                                     1-  953     	BANKSEL	r0x1009
      0006 rrrr                      3-  109 m1      .banksel ram_address
      0007 00rr                      1-  954     	MOVAR	r0x1009
-                                    1-  955     	.line	108, "BSP\bsp_cs1630.c"; 	CS1630_CSN_HIGH;
+                                    1-  955     	.line	103, "BSP\bsp_cs1630.c"; 	CS1630_CSN_HIGH;
      0008 18rr                      1-  956     	BSR	_PORTAbits,1
      0009 2101                      1-  957     	MOVIA	0x01
                                     1-  958     	MCALL	_delay_us
      000A 2rrr                      3-   65 m1      LCALL rom_address
-                                    1-  959     	.line	110, "BSP\bsp_cs1630.c"; 	return(rxdata);
+                                    1-  959     	.line	105, "BSP\bsp_cs1630.c"; 	return(rxdata);
                                     1-  960     	BANKSEL	r0x1009
      000B rrrr                      3-  109 m1      .banksel ram_address
      000C 01rr                      1-  961     	MOVR	r0x1009,W
-                                    1-  962     	.line	111, "BSP\bsp_cs1630.c"; 	}
+                                    1-  962     	.line	106, "BSP\bsp_cs1630.c"; 	}
                                     1-  963     	RETURN	
      000D 0010                      3-   39 m1      ret
                                     1-  964     ; exit point of _CS1630_read_byte
@@ -1116,7 +1116,7 @@ NYASM 2.42
                                     1-  994     ;local variable name mapping:
      0000                           1-  996     _CS1630_read_buffer:
                                     1-  997     ; 2 exit points
-                                    1-  998     	.line	85, "BSP\bsp_cs1630.c"; 	void CS1630_read_buffer(unsigned char addr, unsigned char* buf, unsigned char len)
+                                    1-  998     	.line	80, "BSP\bsp_cs1630.c"; 	void CS1630_read_buffer(unsigned char addr, unsigned char* buf, unsigned char len)
                                     1-  999     	BANKSEL	r0x1022
      0000 rrrr                      3-  109 m1      .banksel ram_address
      0001 00rr                      1- 1000     	MOVAR	r0x1022
@@ -1136,16 +1136,16 @@ NYASM 2.42
                                     1- 1011     	BANKSEL	r0x1026
      000C rrrr                      3-  109 m1      .banksel ram_address
      000D 00rr                      1- 1012     	MOVAR	r0x1026
-                                    1- 1013     	.line	88, "BSP\bsp_cs1630.c"; 	CS1630_CSN_LOW;
+                                    1- 1013     	.line	83, "BSP\bsp_cs1630.c"; 	CS1630_CSN_LOW;
      000E 1Crr                      1- 1014     	BCR	_PORTAbits,1
-                                    1- 1015     	.line	89, "BSP\bsp_cs1630.c"; 	SPI_SendByte(RF_R_REGISTER|addr);
+                                    1- 1015     	.line	84, "BSP\bsp_cs1630.c"; 	SPI_SendByte(RF_R_REGISTER|addr);
                                     1- 1016     	BANKSEL	r0x1022
      000F rrrr                      3-  109 m1      .banksel ram_address
      0010 01rr                      1- 1017     	MOVR	r0x1022,W
                                     1- 1018     	MCALL	_SPI_SendByte
      0011 2rrr                      3-   65 m1      LCALL rom_address
      0012                           1- 1019     _02014_DS_:
-                                    1- 1020     	.line	91, "BSP\bsp_cs1630.c"; 	while(len--)
+                                    1- 1020     	.line	86, "BSP\bsp_cs1630.c"; 	while(len--)
                                     1- 1021     	BANKSEL	r0x1026
      0012 rrrr                      3-  109 m1      .banksel ram_address
      0013 01rr                      1- 1022     	MOVR	r0x1026,W
@@ -1161,7 +1161,7 @@ NYASM 2.42
      001A 0D03                      1- 1029     	BTRSC	STATUS,2
                                     1- 1030     	MGOTO	_02016_DS_
      001B 3rrr                      3-   62 m1      LGOTO rom_address
-                                    1- 1031     	.line	93, "BSP\bsp_cs1630.c"; 	*buf++ = SPI_ReadByte();
+                                    1- 1031     	.line	88, "BSP\bsp_cs1630.c"; 	*buf++ = SPI_ReadByte();
                                     1- 1032     	MCALL	_SPI_ReadByte
      001C 2rrr                      3-   65 m1      LCALL rom_address
                                     1- 1033     	BANKSEL	r0x1022
@@ -1202,16 +1202,16 @@ NYASM 2.42
                                     1- 1058     	MGOTO	_02014_DS_
      0034 3rrr                      3-   62 m1      LGOTO rom_address
      0035                           1- 1059     _02016_DS_:
-                                    1- 1060     	.line	96, "BSP\bsp_cs1630.c"; 	delay_us(1);
+                                    1- 1060     	.line	91, "BSP\bsp_cs1630.c"; 	delay_us(1);
      0035 2101                      1- 1061     	MOVIA	0x01
                                     1- 1062     	MCALL	_delay_us
      0036 2rrr                      3-   65 m1      LCALL rom_address
-                                    1- 1063     	.line	97, "BSP\bsp_cs1630.c"; 	CS1630_CSN_HIGH;
+                                    1- 1063     	.line	92, "BSP\bsp_cs1630.c"; 	CS1630_CSN_HIGH;
      0037 18rr                      1- 1064     	BSR	_PORTAbits,1
      0038 2101                      1- 1065     	MOVIA	0x01
                                     1- 1066     	MCALL	_delay_us
      0039 2rrr                      3-   65 m1      LCALL rom_address
-                                    1- 1067     	.line	98, "BSP\bsp_cs1630.c"; 	}
+                                    1- 1067     	.line	93, "BSP\bsp_cs1630.c"; 	}
                                     1- 1068     	RETURN	
      003A 0010                      3-   39 m1      ret
                                     1- 1069     ; exit point of _CS1630_read_buffer
@@ -1239,414 +1239,379 @@ NYASM 2.42
                                     1- 1092     ;   _CS1630_wr_buffer
                                     1- 1093     ;   _CS1630_Clear_All_Irq
                                     1- 1094     ;   _CS1630_Flush_Tx
-                                    1- 1095     ;   _CS1630_CE_Low
-                                    1- 1096     ;   _CS1630_ModeSwitch
+                                    1- 1095     ;   _RF_softSPI_Init
+                                    1- 1096     ;   _CS1630_CE_Low
                                     1- 1097     ;   _CS1630_write_byte
-                                    1- 1098     ;   _CS1630_write_byte
-                                    1- 1099     ;   _CS1630_write_byte
-                                    1- 1100     ;   _RF_softSPI_Init
-                                    1- 1101     ;   _CS1630_CE_Low
-                                    1- 1102     ;   _CS1630_write_byte
-                                    1- 1103     ;   _delay_ms
-                                    1- 1104     ;   _CS1630_Soft_Rst
-                                    1- 1105     ;   _CS1630_CE_High
-                                    1- 1106     ;   _delay_us
-                                    1- 1107     ;   _CS1630_CE_Low
-                                    1- 1108     ;   _CS1630_read_byte
+                                    1- 1098     ;   _delay_ms
+                                    1- 1099     ;   _CS1630_Soft_Rst
+                                    1- 1100     ;   _CS1630_CE_High
+                                    1- 1101     ;   _delay_us
+                                    1- 1102     ;   _CS1630_CE_Low
+                                    1- 1103     ;   _CS1630_read_byte
+                                    1- 1104     ;   _CS1630_Bank_Switch
+                                    1- 1105     ;   _CS1630_read_byte
+                                    1- 1106     ;   _CS1630_read_buffer
+                                    1- 1107     ;   _CS1630_wr_buffer
+                                    1- 1108     ;   _CS1630_write_byte
                                     1- 1109     ;   _CS1630_Bank_Switch
-                                    1- 1110     ;   _CS1630_read_byte
-                                    1- 1111     ;   _CS1630_read_buffer
-                                    1- 1112     ;   _CS1630_wr_buffer
-                                    1- 1113     ;   _CS1630_write_byte
-                                    1- 1114     ;   _CS1630_Bank_Switch
-                                    1- 1115     ;   _CS1630_write_byte
-                                    1- 1116     ;   _CS1630_wr_buffer
-                                    1- 1117     ;   _CS1630_Clear_All_Irq
-                                    1- 1118     ;   _CS1630_Flush_Tx
-                                    1- 1119     ;   _CS1630_CE_Low
-                                    1- 1120     ;   _CS1630_ModeSwitch
-                                    1- 1121     ;   _CS1630_write_byte
-                                    1- 1122     ;   _CS1630_write_byte
-                                    1- 1123     ;   _CS1630_write_byte
-                                    1- 1124     ;8 compiler assigned registers:
-                                    1- 1125     ;   STK00
-                                    1- 1126     ;   r0x102A
-                                    1- 1127     ;   r0x102B
-                                    1- 1128     ;   r0x102C
-                                    1- 1129     ;   r0x102D
-                                    1- 1130     ;   STK03
-                                    1- 1131     ;   STK02
-                                    1- 1132     ;   STK01
-                                    1- 1133     ;; Starting pCode block
-                                    1- 1134     .segment "code"; module=bsp_cs1630, function=_CS1630_Init
-                                    1- 1136     ;local variable name mapping:
-     0000                           1- 1139     _CS1630_Init:
-                                    1- 1140     ; 2 exit points
-                                    1- 1141     	.line	27, "BSP\bsp_cs1630.c"; 	RF_softSPI_Init();
-                                    1- 1142     	MCALL	_RF_softSPI_Init
+                                    1- 1110     ;   _CS1630_write_byte
+                                    1- 1111     ;   _CS1630_wr_buffer
+                                    1- 1112     ;   _CS1630_Clear_All_Irq
+                                    1- 1113     ;   _CS1630_Flush_Tx
+                                    1- 1114     ;8 compiler assigned registers:
+                                    1- 1115     ;   STK00
+                                    1- 1116     ;   r0x102A
+                                    1- 1117     ;   r0x102B
+                                    1- 1118     ;   r0x102C
+                                    1- 1119     ;   r0x102D
+                                    1- 1120     ;   STK03
+                                    1- 1121     ;   STK02
+                                    1- 1122     ;   STK01
+                                    1- 1123     ;; Starting pCode block
+                                    1- 1124     .segment "code"; module=bsp_cs1630, function=_CS1630_Init
+                                    1- 1126     ;local variable name mapping:
+     0000                           1- 1129     _CS1630_Init:
+                                    1- 1130     ; 2 exit points
+                                    1- 1131     	.line	27, "BSP\bsp_cs1630.c"; 	RF_softSPI_Init();
+                                    1- 1132     	MCALL	_RF_softSPI_Init
      0000 2rrr                      3-   65 m1      LCALL rom_address
-                                    1- 1143     	.line	31, "BSP\bsp_cs1630.c"; 	CS1630_CE_Low();
-                                    1- 1144     	MCALL	_CS1630_CE_Low
+                                    1- 1133     	.line	31, "BSP\bsp_cs1630.c"; 	CS1630_CE_Low();
+                                    1- 1134     	MCALL	_CS1630_CE_Low
      0001 2rrr                      3-   65 m1      LCALL rom_address
-                                    1- 1145     	.line	32, "BSP\bsp_cs1630.c"; 	CS1630_write_byte(CS1630_BANK0_CONFIG, 0x02); // 先断一下电，然后再等待一下在开始等待校准
-     0002 2102                      1- 1146     	MOVIA	0x02
-     0003 00rr                      1- 1147     	MOVAR	STK00
-     0004 2100                      1- 1148     	MOVIA	0x00
-                                    1- 1149     	MCALL	_CS1630_write_byte
+                                    1- 1135     	.line	32, "BSP\bsp_cs1630.c"; 	CS1630_write_byte(CS1630_BANK0_CONFIG, 0x02); // 先断一下电，然后再等待一下在开始等待校准
+     0002 2102                      1- 1136     	MOVIA	0x02
+     0003 00rr                      1- 1137     	MOVAR	STK00
+     0004 2100                      1- 1138     	MOVIA	0x00
+                                    1- 1139     	MCALL	_CS1630_write_byte
      0005 2rrr                      3-   65 m1      LCALL rom_address
-                                    1- 1150     	.line	33, "BSP\bsp_cs1630.c"; 	delay_ms(4);
-     0006 2104                      1- 1151     	MOVIA	0x04
-                                    1- 1152     	MCALL	_delay_ms
+                                    1- 1140     	.line	33, "BSP\bsp_cs1630.c"; 	delay_ms(4);
+     0006 2104                      1- 1141     	MOVIA	0x04
+                                    1- 1142     	MCALL	_delay_ms
      0007 2rrr                      3-   65 m1      LCALL rom_address
-                                    1- 1153     	.line	35, "BSP\bsp_cs1630.c"; 	CS1630_Soft_Rst();
-                                    1- 1154     	MCALL	_CS1630_Soft_Rst
+                                    1- 1143     	.line	35, "BSP\bsp_cs1630.c"; 	CS1630_Soft_Rst();
+                                    1- 1144     	MCALL	_CS1630_Soft_Rst
      0008 2rrr                      3-   65 m1      LCALL rom_address
-                                    1- 1155     	.line	37, "BSP\bsp_cs1630.c"; 	CS1630_CE_High();
-                                    1- 1156     	MCALL	_CS1630_CE_High
+                                    1- 1145     	.line	37, "BSP\bsp_cs1630.c"; 	CS1630_CE_High();
+                                    1- 1146     	MCALL	_CS1630_CE_High
      0009 2rrr                      3-   65 m1      LCALL rom_address
-                                    1- 1157     	.line	38, "BSP\bsp_cs1630.c"; 	delay_us(16);
-     000A 2110                      1- 1158     	MOVIA	0x10
-                                    1- 1159     	MCALL	_delay_us
+                                    1- 1147     	.line	38, "BSP\bsp_cs1630.c"; 	delay_us(16);
+     000A 2110                      1- 1148     	MOVIA	0x10
+                                    1- 1149     	MCALL	_delay_us
      000B 2rrr                      3-   65 m1      LCALL rom_address
-                                    1- 1160     	.line	39, "BSP\bsp_cs1630.c"; 	CS1630_CE_Low();
-                                    1- 1161     	MCALL	_CS1630_CE_Low
+                                    1- 1150     	.line	39, "BSP\bsp_cs1630.c"; 	CS1630_CE_Low();
+                                    1- 1151     	MCALL	_CS1630_CE_Low
      000C 2rrr                      3-   65 m1      LCALL rom_address
-     000D                           1- 1162     _02009_DS_:
-                                    1- 1163     	.line	41, "BSP\bsp_cs1630.c"; 	while((CS1630_read_byte(CS1630_BANK0_SETUP_VALUE) & 0x01) == 0x00); // 等待校准结束
-     000D 211E                      1- 1164     	MOVIA	0x1e
-                                    1- 1165     	MCALL	_CS1630_read_byte
+     000D                           1- 1152     _02009_DS_:
+                                    1- 1153     	.line	41, "BSP\bsp_cs1630.c"; 	while((CS1630_read_byte(CS1630_BANK0_SETUP_VALUE) & 0x01) == 0x00); // 等待校准结束
+     000D 211E                      1- 1154     	MOVIA	0x1e
+                                    1- 1155     	MCALL	_CS1630_read_byte
      000E 2rrr                      3-   65 m1      LCALL rom_address
-                                    1- 1166     	BANKSEL	r0x102A
+                                    1- 1156     	BANKSEL	r0x102A
      000F rrrr                      3-  109 m1      .banksel ram_address
-     0010 00rr                      1- 1167     	MOVAR	r0x102A
-     0011 08rr                      1- 1168     	BTRSS	r0x102A,0
-                                    1- 1169     	MGOTO	_02009_DS_
+     0010 00rr                      1- 1157     	MOVAR	r0x102A
+     0011 08rr                      1- 1158     	BTRSS	r0x102A,0
+                                    1- 1159     	MGOTO	_02009_DS_
      0012 3rrr                      3-   62 m1      LGOTO rom_address
-                                    1- 1170     	.line	44, "BSP\bsp_cs1630.c"; 	CS1630_Bank_Switch(RF_Bank1);
-     0013 2101                      1- 1171     	MOVIA	0x01
-                                    1- 1172     	MCALL	_CS1630_Bank_Switch
+                                    1- 1160     	.line	44, "BSP\bsp_cs1630.c"; 	CS1630_Bank_Switch(RF_Bank1);
+     0013 2101                      1- 1161     	MOVIA	0x01
+                                    1- 1162     	MCALL	_CS1630_Bank_Switch
      0014 2rrr                      3-   65 m1      LCALL rom_address
-                                    1- 1173     	.line	46, "BSP\bsp_cs1630.c"; 	regval = CS1630_read_byte(CS1630_BANK1_DAC_RANGE); // 记录校准值
-     0015 2111                      1- 1174     	MOVIA	0x11
-                                    1- 1175     	MCALL	_CS1630_read_byte
+                                    1- 1163     	.line	46, "BSP\bsp_cs1630.c"; 	regval = CS1630_read_byte(CS1630_BANK1_DAC_RANGE); // 记录校准值
+     0015 2111                      1- 1164     	MOVIA	0x11
+                                    1- 1165     	MCALL	_CS1630_read_byte
      0016 2rrr                      3-   65 m1      LCALL rom_address
-                                    1- 1176     	BANKSEL	r0x102A
+                                    1- 1166     	BANKSEL	r0x102A
      0017 rrrr                      3-  109 m1      .banksel ram_address
-     0018 00rr                      1- 1177     	MOVAR	r0x102A
-                                    1- 1178     	.line	47, "BSP\bsp_cs1630.c"; 	CS1630_read_buffer(CS1630_BANK1_PLL_CTL0, temp, 4);
-     0019 21rr                      1- 1179     	MOVIA	(_CS1630_Init_temp_65536_58 + 0)
-                                    1- 1180     	BANKSEL	r0x102B
+     0018 00rr                      1- 1167     	MOVAR	r0x102A
+                                    1- 1168     	.line	47, "BSP\bsp_cs1630.c"; 	CS1630_read_buffer(CS1630_BANK1_PLL_CTL0, temp, 4);
+     0019 21rr                      1- 1169     	MOVIA	(_CS1630_Init_temp_65536_58 + 0)
+                                    1- 1170     	BANKSEL	r0x102B
      001A rrrr                      3-  109 m1      .banksel ram_address
-     001B 00rr                      1- 1181     	MOVAR	r0x102B
-                                    1- 1182     	BANKSEL	r0x102C
+     001B 00rr                      1- 1171     	MOVAR	r0x102B
+                                    1- 1172     	BANKSEL	r0x102C
      001C rrrr                      3-  109 m1      .banksel ram_address
-     001D 02rr                      1- 1183     	CLRR	r0x102C
-                                    1- 1184     	BANKSEL	r0x102D
+     001D 02rr                      1- 1173     	CLRR	r0x102C
+                                    1- 1174     	BANKSEL	r0x102D
      001E rrrr                      3-  109 m1      .banksel ram_address
-     001F 02rr                      1- 1185     	CLRR	r0x102D
-     0020 2104                      1- 1186     	MOVIA	0x04
-     0021 00rr                      1- 1187     	MOVAR	STK03
-                                    1- 1188     	BANKSEL	r0x102B
+     001F 02rr                      1- 1175     	CLRR	r0x102D
+     0020 2104                      1- 1176     	MOVIA	0x04
+     0021 00rr                      1- 1177     	MOVAR	STK03
+                                    1- 1178     	BANKSEL	r0x102B
      0022 rrrr                      3-  109 m1      .banksel ram_address
-     0023 01rr                      1- 1189     	MOVR	r0x102B,W
-     0024 00rr                      1- 1190     	MOVAR	STK02
-                                    1- 1191     	BANKSEL	r0x102C
+     0023 01rr                      1- 1179     	MOVR	r0x102B,W
+     0024 00rr                      1- 1180     	MOVAR	STK02
+                                    1- 1181     	BANKSEL	r0x102C
      0025 rrrr                      3-  109 m1      .banksel ram_address
-     0026 01rr                      1- 1192     	MOVR	r0x102C,W
-     0027 00rr                      1- 1193     	MOVAR	STK01
-                                    1- 1194     	BANKSEL	r0x102D
+     0026 01rr                      1- 1182     	MOVR	r0x102C,W
+     0027 00rr                      1- 1183     	MOVAR	STK01
+                                    1- 1184     	BANKSEL	r0x102D
      0028 rrrr                      3-  109 m1      .banksel ram_address
-     0029 01rr                      1- 1195     	MOVR	r0x102D,W
-     002A 00rr                      1- 1196     	MOVAR	STK00
-     002B 2101                      1- 1197     	MOVIA	0x01
-                                    1- 1198     	MCALL	_CS1630_read_buffer
+     0029 01rr                      1- 1185     	MOVR	r0x102D,W
+     002A 00rr                      1- 1186     	MOVAR	STK00
+     002B 2101                      1- 1187     	MOVIA	0x01
+                                    1- 1188     	MCALL	_CS1630_read_buffer
      002C 2rrr                      3-   65 m1      LCALL rom_address
-                                    1- 1199     	.line	48, "BSP\bsp_cs1630.c"; 	temp[0] = 0x07;
-     002D 2107                      1- 1200     	MOVIA	0x07
-                                    1- 1201     	BANKSEL	_CS1630_Init_temp_65536_58
+                                    1- 1189     	.line	48, "BSP\bsp_cs1630.c"; 	temp[0] = 0x07;
+     002D 2107                      1- 1190     	MOVIA	0x07
+                                    1- 1191     	BANKSEL	_CS1630_Init_temp_65536_58
      002E rrrr                      3-  109 m1      .banksel ram_address
-     002F 00rr                      1- 1202     	MOVAR	(_CS1630_Init_temp_65536_58 + 0)
-                                    1- 1203     	.line	49, "BSP\bsp_cs1630.c"; 	temp[1] = 0x80;
-     0030 2180                      1- 1204     	MOVIA	0x80
-     0031 00rr                      1- 1205     	MOVAR	(_CS1630_Init_temp_65536_58 + 1)
-                                    1- 1206     	.line	50, "BSP\bsp_cs1630.c"; 	temp[2] |= (BIT6+BIT3);
-     0032 01rr                      1- 1207     	MOVR	(_CS1630_Init_temp_65536_58 + 2),W
-                                    1- 1208     	BANKSEL	r0x102B
+     002F 00rr                      1- 1192     	MOVAR	(_CS1630_Init_temp_65536_58 + 0)
+                                    1- 1193     	.line	49, "BSP\bsp_cs1630.c"; 	temp[1] = 0x80;
+     0030 2180                      1- 1194     	MOVIA	0x80
+     0031 00rr                      1- 1195     	MOVAR	(_CS1630_Init_temp_65536_58 + 1)
+                                    1- 1196     	.line	50, "BSP\bsp_cs1630.c"; 	temp[2] |= (BIT6+BIT3);
+     0032 01rr                      1- 1197     	MOVR	(_CS1630_Init_temp_65536_58 + 2),W
+                                    1- 1198     	BANKSEL	r0x102B
      0033 rrrr                      3-  109 m1      .banksel ram_address
-     0034 00rr                      1- 1209     	MOVAR	r0x102B
-     0035 2148                      1- 1210     	MOVIA	0x48
-     0036 11rr                      1- 1211     	IORAR	r0x102B,F
-     0037 01rr                      1- 1212     	MOVR	r0x102B,W
-                                    1- 1213     	BANKSEL	_CS1630_Init_temp_65536_58
+     0034 00rr                      1- 1199     	MOVAR	r0x102B
+     0035 2148                      1- 1200     	MOVIA	0x48
+     0036 11rr                      1- 1201     	IORAR	r0x102B,F
+     0037 01rr                      1- 1202     	MOVR	r0x102B,W
+                                    1- 1203     	BANKSEL	_CS1630_Init_temp_65536_58
      0038 rrrr                      3-  109 m1      .banksel ram_address
-     0039 00rr                      1- 1214     	MOVAR	(_CS1630_Init_temp_65536_58 + 2)
-                                    1- 1215     	.line	51, "BSP\bsp_cs1630.c"; 	CS1630_wr_buffer(CS1630_BANK1_PLL_CTL0, temp, 4); // 配置Bank1 的 PLL_CTL0为07  80  48
-     003A 21rr                      1- 1216     	MOVIA	(_CS1630_Init_temp_65536_58 + 0)
-                                    1- 1217     	BANKSEL	r0x102B
+     0039 00rr                      1- 1204     	MOVAR	(_CS1630_Init_temp_65536_58 + 2)
+                                    1- 1205     	.line	51, "BSP\bsp_cs1630.c"; 	CS1630_wr_buffer(CS1630_BANK1_PLL_CTL0, temp, 4); // 配置Bank1 的 PLL_CTL0为07  80  48
+     003A 21rr                      1- 1206     	MOVIA	(_CS1630_Init_temp_65536_58 + 0)
+                                    1- 1207     	BANKSEL	r0x102B
      003B rrrr                      3-  109 m1      .banksel ram_address
-     003C 00rr                      1- 1218     	MOVAR	r0x102B
-                                    1- 1219     	BANKSEL	r0x102C
+     003C 00rr                      1- 1208     	MOVAR	r0x102B
+                                    1- 1209     	BANKSEL	r0x102C
      003D rrrr                      3-  109 m1      .banksel ram_address
-     003E 02rr                      1- 1220     	CLRR	r0x102C
-                                    1- 1221     	BANKSEL	r0x102D
+     003E 02rr                      1- 1210     	CLRR	r0x102C
+                                    1- 1211     	BANKSEL	r0x102D
      003F rrrr                      3-  109 m1      .banksel ram_address
-     0040 02rr                      1- 1222     	CLRR	r0x102D
-     0041 2104                      1- 1223     	MOVIA	0x04
-     0042 00rr                      1- 1224     	MOVAR	STK03
-                                    1- 1225     	BANKSEL	r0x102B
+     0040 02rr                      1- 1212     	CLRR	r0x102D
+     0041 2104                      1- 1213     	MOVIA	0x04
+     0042 00rr                      1- 1214     	MOVAR	STK03
+                                    1- 1215     	BANKSEL	r0x102B
      0043 rrrr                      3-  109 m1      .banksel ram_address
-     0044 01rr                      1- 1226     	MOVR	r0x102B,W
-     0045 00rr                      1- 1227     	MOVAR	STK02
-                                    1- 1228     	BANKSEL	r0x102C
+     0044 01rr                      1- 1216     	MOVR	r0x102B,W
+     0045 00rr                      1- 1217     	MOVAR	STK02
+                                    1- 1218     	BANKSEL	r0x102C
      0046 rrrr                      3-  109 m1      .banksel ram_address
-     0047 01rr                      1- 1229     	MOVR	r0x102C,W
-     0048 00rr                      1- 1230     	MOVAR	STK01
-                                    1- 1231     	BANKSEL	r0x102D
+     0047 01rr                      1- 1219     	MOVR	r0x102C,W
+     0048 00rr                      1- 1220     	MOVAR	STK01
+                                    1- 1221     	BANKSEL	r0x102D
      0049 rrrr                      3-  109 m1      .banksel ram_address
-     004A 01rr                      1- 1232     	MOVR	r0x102D,W
-     004B 00rr                      1- 1233     	MOVAR	STK00
-     004C 2101                      1- 1234     	MOVIA	0x01
-                                    1- 1235     	MCALL	_CS1630_wr_buffer
+     004A 01rr                      1- 1222     	MOVR	r0x102D,W
+     004B 00rr                      1- 1223     	MOVAR	STK00
+     004C 2101                      1- 1224     	MOVIA	0x01
+                                    1- 1225     	MCALL	_CS1630_wr_buffer
      004D 2rrr                      3-   65 m1      LCALL rom_address
-                                    1- 1236     	.line	53, "BSP\bsp_cs1630.c"; 	CS1630_write_byte(CS1630_BANK1_DAC_RANGE, regval); // 恢复校准值，后续休眠唤醒后不用再次校准
-                                    1- 1237     	BANKSEL	r0x102A
+                                    1- 1226     	.line	53, "BSP\bsp_cs1630.c"; 	CS1630_write_byte(CS1630_BANK1_DAC_RANGE, regval); // 恢复校准值，后续休眠唤醒后不用再次校准
+                                    1- 1227     	BANKSEL	r0x102A
      004E rrrr                      3-  109 m1      .banksel ram_address
-     004F 01rr                      1- 1238     	MOVR	r0x102A,W
-     0050 00rr                      1- 1239     	MOVAR	STK00
-     0051 2111                      1- 1240     	MOVIA	0x11
-                                    1- 1241     	MCALL	_CS1630_write_byte
+     004F 01rr                      1- 1228     	MOVR	r0x102A,W
+     0050 00rr                      1- 1229     	MOVAR	STK00
+     0051 2111                      1- 1230     	MOVIA	0x11
+                                    1- 1231     	MCALL	_CS1630_write_byte
      0052 2rrr                      3-   65 m1      LCALL rom_address
-                                    1- 1242     	.line	54, "BSP\bsp_cs1630.c"; 	CS1630_Bank_Switch(RF_Bank0);
-     0053 2100                      1- 1243     	MOVIA	0x00
-                                    1- 1244     	MCALL	_CS1630_Bank_Switch
+                                    1- 1232     	.line	54, "BSP\bsp_cs1630.c"; 	CS1630_Bank_Switch(RF_Bank0);
+     0053 2100                      1- 1233     	MOVIA	0x00
+                                    1- 1234     	MCALL	_CS1630_Bank_Switch
      0054 2rrr                      3-   65 m1      LCALL rom_address
-                                    1- 1245     	.line	56, "BSP\bsp_cs1630.c"; 	CS1630_write_byte(CS1630_BANK0_SETUP_VALUE, 0x01);
-     0055 2101                      1- 1246     	MOVIA	0x01
-     0056 00rr                      1- 1247     	MOVAR	STK00
-     0057 211E                      1- 1248     	MOVIA	0x1e
-                                    1- 1249     	MCALL	_CS1630_write_byte
+                                    1- 1235     	.line	56, "BSP\bsp_cs1630.c"; 	CS1630_write_byte(CS1630_BANK0_SETUP_VALUE, 0x01);
+     0055 2101                      1- 1236     	MOVIA	0x01
+     0056 00rr                      1- 1237     	MOVAR	STK00
+     0057 211E                      1- 1238     	MOVIA	0x1e
+                                    1- 1239     	MCALL	_CS1630_write_byte
      0058 2rrr                      3-   65 m1      LCALL rom_address
-                                    1- 1250     	.line	61, "BSP\bsp_cs1630.c"; 	temp[0] = 0x12;
-     0059 2112                      1- 1251     	MOVIA	0x12
-                                    1- 1252     	BANKSEL	_CS1630_Init_temp_65536_58
+                                    1- 1240     	.line	61, "BSP\bsp_cs1630.c"; 	temp[0] = 0x12;
+     0059 2112                      1- 1241     	MOVIA	0x12
+                                    1- 1242     	BANKSEL	_CS1630_Init_temp_65536_58
      005A rrrr                      3-  109 m1      .banksel ram_address
-     005B 00rr                      1- 1253     	MOVAR	(_CS1630_Init_temp_65536_58 + 0)
-                                    1- 1254     	.line	62, "BSP\bsp_cs1630.c"; 	temp[1] = 0x34;
-     005C 2134                      1- 1255     	MOVIA	0x34
-     005D 00rr                      1- 1256     	MOVAR	(_CS1630_Init_temp_65536_58 + 1)
-                                    1- 1257     	.line	63, "BSP\bsp_cs1630.c"; 	temp[2] = 0x56;
-     005E 2156                      1- 1258     	MOVIA	0x56
-     005F 00rr                      1- 1259     	MOVAR	(_CS1630_Init_temp_65536_58 + 2)
-                                    1- 1260     	.line	64, "BSP\bsp_cs1630.c"; 	temp[3] = 0x78;
-     0060 2178                      1- 1261     	MOVIA	0x78
-     0061 00rr                      1- 1262     	MOVAR	(_CS1630_Init_temp_65536_58 + 3)
-                                    1- 1263     	.line	65, "BSP\bsp_cs1630.c"; 	temp[4] = 0x9a;
-     0062 219A                      1- 1264     	MOVIA	0x9a
-     0063 00rr                      1- 1265     	MOVAR	(_CS1630_Init_temp_65536_58 + 4)
-                                    1- 1266     	.line	67, "BSP\bsp_cs1630.c"; 	CS1630_wr_buffer(CS1630_BANK0_TX_ADDR, temp, 5); // set address
-     0064 21rr                      1- 1267     	MOVIA	(_CS1630_Init_temp_65536_58 + 0)
-                                    1- 1268     	BANKSEL	r0x102A
+     005B 00rr                      1- 1243     	MOVAR	(_CS1630_Init_temp_65536_58 + 0)
+                                    1- 1244     	.line	62, "BSP\bsp_cs1630.c"; 	temp[1] = 0x34;
+     005C 2134                      1- 1245     	MOVIA	0x34
+     005D 00rr                      1- 1246     	MOVAR	(_CS1630_Init_temp_65536_58 + 1)
+                                    1- 1247     	.line	63, "BSP\bsp_cs1630.c"; 	temp[2] = 0x56;
+     005E 2156                      1- 1248     	MOVIA	0x56
+     005F 00rr                      1- 1249     	MOVAR	(_CS1630_Init_temp_65536_58 + 2)
+                                    1- 1250     	.line	64, "BSP\bsp_cs1630.c"; 	temp[3] = 0x78;
+     0060 2178                      1- 1251     	MOVIA	0x78
+     0061 00rr                      1- 1252     	MOVAR	(_CS1630_Init_temp_65536_58 + 3)
+                                    1- 1253     	.line	65, "BSP\bsp_cs1630.c"; 	temp[4] = 0x9a;
+     0062 219A                      1- 1254     	MOVIA	0x9a
+     0063 00rr                      1- 1255     	MOVAR	(_CS1630_Init_temp_65536_58 + 4)
+                                    1- 1256     	.line	67, "BSP\bsp_cs1630.c"; 	CS1630_wr_buffer(CS1630_BANK0_TX_ADDR, temp, 5); // set address
+     0064 21rr                      1- 1257     	MOVIA	(_CS1630_Init_temp_65536_58 + 0)
+                                    1- 1258     	BANKSEL	r0x102A
      0065 rrrr                      3-  109 m1      .banksel ram_address
-     0066 00rr                      1- 1269     	MOVAR	r0x102A
-                                    1- 1270     	BANKSEL	r0x102B
+     0066 00rr                      1- 1259     	MOVAR	r0x102A
+                                    1- 1260     	BANKSEL	r0x102B
      0067 rrrr                      3-  109 m1      .banksel ram_address
-     0068 02rr                      1- 1271     	CLRR	r0x102B
-                                    1- 1272     	BANKSEL	r0x102C
+     0068 02rr                      1- 1261     	CLRR	r0x102B
+                                    1- 1262     	BANKSEL	r0x102C
      0069 rrrr                      3-  109 m1      .banksel ram_address
-     006A 02rr                      1- 1273     	CLRR	r0x102C
-     006B 2105                      1- 1274     	MOVIA	0x05
-     006C 00rr                      1- 1275     	MOVAR	STK03
-                                    1- 1276     	BANKSEL	r0x102A
+     006A 02rr                      1- 1263     	CLRR	r0x102C
+     006B 2105                      1- 1264     	MOVIA	0x05
+     006C 00rr                      1- 1265     	MOVAR	STK03
+                                    1- 1266     	BANKSEL	r0x102A
      006D rrrr                      3-  109 m1      .banksel ram_address
-     006E 01rr                      1- 1277     	MOVR	r0x102A,W
-     006F 00rr                      1- 1278     	MOVAR	STK02
-                                    1- 1279     	BANKSEL	r0x102B
+     006E 01rr                      1- 1267     	MOVR	r0x102A,W
+     006F 00rr                      1- 1268     	MOVAR	STK02
+                                    1- 1269     	BANKSEL	r0x102B
      0070 rrrr                      3-  109 m1      .banksel ram_address
-     0071 01rr                      1- 1280     	MOVR	r0x102B,W
-     0072 00rr                      1- 1281     	MOVAR	STK01
-                                    1- 1282     	BANKSEL	r0x102C
+     0071 01rr                      1- 1270     	MOVR	r0x102B,W
+     0072 00rr                      1- 1271     	MOVAR	STK01
+                                    1- 1272     	BANKSEL	r0x102C
      0073 rrrr                      3-  109 m1      .banksel ram_address
-     0074 01rr                      1- 1283     	MOVR	r0x102C,W
-     0075 00rr                      1- 1284     	MOVAR	STK00
-     0076 2110                      1- 1285     	MOVIA	0x10
-                                    1- 1286     	MCALL	_CS1630_wr_buffer
+     0074 01rr                      1- 1273     	MOVR	r0x102C,W
+     0075 00rr                      1- 1274     	MOVAR	STK00
+     0076 2110                      1- 1275     	MOVIA	0x10
+                                    1- 1276     	MCALL	_CS1630_wr_buffer
      0077 2rrr                      3-   65 m1      LCALL rom_address
-                                    1- 1287     	.line	74, "BSP\bsp_cs1630.c"; 	CS1630_Clear_All_Irq();
-                                    1- 1288     	MCALL	_CS1630_Clear_All_Irq
+                                    1- 1277     	.line	74, "BSP\bsp_cs1630.c"; 	CS1630_Clear_All_Irq();
+                                    1- 1278     	MCALL	_CS1630_Clear_All_Irq
      0078 2rrr                      3-   65 m1      LCALL rom_address
-                                    1- 1289     	.line	75, "BSP\bsp_cs1630.c"; 	CS1630_Flush_Tx();
-                                    1- 1290     	MCALL	_CS1630_Flush_Tx
+                                    1- 1279     	.line	75, "BSP\bsp_cs1630.c"; 	CS1630_Flush_Tx();
+                                    1- 1280     	MCALL	_CS1630_Flush_Tx
      0079 2rrr                      3-   65 m1      LCALL rom_address
-                                    1- 1291     	.line	76, "BSP\bsp_cs1630.c"; 	CS1630_CE_Low(); // 设置CE引脚为低电平，准备发送数据
-                                    1- 1292     	MCALL	_CS1630_CE_Low
-     007A 2rrr                      3-   65 m1      LCALL rom_address
-                                    1- 1293     	.line	77, "BSP\bsp_cs1630.c"; 	CS1630_ModeSwitch(Rf_PTX_Mode); // 切换到发送模式
-     007B 2101                      1- 1294     	MOVIA	0x01
-                                    1- 1295     	MCALL	_CS1630_ModeSwitch
-     007C 2rrr                      3-   65 m1      LCALL rom_address
-                                    1- 1296     	.line	79, "BSP\bsp_cs1630.c"; 	CS1630_write_byte(CS1630_BANK0_FEATURE, 0x04);
-     007D 2104                      1- 1297     	MOVIA	0x04
-     007E 00rr                      1- 1298     	MOVAR	STK00
-     007F 211D                      1- 1299     	MOVIA	0x1d
-                                    1- 1300     	MCALL	_CS1630_write_byte
-     0080 2rrr                      3-   65 m1      LCALL rom_address
-                                    1- 1301     	.line	80, "BSP\bsp_cs1630.c"; 	CS1630_write_byte(CS1630_BANK0_CONFIG, 0x0e);
-     0081 210E                      1- 1302     	MOVIA	0x0e
-     0082 00rr                      1- 1303     	MOVAR	STK00
-     0083 2100                      1- 1304     	MOVIA	0x00
-                                    1- 1305     	MCALL	_CS1630_write_byte
-     0084 2rrr                      3-   65 m1      LCALL rom_address
-                                    1- 1306     	.line	81, "BSP\bsp_cs1630.c"; 	CS1630_write_byte(CS1630_BANK0_SETUP_VALUE, 0x04); // 配置值
-     0085 2104                      1- 1307     	MOVIA	0x04
-     0086 00rr                      1- 1308     	MOVAR	STK00
-     0087 211E                      1- 1309     	MOVIA	0x1e
-                                    1- 1310     	MCALL	_CS1630_write_byte
-     0088 2rrr                      3-   65 m1      LCALL rom_address
-                                    1- 1311     	.line	82, "BSP\bsp_cs1630.c"; 	CLRWDT();
-     0089 0002                      1- 1312     	clrwdt
-                                    1- 1313     	.line	83, "BSP\bsp_cs1630.c"; 	}
-                                    1- 1314     	RETURN	
-     008A 0010                      3-   39 m1      ret
-                                    1- 1315     ; exit point of _CS1630_Init
-                                    1- 1317     ;***
-                                    1- 1318     ;  pBlock Stats: dbName = C
-                                    1- 1319     ;***
-                                    1- 1320     ;has an exit
-                                    1- 1321     ;functions called:
-                                    1- 1322     ;   _CS1630_Bank_Switch
-                                    1- 1323     ;   _CS1630_read_buffer
-                                    1- 1324     ;   _CS1630_wr_buffer
-                                    1- 1325     ;   _CS1630_read_buffer
-                                    1- 1326     ;   _CS1630_Bank_Switch
-                                    1- 1327     ;   _CS1630_Bank_Switch
-                                    1- 1328     ;   _CS1630_read_buffer
-                                    1- 1329     ;   _CS1630_wr_buffer
-                                    1- 1330     ;   _CS1630_read_buffer
-                                    1- 1331     ;   _CS1630_Bank_Switch
-                                    1- 1332     ;7 compiler assigned registers:
-                                    1- 1333     ;   r0x1027
-                                    1- 1334     ;   r0x1028
-                                    1- 1335     ;   r0x1029
-                                    1- 1336     ;   STK03
-                                    1- 1337     ;   STK02
-                                    1- 1338     ;   STK01
-                                    1- 1339     ;   STK00
-                                    1- 1340     ;; Starting pCode block
-                                    1- 1341     .segment "code"; module=bsp_cs1630, function=_CS1630_Soft_Rst
-                                    1- 1343     ;local variable name mapping:
-     0000                           1- 1345     _CS1630_Soft_Rst:
-                                    1- 1346     ; 2 exit points
-                                    1- 1347     	.line	12, "BSP\bsp_cs1630.c"; 	CS1630_Bank_Switch(RF_Bank1);
-     0000 2101                      1- 1348     	MOVIA	0x01
-                                    1- 1349     	MCALL	_CS1630_Bank_Switch
+                                    1- 1281     	.line	76, "BSP\bsp_cs1630.c"; 	CLRWDT();
+     007A 0002                      1- 1282     	clrwdt
+                                    1- 1283     	.line	78, "BSP\bsp_cs1630.c"; 	}
+                                    1- 1284     	RETURN	
+     007B 0010                      3-   39 m1      ret
+                                    1- 1285     ; exit point of _CS1630_Init
+                                    1- 1287     ;***
+                                    1- 1288     ;  pBlock Stats: dbName = C
+                                    1- 1289     ;***
+                                    1- 1290     ;has an exit
+                                    1- 1291     ;functions called:
+                                    1- 1292     ;   _CS1630_Bank_Switch
+                                    1- 1293     ;   _CS1630_read_buffer
+                                    1- 1294     ;   _CS1630_wr_buffer
+                                    1- 1295     ;   _CS1630_read_buffer
+                                    1- 1296     ;   _CS1630_Bank_Switch
+                                    1- 1297     ;   _CS1630_Bank_Switch
+                                    1- 1298     ;   _CS1630_read_buffer
+                                    1- 1299     ;   _CS1630_wr_buffer
+                                    1- 1300     ;   _CS1630_read_buffer
+                                    1- 1301     ;   _CS1630_Bank_Switch
+                                    1- 1302     ;7 compiler assigned registers:
+                                    1- 1303     ;   r0x1027
+                                    1- 1304     ;   r0x1028
+                                    1- 1305     ;   r0x1029
+                                    1- 1306     ;   STK03
+                                    1- 1307     ;   STK02
+                                    1- 1308     ;   STK01
+                                    1- 1309     ;   STK00
+                                    1- 1310     ;; Starting pCode block
+                                    1- 1311     .segment "code"; module=bsp_cs1630, function=_CS1630_Soft_Rst
+                                    1- 1313     ;local variable name mapping:
+     0000                           1- 1315     _CS1630_Soft_Rst:
+                                    1- 1316     ; 2 exit points
+                                    1- 1317     	.line	12, "BSP\bsp_cs1630.c"; 	CS1630_Bank_Switch(RF_Bank1);
+     0000 2101                      1- 1318     	MOVIA	0x01
+                                    1- 1319     	MCALL	_CS1630_Bank_Switch
      0001 2rrr                      3-   65 m1      LCALL rom_address
-                                    1- 1350     	.line	14, "BSP\bsp_cs1630.c"; 	CS1630_read_buffer(CS1630_BANK1_PLL_CTL0, soft_temp, 4); // 读取该寄存器状态
-     0002 21rr                      1- 1351     	MOVIA	(_CS1630_Soft_Rst_soft_temp_65536_56 + 0)
-                                    1- 1352     	BANKSEL	r0x1027
+                                    1- 1320     	.line	14, "BSP\bsp_cs1630.c"; 	CS1630_read_buffer(CS1630_BANK1_PLL_CTL0, soft_temp, 4); // 读取该寄存器状态
+     0002 21rr                      1- 1321     	MOVIA	(_CS1630_Soft_Rst_soft_temp_65536_56 + 0)
+                                    1- 1322     	BANKSEL	r0x1027
      0003 rrrr                      3-  109 m1      .banksel ram_address
-     0004 00rr                      1- 1353     	MOVAR	r0x1027
-                                    1- 1354     	BANKSEL	r0x1028
+     0004 00rr                      1- 1323     	MOVAR	r0x1027
+                                    1- 1324     	BANKSEL	r0x1028
      0005 rrrr                      3-  109 m1      .banksel ram_address
-     0006 02rr                      1- 1355     	CLRR	r0x1028
-                                    1- 1356     	BANKSEL	r0x1029
+     0006 02rr                      1- 1325     	CLRR	r0x1028
+                                    1- 1326     	BANKSEL	r0x1029
      0007 rrrr                      3-  109 m1      .banksel ram_address
-     0008 02rr                      1- 1357     	CLRR	r0x1029
-     0009 2104                      1- 1358     	MOVIA	0x04
-     000A 00rr                      1- 1359     	MOVAR	STK03
-                                    1- 1360     	BANKSEL	r0x1027
+     0008 02rr                      1- 1327     	CLRR	r0x1029
+     0009 2104                      1- 1328     	MOVIA	0x04
+     000A 00rr                      1- 1329     	MOVAR	STK03
+                                    1- 1330     	BANKSEL	r0x1027
      000B rrrr                      3-  109 m1      .banksel ram_address
-     000C 01rr                      1- 1361     	MOVR	r0x1027,W
-     000D 00rr                      1- 1362     	MOVAR	STK02
-                                    1- 1363     	BANKSEL	r0x1028
+     000C 01rr                      1- 1331     	MOVR	r0x1027,W
+     000D 00rr                      1- 1332     	MOVAR	STK02
+                                    1- 1333     	BANKSEL	r0x1028
      000E rrrr                      3-  109 m1      .banksel ram_address
-     000F 01rr                      1- 1364     	MOVR	r0x1028,W
-     0010 00rr                      1- 1365     	MOVAR	STK01
-                                    1- 1366     	BANKSEL	r0x1029
+     000F 01rr                      1- 1334     	MOVR	r0x1028,W
+     0010 00rr                      1- 1335     	MOVAR	STK01
+                                    1- 1336     	BANKSEL	r0x1029
      0011 rrrr                      3-  109 m1      .banksel ram_address
-     0012 01rr                      1- 1367     	MOVR	r0x1029,W
-     0013 00rr                      1- 1368     	MOVAR	STK00
-     0014 2101                      1- 1369     	MOVIA	0x01
-                                    1- 1370     	MCALL	_CS1630_read_buffer
+     0012 01rr                      1- 1337     	MOVR	r0x1029,W
+     0013 00rr                      1- 1338     	MOVAR	STK00
+     0014 2101                      1- 1339     	MOVIA	0x01
+                                    1- 1340     	MCALL	_CS1630_read_buffer
      0015 2rrr                      3-   65 m1      LCALL rom_address
-                                    1- 1371     	.line	15, "BSP\bsp_cs1630.c"; 	soft_temp[3] |= 0x80; // 将最低位置0
-                                    1- 1372     	BANKSEL	_CS1630_Soft_Rst_soft_temp_65536_56
+                                    1- 1341     	.line	15, "BSP\bsp_cs1630.c"; 	soft_temp[3] |= 0x80; // 将最低位置0
+                                    1- 1342     	BANKSEL	_CS1630_Soft_Rst_soft_temp_65536_56
      0016 rrrr                      3-  109 m1      .banksel ram_address
-     0017 01rr                      1- 1373     	MOVR	(_CS1630_Soft_Rst_soft_temp_65536_56 + 3),W
-                                    1- 1374     	BANKSEL	r0x1027
+     0017 01rr                      1- 1343     	MOVR	(_CS1630_Soft_Rst_soft_temp_65536_56 + 3),W
+                                    1- 1344     	BANKSEL	r0x1027
      0018 rrrr                      3-  109 m1      .banksel ram_address
-     0019 00rr                      1- 1375     	MOVAR	r0x1027
-     001A 1Brr                      1- 1376     	BSR	r0x1027,7
-     001B 01rr                      1- 1377     	MOVR	r0x1027,W
-                                    1- 1378     	BANKSEL	_CS1630_Soft_Rst_soft_temp_65536_56
+     0019 00rr                      1- 1345     	MOVAR	r0x1027
+     001A 1Brr                      1- 1346     	BSR	r0x1027,7
+     001B 01rr                      1- 1347     	MOVR	r0x1027,W
+                                    1- 1348     	BANKSEL	_CS1630_Soft_Rst_soft_temp_65536_56
      001C rrrr                      3-  109 m1      .banksel ram_address
-     001D 00rr                      1- 1379     	MOVAR	(_CS1630_Soft_Rst_soft_temp_65536_56 + 3)
-                                    1- 1380     	.line	16, "BSP\bsp_cs1630.c"; 	CS1630_wr_buffer(CS1630_BANK1_PLL_CTL0, soft_temp, 4);
-     001E 21rr                      1- 1381     	MOVIA	(_CS1630_Soft_Rst_soft_temp_65536_56 + 0)
-                                    1- 1382     	BANKSEL	r0x1027
+     001D 00rr                      1- 1349     	MOVAR	(_CS1630_Soft_Rst_soft_temp_65536_56 + 3)
+                                    1- 1350     	.line	16, "BSP\bsp_cs1630.c"; 	CS1630_wr_buffer(CS1630_BANK1_PLL_CTL0, soft_temp, 4);
+     001E 21rr                      1- 1351     	MOVIA	(_CS1630_Soft_Rst_soft_temp_65536_56 + 0)
+                                    1- 1352     	BANKSEL	r0x1027
      001F rrrr                      3-  109 m1      .banksel ram_address
-     0020 00rr                      1- 1383     	MOVAR	r0x1027
-                                    1- 1384     	BANKSEL	r0x1028
+     0020 00rr                      1- 1353     	MOVAR	r0x1027
+                                    1- 1354     	BANKSEL	r0x1028
      0021 rrrr                      3-  109 m1      .banksel ram_address
-     0022 02rr                      1- 1385     	CLRR	r0x1028
-                                    1- 1386     	BANKSEL	r0x1029
+     0022 02rr                      1- 1355     	CLRR	r0x1028
+                                    1- 1356     	BANKSEL	r0x1029
      0023 rrrr                      3-  109 m1      .banksel ram_address
-     0024 02rr                      1- 1387     	CLRR	r0x1029
-     0025 2104                      1- 1388     	MOVIA	0x04
-     0026 00rr                      1- 1389     	MOVAR	STK03
-                                    1- 1390     	BANKSEL	r0x1027
+     0024 02rr                      1- 1357     	CLRR	r0x1029
+     0025 2104                      1- 1358     	MOVIA	0x04
+     0026 00rr                      1- 1359     	MOVAR	STK03
+                                    1- 1360     	BANKSEL	r0x1027
      0027 rrrr                      3-  109 m1      .banksel ram_address
-     0028 01rr                      1- 1391     	MOVR	r0x1027,W
-     0029 00rr                      1- 1392     	MOVAR	STK02
-                                    1- 1393     	BANKSEL	r0x1028
+     0028 01rr                      1- 1361     	MOVR	r0x1027,W
+     0029 00rr                      1- 1362     	MOVAR	STK02
+                                    1- 1363     	BANKSEL	r0x1028
      002A rrrr                      3-  109 m1      .banksel ram_address
-     002B 01rr                      1- 1394     	MOVR	r0x1028,W
-     002C 00rr                      1- 1395     	MOVAR	STK01
-                                    1- 1396     	BANKSEL	r0x1029
+     002B 01rr                      1- 1364     	MOVR	r0x1028,W
+     002C 00rr                      1- 1365     	MOVAR	STK01
+                                    1- 1366     	BANKSEL	r0x1029
      002D rrrr                      3-  109 m1      .banksel ram_address
-     002E 01rr                      1- 1397     	MOVR	r0x1029,W
-     002F 00rr                      1- 1398     	MOVAR	STK00
-     0030 2101                      1- 1399     	MOVIA	0x01
-                                    1- 1400     	MCALL	_CS1630_wr_buffer
+     002E 01rr                      1- 1367     	MOVR	r0x1029,W
+     002F 00rr                      1- 1368     	MOVAR	STK00
+     0030 2101                      1- 1369     	MOVIA	0x01
+                                    1- 1370     	MCALL	_CS1630_wr_buffer
      0031 2rrr                      3-   65 m1      LCALL rom_address
-                                    1- 1401     	.line	17, "BSP\bsp_cs1630.c"; 	CS1630_read_buffer(CS1630_BANK1_PLL_CTL0, soft_temp, 4);
-     0032 21rr                      1- 1402     	MOVIA	(_CS1630_Soft_Rst_soft_temp_65536_56 + 0)
-                                    1- 1403     	BANKSEL	r0x1027
+                                    1- 1371     	.line	17, "BSP\bsp_cs1630.c"; 	CS1630_read_buffer(CS1630_BANK1_PLL_CTL0, soft_temp, 4);
+     0032 21rr                      1- 1372     	MOVIA	(_CS1630_Soft_Rst_soft_temp_65536_56 + 0)
+                                    1- 1373     	BANKSEL	r0x1027
      0033 rrrr                      3-  109 m1      .banksel ram_address
-     0034 00rr                      1- 1404     	MOVAR	r0x1027
-                                    1- 1405     	BANKSEL	r0x1028
+     0034 00rr                      1- 1374     	MOVAR	r0x1027
+                                    1- 1375     	BANKSEL	r0x1028
      0035 rrrr                      3-  109 m1      .banksel ram_address
-     0036 02rr                      1- 1406     	CLRR	r0x1028
-                                    1- 1407     	BANKSEL	r0x1029
+     0036 02rr                      1- 1376     	CLRR	r0x1028
+                                    1- 1377     	BANKSEL	r0x1029
      0037 rrrr                      3-  109 m1      .banksel ram_address
-     0038 02rr                      1- 1408     	CLRR	r0x1029
-     0039 2104                      1- 1409     	MOVIA	0x04
-     003A 00rr                      1- 1410     	MOVAR	STK03
-                                    1- 1411     	BANKSEL	r0x1027
+     0038 02rr                      1- 1378     	CLRR	r0x1029
+     0039 2104                      1- 1379     	MOVIA	0x04
+     003A 00rr                      1- 1380     	MOVAR	STK03
+                                    1- 1381     	BANKSEL	r0x1027
      003B rrrr                      3-  109 m1      .banksel ram_address
-     003C 01rr                      1- 1412     	MOVR	r0x1027,W
-     003D 00rr                      1- 1413     	MOVAR	STK02
-                                    1- 1414     	BANKSEL	r0x1028
+     003C 01rr                      1- 1382     	MOVR	r0x1027,W
+     003D 00rr                      1- 1383     	MOVAR	STK02
+                                    1- 1384     	BANKSEL	r0x1028
      003E rrrr                      3-  109 m1      .banksel ram_address
-     003F 01rr                      1- 1415     	MOVR	r0x1028,W
-     0040 00rr                      1- 1416     	MOVAR	STK01
-                                    1- 1417     	BANKSEL	r0x1029
+     003F 01rr                      1- 1385     	MOVR	r0x1028,W
+     0040 00rr                      1- 1386     	MOVAR	STK01
+                                    1- 1387     	BANKSEL	r0x1029
      0041 rrrr                      3-  109 m1      .banksel ram_address
-     0042 01rr                      1- 1418     	MOVR	r0x1029,W
-     0043 00rr                      1- 1419     	MOVAR	STK00
-     0044 2101                      1- 1420     	MOVIA	0x01
-                                    1- 1421     	MCALL	_CS1630_read_buffer
+     0042 01rr                      1- 1388     	MOVR	r0x1029,W
+     0043 00rr                      1- 1389     	MOVAR	STK00
+     0044 2101                      1- 1390     	MOVIA	0x01
+                                    1- 1391     	MCALL	_CS1630_read_buffer
      0045 2rrr                      3-   65 m1      LCALL rom_address
-                                    1- 1422     	.line	18, "BSP\bsp_cs1630.c"; 	CS1630_Bank_Switch(RF_Bank0);
-     0046 2100                      1- 1423     	MOVIA	0x00
-                                    1- 1424     	MCALL	_CS1630_Bank_Switch
+                                    1- 1392     	.line	18, "BSP\bsp_cs1630.c"; 	CS1630_Bank_Switch(RF_Bank0);
+     0046 2100                      1- 1393     	MOVIA	0x00
+                                    1- 1394     	MCALL	_CS1630_Bank_Switch
      0047 2rrr                      3-   65 m1      LCALL rom_address
-                                    1- 1425     	.line	19, "BSP\bsp_cs1630.c"; 	}
-                                    1- 1426     	RETURN	
+                                    1- 1395     	.line	19, "BSP\bsp_cs1630.c"; 	}
+                                    1- 1396     	RETURN	
      0048 0010                      3-   39 m1      ret
-                                    1- 1427     ; exit point of _CS1630_Soft_Rst
-                                    1- 1430     ;	code size estimation:
-                                    1- 1431     ;	  423+  123 =   546 instructions ( 1338 byte)
-                                    1- 1433     	end
+                                    1- 1397     ; exit point of _CS1630_Soft_Rst
+                                    1- 1400     ;	code size estimation:
+                                    1- 1401     ;	  408+  123 =   531 instructions ( 1308 byte)
+                                    1- 1403     	end
 
 SYMBOL TABLE            TYPE     VALUE
 __pin_count__           Constant 0000000E

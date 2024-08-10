@@ -225,7 +225,7 @@ _delay_250ms:
 	.line	17, "BSP\bsp_delay.c"; 	delay_ms(155);
 	MOVIA	0x9b
 	MCALL	_delay_ms
-	.line	18, "BSP\bsp_delay.c"; 	CLRWDT();			//清理看门狗
+	.line	18, "BSP\bsp_delay.c"; 	CLRWDT();
 	clrwdt
 	.line	19, "BSP\bsp_delay.c"; 	delay_ms(124);
 	MOVIA	0x7c

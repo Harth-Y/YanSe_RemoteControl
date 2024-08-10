@@ -275,7 +275,7 @@ NYASM 2.42
      0000 219B                      1-  226     	MOVIA	0x9b
                                     1-  227     	MCALL	_delay_ms
      0001 2rrr                      3-   65 m1      LCALL rom_address
-                                    1-  228     	.line	18, "BSP\bsp_delay.c"; 	CLRWDT();			//清理看门狗
+                                    1-  228     	.line	18, "BSP\bsp_delay.c"; 	CLRWDT();
      0002 0002                      1-  229     	clrwdt
                                     1-  230     	.line	19, "BSP\bsp_delay.c"; 	delay_ms(124);
      0003 217C                      1-  231     	MOVIA	0x7c
