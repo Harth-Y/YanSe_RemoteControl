@@ -178,10 +178,11 @@
     <Array name="ExternalResource" />
     <Array name="files">
       <Element value="BSP/bsp_hs6230.c|False" />
-      <Element value="main.c|False" />
-      <Element value="BSP/key.c|False" />
-      <Element value="BSP/app_tx.c|True" />
+      <Element value="main.c|True" />
+      <Element value="BSP/key.c|True" />
+      <Element value="BSP/app_tx.c|False" />
       <Element value="BSP/bsp_delay.c|False" />
+      <Element value="../../../../../../NY8_Example_Code/include/NY8 C/NY8_constant.h|False" />
     </Array>
     <Array name="MelodyDatabaseFiles" />
     <Array name="RegisterWindowExpandInfo">
