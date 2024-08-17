@@ -31,8 +31,8 @@ static const unsigned char channel_index[3] = {
                                                 26, // 2.426G  // 38
                                                 80  // 2.480G  // 39
                                               };
-static unsigned char s_data_num = 0;
-void send_ble_packet(unsigned char code_value, unsigned char keydown_times)
+
+void send_ble_packet(unsigned char code_value, unsigned char keydown_times, unsigned char s_data_num)
 {
     CLRWDT();
     PB4 = 1;
@@ -41,8 +41,6 @@ void send_ble_packet(unsigned char code_value, unsigned char keydown_times)
     unsigned char k = 0;             // 循环计数器
     unsigned char idx = 0;           // 用于遍历频道索引的计数器
     unsigned char status = 0x00;     // 状态寄存器，用于读取发送状态
-
-    s_data_num++;
 
     // 构建数据包
     CS1630_Tx_Payload[7] = s_data_num; // 序号，用于区分不同数据包

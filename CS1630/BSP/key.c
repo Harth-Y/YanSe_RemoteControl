@@ -9,6 +9,8 @@
 #include "app_tx.h"
 //#include "bsp_usart.h"
 
+static unsigned char s_data_num = 0;
+
 void set_PA_low(void)
 {
     PORTAbits.PA2 = 0;
@@ -112,10 +114,13 @@ unsigned char Check_Keydown()
         KeyStatus = 0;
         KeyStatus = PORTA;
         KeyStatus = KeyStatus & 0xfc;
+
+        s_data_num++;
+
    		while(KeyStatus)
 		{
             CLRWDT();
-            send_ble_packet(sCodeValue, keydown_times);
+            send_ble_packet(sCodeValue, keydown_times, s_data_num);
             keydown_times = 0;
             if(led_status != 0)
             {
