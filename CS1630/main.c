@@ -11,7 +11,8 @@
 #define UPDATE_REG(x)  __asm__("MOVR _" #x ",F")
 volatile unsigned char g_timer0_delay_conut_1 = 0;
 volatile unsigned char g_timer0_delay_conut_2 = 0;
-
+volatile unsigned char old_keyvalue = 0xff;
+volatile unsigned char Serial_Number = 0 ;
 void isr(void) __interrupt(0)
 {
     if(INTFbits.PABIF)
@@ -65,18 +66,54 @@ void main(void)
   ENI();
 
   unsigned char sleep_status = 1;
+  unsigned char keyvalue = 0;
+  unsigned char sCodeValue = 0;
+  unsigned char key_status = 0;
 
   while (1)
   {
     CLRWDT();
     key_init();
-    sleep_status = Check_Keydown();
-
-    if(sleep_status == 0)
+    keyvalue = Check_Keydown();
+    // 如果有按键按下则重置计时器并且计算码值
+    if(keyvalue != 0)
     {
       g_timer0_delay_conut_1 = 0;
       g_timer0_delay_conut_2 = 0;
+      sCodeValue = keyvalue - 1;
     }
+
+    if(keyvalue != 0 && (keyvalue != old_keyvalue) && (key_status == 0)) // 当新键值不为0且与旧键值不一致，且上一次按键扫描结果为空时，流水号增加
+    {
+      Serial_Number++;
+      send_ble_packet(sCodeValue, 2, Serial_Number);
+      delay_250ms();
+    }
+    else if(keyvalue != 0 && (keyvalue == old_keyvalue) && (key_status == 0)) // 当键值不为0且与旧键值一致，且上一次按键扫描结果为空时，流水号增加
+    {
+      Serial_Number++;
+      send_ble_packet(sCodeValue, 2, Serial_Number);
+      delay_250ms();
+    }
+    else if(keyvalue != 0 && (keyvalue == old_keyvalue) && (key_status == 1)) // 当键值不为0且与旧键值一致，且上一次按键扫描结果不为空时，流水号不增加
+    {
+      send_ble_packet(sCodeValue, 1, Serial_Number);
+      delay_ms(90);
+    }
+    CLRWDT();
+
+    // 更新旧键值以及按键状态
+    if(keyvalue!= 0)
+    {
+      key_status = 1;
+      old_keyvalue = keyvalue;
+    }
+    else
+    {
+      key_status = 0;
+    }
+
+    // 睡眠机制
     g_timer0_delay_conut_1 ++;
     if(g_timer0_delay_conut_1 == 255)
     {
@@ -92,12 +129,5 @@ void main(void)
       INTF = 0x00;
       SLEEP();
     }
-
 	}
 }
-
-/*************************************************************************************************/
-
-
-
-/*************************************************************************************************/

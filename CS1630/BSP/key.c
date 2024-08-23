@@ -1,15 +1,13 @@
 ﻿/*****************************************************************************************************************/
 //* 使用线反转法对按键状态进行检测
-//* 短按：led闪烁一次，发送18包数据，随后短时间屏蔽按键
-//* 长按，led闪烁一次后短时间内熄灭，随后快速闪烁。发送18包数据后沉默一小段时间，确认为长按后部断发送数据包，一次发送9包
 /*****************************************************************************************************************/
 #include <ny8.h>
 #include "NY8_constant.h"
 #include "bsp_delay.h"
 #include "app_tx.h"
-//#include "bsp_usart.h"
+#include "bsp_usart.h"
 
-static unsigned char s_data_num = 0;
+static unsigned char Serial_Number = 0;
 
 void set_PA_low(void)
 {
@@ -55,7 +53,6 @@ void toggle_key(void)
 unsigned char Check_Keydown()
 {
     unsigned char KeyValue=0;
-    unsigned char sCodeValue = 0;
     unsigned char KeyStatus = 0;
 
     KeyStatus = PORTA;
@@ -66,7 +63,6 @@ unsigned char Check_Keydown()
         delay_us(100);
         KeyStatus = PORTA;
         KeyStatus = KeyStatus & 0xfc;
-
         if(KeyStatus != 0xfc)
         {
             if(!PORTAbits.PA6)
@@ -100,45 +96,13 @@ unsigned char Check_Keydown()
                 case(0x0D): KeyValue=KeyValue+0x08;break;
                 case(0x0E): KeyValue=KeyValue+0x0c;break;
             }
+            CLRWDT();
+            return KeyValue;
         }
         else
         {
-            return 1;
+            return 0;
         }
-
-        sCodeValue = KeyValue - 0x01;
-        unsigned char led_status = 1;
-        unsigned char keydown_times = 1;
-
-        key_init();
-        KeyStatus = 0;
-        KeyStatus = PORTA;
-        KeyStatus = KeyStatus & 0xfc;
-
-        s_data_num++;
-
-   		while(KeyStatus)
-		{
-            CLRWDT();
-            send_ble_packet(sCodeValue, keydown_times, s_data_num);
-            keydown_times = 0;
-            if(led_status != 0)
-            {
-                led_status = 0;
-                delay_250ms();
-                CLRWDT();
-            }
-            else
-            {
-                delay_ms(90);
-            }
-			key_init();
-            if(KeyStatus != (PORTA & 0xfc))
-            {
-                return 0;
-            }
-		}
-        return 0;
     }
-    return 1;
+    return 0;
 }
