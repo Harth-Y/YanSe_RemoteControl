@@ -9,14 +9,18 @@
 //#include "bsp_usart.h"
 
 #define UPDATE_REG(x)  __asm__("MOVR _" #x ",F")
-volatile unsigned char g_timer0_delay_conut_1 = 0;
-volatile unsigned char g_timer0_delay_conut_2 = 0;
-volatile unsigned char old_keyvalue = 0xff;
-volatile unsigned char Serial_Number = 0 ;
+
+volatile unsigned char slepp_time_count_1 = 0;
+volatile unsigned char sleep_time_count_2 = 0;
+volatile unsigned char old_key_value = 0xff;
+volatile unsigned char Serial_Number = 0;
+extern volatile unsigned char key_long_int_status;
+
 void isr(void) __interrupt(0)
 {
     if(INTFbits.PABIF)
     {
+      key_long_int_status = 1;
       INTFbits.PABIF = 0;					// 清除PABIF（PortB输入变化中断标志位）
     }
 }
@@ -66,63 +70,65 @@ void main(void)
   ENI();
 
   unsigned char sleep_status = 1;
-  unsigned char keyvalue = 0;
-  unsigned char sCodeValue = 0;
-  unsigned char key_status = 0;
-
+  unsigned char key_value = 0;
+  unsigned char Code_Value = 0;
+  unsigned char old_key_status = 0;
+  key_long_int_status = 0;
   while (1)
   {
     CLRWDT();
+    DISI();
     key_init();
-    keyvalue = Check_Keydown();
+    key_value = Check_Keydown();
+    ENI();
     // 如果有按键按下则重置计时器并且计算码值
-    if(keyvalue != 0)
+    if(key_value != 0)
     {
-      g_timer0_delay_conut_1 = 0;
-      g_timer0_delay_conut_2 = 0;
-      sCodeValue = keyvalue - 1;
+      slepp_time_count_1 = 0;
+      sleep_time_count_2 = 0;
+      Code_Value = key_value - 1;
     }
 
-    if(keyvalue != 0 && (keyvalue != old_keyvalue) && (key_status == 0)) // 当新键值不为0且与旧键值不一致，且上一次按键扫描结果为空时，流水号增加
+    if((key_value != 0)&& (old_key_status == 0)) // 当键值不为0，同时上一次按键扫描结果为空时，流水号增加
     {
       Serial_Number++;
-      send_ble_packet(sCodeValue, 2, Serial_Number);
-      delay_250ms();
+      //wake_up_init();
+      send_ble_packet(Code_Value, 5, Serial_Number);
     }
-    else if(keyvalue != 0 && (keyvalue == old_keyvalue) && (key_status == 0)) // 当键值不为0且与旧键值一致，且上一次按键扫描结果为空时，流水号增加
+    else if((key_value != 0) && (old_key_status == 1) && (key_value == old_key_value)) // 当键值不为0且与旧键值一致，同时上一次按键扫描结果不为空时，流水号不增加
     {
-      Serial_Number++;
-      send_ble_packet(sCodeValue, 2, Serial_Number);
-      delay_250ms();
-    }
-    else if(keyvalue != 0 && (keyvalue == old_keyvalue) && (key_status == 1)) // 当键值不为0且与旧键值一致，且上一次按键扫描结果不为空时，流水号不增加
-    {
-      send_ble_packet(sCodeValue, 1, Serial_Number);
+      send_ble_packet(Code_Value, 0, Serial_Number);
       delay_ms(90);
+    }
+    else if((key_value != 0) && (old_key_status == 1) && (key_value != old_key_value)) // 当键值不为0且与旧键值不一致，同时上一次按键扫描结果不为空时，流水号增加
+    {
+      Serial_Number++;
+      //wake_up_init();
+      send_ble_packet(Code_Value, 5, Serial_Number);
     }
     CLRWDT();
 
-    // 更新旧键值以及按键状态
-    if(keyvalue!= 0)
+    // 更新旧键值以及旧按键状态
+    if(key_value != 0)
     {
-      key_status = 1;
-      old_keyvalue = keyvalue;
+      old_key_status = 1;
+      old_key_value = key_value;
     }
     else
     {
-      key_status = 0;
+      old_key_status = 0;
     }
 
     // 睡眠机制
-    g_timer0_delay_conut_1 ++;
-    if(g_timer0_delay_conut_1 == 255)
+    slepp_time_count_1 ++;
+    if(slepp_time_count_1 == 255)
     {
-      g_timer0_delay_conut_1 = 0;
-      g_timer0_delay_conut_2 ++;
+      slepp_time_count_1 = 0;
+      sleep_time_count_2 ++;
     }
-    if(g_timer0_delay_conut_2 == 20)
+    if(sleep_time_count_2 == 20)
     {
-      g_timer0_delay_conut_2 = 0;
+      sleep_time_count_2 = 0;
       wake_up_init();
       close_WDT();
       UPDATE_REG(PORTA);

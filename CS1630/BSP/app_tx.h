@@ -27,6 +27,7 @@
 #define CS1630_BANK1_DAC_RANGE_RESET_VALUE          0x00
 #define CS1630_BANK1_CHAN_RESET_VALUE               0x99
 
+//volatile unsigned char key_long_int_status;
 void send_ble_packet(unsigned char code_value, unsigned char send_times, unsigned char Serial_Number);
 
 #endif

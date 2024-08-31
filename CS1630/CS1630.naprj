@@ -39,7 +39,7 @@
     <RootNamespace>CS1630</RootNamespace>
     <TrimSetting>+ 0%</TrimSetting>
     <WarningMsgCode0>110</WarningMsgCode0>
-    <WarningMsgCode1>110</WarningMsgCode1>
+    <WarningMsgCode1>84</WarningMsgCode1>
     <WarningMsgCode10>112</WarningMsgCode10>
     <WarningMsgCode11>112</WarningMsgCode11>
     <WarningMsgCode12>112</WarningMsgCode12>
@@ -62,7 +62,7 @@
     <WarningMsgCode9>112</WarningMsgCode9>
     <WarningMsgCount>1</WarningMsgCount>
     <WarningMsgFileName0>D:\code\YanSe_RemoteControl\CS1630\BSP\bsp_cs1630.c</WarningMsgFileName0>
-    <WarningMsgFileName1>D:\code\YanSe_RemoteControl\CS1630\BSP\bsp_cs1630.c</WarningMsgFileName1>
+    <WarningMsgFileName1>D:\code\YanSe_RemoteControl\CS1630\BSP\app_tx.c</WarningMsgFileName1>
     <WarningMsgFileName10>D:\code\Master\ChangJi\yanSe\CS1630\CS1630\BSP\bsp_cs1630.c</WarningMsgFileName10>
     <WarningMsgFileName11>D:\code\Master\ChangJi\yanSe\CS1630\CS1630\BSP\bsp_cs1630.c</WarningMsgFileName11>
     <WarningMsgFileName12>D:\code\Master\ChangJi\yanSe\CS1630\CS1630\BSP\bsp_cs1630.c</WarningMsgFileName12>
@@ -84,7 +84,7 @@
     <WarningMsgFileName8>D:\code\ChangJi\ChangJi\yanSe\CS1630\CS1630\BSP\bsp_cs1630.c</WarningMsgFileName8>
     <WarningMsgFileName9>D:\code\Master\ChangJi\yanSe\CS1630\CS1630\BSP\bsp_cs1630.c</WarningMsgFileName9>
     <WarningMsgLineNumber0>150</WarningMsgLineNumber0>
-    <WarningMsgLineNumber1>150</WarningMsgLineNumber1>
+    <WarningMsgLineNumber1>44</WarningMsgLineNumber1>
     <WarningMsgLineNumber10>44</WarningMsgLineNumber10>
     <WarningMsgLineNumber11>46</WarningMsgLineNumber11>
     <WarningMsgLineNumber12>47</WarningMsgLineNumber12>
@@ -106,7 +106,7 @@
     <WarningMsgLineNumber8>150</WarningMsgLineNumber8>
     <WarningMsgLineNumber9>41</WarningMsgLineNumber9>
     <WarningMsgMessage0>BSP\bsp_cs1630.c:150: warning 110: conditional flow changed by optimizer.</WarningMsgMessage0>
-    <WarningMsgMessage1>BSP\bsp_cs1630.c:150: warning 110: conditional flow changed by optimizer.</WarningMsgMessage1>
+    <WarningMsgMessage1>BSP\app_tx.c:44: warning 84: 'auto' variable 'wake_up_init' may be used before initialization</WarningMsgMessage1>
     <WarningMsgMessage10>BSP\bsp_cs1630.c:44: warning 112: function 'HS6230_Bank_Switch' implicit declaration</WarningMsgMessage10>
     <WarningMsgMessage11>BSP\bsp_cs1630.c:46: warning 112: function 'HS6230_read_byte' implicit declaration</WarningMsgMessage11>
     <WarningMsgMessage12>BSP\bsp_cs1630.c:47: warning 112: function 'HS6230_read_buffer' implicit declaration</WarningMsgMessage12>
@@ -183,17 +183,18 @@
       <Element value="BSP/app_tx.c|False" />
       <Element value="BSP/bsp_delay.c|False" />
       <Element value="../../../NY8_Example_Code/include/NY8 C/NY8_constant.h|False" />
+      <Element value="BSP/bsp_cs1630.c|False" />
     </Array>
     <Array name="MelodyDatabaseFiles" />
     <Array name="RegisterWindowExpandInfo">
-      <Element value="R-Page|True" />
+      <Element value="R-Page|False" />
       <Element value="INDF@R-Page|False" />
       <Element value="TMR0@R-Page|False" />
       <Element value="PCL@R-Page|False" />
       <Element value="STATUS@R-Page|False" />
       <Element value="FSR@R-Page|False" />
-      <Element value="PORTA@R-Page|True" />
-      <Element value="PORTB@R-Page|True" />
+      <Element value="PORTA@R-Page|False" />
+      <Element value="PORTB@R-Page|False" />
       <Element value="PCON@R-Page|False" />
       <Element value="BWUCON@R-Page|False" />
       <Element value="PCHBUF@R-Page|False" />
@@ -207,136 +208,6 @@
       <Element value="RFC@R-Page|False" />
       <Element value="TM34RH@R-Page|False" />
       <Element value="INTE2@R-Page|False" />
-      <Element value="INDF|False" />
-      <Element value="TMR0|False" />
-      <Element value="PCL|False" />
-      <Element value="STATUS|False" />
-      <Element value="BK@STATUS|False" />
-      <Element value="GP5@STATUS|False" />
-      <Element value="/TO@STATUS|False" />
-      <Element value="/PD@STATUS|False" />
-      <Element value="Z@STATUS|False" />
-      <Element value="DC@STATUS|False" />
-      <Element value="C@STATUS|False" />
-      <Element value="FSR|False" />
-      <Element value="PORTA|True" />
-      <Element value="PA7@PORTA|False" />
-      <Element value="PA6@PORTA|False" />
-      <Element value="PA5@PORTA|False" />
-      <Element value="PA4@PORTA|False" />
-      <Element value="PA3@PORTA|False" />
-      <Element value="PA2@PORTA|False" />
-      <Element value="PA1@PORTA|False" />
-      <Element value="PA0@PORTA|False" />
-      <Element value="PA7|False" />
-      <Element value="PA6|False" />
-      <Element value="PA5|False" />
-      <Element value="PA4|False" />
-      <Element value="PA3|False" />
-      <Element value="PA2|False" />
-      <Element value="PA1|False" />
-      <Element value="PA0|False" />
-      <Element value="PORTB|True" />
-      <Element value="GP7@PORTB|False" />
-      <Element value="GP6@PORTB|False" />
-      <Element value="PB5@PORTB|False" />
-      <Element value="PB4@PORTB|False" />
-      <Element value="PB3@PORTB|False" />
-      <Element value="PB2@PORTB|False" />
-      <Element value="PB1@PORTB|False" />
-      <Element value="PB0@PORTB|False" />
-      <Element value="GP7|False" />
-      <Element value="GP6|False" />
-      <Element value="PB5|False" />
-      <Element value="PB4|False" />
-      <Element value="PB3|False" />
-      <Element value="PB2|False" />
-      <Element value="PB1|False" />
-      <Element value="PB0|False" />
-      <Element value="PCON|False" />
-      <Element value="WDTEN@PCON|False" />
-      <Element value="/PLPA4@PCON|False" />
-      <Element value="LVDEN@PCON|False" />
-      <Element value="/PHPA5@PCON|False" />
-      <Element value="LVREN@PCON|False" />
-      <Element value="CMPEN@PCON|False" />
-      <Element value="GP1@PCON|False" />
-      <Element value="GP0@PCON|False" />
-      <Element value="BWUCON|False" />
-      <Element value="WUPB5@BWUCON|False" />
-      <Element value="WUPB4@BWUCON|False" />
-      <Element value="WUPB3@BWUCON|False" />
-      <Element value="WUPB2@BWUCON|False" />
-      <Element value="WUPB1@BWUCON|False" />
-      <Element value="WUPB0@BWUCON|False" />
-      <Element value="PCHBUF|False" />
-      <Element value="XSPD_STP@PCHBUF|False" />
-      <Element value="PCHBUF@PCHBUF|False" />
-      <Element value="ABPLCON|False" />
-      <Element value="/PLPB3@ABPLCON|False" />
-      <Element value="/PLPB2@ABPLCON|False" />
-      <Element value="/PLPB1@ABPLCON|False" />
-      <Element value="/PLPB0@ABPLCON|False" />
-      <Element value="/PLPA3@ABPLCON|False" />
-      <Element value="/PLPA2@ABPLCON|False" />
-      <Element value="/PLPA1@ABPLCON|False" />
-      <Element value="/PLPA0@ABPLCON|False" />
-      <Element value="BPHCON|False" />
-      <Element value="/PHPB5@BPHCON|False" />
-      <Element value="/PHPB4@BPHCON|False" />
-      <Element value="/PHPB3@BPHCON|False" />
-      <Element value="/PHPB2@BPHCON|False" />
-      <Element value="/PHPB1@BPHCON|False" />
-      <Element value="/PHPB0@BPHCON|False" />
-      <Element value="INTE|False" />
-      <Element value="INT1IE@INTE|False" />
-      <Element value="WDTIE@INTE|False" />
-      <Element value="LVDIE@INTE|False" />
-      <Element value="T1IE@INTE|False" />
-      <Element value="INT0IE@INTE|False" />
-      <Element value="PABIE@INTE|False" />
-      <Element value="T0IE@INTE|False" />
-      <Element value="INTF|False" />
-      <Element value="INT1IF@INTF|False" />
-      <Element value="WDTIF@INTF|False" />
-      <Element value="LVDIF@INTF|False" />
-      <Element value="T1IF@INTF|False" />
-      <Element value="INT0IF@INTF|False" />
-      <Element value="PABIF@INTF|False" />
-      <Element value="T0IF@INTF|False" />
-      <Element value="AWUCON|False" />
-      <Element value="WUPA7@AWUCON|False" />
-      <Element value="WUPA6@AWUCON|False" />
-      <Element value="WUPA5@AWUCON|False" />
-      <Element value="WUPA4@AWUCON|False" />
-      <Element value="WUPA3@AWUCON|False" />
-      <Element value="WUPA2@AWUCON|False" />
-      <Element value="WUPA1@AWUCON|False" />
-      <Element value="WUPA0@AWUCON|False" />
-      <Element value="INTEDG|False" />
-      <Element value="EIS@INTEDG|False" />
-      <Element value="INT1G@INTEDG|False" />
-      <Element value="INT0G@INTEDG|False" />
-      <Element value="TMRH|False" />
-      <Element value="TMR19@TMRH|False" />
-      <Element value="TMR18@TMRH|False" />
-      <Element value="PWM2DUTY9@TMRH|False" />
-      <Element value="PWM2DUTY8@TMRH|False" />
-      <Element value="PWM1DUTY9@TMRH|False" />
-      <Element value="PWM1DUTY8@TMRH|False" />
-      <Element value="RFC|False" />
-      <Element value="RFCEN@RFC|False" />
-      <Element value="PSEL@RFC|False" />
-      <Element value="TM34RH|False" />
-      <Element value="TMR39@TM34RH|False" />
-      <Element value="TMR38@TM34RH|False" />
-      <Element value="PWM4DUTY9@TM34RH|False" />
-      <Element value="PWM4DUTY8@TM34RH|False" />
-      <Element value="PWM3DUTY9@TM34RH|False" />
-      <Element value="PWM3DUTY8@TM34RH|False" />
-      <Element value="INTE2|False" />
-      <Element value="T3IF@INTE2|False" />
-      <Element value="T3IE@INTE2|False" />
       <Element value="F-Page|False" />
       <Element value="IOSTA@F-Page|False" />
       <Element value="IOSTB@F-Page|False" />
