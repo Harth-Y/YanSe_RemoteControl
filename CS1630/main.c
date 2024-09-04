@@ -15,6 +15,7 @@ volatile unsigned char sleep_time_count_2 = 0;
 volatile unsigned char old_key_value = 0xff;
 volatile unsigned char Serial_Number = 0;
 extern volatile unsigned char key_long_int_status;
+extern volatile unsigned char one_key_twice_dowm;
 
 void isr(void) __interrupt(0)
 {
@@ -88,23 +89,31 @@ void main(void)
       sleep_time_count_2 = 0;
       Code_Value = key_value - 1;
     }
+    else
+    {
+      Code_Value = 0xff;
+    }
 
     if((key_value != 0)&& (old_key_status == 0)) // 当键值不为0，同时上一次按键扫描结果为空时，流水号增加
     {
       Serial_Number++;
-      //wake_up_init();
-      send_ble_packet(Code_Value, 5, Serial_Number);
+      send_ble_packet(Code_Value, 15, Serial_Number);
     }
-    else if((key_value != 0) && (old_key_status == 1) && (key_value == old_key_value)) // 当键值不为0且与旧键值一致，同时上一次按键扫描结果不为空时，流水号不增加
+    else if((key_value != 0) && (old_key_status == 1) && (key_value == old_key_value) && (one_key_twice_dowm == 0)) // 当键值不为0且与旧键值一致，同时上一次按键扫描结果不为空时，流水号不增加
     {
       send_ble_packet(Code_Value, 0, Serial_Number);
       delay_ms(90);
     }
+    else if((key_value != 0) && (old_key_status == 1) && (key_value == old_key_value) && (one_key_twice_dowm == 1)) // 当键值不为0且与旧键值一致，同时上一次按键扫描结果不为空时，流水号不增加
+    {
+      one_key_twice_dowm = 0;
+      Serial_Number++;
+      send_ble_packet(Code_Value, 15, Serial_Number);
+    }
     else if((key_value != 0) && (old_key_status == 1) && (key_value != old_key_value)) // 当键值不为0且与旧键值不一致，同时上一次按键扫描结果不为空时，流水号增加
     {
       Serial_Number++;
-      //wake_up_init();
-      send_ble_packet(Code_Value, 5, Serial_Number);
+      send_ble_packet(Code_Value, 15, Serial_Number);
     }
     CLRWDT();
 

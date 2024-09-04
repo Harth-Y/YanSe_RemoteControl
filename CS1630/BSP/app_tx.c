@@ -5,6 +5,7 @@
 //#include "bsp_usart.h"
 
 volatile unsigned char key_long_int_status = 0;
+volatile unsigned char one_key_twice_dowm = 0;
 static unsigned char CS1630_Tx_Payload[32] = {
     0x02, // 数据包长度的首字节
     0x01, // 数据包类型
@@ -41,16 +42,16 @@ void send_ble_packet(unsigned char code_value, unsigned char send_times, unsigne
     unsigned char k = 0;             // 循环计数器
     unsigned char idx = 0;           // 用于遍历频道索引的计数器
     unsigned char status = 0x00;     // 状态寄存器，用于读取发送状态
+    unsigned char s_k = 0;
 
-  AWUCON = 0xfc;
-  BWUCON = 0x00;
-  IOSTA = C_PA2_Input | C_PA3_Input | C_PA4_Input | C_PA5_Input | C_PA6_Input | C_PA7_Input;  // 配置PA2、3、4、5、6、7为输入
-  APHCON = 0b00100011; // 设置2、3、4、6、7上拉
+    AWUCON = 0xfc;
+    BWUCON = 0x00;
+    IOSTA = C_PA2_Input | C_PA3_Input | C_PA4_Input | C_PA5_Input | C_PA6_Input | C_PA7_Input;  // 配置PA2、3、4、5、6、7为输入
+    APHCON = 0b00100011; // 设置2、3、4、6、7上拉
 
-  INTE = C_INT_PABKey;
-  INTF = 0x00;
+    INTE = C_INT_PABKey;
+    INTF = 0x00;
 
-    key_long_int_status = 0;
     // 构建数据包
     CS1630_Tx_Payload[7] = Serial_Number; // 序号，用于区分不同数据包
     CS1630_Tx_Payload[8] = code_value; // 码值，用于指示功能
@@ -90,6 +91,7 @@ void send_ble_packet(unsigned char code_value, unsigned char send_times, unsigne
         }
     }
     PB4=0;
+    key_long_int_status = 0;
     // 发送数据包的循环
     for(k =0; k < send_times; k++)
     {
@@ -117,10 +119,17 @@ void send_ble_packet(unsigned char code_value, unsigned char send_times, unsigne
                 }
             }
         }
+
         if(key_long_int_status == 1)
         {
             key_long_int_status = 0;
-            return;
+            s_k++;
+            if(s_k == 2)
+            {
+                one_key_twice_dowm = 1;
+                s_k = 0;
+                return;
+            }
         }
     }
 

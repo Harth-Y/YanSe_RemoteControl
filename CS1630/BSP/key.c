@@ -78,10 +78,11 @@ unsigned char Check_Keydown()
 
             switch(KeyStatus)
             {
-                case(0X38): KeyValue=0x01;break;
-                case(0X34): KeyValue=0x02;break;
-                case(0X2C): KeyValue=0x03;break;
-                case(0X1C): KeyValue=0x04;break;
+                case(0X38): KeyValue = 0x01;break;
+                case(0X34): KeyValue = 0x02;break;
+                case(0X2C): KeyValue = 0x03;break;
+                case(0X1C): KeyValue = 0x04;break;
+                default:KeyValue = 0x00;break;
             }
 
             toggle_key();
@@ -91,10 +92,11 @@ unsigned char Check_Keydown()
 
             switch(KeyStatus)
             {
-                case(0x07): KeyValue=KeyValue;break;
-                case(0x0B): KeyValue=KeyValue+0x04;break;
-                case(0x0D): KeyValue=KeyValue+0x08;break;
-                case(0x0E): KeyValue=KeyValue+0x0c;break;
+                case(0x07): KeyValue = KeyValue;break;
+                case(0x0B): KeyValue = KeyValue+0x04;break;
+                case(0x0D): KeyValue = KeyValue+0x08;break;
+                case(0x0E): KeyValue = KeyValue+0x0c;break;
+                default:KeyValue = 0x00;break;
             }
             CLRWDT();
             return KeyValue;
