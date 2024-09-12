@@ -4,7 +4,7 @@
 #include "app_tx.h"
 //#include "bsp_usart.h"
 
-volatile unsigned char key_long_int_status = 0;
+volatile unsigned char key_status_change = 0;
 volatile unsigned char one_key_twice_dowm = 0;
 static unsigned char CS1630_Tx_Payload[32] = {
     0x02, // 数据包长度的首字节
@@ -42,8 +42,9 @@ void send_ble_packet(unsigned char code_value, unsigned char send_times, unsigne
     unsigned char k = 0;             // 循环计数器
     unsigned char idx = 0;           // 用于遍历频道索引的计数器
     unsigned char status = 0x00;     // 状态寄存器，用于读取发送状态
-    unsigned char s_k = 0;
+    unsigned char enter_interput_times = 0;
 
+    // 开启gpio变化中断
     AWUCON = 0xfc;
     BWUCON = 0x00;
     IOSTA = C_PA2_Input | C_PA3_Input | C_PA4_Input | C_PA5_Input | C_PA6_Input | C_PA7_Input;  // 配置PA2、3、4、5、6、7为输入
@@ -91,7 +92,7 @@ void send_ble_packet(unsigned char code_value, unsigned char send_times, unsigne
         }
     }
     PB4=0;
-    key_long_int_status = 0;
+    key_status_change = 0;
     // 发送数据包的循环
     for(k =0; k < send_times; k++)
     {
@@ -120,14 +121,14 @@ void send_ble_packet(unsigned char code_value, unsigned char send_times, unsigne
             }
         }
 
-        if(key_long_int_status == 1)
+        if(key_status_change == 1)
         {
-            key_long_int_status = 0;
-            s_k++;
-            if(s_k == 2)
+            key_status_change = 0;
+            enter_interput_times++;
+            if(enter_interput_times == 2)
             {
                 one_key_twice_dowm = 1;
-                s_k = 0;
+                enter_interput_times = 0;
                 return;
             }
         }
@@ -135,5 +136,5 @@ void send_ble_packet(unsigned char code_value, unsigned char send_times, unsigne
 
     // 重置配置寄存器
     CS1630_write_byte(CS1630_BANK0_CONFIG, 0x00);
-    delay_ms(1);
+    delay_ms(2);
 }

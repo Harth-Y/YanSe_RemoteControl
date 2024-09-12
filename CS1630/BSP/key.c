@@ -60,7 +60,7 @@ unsigned char Check_Keydown()
 
     if(KeyStatus != 0xfc)
     {
-        delay_us(100);
+        delay_ms(4);
         KeyStatus = PORTA;
         KeyStatus = KeyStatus & 0xfc;
         if(KeyStatus != 0xfc)
@@ -68,10 +68,12 @@ unsigned char Check_Keydown()
             if(!PORTAbits.PA6)
             {
                 KeyValue=0x11;
+                return KeyValue;
             }
             if(!PORTAbits.PA7)
             {
-             KeyValue=0x12;
+                KeyValue=0x12;
+                return KeyValue;
             }
 
             KeyStatus = KeyStatus & 0x3c;
