@@ -63,7 +63,7 @@ void send_ble_packet(unsigned char code_value, unsigned char send_times, unsigne
     CS1630_Clear_All_Irq();
 
     // 配置寄存器以发送数据
-    CS1630_write_byte(CS1630_BANK0_CONFIG, 0x0e);
+    CS1630_write_byte(CS1630_BANK0_CONFIG, 0x0f);
     delay_ms(5);
 
     CLRWDT();
@@ -129,12 +129,14 @@ void send_ble_packet(unsigned char code_value, unsigned char send_times, unsigne
             {
                 one_key_twice_dowm = 1;
                 enter_interput_times = 0;
+                CS1630_write_byte(CS1630_BANK0_CONFIG, 0x0d);
+                delay_ms(2);
                 return;
             }
         }
     }
 
     // 重置配置寄存器
-    CS1630_write_byte(CS1630_BANK0_CONFIG, 0x00);
+    CS1630_write_byte(CS1630_BANK0_CONFIG, 0x0d);
     delay_ms(2);
 }

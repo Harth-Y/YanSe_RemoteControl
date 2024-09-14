@@ -57,13 +57,14 @@ void CS1630_init_main(void)
 
   // 配置CS1630模块的寄存器
   CS1630_write_byte(CS1630_BANK0_FEATURE, 0x04);
-  CS1630_write_byte(CS1630_BANK0_CONFIG, 0x0e);
+  CS1630_write_byte(CS1630_BANK0_CONFIG, 0x0f);
   CS1630_write_byte(CS1630_BANK0_SETUP_VALUE, 0x04); // 配置值
+  CS1630_write_byte(CS1630_BANK0_CONFIG, 0x0d);
+  delay_ms(2);
 }
 
 void main(void)
 {
-
   DISI();
   CS1630_init_main();
   wake_up_init();
@@ -78,11 +79,6 @@ void main(void)
 
   while (1)
   {
-    // delay_ms(1);
-    // PORTB ^= (1<<4);
-    // delay_us(1);
-    // PORTB ^= (1<<4);
-
     CLRWDT();
     key_init();
     key_value = Check_Keydown();
