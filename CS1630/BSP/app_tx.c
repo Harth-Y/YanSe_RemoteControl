@@ -37,9 +37,8 @@ static const unsigned char channel_index[3] = {
 void send_ble_packet(unsigned char code_value, unsigned char send_times, unsigned char Serial_Number)
 {
     CLRWDT();
-    unsigned char i = 0;             // 循环计数器
-    unsigned char j = 0;             // 循环计数器
-    unsigned char k = 0;             // 循环计数器
+    unsigned char mini_circle = 0;             // 循环计数器
+    unsigned char great_circle = 0;             // 循环计数器
     unsigned char idx = 0;           // 用于遍历频道索引的计数器
     unsigned char status = 0x00;     // 状态寄存器，用于读取发送状态
     unsigned char enter_interput_times = 0;
@@ -73,7 +72,7 @@ void send_ble_packet(unsigned char code_value, unsigned char send_times, unsigne
     {
         CLRWDT();
         CS1630_write_byte(CS1630_BANK0_RF_CH, channel_index[idx]); // 设置射频频道
-        for(i = 0; i < 3; i++)
+        for(mini_circle = 0; mini_circle < 3; mini_circle++)
         {
             CS1630_SendPack(RF_W_TX_PAYLOAD, CS1630_Tx_Payload, 0x14); // 发送数据包
             CS1630_CE_High(); // 产生CE脉冲，开始发送
@@ -91,10 +90,10 @@ void send_ble_packet(unsigned char code_value, unsigned char send_times, unsigne
             }
         }
     }
-    PB4=0;
+    PB4 = 0;
     key_status_change = 0;
     // 发送数据包的循环
-    for(k =0; k < send_times; k++)
+    for(great_circle = 0; great_circle < send_times; great_circle++)
     {
         CLRWDT();
         // 遍历频道索引数组，发送数据
@@ -102,7 +101,7 @@ void send_ble_packet(unsigned char code_value, unsigned char send_times, unsigne
         {
             CLRWDT();
             CS1630_write_byte(CS1630_BANK0_RF_CH, channel_index[idx]); // 设置射频频道
-            for(i = 0; i < 3; i++)
+            for(mini_circle = 0; mini_circle < 3; mini_circle++)
             {
                 CS1630_SendPack(RF_W_TX_PAYLOAD, CS1630_Tx_Payload, 0x14); // 发送数据包
                 CS1630_CE_High(); // 产生CE脉冲，开始发送

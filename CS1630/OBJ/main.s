@@ -424,69 +424,69 @@ END_OF_INTERRUPT:
 .segment "code"; module=main, function=_main
 	.debuginfo subprogram _main
 ;local variable name mapping:
-	.debuginfo complex-type (local-sym "_old_key_status" 1 "main.c" 76 (basetype 1 unsigned) split "r0x1009")
-	.debuginfo complex-type (local-sym "_key_value" 1 "main.c" 74 (basetype 1 unsigned) split "r0x100A")
-	.debuginfo complex-type (local-sym "_Code_Value" 1 "main.c" 75 (basetype 1 unsigned) split "r0x100B")
+	.debuginfo complex-type (local-sym "_old_key_status" 1 "main.c" 77 (basetype 1 unsigned) split "r0x1009")
+	.debuginfo complex-type (local-sym "_key_value" 1 "main.c" 75 (basetype 1 unsigned) split "r0x100A")
+	.debuginfo complex-type (local-sym "_Code_Value" 1 "main.c" 76 (basetype 1 unsigned) split "r0x100B")
 _main:
 ; 2 exit points
-	.line	67, "main.c"; 	DISI();
+	.line	68, "main.c"; 	DISI();
 	DISI
-	.line	68, "main.c"; 	CS1630_init_main();
+	.line	69, "main.c"; 	CS1630_init_main();
 	MCALL	_CS1630_init_main
-	.line	69, "main.c"; 	wake_up_init();
+	.line	70, "main.c"; 	wake_up_init();
 	MCALL	_wake_up_init
-	.line	70, "main.c"; 	open_WDT();
+	.line	71, "main.c"; 	open_WDT();
 	MCALL	_open_WDT
-	.line	71, "main.c"; 	ENI();
+	.line	72, "main.c"; 	ENI();
 	ENI
-	.line	76, "main.c"; 	unsigned char old_key_status = 0;
+	.line	77, "main.c"; 	unsigned char old_key_status = 0;
 	BANKSEL	r0x1009
 	CLRR	r0x1009
-	.line	77, "main.c"; 	key_status_change = 0;
+	.line	78, "main.c"; 	key_status_change = 0;
 	BANKSEL	_key_status_change
 	CLRR	_key_status_change
 _02050_DS_:
-	.line	86, "main.c"; 	CLRWDT();
+	.line	82, "main.c"; 	CLRWDT();
 	clrwdt
-	.line	87, "main.c"; 	key_init();
+	.line	83, "main.c"; 	key_init();
 	MCALL	_key_init
-	.line	88, "main.c"; 	key_value = Check_Keydown();
+	.line	84, "main.c"; 	key_value = Check_Keydown();
 	MCALL	_Check_Keydown
 	BANKSEL	r0x100A
 	MOVAR	r0x100A
-	.line	91, "main.c"; 	if(key_value != 0)
+	.line	87, "main.c"; 	if(key_value != 0)
 	MOVR	r0x100A,W
 	BTRSC	STATUS,2
 	MGOTO	_02029_DS_
-	.line	93, "main.c"; 	slepp_time_count_1 = 0;
+	.line	89, "main.c"; 	slepp_time_count_1 = 0;
 	BANKSEL	_slepp_time_count_1
 	CLRR	_slepp_time_count_1
-	.line	94, "main.c"; 	sleep_time_count_2 = 0;
+	.line	90, "main.c"; 	sleep_time_count_2 = 0;
 	BANKSEL	_sleep_time_count_2
 	CLRR	_sleep_time_count_2
-	.line	95, "main.c"; 	Code_Value = key_value - 1;
+	.line	91, "main.c"; 	Code_Value = key_value - 1;
 	BANKSEL	r0x100A
 	DECR	r0x100A,W
 	BANKSEL	r0x100B
 	MOVAR	r0x100B
 	MGOTO	_02030_DS_
 _02029_DS_:
-	.line	99, "main.c"; 	Code_Value = 0xff;
+	.line	95, "main.c"; 	Code_Value = 0xff;
 	MOVIA	0xff
 	BANKSEL	r0x100B
 	MOVAR	r0x100B
 _02030_DS_:
-	.line	102, "main.c"; 	if(key_value != 0) // 当键值不为0
+	.line	98, "main.c"; 	if(key_value != 0) // 当键值不为0
 	BANKSEL	r0x100A
 	MOVR	r0x100A,W
 	BTRSC	STATUS,2
 	MGOTO	_02041_DS_
-	.line	104, "main.c"; 	if(old_key_status == 0) // 上一次按键扫描结果为空时，流水号增加
+	.line	100, "main.c"; 	if(old_key_status == 0) // 上一次按键扫描结果为空时，流水号增加
 	BANKSEL	r0x1009
 	MOVR	r0x1009,W
 	BTRSS	STATUS,2
 	MGOTO	_02038_DS_
-	.line	106, "main.c"; 	Serial_Number++;
+	.line	102, "main.c"; 	Serial_Number++;
 	BANKSEL	_Serial_Number
 	MOVR	_Serial_Number,W
 	BANKSEL	r0x100C
@@ -494,7 +494,7 @@ _02030_DS_:
 	INCR	r0x100C,W
 	BANKSEL	_Serial_Number
 	MOVAR	_Serial_Number
-	.line	107, "main.c"; 	send_ble_packet(Code_Value, 15, Serial_Number);
+	.line	103, "main.c"; 	send_ble_packet(Code_Value, 15, Serial_Number);
 	MOVR	_Serial_Number,W
 	MOVAR	STK01
 	MOVIA	0x0f
@@ -504,19 +504,19 @@ _02030_DS_:
 	MCALL	_send_ble_packet
 	MGOTO	_02041_DS_
 _02038_DS_:
-	.line	111, "main.c"; 	if(key_value == old_key_value) // 当键值与旧键值一致
+	.line	107, "main.c"; 	if(key_value == old_key_value) // 当键值与旧键值一致
 	BANKSEL	_old_key_value
 	MOVR	_old_key_value,W
 	BANKSEL	r0x100A
 	XORAR	r0x100A,W
 	BTRSS	STATUS,2
 	MGOTO	_02035_DS_
-	.line	113, "main.c"; 	if(one_key_twice_dowm == 0) // 不是从中断跳出来的，流水号不增加,判定为长按
+	.line	109, "main.c"; 	if(one_key_twice_dowm == 0) // 不是从中断跳出来的，流水号不增加,判定为长按
 	BANKSEL	_one_key_twice_dowm
 	MOVR	_one_key_twice_dowm,W
 	BTRSS	STATUS,2
 	MGOTO	_02032_DS_
-	.line	115, "main.c"; 	send_ble_packet(Code_Value, 0, Serial_Number);
+	.line	111, "main.c"; 	send_ble_packet(Code_Value, 0, Serial_Number);
 	BANKSEL	_Serial_Number
 	MOVR	_Serial_Number,W
 	MOVAR	STK01
@@ -525,15 +525,15 @@ _02038_DS_:
 	BANKSEL	r0x100B
 	MOVR	r0x100B,W
 	MCALL	_send_ble_packet
-	.line	116, "main.c"; 	delay_ms(90);
+	.line	112, "main.c"; 	delay_ms(90);
 	MOVIA	0x5a
 	MCALL	_delay_ms
 	MGOTO	_02041_DS_
 _02032_DS_:
-	.line	120, "main.c"; 	one_key_twice_dowm = 0;
+	.line	116, "main.c"; 	one_key_twice_dowm = 0;
 	BANKSEL	_one_key_twice_dowm
 	CLRR	_one_key_twice_dowm
-	.line	121, "main.c"; 	Serial_Number++;
+	.line	117, "main.c"; 	Serial_Number++;
 	BANKSEL	_Serial_Number
 	MOVR	_Serial_Number,W
 	BANKSEL	r0x100C
@@ -541,7 +541,7 @@ _02032_DS_:
 	INCR	r0x100C,W
 	BANKSEL	_Serial_Number
 	MOVAR	_Serial_Number
-	.line	122, "main.c"; 	send_ble_packet(Code_Value, 15, Serial_Number);
+	.line	118, "main.c"; 	send_ble_packet(Code_Value, 15, Serial_Number);
 	MOVR	_Serial_Number,W
 	MOVAR	STK01
 	MOVIA	0x0f
@@ -551,7 +551,7 @@ _02032_DS_:
 	MCALL	_send_ble_packet
 	MGOTO	_02041_DS_
 _02035_DS_:
-	.line	127, "main.c"; 	Serial_Number++;
+	.line	123, "main.c"; 	Serial_Number++;
 	BANKSEL	_Serial_Number
 	MOVR	_Serial_Number,W
 	BANKSEL	r0x100C
@@ -559,7 +559,7 @@ _02035_DS_:
 	INCR	r0x100C,W
 	BANKSEL	_Serial_Number
 	MOVAR	_Serial_Number
-	.line	128, "main.c"; 	send_ble_packet(Code_Value, 15, Serial_Number);
+	.line	124, "main.c"; 	send_ble_packet(Code_Value, 15, Serial_Number);
 	MOVR	_Serial_Number,W
 	MOVAR	STK01
 	MOVIA	0x0f
@@ -568,29 +568,29 @@ _02035_DS_:
 	MOVR	r0x100B,W
 	MCALL	_send_ble_packet
 _02041_DS_:
-	.line	132, "main.c"; 	CLRWDT();
+	.line	128, "main.c"; 	CLRWDT();
 	clrwdt
-	.line	135, "main.c"; 	if(key_value != 0)
+	.line	131, "main.c"; 	if(key_value != 0)
 	BANKSEL	r0x100A
 	MOVR	r0x100A,W
 	BTRSC	STATUS,2
 	MGOTO	_02043_DS_
-	.line	137, "main.c"; 	old_key_status = 1;
+	.line	133, "main.c"; 	old_key_status = 1;
 	MOVIA	0x01
 	BANKSEL	r0x1009
 	MOVAR	r0x1009
-	.line	138, "main.c"; 	old_key_value = key_value;
+	.line	134, "main.c"; 	old_key_value = key_value;
 	BANKSEL	r0x100A
 	MOVR	r0x100A,W
 	BANKSEL	_old_key_value
 	MOVAR	_old_key_value
 	MGOTO	_02044_DS_
 _02043_DS_:
-	.line	142, "main.c"; 	old_key_status = 0;
+	.line	138, "main.c"; 	old_key_status = 0;
 	BANKSEL	r0x1009
 	CLRR	r0x1009
 _02044_DS_:
-	.line	146, "main.c"; 	slepp_time_count_1 ++;
+	.line	142, "main.c"; 	slepp_time_count_1 ++;
 	BANKSEL	_slepp_time_count_1
 	MOVR	_slepp_time_count_1,W
 	BANKSEL	r0x100A
@@ -598,14 +598,14 @@ _02044_DS_:
 	INCR	r0x100A,W
 	BANKSEL	_slepp_time_count_1
 	MOVAR	_slepp_time_count_1
-	.line	147, "main.c"; 	if(slepp_time_count_1 == 255)
+	.line	143, "main.c"; 	if(slepp_time_count_1 == 255)
 	MOVR	_slepp_time_count_1,W
 	XORIA	0xff
 	BTRSS	STATUS,2
 	MGOTO	_02046_DS_
-	.line	149, "main.c"; 	slepp_time_count_1 = 0;
+	.line	145, "main.c"; 	slepp_time_count_1 = 0;
 	CLRR	_slepp_time_count_1
-	.line	150, "main.c"; 	sleep_time_count_2 ++;
+	.line	146, "main.c"; 	sleep_time_count_2 ++;
 	BANKSEL	_sleep_time_count_2
 	MOVR	_sleep_time_count_2,W
 	BANKSEL	r0x100A
@@ -614,28 +614,28 @@ _02044_DS_:
 	BANKSEL	_sleep_time_count_2
 	MOVAR	_sleep_time_count_2
 _02046_DS_:
-	.line	152, "main.c"; 	if(sleep_time_count_2 == 20)
+	.line	148, "main.c"; 	if(sleep_time_count_2 == 20)
 	BANKSEL	_sleep_time_count_2
 	MOVR	_sleep_time_count_2,W
 	XORIA	0x14
 	BTRSS	STATUS,2
 	MGOTO	_02050_DS_
-	.line	154, "main.c"; 	sleep_time_count_2 = 0;
+	.line	150, "main.c"; 	sleep_time_count_2 = 0;
 	CLRR	_sleep_time_count_2
-	.line	155, "main.c"; 	wake_up_init();
+	.line	151, "main.c"; 	wake_up_init();
 	MCALL	_wake_up_init
-	.line	156, "main.c"; 	close_WDT();
+	.line	152, "main.c"; 	close_WDT();
 	MCALL	_close_WDT
-	.line	157, "main.c"; 	UPDATE_REG(PORTA);
+	.line	153, "main.c"; 	UPDATE_REG(PORTA);
 	MOVR	_PORTA,F
-	.line	158, "main.c"; 	INTF = 0x00;
+	.line	154, "main.c"; 	INTF = 0x00;
 	CLRR	_INTF
-	.line	159, "main.c"; 	SLEEP();
+	.line	155, "main.c"; 	SLEEP();
 	sleep
-	.line	160, "main.c"; 	open_WDT();
+	.line	156, "main.c"; 	open_WDT();
 	MCALL	_open_WDT
 	MGOTO	_02050_DS_
-	.line	163, "main.c"; 	}
+	.line	159, "main.c"; 	}
 	RETURN	
 ; exit point of _main
 
@@ -650,12 +650,16 @@ _02046_DS_:
 ;   _CS1630_write_byte
 ;   _CS1630_write_byte
 ;   _CS1630_write_byte
+;   _CS1630_write_byte
+;   _delay_ms
 ;   _CS1630_Init
 ;   _CS1630_CE_Low
 ;   _CS1630_ModeSwitch
 ;   _CS1630_write_byte
 ;   _CS1630_write_byte
 ;   _CS1630_write_byte
+;   _CS1630_write_byte
+;   _delay_ms
 ;1 compiler assigned register :
 ;   STK00
 ;; Starting pCode block
@@ -675,8 +679,8 @@ _CS1630_init_main:
 	MOVAR	STK00
 	MOVIA	0x1d
 	MCALL	_CS1630_write_byte
-	.line	60, "main.c"; 	CS1630_write_byte(CS1630_BANK0_CONFIG, 0x0e);
-	MOVIA	0x0e
+	.line	60, "main.c"; 	CS1630_write_byte(CS1630_BANK0_CONFIG, 0x0f);
+	MOVIA	0x0f
 	MOVAR	STK00
 	MOVIA	0x00
 	MCALL	_CS1630_write_byte
@@ -685,7 +689,15 @@ _CS1630_init_main:
 	MOVAR	STK00
 	MOVIA	0x1e
 	MCALL	_CS1630_write_byte
-	.line	62, "main.c"; 	}
+	.line	62, "main.c"; 	CS1630_write_byte(CS1630_BANK0_CONFIG, 0x0d);
+	MOVIA	0x0d
+	MOVAR	STK00
+	MOVIA	0x00
+	MCALL	_CS1630_write_byte
+	.line	63, "main.c"; 	delay_ms(2);
+	MOVIA	0x02
+	MCALL	_delay_ms
+	.line	64, "main.c"; 	}
 	RETURN	
 ; exit point of _CS1630_init_main
 
@@ -754,6 +766,6 @@ _wake_up_init:
 
 
 ;	code size estimation:
-;	  173+   47 =   220 instructions (  534 byte)
+;	  179+   47 =   226 instructions (  546 byte)
 
 	end

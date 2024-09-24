@@ -282,6 +282,8 @@ _channel_index:
 ;   _CS1630_write_byte
 ;   _CS1630_write_byte
 ;   _delay_ms
+;   _CS1630_write_byte
+;   _delay_ms
 ;   _CS1630_CE_Low
 ;   _CS1630_Flush_Tx
 ;   _CS1630_Clear_All_Irq
@@ -303,6 +305,8 @@ _channel_index:
 ;   _CS1630_CE_Low
 ;   _CS1630_read_byte
 ;   _CS1630_write_byte
+;   _CS1630_write_byte
+;   _delay_ms
 ;   _CS1630_write_byte
 ;   _delay_ms
 ;12 compiler assigned registers:
@@ -375,8 +379,8 @@ _send_ble_packet:
 	MCALL	_CS1630_Flush_Tx
 	.line	63, "BSP\app_tx.c"; 	CS1630_Clear_All_Irq();
 	MCALL	_CS1630_Clear_All_Irq
-	.line	66, "BSP\app_tx.c"; 	CS1630_write_byte(CS1630_BANK0_CONFIG, 0x0e);
-	MOVIA	0x0e
+	.line	66, "BSP\app_tx.c"; 	CS1630_write_byte(CS1630_BANK0_CONFIG, 0x0f);
+	MOVIA	0x0f
 	MOVAR	STK00
 	MOVIA	0x00
 	MCALL	_CS1630_write_byte
@@ -618,7 +622,15 @@ _02013_DS_:
 	MOVIA	0x01
 	BANKSEL	_one_key_twice_dowm
 	MOVAR	_one_key_twice_dowm
-	.line	132, "BSP\app_tx.c"; 	return;
+	.line	132, "BSP\app_tx.c"; 	CS1630_write_byte(CS1630_BANK0_CONFIG, 0x0d);
+	MOVIA	0x0d
+	MOVAR	STK00
+	MOVIA	0x00
+	MCALL	_CS1630_write_byte
+	.line	133, "BSP\app_tx.c"; 	delay_ms(2);
+	MOVIA	0x02
+	MCALL	_delay_ms
+	.line	134, "BSP\app_tx.c"; 	return;
 	MGOTO	_02037_DS_
 _02036_DS_:
 	.line	97, "BSP\app_tx.c"; 	for(k =0; k < send_times; k++)
@@ -626,21 +638,21 @@ _02036_DS_:
 	INCR	r0x1024,F
 	MGOTO	_02035_DS_
 _02025_DS_:
-	.line	138, "BSP\app_tx.c"; 	CS1630_write_byte(CS1630_BANK0_CONFIG, 0x00);
-	MOVIA	0x00
+	.line	140, "BSP\app_tx.c"; 	CS1630_write_byte(CS1630_BANK0_CONFIG, 0x0d);
+	MOVIA	0x0d
 	MOVAR	STK00
 	MOVIA	0x00
 	MCALL	_CS1630_write_byte
-	.line	139, "BSP\app_tx.c"; 	delay_ms(1);
-	MOVIA	0x01
+	.line	141, "BSP\app_tx.c"; 	delay_ms(2);
+	MOVIA	0x02
 	MCALL	_delay_ms
 _02037_DS_:
-	.line	140, "BSP\app_tx.c"; 	}
+	.line	142, "BSP\app_tx.c"; 	}
 	RETURN	
 ; exit point of _send_ble_packet
 
 
 ;	code size estimation:
-;	  173+   54 =   227 instructions (  562 byte)
+;	  179+   54 =   233 instructions (  574 byte)
 
 	end
