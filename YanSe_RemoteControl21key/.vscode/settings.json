@@ -1,0 +1,13 @@
+{
+    "files.associations": {
+        "bsp_delay.h": "c",
+        "bsp_usart.h": "c",
+        "ny8_constant.h": "c",
+        "stdint.h": "c",
+        "ny8.h": "c",
+        "bsp_rf.h": "c",
+        "app_tx.h": "c",
+        "bsp_cs1630.h": "c"
+    },
+    "C_Cpp.errorSquiggles": "disabled"
+}

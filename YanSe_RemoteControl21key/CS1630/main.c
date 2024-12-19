@@ -77,9 +77,12 @@ void main(void)
   unsigned char Code_Value = 0;
   unsigned char old_key_status = 0;
   key_status_change = 0;
+
   extern unsigned char rolling_code_0 = get_rolling_code_0();
   extern unsigned char rolling_code_1 = get_rolling_code_1();
   extern unsigned char rolling_code_2 = get_rolling_code_2();
+  extern unsigned char rolling_code_3 = get_rolling_code_3();
+
   while (1)
   {
     CLRWDT();
@@ -103,7 +106,7 @@ void main(void)
       if(old_key_status == 0) // 上一次按键扫描结果为空时，流水号增加
       {
         Serial_Number++;
-        send_ble_packet(Code_Value, 15, Serial_Number);
+        send_ble_packet(Code_Value, 23, Serial_Number);
       }
       else // 当上一次按键扫描结果不为空
       {
@@ -118,13 +121,13 @@ void main(void)
           {
             one_key_twice_dowm = 0;
             Serial_Number++;
-            send_ble_packet(Code_Value, 15, Serial_Number);
+            send_ble_packet(Code_Value, 23, Serial_Number);
           }
         }
         else // 当键值与旧键值不一致，流水号增加
         {
           Serial_Number++;
-          send_ble_packet(Code_Value, 15, Serial_Number);
+          send_ble_packet(Code_Value, 23, Serial_Number);
         }
       }
     }
