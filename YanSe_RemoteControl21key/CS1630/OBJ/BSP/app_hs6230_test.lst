@@ -1,0 +1,1066 @@
+
+                    Nyquest Technology Co., Ltd.
+
+NYASM 2.42
+
+    ADDR  OPCODE/VALUE              LINE   TAG  SOURCE                   STATEMENT    
+
+                                    1-    1     ;--------------------------------------------------------
+                                    1-    2     ; File Created by SDCC : free open source ISO C Compiler 
+                                    1-    3     ; Version 4.2.2 #0 (MSVC)
+                                    1-    4     ;--------------------------------------------------------
+                                    1-    5     ; NY8A port
+                                    1-    6     ;--------------------------------------------------------
+                                    1-    7     	.file	"BSP\app_hs6230_test.c"
+                                    1-    8     	list	p=NY8A054E,c=on
+                                    1-    9     	#include "ny8a054e.inc"
+                                    2-    1     #include "common.inc"
+                                    3-    1     ;; header file for 8 bit series assembly -*- mode:asm; coding:utf-8; -*-
+                                    3-    2     ;; author    Ting
+                                    3-    3     ;; date      2020-12-24
+                                    3-    4     ;;
+                                    3-    5     ;; # constant definition
+                                    3-    6     ;;
+                                    3-    7     ;; ## instruction result store destination
+                                    3-    8     ;;  - W: the result is stored in the ACC.
+                                    3-    9     ;;  - F: the result is stored back in register.
+                                    3-   10     ;; ## flag name in STATUS register
+                                    3-   11     ;;  - C, DC, Z
+                                    3-   12     ;;
+                                    3-   13     ;; # macro define
+                                    3-   14     ;;
+                                    3-   15     ;; ## RETURN, used by C compiler, end of function
+                                    3-   16     ;; ## PAGESEL, empty macro, maybe used by C compiler (bug?)
+                                    3-   17     ;; ## BANKSEL, replace by .banksel pseudo command, empty if disable bank.
+                                    3-   18     ;; ## MGOTO, replace by LGOTO (ic<=2K word) or FGOTO (ic>2K word)
+                                    3-   19     ;; ## MCALL, same as above
+                                    3-   20     ;;
+                                    3-   21     W       EQU 0
+                                    3-   21     ;W = 0
+                                    3-   22     F       EQU 1
+                                    3-   22     ;F = 1
+                                    3-   23     C		EQU	0
+                                    3-   23     ;C = 0
+                                    3-   24     DC		EQU	1
+                                    3-   24     ;DC = 1
+                                    3-   25     Z		EQU	2
+                                    3-   25     ;Z = 2
+                                    3-   28     ;; common register for all series
+                                    3-   29     INDF    EQU 0x00
+                                    3-   29     ;INDF = 0
+                                    3-   30     PCL     EQU 0x02
+                                    3-   30     ;PCL = 2
+                                    3-   31     STATUS  EQU 0x03
+                                    3-   31     ;STATUS = 3
+                                    3-   32     FSR     EQU 0x04
+                                    3-   32     ;FSR = 4
+                                    3-   33     PCHBUF  EQU 0x0A
+                                    3-   33     ;PCHBUF = 10
+                                    1-   11     ;--------------------------------------------------------
+                                    1-   12     ; external declarations
+                                    1-   13     ;--------------------------------------------------------
+                                    1-   14     	extern	_delay_us
+                                    1-   15     	extern	_delay_ms
+                                    1-   16     	extern	_HS6230_Dump_RF_Register
+                                    1-   17     	extern	_Enter_sleep
+                                    1-   18     	extern	_HS6230_SendPack
+                                    1-   19     	extern	_HS6230_wr_buffer
+                                    1-   20     	extern	_HS6230_write_byte
+                                    1-   21     	extern	_HS6230_read_byte
+                                    1-   22     	extern	_HS6230_read_buffer
+                                    1-   23     	extern	_HS6230_Bank_Switch
+                                    1-   24     	extern	_HS6230_ModeSwitch
+                                    1-   25     	extern	_HS6230_CE_Low
+                                    1-   26     	extern	_HS6230_CE_High
+                                    1-   27     	extern	_HS6230_Flush_Tx
+                                    1-   28     	extern	_HS6230_Clear_All_Irq
+                                    1-   29     	extern	_HS6230_Init
+                                    1-   30     	extern	_HS6230_Soft_Rst
+                                    1-   31     	extern	_SPI_ReadByte
+                                    1-   32     	extern	_SPI_SendByte
+                                    1-   33     	extern	_RF_softSPI_Init
+                                    1-   34     	extern	_clear_ram
+                                    1-   35     	extern	_multi_16b
+                                    1-   36     	extern	_RF_Init
+                                    1-   37     	extern	_RF_wr_cmd
+                                    1-   38     	extern	_RF_write_byte
+                                    1-   39     	extern	_RF_wr_buffer
+                                    1-   40     	extern	_RF_Write_Ack_Payload
+                                    1-   41     	extern	_RF_spi_wrd
+                                    1-   42     	extern	_RF_Soft_Rst
+                                    1-   43     	extern	_RF_SendPack
+                                    1-   44     	extern	_RF_ReceivePack
+                                    1-   45     	extern	_RF_Read_Status
+                                    1-   46     	extern	_RF_read_byte
+                                    1-   47     	extern	_RF_read_buffer
+                                    1-   48     	extern	_RF_Operation
+                                    1-   49     	extern	_RF_ModeSwitch
+                                    1-   50     	extern	_RF_Get_RSSI
+                                    1-   51     	extern	_RF_Get_Chip_ID
+                                    1-   52     	extern	_RF_Flush_Tx
+                                    1-   53     	extern	_RF_Flush_Rx
+                                    1-   54     	extern	_RF_Configure_Reg
+                                    1-   55     	extern	_RF_Clear_All_Irq
+                                    1-   56     	extern	_RF_Change_Pwr
+                                    1-   57     	extern	_RF_Change_CH
+                                    1-   58     	extern	_RF_ChangeAddr_Reg
+                                    1-   59     	extern	_RF_CE_Low
+                                    1-   60     	extern	_RF_CE_High_Pulse
+                                    1-   61     	extern	_RF_CE_High
+                                    1-   62     	extern	_RF_Bank_Switch
+                                    1-   63     	extern	_T0MD
+                                    1-   64     	extern	_PCON1
+                                    1-   65     	extern	_CMPCR
+                                    1-   66     	extern	_BODCON
+                                    1-   67     	extern	_PS0CV
+                                    1-   68     	extern	_APHCON
+                                    1-   69     	extern	_IOSTB
+                                    1-   70     	extern	_IOSTA
+                                    1-   71     	extern	_PWM5RH
+                                    1-   72     	extern	_PWM5DUTY
+                                    1-   73     	extern	_P5CR1
+                                    1-   74     	extern	_PWM4DUTY
+                                    1-   75     	extern	_P4CR1
+                                    1-   76     	extern	_PS3CV
+                                    1-   77     	extern	_PWM3DUTY
+                                    1-   78     	extern	_T3CR2
+                                    1-   79     	extern	_T3CR1
+                                    1-   80     	extern	_TMR3
+                                    1-   81     	extern	_OSCCR
+                                    1-   82     	extern	_PWM2DUTY
+                                    1-   83     	extern	_P2CR1
+                                    1-   84     	extern	_TBHD
+                                    1-   85     	extern	_TBHP
+                                    1-   86     	extern	_IRCR
+                                    1-   87     	extern	_BZ1CR
+                                    1-   88     	extern	_PS1CV
+                                    1-   89     	extern	_PWM1DUTY
+                                    1-   90     	extern	_T1CR2
+                                    1-   91     	extern	_T1CR1
+                                    1-   92     	extern	_TMR1
+                                    1-   93     	extern	_TM34RH
+                                    1-   94     	extern	_TMRH
+                                    1-   95     	extern	_PCHBUF
+                                    1-   96     	extern	_STATUS
+                                    1-   97     	extern	_PCL
+                                    1-   98     	extern	_TMR0
+                                    1-   99     	extern	_INTE2bits
+                                    1-  100     	extern	_RFCbits
+                                    1-  101     	extern	_INTEDGbits
+                                    1-  102     	extern	_AWUCONbits
+                                    1-  103     	extern	_INTFbits
+                                    1-  104     	extern	_INTEbits
+                                    1-  105     	extern	_BPHCONbits
+                                    1-  106     	extern	_ABPLCONbits
+                                    1-  107     	extern	_BWUCONbits
+                                    1-  108     	extern	_PCONbits
+                                    1-  109     	extern	_PORTBbits
+                                    1-  110     	extern	_PORTAbits
+                                    1-  111     	extern	__gptrget1
+                                    1-  113     	extern PSAVE
+                                    1-  114     	extern SSAVE
+                                    1-  115     	extern WSAVE
+                                    1-  116     	extern STK12
+                                    1-  117     	extern ___STK12
+                                    1-  118     	extern STK11
+                                    1-  119     	extern ___STK11
+                                    1-  120     	extern STK10
+                                    1-  121     	extern ___STK10
+                                    1-  122     	extern STK09
+                                    1-  123     	extern ___STK09
+                                    1-  124     	extern STK08
+                                    1-  125     	extern ___STK08
+                                    1-  126     	extern STK07
+                                    1-  127     	extern ___STK07
+                                    1-  128     	extern STK06
+                                    1-  129     	extern ___STK06
+                                    1-  130     	extern STK05
+                                    1-  131     	extern ___STK05
+                                    1-  132     	extern STK04
+                                    1-  133     	extern ___STK04
+                                    1-  134     	extern STK03
+                                    1-  135     	extern ___STK03
+                                    1-  136     	extern STK02
+                                    1-  137     	extern ___STK02
+                                    1-  138     	extern STK01
+                                    1-  139     	extern ___STK01
+                                    1-  140     	extern STK00
+                                    1-  141     	extern ___STK00
+                                    1-  142     ;--------------------------------------------------------
+                                    1-  143     ; global declarations
+                                    1-  144     ;--------------------------------------------------------
+                                    1-  145     	extern	_INTE2
+                                    1-  146     	extern	_RFC
+                                    1-  147     	extern	_INTEDG
+                                    1-  148     	extern	_AWUCON
+                                    1-  149     	extern	_INTF
+                                    1-  150     	extern	_INTE
+                                    1-  151     	extern	_BPHCON
+                                    1-  152     	extern	_ABPLCON
+                                    1-  153     	extern	_BWUCON
+                                    1-  154     	extern	_PCON
+                                    1-  155     	extern	_PORTB
+                                    1-  156     	extern	_PORTA
+                                    1-  157     	extern	_send_rf_packet_test
+                                    1-  158     	extern	_send_ble_packet_test
+                                    1-  160     ;--------------------------------------------------------
+                                    1-  161     ; global definitions
+                                    1-  162     ;--------------------------------------------------------
+                                    1-  163     .segment "uninit"
+     0000                           1-  164     _HS6230_Tx_Payload:
+                                    1-  165     	.res 32
+                                    1-  168     ;--------------------------------------------------------
+                                    1-  169     ; absolute symbol definitions
+                                    1-  170     ;--------------------------------------------------------
+                                    1-  171     ;--------------------------------------------------------
+                                    1-  172     ; compiler-defined variables
+                                    1-  173     ;--------------------------------------------------------
+                                    1-  174     .segment "uninit"
+     0000                           1-  175     r0x1029:
+                                    1-  176     	.res	1
+                                    1-  177     .segment "uninit"
+     0000                           1-  178     r0x102A:
+                                    1-  179     	.res	1
+                                    1-  180     .segment "uninit"
+     0000                           1-  181     r0x102B:
+                                    1-  182     	.res	1
+                                    1-  183     .segment "uninit"
+     0000                           1-  184     r0x102C:
+                                    1-  185     	.res	1
+                                    1-  186     .segment "uninit"
+     0000                           1-  187     r0x1024:
+                                    1-  188     	.res	1
+                                    1-  189     .segment "uninit"
+     0000                           1-  190     r0x1025:
+                                    1-  191     	.res	1
+                                    1-  192     .segment "uninit"
+     0000                           1-  193     r0x1026:
+                                    1-  194     	.res	1
+                                    1-  195     .segment "uninit"
+     0000                           1-  196     r0x1027:
+                                    1-  197     	.res	1
+                                    1-  198     .segment "uninit"
+     0000                           1-  199     r0x1028:
+                                    1-  200     	.res	1
+                                    1-  201     .segment "uninit"
+     0000                           1-  202     _send_rf_packet_test_temp_65536_53:
+                                    1-  203     	.res	4
+                                    1-  205     ;--------------------------------------------------------
+                                    1-  206     ; initialized data
+                                    1-  207     ;--------------------------------------------------------
+                                    1-  209     .segment "code"
+     0000                           1-  210     _channel_index:
+     0000 2002                      1-  211     	retia 0x02	; 2
+     0001 201A                      1-  212     	retia 0x1a	; 26
+     0002 2050                      1-  213     	retia 0x50	; 80	'P'
+                                    1-  214     ;--------------------------------------------------------
+                                    1-  215     ; initialized absolute data
+                                    1-  216     ;--------------------------------------------------------
+                                    1-  217     ;--------------------------------------------------------
+                                    1-  218     ; overlayable items in internal ram 
+                                    1-  219     ;--------------------------------------------------------
+                                    1-  220     ;	udata_ovr
+                                    1-  221     ;--------------------------------------------------------
+                                    1-  222     ; code
+                                    1-  223     ;--------------------------------------------------------
+                                    1-  224     ; code_app_hs6230_test	code
+                                    1-  225     ;***
+                                    1-  226     ;  pBlock Stats: dbName = C
+                                    1-  227     ;***
+                                    1-  228     ;has an exit
+                                    1-  229     ;functions called:
+                                    1-  230     ;   _HS6230_Init
+                                    1-  231     ;   _HS6230_CE_Low
+                                    1-  232     ;   _HS6230_ModeSwitch
+                                    1-  233     ;   _HS6230_write_byte
+                                    1-  234     ;   _HS6230_write_byte
+                                    1-  235     ;   _HS6230_write_byte
+                                    1-  236     ;   _HS6230_CE_Low
+                                    1-  237     ;   _HS6230_Flush_Tx
+                                    1-  238     ;   _HS6230_Clear_All_Irq
+                                    1-  239     ;   _HS6230_write_byte
+                                    1-  240     ;   _delay_ms
+                                    1-  241     ;   __gptrget1
+                                    1-  242     ;   _HS6230_write_byte
+                                    1-  243     ;   _HS6230_SendPack
+                                    1-  244     ;   _HS6230_CE_High
+                                    1-  245     ;   _delay_us
+                                    1-  246     ;   _HS6230_CE_Low
+                                    1-  247     ;   _HS6230_read_byte
+                                    1-  248     ;   _HS6230_write_byte
+                                    1-  249     ;   _HS6230_write_byte
+                                    1-  250     ;   _delay_ms
+                                    1-  251     ;   _delay_ms
+                                    1-  252     ;   _HS6230_Init
+                                    1-  253     ;   _HS6230_CE_Low
+                                    1-  254     ;   _HS6230_ModeSwitch
+                                    1-  255     ;   _HS6230_write_byte
+                                    1-  256     ;   _HS6230_write_byte
+                                    1-  257     ;   _HS6230_write_byte
+                                    1-  258     ;   _HS6230_CE_Low
+                                    1-  259     ;   _HS6230_Flush_Tx
+                                    1-  260     ;   _HS6230_Clear_All_Irq
+                                    1-  261     ;   _HS6230_write_byte
+                                    1-  262     ;   _delay_ms
+                                    1-  263     ;   __gptrget1
+                                    1-  264     ;   _HS6230_write_byte
+                                    1-  265     ;   _HS6230_SendPack
+                                    1-  266     ;   _HS6230_CE_High
+                                    1-  267     ;   _delay_us
+                                    1-  268     ;   _HS6230_CE_Low
+                                    1-  269     ;   _HS6230_read_byte
+                                    1-  270     ;   _HS6230_write_byte
+                                    1-  271     ;   _HS6230_write_byte
+                                    1-  272     ;   _delay_ms
+                                    1-  273     ;   _delay_ms
+                                    1-  274     ;9 compiler assigned registers:
+                                    1-  275     ;   STK00
+                                    1-  276     ;   r0x1024
+                                    1-  277     ;   r0x1025
+                                    1-  278     ;   r0x1026
+                                    1-  279     ;   r0x1027
+                                    1-  280     ;   STK01
+                                    1-  281     ;   r0x1028
+                                    1-  282     ;   STK03
+                                    1-  283     ;   STK02
+                                    1-  284     ;; Starting pCode block
+                                    1-  285     .segment "code"; module=app_hs6230_test, function=_send_ble_packet_test
+                                    1-  287     ;local variable name mapping:
+     0000                           1-  292     _send_ble_packet_test:
+                                    1-  293     ; 2 exit points
+                                    1-  294     	.line	106, "BSP\app_hs6230_test.c"; 	HS6230_Init();
+                                    1-  295     	MCALL	_HS6230_Init
+     0000 2rrr                      3-   65 m1      LCALL rom_address
+                                    1-  296     	.line	109, "BSP\app_hs6230_test.c"; 	HS6230_CE_Low();
+                                    1-  297     	MCALL	_HS6230_CE_Low
+     0001 2rrr                      3-   65 m1      LCALL rom_address
+                                    1-  298     	.line	110, "BSP\app_hs6230_test.c"; 	HS6230_ModeSwitch(Rf_PTX_Mode);
+     0002 2101                      1-  299     	MOVIA	0x01
+                                    1-  300     	MCALL	_HS6230_ModeSwitch
+     0003 2rrr                      3-   65 m1      LCALL rom_address
+                                    1-  301     	.line	112, "BSP\app_hs6230_test.c"; 	HS6230_write_byte(HS6230_BANK0_FEATURE, 0x04);
+     0004 2104                      1-  302     	MOVIA	0x04
+     0005 00rr                      1-  303     	MOVAR	STK00
+     0006 211D                      1-  304     	MOVIA	0x1d
+                                    1-  305     	MCALL	_HS6230_write_byte
+     0007 2rrr                      3-   65 m1      LCALL rom_address
+                                    1-  306     	.line	113, "BSP\app_hs6230_test.c"; 	HS6230_write_byte(HS6230_BANK0_CONFIG, 0x0e);
+     0008 210E                      1-  307     	MOVIA	0x0e
+     0009 00rr                      1-  308     	MOVAR	STK00
+     000A 2100                      1-  309     	MOVIA	0x00
+                                    1-  310     	MCALL	_HS6230_write_byte
+     000B 2rrr                      3-   65 m1      LCALL rom_address
+                                    1-  311     	.line	114, "BSP\app_hs6230_test.c"; 	HS6230_write_byte(HS6230_BANK0_SETUP_VALUE, 0x04);//0x06);
+     000C 2104                      1-  312     	MOVIA	0x04
+     000D 00rr                      1-  313     	MOVAR	STK00
+     000E 211E                      1-  314     	MOVIA	0x1e
+                                    1-  315     	MCALL	_HS6230_write_byte
+     000F 2rrr                      3-   65 m1      LCALL rom_address
+                                    1-  316     	.line	117, "BSP\app_hs6230_test.c"; 	HS6230_Tx_Payload[len ++] = 0x02;
+     0010 2102                      1-  317     	MOVIA	0x02
+                                    1-  318     	BANKSEL	_HS6230_Tx_Payload
+     0011 rrrr                      3-  109 m1      .banksel ram_address
+     0012 00rr                      1-  319     	MOVAR	(_HS6230_Tx_Payload + 0)
+                                    1-  320     	.line	118, "BSP\app_hs6230_test.c"; 	HS6230_Tx_Payload[len ++] = 0x01;
+     0013 2101                      1-  321     	MOVIA	0x01
+     0014 00rr                      1-  322     	MOVAR	(_HS6230_Tx_Payload + 1)
+                                    1-  323     	.line	119, "BSP\app_hs6230_test.c"; 	HS6230_Tx_Payload[len ++] = 0x1a;
+     0015 211A                      1-  324     	MOVIA	0x1a
+     0016 00rr                      1-  325     	MOVAR	(_HS6230_Tx_Payload + 2)
+                                    1-  326     	.line	125, "BSP\app_hs6230_test.c"; 	HS6230_Tx_Payload[len ++] = 0x1a;
+     0017 211A                      1-  327     	MOVIA	0x1a
+     0018 00rr                      1-  328     	MOVAR	(_HS6230_Tx_Payload + 3)
+                                    1-  329     	.line	126, "BSP\app_hs6230_test.c"; 	HS6230_Tx_Payload[len ++] = 0xff;
+     0019 21FF                      1-  330     	MOVIA	0xff
+     001A 00rr                      1-  331     	MOVAR	(_HS6230_Tx_Payload + 4)
+                                    1-  332     	.line	127, "BSP\app_hs6230_test.c"; 	HS6230_Tx_Payload[len ++] = 0x4c;
+     001B 214C                      1-  333     	MOVIA	0x4c
+     001C 00rr                      1-  334     	MOVAR	(_HS6230_Tx_Payload + 5)
+                                    1-  335     	.line	128, "BSP\app_hs6230_test.c"; 	HS6230_Tx_Payload[len ++] = 0x00;
+     001D 02rr                      1-  336     	CLRR	(_HS6230_Tx_Payload + 6)
+                                    1-  337     	.line	129, "BSP\app_hs6230_test.c"; 	HS6230_Tx_Payload[len ++] = 0x02; // 0x02 Byte 0 of iBeacon advertisement indicator
+     001E 2102                      1-  338     	MOVIA	0x02
+     001F 00rr                      1-  339     	MOVAR	(_HS6230_Tx_Payload + 7)
+                                    1-  340     	.line	130, "BSP\app_hs6230_test.c"; 	HS6230_Tx_Payload[len ++] = 0x15; // 0x15 Byte 1 of iBeacon advertisement indicator
+     0020 2115                      1-  341     	MOVIA	0x15
+     0021 00rr                      1-  342     	MOVAR	(_HS6230_Tx_Payload + 8)
+                                    1-  343     	.line	131, "BSP\app_hs6230_test.c"; 	HS6230_Tx_Payload[len ++] = 0xb9; // iBeacon proximity uuid, b9-40-7f-30-f5-f8-46-6e-af-f9-25-55-6b-57-fe-6d
+     0022 21B9                      1-  344     	MOVIA	0xb9
+     0023 00rr                      1-  345     	MOVAR	(_HS6230_Tx_Payload + 9)
+                                    1-  346     	.line	132, "BSP\app_hs6230_test.c"; 	HS6230_Tx_Payload[len ++] = 0x40;
+     0024 2140                      1-  347     	MOVIA	0x40
+     0025 00rr                      1-  348     	MOVAR	(_HS6230_Tx_Payload + 10)
+                                    1-  349     	.line	133, "BSP\app_hs6230_test.c"; 	HS6230_Tx_Payload[len ++] = 0x7f;
+     0026 217F                      1-  350     	MOVIA	0x7f
+     0027 00rr                      1-  351     	MOVAR	(_HS6230_Tx_Payload + 11)
+                                    1-  352     	.line	134, "BSP\app_hs6230_test.c"; 	HS6230_Tx_Payload[len ++] = 0x30;
+     0028 2130                      1-  353     	MOVIA	0x30
+     0029 00rr                      1-  354     	MOVAR	(_HS6230_Tx_Payload + 12)
+                                    1-  355     	.line	135, "BSP\app_hs6230_test.c"; 	HS6230_Tx_Payload[len ++] = 0xf5;
+     002A 21F5                      1-  356     	MOVIA	0xf5
+     002B 00rr                      1-  357     	MOVAR	(_HS6230_Tx_Payload + 13)
+                                    1-  358     	.line	136, "BSP\app_hs6230_test.c"; 	HS6230_Tx_Payload[len ++] = 0xf8;
+     002C 21F8                      1-  359     	MOVIA	0xf8
+     002D 00rr                      1-  360     	MOVAR	(_HS6230_Tx_Payload + 14)
+                                    1-  361     	.line	137, "BSP\app_hs6230_test.c"; 	HS6230_Tx_Payload[len ++] = 0x46;
+     002E 2146                      1-  362     	MOVIA	0x46
+     002F 00rr                      1-  363     	MOVAR	(_HS6230_Tx_Payload + 15)
+                                    1-  364     	.line	138, "BSP\app_hs6230_test.c"; 	HS6230_Tx_Payload[len ++] = 0x6e;
+     0030 216E                      1-  365     	MOVIA	0x6e
+     0031 00rr                      1-  366     	MOVAR	(_HS6230_Tx_Payload + 16)
+                                    1-  367     	.line	139, "BSP\app_hs6230_test.c"; 	HS6230_Tx_Payload[len ++] = 0xaf;
+     0032 21AF                      1-  368     	MOVIA	0xaf
+     0033 00rr                      1-  369     	MOVAR	(_HS6230_Tx_Payload + 17)
+                                    1-  370     	.line	140, "BSP\app_hs6230_test.c"; 	HS6230_Tx_Payload[len ++] = 0xf9;
+     0034 21F9                      1-  371     	MOVIA	0xf9
+     0035 00rr                      1-  372     	MOVAR	(_HS6230_Tx_Payload + 18)
+                                    1-  373     	.line	141, "BSP\app_hs6230_test.c"; 	HS6230_Tx_Payload[len ++] = 0x25;
+     0036 2125                      1-  374     	MOVIA	0x25
+     0037 00rr                      1-  375     	MOVAR	(_HS6230_Tx_Payload + 19)
+                                    1-  376     	.line	142, "BSP\app_hs6230_test.c"; 	HS6230_Tx_Payload[len ++] = 0x55;
+     0038 2155                      1-  377     	MOVIA	0x55
+     0039 00rr                      1-  378     	MOVAR	(_HS6230_Tx_Payload + 20)
+                                    1-  379     	.line	143, "BSP\app_hs6230_test.c"; 	HS6230_Tx_Payload[len ++] = 0x6b;
+     003A 216B                      1-  380     	MOVIA	0x6b
+     003B 00rr                      1-  381     	MOVAR	(_HS6230_Tx_Payload + 21)
+                                    1-  382     	.line	144, "BSP\app_hs6230_test.c"; 	HS6230_Tx_Payload[len ++] = 0x57;
+     003C 2157                      1-  383     	MOVIA	0x57
+     003D 00rr                      1-  384     	MOVAR	(_HS6230_Tx_Payload + 22)
+                                    1-  385     	.line	145, "BSP\app_hs6230_test.c"; 	HS6230_Tx_Payload[len ++] = 0xfe;
+     003E 21FE                      1-  386     	MOVIA	0xfe
+     003F 00rr                      1-  387     	MOVAR	(_HS6230_Tx_Payload + 23)
+                                    1-  388     	.line	146, "BSP\app_hs6230_test.c"; 	HS6230_Tx_Payload[len ++] = 0x6d; // iBeacon proximity uuid
+     0040 216D                      1-  389     	MOVIA	0x6d
+     0041 00rr                      1-  390     	MOVAR	(_HS6230_Tx_Payload + 24)
+                                    1-  391     	.line	147, "BSP\app_hs6230_test.c"; 	HS6230_Tx_Payload[len ++] = 0x00; // 0x0001 major
+     0042 02rr                      1-  392     	CLRR	(_HS6230_Tx_Payload + 25)
+                                    1-  393     	.line	148, "BSP\app_hs6230_test.c"; 	HS6230_Tx_Payload[len ++] = 0x01;
+     0043 2101                      1-  394     	MOVIA	0x01
+     0044 00rr                      1-  395     	MOVAR	(_HS6230_Tx_Payload + 26)
+                                    1-  396     	.line	149, "BSP\app_hs6230_test.c"; 	HS6230_Tx_Payload[len ++] = 0x00; // 0x0001 minor
+     0045 02rr                      1-  397     	CLRR	(_HS6230_Tx_Payload + 27)
+                                    1-  398     	.line	150, "BSP\app_hs6230_test.c"; 	HS6230_Tx_Payload[len ++] = 0x01;
+     0046 2101                      1-  399     	MOVIA	0x01
+     0047 00rr                      1-  400     	MOVAR	(_HS6230_Tx_Payload + 28)
+                                    1-  401     	.line	151, "BSP\app_hs6230_test.c"; 	HS6230_Tx_Payload[len ++] = 0xc5; // 0xc5 calibrated Tx Power
+     0048 21C5                      1-  402     	MOVIA	0xc5
+     0049 00rr                      1-  403     	MOVAR	(_HS6230_Tx_Payload + 29)
+                                    1-  404     	.line	153, "BSP\app_hs6230_test.c"; 	for(i = 0;i < 100;i ++)
+                                    1-  405     	BANKSEL	r0x1024
+     004A rrrr                      3-  109 m1      .banksel ram_address
+     004B 02rr                      1-  406     	CLRR	r0x1024
+     004C                           1-  407     _02031_DS_:
+                                    1-  408     	.line	155, "BSP\app_hs6230_test.c"; 	HS6230_CE_Low();
+                                    1-  409     	MCALL	_HS6230_CE_Low
+     004C 2rrr                      3-   65 m1      LCALL rom_address
+                                    1-  410     	.line	156, "BSP\app_hs6230_test.c"; 	HS6230_Flush_Tx();
+                                    1-  411     	MCALL	_HS6230_Flush_Tx
+     004D 2rrr                      3-   65 m1      LCALL rom_address
+                                    1-  412     	.line	157, "BSP\app_hs6230_test.c"; 	HS6230_Clear_All_Irq();
+                                    1-  413     	MCALL	_HS6230_Clear_All_Irq
+     004E 2rrr                      3-   65 m1      LCALL rom_address
+                                    1-  414     	.line	159, "BSP\app_hs6230_test.c"; 	HS6230_write_byte(HS6230_BANK0_CONFIG, 0x0e);
+     004F 210E                      1-  415     	MOVIA	0x0e
+     0050 00rr                      1-  416     	MOVAR	STK00
+     0051 2100                      1-  417     	MOVIA	0x00
+                                    1-  418     	MCALL	_HS6230_write_byte
+     0052 2rrr                      3-   65 m1      LCALL rom_address
+                                    1-  419     	.line	160, "BSP\app_hs6230_test.c"; 	delay_ms(4);
+     0053 2104                      1-  420     	MOVIA	0x04
+                                    1-  421     	MCALL	_delay_ms
+     0054 2rrr                      3-   65 m1      LCALL rom_address
+                                    1-  422     	.line	162, "BSP\app_hs6230_test.c"; 	for(idx = 0;idx < 3;idx ++)
+                                    1-  423     	BANKSEL	r0x1025
+     0055 rrrr                      3-  109 m1      .banksel ram_address
+     0056 02rr                      1-  424     	CLRR	r0x1025
+     0057                           1-  425     _02026_DS_:
+                                    1-  426     	.line	164, "BSP\app_hs6230_test.c"; 	HS6230_write_byte(HS6230_BANK0_RF_CH, channel_index[idx]);
+                                    1-  427     	BANKSEL	r0x1025
+     0057 rrrr                      3-  109 m1      .banksel ram_address
+     0058 01rr                      1-  428     	MOVR	r0x1025,W
+     0059 25rr                      1-  429     	ADDIA	(_channel_index + 0)
+                                    1-  430     	BANKSEL	r0x1026
+     005A rrrr                      3-  109 m1      .banksel ram_address
+     005B 00rr                      1-  431     	MOVAR	r0x1026
+     005C 21rr                      1-  432     	MOVIA	((_channel_index + 0) >> 8) & 0xff
+     005D 2600                      1-  433     	ADCIA	0x00
+                                    1-  434     	BANKSEL	r0x1027
+     005E rrrr                      3-  109 m1      .banksel ram_address
+     005F 00rr                      1-  435     	MOVAR	r0x1027
+                                    1-  436     	BANKSEL	r0x1026
+     0060 rrrr                      3-  109 m1      .banksel ram_address
+     0061 01rr                      1-  437     	MOVR	r0x1026,W
+     0062 00rr                      1-  438     	MOVAR	STK01
+                                    1-  439     	BANKSEL	r0x1027
+     0063 rrrr                      3-  109 m1      .banksel ram_address
+     0064 01rr                      1-  440     	MOVR	r0x1027,W
+     0065 00rr                      1-  441     	MOVAR	STK00
+     0066 2180                      1-  442     	MOVIA	0x80
+                                    1-  443     	MCALL	__gptrget1
+     0067 2rrr                      3-   65 m1      LCALL rom_address
+                                    1-  444     	BANKSEL	r0x1028
+     0068 rrrr                      3-  109 m1      .banksel ram_address
+     0069 00rr                      1-  445     	MOVAR	r0x1028
+     006A 01rr                      1-  446     	MOVR	r0x1028,W
+     006B 00rr                      1-  447     	MOVAR	STK00
+     006C 2105                      1-  448     	MOVIA	0x05
+                                    1-  449     	MCALL	_HS6230_write_byte
+     006D 2rrr                      3-   65 m1      LCALL rom_address
+                                    1-  450     	.line	165, "BSP\app_hs6230_test.c"; 	HS6230_SendPack(RF_W_TX_PAYLOAD, HS6230_Tx_Payload, len);//HS6230_Tx_Payload[0] + 1);
+     006E 21rr                      1-  451     	MOVIA	(_HS6230_Tx_Payload + 0)
+                                    1-  452     	BANKSEL	r0x1026
+     006F rrrr                      3-  109 m1      .banksel ram_address
+     0070 00rr                      1-  453     	MOVAR	r0x1026
+                                    1-  454     	BANKSEL	r0x1027
+     0071 rrrr                      3-  109 m1      .banksel ram_address
+     0072 02rr                      1-  455     	CLRR	r0x1027
+                                    1-  456     	BANKSEL	r0x1028
+     0073 rrrr                      3-  109 m1      .banksel ram_address
+     0074 02rr                      1-  457     	CLRR	r0x1028
+     0075 211E                      1-  458     	MOVIA	0x1e
+     0076 00rr                      1-  459     	MOVAR	STK03
+                                    1-  460     	BANKSEL	r0x1026
+     0077 rrrr                      3-  109 m1      .banksel ram_address
+     0078 01rr                      1-  461     	MOVR	r0x1026,W
+     0079 00rr                      1-  462     	MOVAR	STK02
+                                    1-  463     	BANKSEL	r0x1027
+     007A rrrr                      3-  109 m1      .banksel ram_address
+     007B 01rr                      1-  464     	MOVR	r0x1027,W
+     007C 00rr                      1-  465     	MOVAR	STK01
+                                    1-  466     	BANKSEL	r0x1028
+     007D rrrr                      3-  109 m1      .banksel ram_address
+     007E 01rr                      1-  467     	MOVR	r0x1028,W
+     007F 00rr                      1-  468     	MOVAR	STK00
+     0080 21A0                      1-  469     	MOVIA	0xa0
+                                    1-  470     	MCALL	_HS6230_SendPack
+     0081 2rrr                      3-   65 m1      LCALL rom_address
+                                    1-  471     	.line	166, "BSP\app_hs6230_test.c"; 	HS6230_CE_High(); //ce pulse 20us
+                                    1-  472     	MCALL	_HS6230_CE_High
+     0082 2rrr                      3-   65 m1      LCALL rom_address
+                                    1-  473     	.line	167, "BSP\app_hs6230_test.c"; 	delay_us(40);
+     0083 2128                      1-  474     	MOVIA	0x28
+                                    1-  475     	MCALL	_delay_us
+     0084 2rrr                      3-   65 m1      LCALL rom_address
+                                    1-  476     	.line	168, "BSP\app_hs6230_test.c"; 	HS6230_CE_Low();
+                                    1-  477     	MCALL	_HS6230_CE_Low
+     0085 2rrr                      3-   65 m1      LCALL rom_address
+     0086                           1-  478     _02021_DS_:
+                                    1-  479     	.line	173, "BSP\app_hs6230_test.c"; 	status = HS6230_read_byte(HS6230_BANK0_STATUS);;
+     0086 2107                      1-  480     	MOVIA	0x07
+                                    1-  481     	MCALL	_HS6230_read_byte
+     0087 2rrr                      3-   65 m1      LCALL rom_address
+                                    1-  482     	BANKSEL	r0x1026
+     0088 rrrr                      3-  109 m1      .banksel ram_address
+     0089 00rr                      1-  483     	MOVAR	r0x1026
+                                    1-  484     	.line	174, "BSP\app_hs6230_test.c"; 	if ((TX_DS&status) || (MAX_RT&status))
+     008A 0Err                      1-  485     	BTRSC	r0x1026,5
+                                    1-  486     	MGOTO	_02017_DS_
+     008B 3rrr                      3-   62 m1      LGOTO rom_address
+     008C 0Arr                      1-  487     	BTRSS	r0x1026,4
+                                    1-  488     	MGOTO	_02021_DS_
+     008D 3rrr                      3-   62 m1      LGOTO rom_address
+     008E                           1-  489     _02017_DS_:
+                                    1-  490     	.line	176, "BSP\app_hs6230_test.c"; 	HS6230_write_byte(HS6230_BANK0_STATUS, status);
+                                    1-  491     	BANKSEL	r0x1026
+     008E rrrr                      3-  109 m1      .banksel ram_address
+     008F 01rr                      1-  492     	MOVR	r0x1026,W
+     0090 00rr                      1-  493     	MOVAR	STK00
+     0091 2107                      1-  494     	MOVIA	0x07
+                                    1-  495     	MCALL	_HS6230_write_byte
+     0092 2rrr                      3-   65 m1      LCALL rom_address
+                                    1-  496     	.line	162, "BSP\app_hs6230_test.c"; 	for(idx = 0;idx < 3;idx ++)
+                                    1-  497     	BANKSEL	r0x1025
+     0093 rrrr                      3-  109 m1      .banksel ram_address
+     0094 05rr                      1-  498     	INCR	r0x1025,F
+                                    1-  499     ;;unsigned compare: left < lit(0x3=3), size=1
+     0095 2103                      1-  500     	MOVIA	0x03
+     0096 04rr                      1-  501     	SUBAR	r0x1025,W
+     0097 0803                      1-  502     	BTRSS	STATUS,0
+                                    1-  503     	MGOTO	_02026_DS_
+     0098 3rrr                      3-   62 m1      LGOTO rom_address
+                                    1-  504     	.line	182, "BSP\app_hs6230_test.c"; 	HS6230_write_byte(HS6230_BANK0_CONFIG, 0x00);
+     0099 2100                      1-  505     	MOVIA	0x00
+     009A 00rr                      1-  506     	MOVAR	STK00
+     009B 2100                      1-  507     	MOVIA	0x00
+                                    1-  508     	MCALL	_HS6230_write_byte
+     009C 2rrr                      3-   65 m1      LCALL rom_address
+                                    1-  509     	.line	183, "BSP\app_hs6230_test.c"; 	delay_ms(1);
+     009D 2101                      1-  510     	MOVIA	0x01
+                                    1-  511     	MCALL	_delay_ms
+     009E 2rrr                      3-   65 m1      LCALL rom_address
+                                    1-  512     	.line	185, "BSP\app_hs6230_test.c"; 	for(char four_time = 0; four_time < 4; four_time++)
+                                    1-  513     	BANKSEL	r0x1025
+     009F rrrr                      3-  109 m1      .banksel ram_address
+     00A0 02rr                      1-  514     	CLRR	r0x1025
+                                    1-  515     ;;unsigned compare: left < lit(0x4=4), size=1
+     00A1                           1-  516     _02029_DS_:
+     00A1 2104                      1-  517     	MOVIA	0x04
+                                    1-  518     	BANKSEL	r0x1025
+     00A2 rrrr                      3-  109 m1      .banksel ram_address
+     00A3 04rr                      1-  519     	SUBAR	r0x1025,W
+     00A4 0C03                      1-  520     	BTRSC	STATUS,0
+                                    1-  521     	MGOTO	_02032_DS_
+     00A5 3rrr                      3-   62 m1      LGOTO rom_address
+                                    1-  522     	.line	186, "BSP\app_hs6230_test.c"; 	delay_ms(250);//(25);
+     00A6 21FA                      1-  523     	MOVIA	0xfa
+                                    1-  524     	MCALL	_delay_ms
+     00A7 2rrr                      3-   65 m1      LCALL rom_address
+                                    1-  525     	.line	185, "BSP\app_hs6230_test.c"; 	for(char four_time = 0; four_time < 4; four_time++)
+                                    1-  526     	BANKSEL	r0x1025
+     00A8 rrrr                      3-  109 m1      .banksel ram_address
+     00A9 05rr                      1-  527     	INCR	r0x1025,F
+                                    1-  528     	MGOTO	_02029_DS_
+     00AA 3rrr                      3-   62 m1      LGOTO rom_address
+     00AB                           1-  529     _02032_DS_:
+                                    1-  530     	.line	153, "BSP\app_hs6230_test.c"; 	for(i = 0;i < 100;i ++)
+                                    1-  531     	BANKSEL	r0x1024
+     00AB rrrr                      3-  109 m1      .banksel ram_address
+     00AC 05rr                      1-  532     	INCR	r0x1024,F
+                                    1-  533     ;;unsigned compare: left < lit(0x64=100), size=1
+     00AD 2164                      1-  534     	MOVIA	0x64
+     00AE 04rr                      1-  535     	SUBAR	r0x1024,W
+     00AF 0803                      1-  536     	BTRSS	STATUS,0
+                                    1-  537     	MGOTO	_02031_DS_
+     00B0 3rrr                      3-   62 m1      LGOTO rom_address
+                                    1-  538     	.line	188, "BSP\app_hs6230_test.c"; 	}
+                                    1-  539     	RETURN	
+     00B1 0010                      3-   39 m1      ret
+                                    1-  540     ; exit point of _send_ble_packet_test
+                                    1-  542     ;***
+                                    1-  543     ;  pBlock Stats: dbName = C
+                                    1-  544     ;***
+                                    1-  545     ;has an exit
+                                    1-  546     ;functions called:
+                                    1-  547     ;   _HS6230_Init
+                                    1-  548     ;   _HS6230_write_byte
+                                    1-  549     ;   _HS6230_write_byte
+                                    1-  550     ;   _HS6230_write_byte
+                                    1-  551     ;   _HS6230_write_byte
+                                    1-  552     ;   _HS6230_write_byte
+                                    1-  553     ;   _HS6230_write_byte
+                                    1-  554     ;   _HS6230_write_byte
+                                    1-  555     ;   _HS6230_write_byte
+                                    1-  556     ;   _HS6230_Bank_Switch
+                                    1-  557     ;   _HS6230_read_buffer
+                                    1-  558     ;   _HS6230_wr_buffer
+                                    1-  559     ;   _HS6230_read_buffer
+                                    1-  560     ;   _HS6230_wr_buffer
+                                    1-  561     ;   _HS6230_Bank_Switch
+                                    1-  562     ;   _HS6230_CE_Low
+                                    1-  563     ;   _HS6230_ModeSwitch
+                                    1-  564     ;   _HS6230_write_byte
+                                    1-  565     ;   _delay_ms
+                                    1-  566     ;   _HS6230_Flush_Tx
+                                    1-  567     ;   _HS6230_Clear_All_Irq
+                                    1-  568     ;   _HS6230_SendPack
+                                    1-  569     ;   _HS6230_CE_High
+                                    1-  570     ;   _delay_us
+                                    1-  571     ;   _HS6230_CE_Low
+                                    1-  572     ;   _HS6230_Init
+                                    1-  573     ;   _HS6230_write_byte
+                                    1-  574     ;   _HS6230_write_byte
+                                    1-  575     ;   _HS6230_write_byte
+                                    1-  576     ;   _HS6230_write_byte
+                                    1-  577     ;   _HS6230_write_byte
+                                    1-  578     ;   _HS6230_write_byte
+                                    1-  579     ;   _HS6230_write_byte
+                                    1-  580     ;   _HS6230_write_byte
+                                    1-  581     ;   _HS6230_Bank_Switch
+                                    1-  582     ;   _HS6230_read_buffer
+                                    1-  583     ;   _HS6230_wr_buffer
+                                    1-  584     ;   _HS6230_read_buffer
+                                    1-  585     ;   _HS6230_wr_buffer
+                                    1-  586     ;   _HS6230_Bank_Switch
+                                    1-  587     ;   _HS6230_CE_Low
+                                    1-  588     ;   _HS6230_ModeSwitch
+                                    1-  589     ;   _HS6230_write_byte
+                                    1-  590     ;   _delay_ms
+                                    1-  591     ;   _HS6230_Flush_Tx
+                                    1-  592     ;   _HS6230_Clear_All_Irq
+                                    1-  593     ;   _HS6230_SendPack
+                                    1-  594     ;   _HS6230_CE_High
+                                    1-  595     ;   _delay_us
+                                    1-  596     ;   _HS6230_CE_Low
+                                    1-  597     ;8 compiler assigned registers:
+                                    1-  598     ;   r0x1029
+                                    1-  599     ;   STK00
+                                    1-  600     ;   r0x102A
+                                    1-  601     ;   r0x102B
+                                    1-  602     ;   STK03
+                                    1-  603     ;   STK02
+                                    1-  604     ;   STK01
+                                    1-  605     ;   r0x102C
+                                    1-  606     ;; Starting pCode block
+                                    1-  607     .segment "code"; module=app_hs6230_test, function=_send_rf_packet_test
+                                    1-  609     ;local variable name mapping:
+     0000                           1-  613     _send_rf_packet_test:
+                                    1-  614     ; 2 exit points
+                                    1-  615     	.line	20, "BSP\app_hs6230_test.c"; 	void send_rf_packet_test(unsigned char guard_en)
+                                    1-  616     	BANKSEL	r0x1029
+     0000 rrrr                      3-  109 m1      .banksel ram_address
+     0001 00rr                      1-  617     	MOVAR	r0x1029
+                                    1-  618     	.line	25, "BSP\app_hs6230_test.c"; 	HS6230_Init();
+                                    1-  619     	MCALL	_HS6230_Init
+     0002 2rrr                      3-   65 m1      LCALL rom_address
+                                    1-  620     	.line	26, "BSP\app_hs6230_test.c"; 	HS6230_write_byte(HS6230_BANK0_RF_CH, 103);//0x05);
+     0003 2167                      1-  621     	MOVIA	0x67
+     0004 00rr                      1-  622     	MOVAR	STK00
+     0005 2105                      1-  623     	MOVIA	0x05
+                                    1-  624     	MCALL	_HS6230_write_byte
+     0006 2rrr                      3-   65 m1      LCALL rom_address
+                                    1-  625     	.line	28, "BSP\app_hs6230_test.c"; 	HS6230_write_byte(HS6230_BANK0_FEATURE, 0x04);//0x07);
+     0007 2104                      1-  626     	MOVIA	0x04
+     0008 00rr                      1-  627     	MOVAR	STK00
+     0009 211D                      1-  628     	MOVIA	0x1d
+                                    1-  629     	MCALL	_HS6230_write_byte
+     000A 2rrr                      3-   65 m1      LCALL rom_address
+                                    1-  630     	.line	29, "BSP\app_hs6230_test.c"; 	HS6230_write_byte(HS6230_BANK0_CONFIG, 0x02);//0x0f);
+     000B 2102                      1-  631     	MOVIA	0x02
+     000C 00rr                      1-  632     	MOVAR	STK00
+     000D 2100                      1-  633     	MOVIA	0x00
+                                    1-  634     	MCALL	_HS6230_write_byte
+     000E 2rrr                      3-   65 m1      LCALL rom_address
+                                    1-  635     	.line	30, "BSP\app_hs6230_test.c"; 	HS6230_write_byte(HS6230_BANK0_SETUP_VALUE, 0x02);
+     000F 2102                      1-  636     	MOVIA	0x02
+     0010 00rr                      1-  637     	MOVAR	STK00
+     0011 211E                      1-  638     	MOVIA	0x1e
+                                    1-  639     	MCALL	_HS6230_write_byte
+     0012 2rrr                      3-   65 m1      LCALL rom_address
+                                    1-  640     	.line	31, "BSP\app_hs6230_test.c"; 	HS6230_write_byte(HS6230_BANK0_SETUP_AW, 0x03);
+     0013 2103                      1-  641     	MOVIA	0x03
+     0014 00rr                      1-  642     	MOVAR	STK00
+     0015 2103                      1-  643     	MOVIA	0x03
+                                    1-  644     	MCALL	_HS6230_write_byte
+     0016 2rrr                      3-   65 m1      LCALL rom_address
+                                    1-  645     	.line	32, "BSP\app_hs6230_test.c"; 	HS6230_write_byte(HS6230_BANK0_SETUP_VALUE, 0x01);
+     0017 2101                      1-  646     	MOVIA	0x01
+     0018 00rr                      1-  647     	MOVAR	STK00
+     0019 211E                      1-  648     	MOVIA	0x1e
+                                    1-  649     	MCALL	_HS6230_write_byte
+     001A 2rrr                      3-   65 m1      LCALL rom_address
+                                    1-  650     	.line	33, "BSP\app_hs6230_test.c"; 	HS6230_write_byte(RF_BANK1_FDEV,0x20);
+     001B 2120                      1-  651     	MOVIA	0x20
+     001C 00rr                      1-  652     	MOVAR	STK00
+     001D 210C                      1-  653     	MOVIA	0x0c
+                                    1-  654     	MCALL	_HS6230_write_byte
+     001E 2rrr                      3-   65 m1      LCALL rom_address
+                                    1-  655     	.line	34, "BSP\app_hs6230_test.c"; 	HS6230_write_byte(HS6230_BANK0_RF_SETUP, 0x40);//0x40);
+     001F 2140                      1-  656     	MOVIA	0x40
+     0020 00rr                      1-  657     	MOVAR	STK00
+     0021 2106                      1-  658     	MOVIA	0x06
+                                    1-  659     	MCALL	_HS6230_write_byte
+     0022 2rrr                      3-   65 m1      LCALL rom_address
+                                    1-  660     	.line	36, "BSP\app_hs6230_test.c"; 	HS6230_Bank_Switch(RF_Bank1);
+     0023 2101                      1-  661     	MOVIA	0x01
+                                    1-  662     	MCALL	_HS6230_Bank_Switch
+     0024 2rrr                      3-   65 m1      LCALL rom_address
+                                    1-  663     	.line	38, "BSP\app_hs6230_test.c"; 	if(guard_en)
+                                    1-  664     	BANKSEL	r0x1029
+     0025 rrrr                      3-  109 m1      .banksel ram_address
+     0026 01rr                      1-  665     	MOVR	r0x1029,W
+     0027 0D03                      1-  666     	BTRSC	STATUS,2
+                                    1-  667     	MGOTO	_02006_DS_
+     0028 3rrr                      3-   62 m1      LGOTO rom_address
+                                    1-  668     	.line	41, "BSP\app_hs6230_test.c"; 	HS6230_read_buffer(HS6230_BANK1_FAGC_CTRL, temp, 4);
+     0029 21rr                      1-  669     	MOVIA	(_send_rf_packet_test_temp_65536_53 + 0)
+     002A 00rr                      1-  670     	MOVAR	r0x1029
+                                    1-  671     	BANKSEL	r0x102A
+     002B rrrr                      3-  109 m1      .banksel ram_address
+     002C 02rr                      1-  672     	CLRR	r0x102A
+                                    1-  673     	BANKSEL	r0x102B
+     002D rrrr                      3-  109 m1      .banksel ram_address
+     002E 02rr                      1-  674     	CLRR	r0x102B
+     002F 2104                      1-  675     	MOVIA	0x04
+     0030 00rr                      1-  676     	MOVAR	STK03
+                                    1-  677     	BANKSEL	r0x1029
+     0031 rrrr                      3-  109 m1      .banksel ram_address
+     0032 01rr                      1-  678     	MOVR	r0x1029,W
+     0033 00rr                      1-  679     	MOVAR	STK02
+                                    1-  680     	BANKSEL	r0x102A
+     0034 rrrr                      3-  109 m1      .banksel ram_address
+     0035 01rr                      1-  681     	MOVR	r0x102A,W
+     0036 00rr                      1-  682     	MOVAR	STK01
+                                    1-  683     	BANKSEL	r0x102B
+     0037 rrrr                      3-  109 m1      .banksel ram_address
+     0038 01rr                      1-  684     	MOVR	r0x102B,W
+     0039 00rr                      1-  685     	MOVAR	STK00
+     003A 2103                      1-  686     	MOVIA	0x03
+                                    1-  687     	MCALL	_HS6230_read_buffer
+     003B 2rrr                      3-   65 m1      LCALL rom_address
+                                    1-  688     	.line	42, "BSP\app_hs6230_test.c"; 	temp[2] &= ~0x02;  //scramble_en = 0
+                                    1-  689     	BANKSEL	_send_rf_packet_test_temp_65536_53
+     003C rrrr                      3-  109 m1      .banksel ram_address
+     003D 01rr                      1-  690     	MOVR	(_send_rf_packet_test_temp_65536_53 + 2),W
+                                    1-  691     	BANKSEL	r0x1029
+     003E rrrr                      3-  109 m1      .banksel ram_address
+     003F 00rr                      1-  692     	MOVAR	r0x1029
+     0040 1Crr                      1-  693     	BCR	r0x1029,1
+     0041 01rr                      1-  694     	MOVR	r0x1029,W
+                                    1-  695     	BANKSEL	_send_rf_packet_test_temp_65536_53
+     0042 rrrr                      3-  109 m1      .banksel ram_address
+     0043 00rr                      1-  696     	MOVAR	(_send_rf_packet_test_temp_65536_53 + 2)
+                                    1-  697     	.line	43, "BSP\app_hs6230_test.c"; 	temp[3] = 0;  ////by pass guard
+     0044 02rr                      1-  698     	CLRR	(_send_rf_packet_test_temp_65536_53 + 3)
+                                    1-  699     	.line	44, "BSP\app_hs6230_test.c"; 	HS6230_wr_buffer(HS6230_BANK1_FAGC_CTRL, temp, 4);
+     0045 21rr                      1-  700     	MOVIA	(_send_rf_packet_test_temp_65536_53 + 0)
+                                    1-  701     	BANKSEL	r0x1029
+     0046 rrrr                      3-  109 m1      .banksel ram_address
+     0047 00rr                      1-  702     	MOVAR	r0x1029
+                                    1-  703     	BANKSEL	r0x102A
+     0048 rrrr                      3-  109 m1      .banksel ram_address
+     0049 02rr                      1-  704     	CLRR	r0x102A
+                                    1-  705     	BANKSEL	r0x102B
+     004A rrrr                      3-  109 m1      .banksel ram_address
+     004B 02rr                      1-  706     	CLRR	r0x102B
+     004C 2104                      1-  707     	MOVIA	0x04
+     004D 00rr                      1-  708     	MOVAR	STK03
+                                    1-  709     	BANKSEL	r0x1029
+     004E rrrr                      3-  109 m1      .banksel ram_address
+     004F 01rr                      1-  710     	MOVR	r0x1029,W
+     0050 00rr                      1-  711     	MOVAR	STK02
+                                    1-  712     	BANKSEL	r0x102A
+     0051 rrrr                      3-  109 m1      .banksel ram_address
+     0052 01rr                      1-  713     	MOVR	r0x102A,W
+     0053 00rr                      1-  714     	MOVAR	STK01
+                                    1-  715     	BANKSEL	r0x102B
+     0054 rrrr                      3-  109 m1      .banksel ram_address
+     0055 01rr                      1-  716     	MOVR	r0x102B,W
+     0056 00rr                      1-  717     	MOVAR	STK00
+     0057 2103                      1-  718     	MOVIA	0x03
+                                    1-  719     	MCALL	_HS6230_wr_buffer
+     0058 2rrr                      3-   65 m1      LCALL rom_address
+                                    1-  720     	MGOTO	_02007_DS_
+     0059 3rrr                      3-   62 m1      LGOTO rom_address
+     005A                           1-  721     _02006_DS_:
+                                    1-  722     	.line	49, "BSP\app_hs6230_test.c"; 	HS6230_read_buffer(HS6230_BANK1_FAGC_CTRL, temp, 4);
+     005A 21rr                      1-  723     	MOVIA	(_send_rf_packet_test_temp_65536_53 + 0)
+                                    1-  724     	BANKSEL	r0x1029
+     005B rrrr                      3-  109 m1      .banksel ram_address
+     005C 00rr                      1-  725     	MOVAR	r0x1029
+                                    1-  726     	BANKSEL	r0x102A
+     005D rrrr                      3-  109 m1      .banksel ram_address
+     005E 02rr                      1-  727     	CLRR	r0x102A
+                                    1-  728     	BANKSEL	r0x102B
+     005F rrrr                      3-  109 m1      .banksel ram_address
+     0060 02rr                      1-  729     	CLRR	r0x102B
+     0061 2104                      1-  730     	MOVIA	0x04
+     0062 00rr                      1-  731     	MOVAR	STK03
+                                    1-  732     	BANKSEL	r0x1029
+     0063 rrrr                      3-  109 m1      .banksel ram_address
+     0064 01rr                      1-  733     	MOVR	r0x1029,W
+     0065 00rr                      1-  734     	MOVAR	STK02
+                                    1-  735     	BANKSEL	r0x102A
+     0066 rrrr                      3-  109 m1      .banksel ram_address
+     0067 01rr                      1-  736     	MOVR	r0x102A,W
+     0068 00rr                      1-  737     	MOVAR	STK01
+                                    1-  738     	BANKSEL	r0x102B
+     0069 rrrr                      3-  109 m1      .banksel ram_address
+     006A 01rr                      1-  739     	MOVR	r0x102B,W
+     006B 00rr                      1-  740     	MOVAR	STK00
+     006C 2103                      1-  741     	MOVIA	0x03
+                                    1-  742     	MCALL	_HS6230_read_buffer
+     006D 2rrr                      3-   65 m1      LCALL rom_address
+                                    1-  743     	.line	50, "BSP\app_hs6230_test.c"; 	temp[2] |= 0x02;  //scramble_en = 0
+                                    1-  744     	BANKSEL	_send_rf_packet_test_temp_65536_53
+     006E rrrr                      3-  109 m1      .banksel ram_address
+     006F 01rr                      1-  745     	MOVR	(_send_rf_packet_test_temp_65536_53 + 2),W
+                                    1-  746     	BANKSEL	r0x1029
+     0070 rrrr                      3-  109 m1      .banksel ram_address
+     0071 00rr                      1-  747     	MOVAR	r0x1029
+     0072 18rr                      1-  748     	BSR	r0x1029,1
+     0073 01rr                      1-  749     	MOVR	r0x1029,W
+                                    1-  750     	BANKSEL	_send_rf_packet_test_temp_65536_53
+     0074 rrrr                      3-  109 m1      .banksel ram_address
+     0075 00rr                      1-  751     	MOVAR	(_send_rf_packet_test_temp_65536_53 + 2)
+                                    1-  752     	.line	51, "BSP\app_hs6230_test.c"; 	temp[3] = 0x01;  //// guard = 1
+     0076 2101                      1-  753     	MOVIA	0x01
+     0077 00rr                      1-  754     	MOVAR	(_send_rf_packet_test_temp_65536_53 + 3)
+                                    1-  755     	.line	52, "BSP\app_hs6230_test.c"; 	HS6230_wr_buffer(HS6230_BANK1_FAGC_CTRL, temp, 4);
+     0078 21rr                      1-  756     	MOVIA	(_send_rf_packet_test_temp_65536_53 + 0)
+                                    1-  757     	BANKSEL	r0x1029
+     0079 rrrr                      3-  109 m1      .banksel ram_address
+     007A 00rr                      1-  758     	MOVAR	r0x1029
+                                    1-  759     	BANKSEL	r0x102A
+     007B rrrr                      3-  109 m1      .banksel ram_address
+     007C 02rr                      1-  760     	CLRR	r0x102A
+                                    1-  761     	BANKSEL	r0x102B
+     007D rrrr                      3-  109 m1      .banksel ram_address
+     007E 02rr                      1-  762     	CLRR	r0x102B
+     007F 2104                      1-  763     	MOVIA	0x04
+     0080 00rr                      1-  764     	MOVAR	STK03
+                                    1-  765     	BANKSEL	r0x1029
+     0081 rrrr                      3-  109 m1      .banksel ram_address
+     0082 01rr                      1-  766     	MOVR	r0x1029,W
+     0083 00rr                      1-  767     	MOVAR	STK02
+                                    1-  768     	BANKSEL	r0x102A
+     0084 rrrr                      3-  109 m1      .banksel ram_address
+     0085 01rr                      1-  769     	MOVR	r0x102A,W
+     0086 00rr                      1-  770     	MOVAR	STK01
+                                    1-  771     	BANKSEL	r0x102B
+     0087 rrrr                      3-  109 m1      .banksel ram_address
+     0088 01rr                      1-  772     	MOVR	r0x102B,W
+     0089 00rr                      1-  773     	MOVAR	STK00
+     008A 2103                      1-  774     	MOVIA	0x03
+                                    1-  775     	MCALL	_HS6230_wr_buffer
+     008B 2rrr                      3-   65 m1      LCALL rom_address
+     008C                           1-  776     _02007_DS_:
+                                    1-  777     	.line	54, "BSP\app_hs6230_test.c"; 	HS6230_Bank_Switch(RF_Bank0);
+     008C 2100                      1-  778     	MOVIA	0x00
+                                    1-  779     	MCALL	_HS6230_Bank_Switch
+     008D 2rrr                      3-   65 m1      LCALL rom_address
+                                    1-  780     	.line	58, "BSP\app_hs6230_test.c"; 	HS6230_CE_Low();
+                                    1-  781     	MCALL	_HS6230_CE_Low
+     008E 2rrr                      3-   65 m1      LCALL rom_address
+                                    1-  782     	.line	59, "BSP\app_hs6230_test.c"; 	HS6230_ModeSwitch(Rf_PTX_Mode);
+     008F 2101                      1-  783     	MOVIA	0x01
+                                    1-  784     	MCALL	_HS6230_ModeSwitch
+     0090 2rrr                      3-   65 m1      LCALL rom_address
+                                    1-  785     	.line	61, "BSP\app_hs6230_test.c"; 	HS6230_write_byte(HS6230_BANK0_CONFIG, 0x02);  //pwoer up
+     0091 2102                      1-  786     	MOVIA	0x02
+     0092 00rr                      1-  787     	MOVAR	STK00
+     0093 2100                      1-  788     	MOVIA	0x00
+                                    1-  789     	MCALL	_HS6230_write_byte
+     0094 2rrr                      3-   65 m1      LCALL rom_address
+                                    1-  790     	.line	62, "BSP\app_hs6230_test.c"; 	delay_ms(4);                                 //wait clk done
+     0095 2104                      1-  791     	MOVIA	0x04
+                                    1-  792     	MCALL	_delay_ms
+     0096 2rrr                      3-   65 m1      LCALL rom_address
+                                    1-  793     	.line	66, "BSP\app_hs6230_test.c"; 	for(i = 0;i < 32;i ++)//
+                                    1-  794     	BANKSEL	r0x1029
+     0097 rrrr                      3-  109 m1      .banksel ram_address
+     0098 02rr                      1-  795     	CLRR	r0x1029
+                                    1-  796     	BANKSEL	r0x102A
+     0099 rrrr                      3-  109 m1      .banksel ram_address
+     009A 02rr                      1-  797     	CLRR	r0x102A
+     009B                           1-  798     _02012_DS_:
+                                    1-  799     	.line	68, "BSP\app_hs6230_test.c"; 	HS6230_Tx_Payload[i] = i;
+                                    1-  800     	BANKSEL	r0x1029
+     009B rrrr                      3-  109 m1      .banksel ram_address
+     009C 01rr                      1-  801     	MOVR	r0x1029,W
+     009D 25rr                      1-  802     	ADDIA	(_HS6230_Tx_Payload + 0)
+                                    1-  803     	BANKSEL	r0x102B
+     009E rrrr                      3-  109 m1      .banksel ram_address
+     009F 00rr                      1-  804     	MOVAR	r0x102B
+                                    1-  805     	BANKSEL	r0x1029
+     00A0 rrrr                      3-  109 m1      .banksel ram_address
+     00A1 01rr                      1-  806     	MOVR	r0x1029,W
+                                    1-  807     	BANKSEL	r0x102C
+     00A2 rrrr                      3-  109 m1      .banksel ram_address
+     00A3 00rr                      1-  808     	MOVAR	r0x102C
+     00A4 01rr                      1-  809     	MOVR	r0x102C,W
+     00A5 00rr                      1-  810     	MOVAR	STK00
+                                    1-  811     	BANKSEL	r0x102B
+     00A6 rrrr                      3-  109 m1      .banksel ram_address
+     00A7 01rr                      1-  812     	MOVR	r0x102B,W
+     00A8 0084                      1-  813     	MOVAR	FSR
+     00A9 1F03                      1-  814     	BCR	STATUS,6
+     00AA 0F84                      1-  815     	BTRSC	FSR,7
+     00AB 1B03                      1-  816     	BSR	STATUS,6
+     00AC 01rr                      1-  817     	MOVR	STK00,W
+     00AD 0080                      1-  818     	MOVAR	INDF
+                                    1-  819     	.line	66, "BSP\app_hs6230_test.c"; 	for(i = 0;i < 32;i ++)//
+                                    1-  820     	BANKSEL	r0x1029
+     00AE rrrr                      3-  109 m1      .banksel ram_address
+     00AF 05rr                      1-  821     	INCR	r0x1029,F
+     00B0 0903                      1-  822     	BTRSS	STATUS,2
+                                    1-  823     	MGOTO	_00001_DS_
+     00B1 3rrr                      3-   62 m1      LGOTO rom_address
+                                    1-  824     	BANKSEL	r0x102A
+     00B2 rrrr                      3-  109 m1      .banksel ram_address
+     00B3 05rr                      1-  825     	INCR	r0x102A,F
+                                    1-  826     ;;unsigned compare: left < lit(0x20=32), size=2
+     00B4                           1-  827     _00001_DS_:
+     00B4 2120                      1-  828     	MOVIA	0x20
+                                    1-  829     	BANKSEL	r0x1029
+     00B5 rrrr                      3-  109 m1      .banksel ram_address
+     00B6 04rr                      1-  830     	SUBAR	r0x1029,W
+     00B7 2100                      1-  831     	MOVIA	0x00
+                                    1-  832     	BANKSEL	r0x102A
+     00B8 rrrr                      3-  109 m1      .banksel ram_address
+     00B9 35rr                      1-  833     	SBCAR	r0x102A,W
+     00BA 0803                      1-  834     	BTRSS	STATUS,0
+                                    1-  835     	MGOTO	_02012_DS_
+     00BB 3rrr                      3-   62 m1      LGOTO rom_address
+     00BC                           1-  836     _02010_DS_:
+                                    1-  837     	.line	73, "BSP\app_hs6230_test.c"; 	HS6230_Flush_Tx();
+                                    1-  838     	MCALL	_HS6230_Flush_Tx
+     00BC 2rrr                      3-   65 m1      LCALL rom_address
+                                    1-  839     	.line	74, "BSP\app_hs6230_test.c"; 	HS6230_Clear_All_Irq();
+                                    1-  840     	MCALL	_HS6230_Clear_All_Irq
+     00BD 2rrr                      3-   65 m1      LCALL rom_address
+                                    1-  841     	.line	76, "BSP\app_hs6230_test.c"; 	HS6230_SendPack(RF_W_TX_PAYLOAD, HS6230_Tx_Payload, 32);
+     00BE 21rr                      1-  842     	MOVIA	(_HS6230_Tx_Payload + 0)
+                                    1-  843     	BANKSEL	r0x1029
+     00BF rrrr                      3-  109 m1      .banksel ram_address
+     00C0 00rr                      1-  844     	MOVAR	r0x1029
+                                    1-  845     	BANKSEL	r0x102A
+     00C1 rrrr                      3-  109 m1      .banksel ram_address
+     00C2 02rr                      1-  846     	CLRR	r0x102A
+                                    1-  847     	BANKSEL	r0x102B
+     00C3 rrrr                      3-  109 m1      .banksel ram_address
+     00C4 02rr                      1-  848     	CLRR	r0x102B
+     00C5 2120                      1-  849     	MOVIA	0x20
+     00C6 00rr                      1-  850     	MOVAR	STK03
+                                    1-  851     	BANKSEL	r0x1029
+     00C7 rrrr                      3-  109 m1      .banksel ram_address
+     00C8 01rr                      1-  852     	MOVR	r0x1029,W
+     00C9 00rr                      1-  853     	MOVAR	STK02
+                                    1-  854     	BANKSEL	r0x102A
+     00CA rrrr                      3-  109 m1      .banksel ram_address
+     00CB 01rr                      1-  855     	MOVR	r0x102A,W
+     00CC 00rr                      1-  856     	MOVAR	STK01
+                                    1-  857     	BANKSEL	r0x102B
+     00CD rrrr                      3-  109 m1      .banksel ram_address
+     00CE 01rr                      1-  858     	MOVR	r0x102B,W
+     00CF 00rr                      1-  859     	MOVAR	STK00
+     00D0 21A0                      1-  860     	MOVIA	0xa0
+                                    1-  861     	MCALL	_HS6230_SendPack
+     00D1 2rrr                      3-   65 m1      LCALL rom_address
+                                    1-  862     	.line	77, "BSP\app_hs6230_test.c"; 	HS6230_CE_High(); //ce pulse 20us
+                                    1-  863     	MCALL	_HS6230_CE_High
+     00D2 2rrr                      3-   65 m1      LCALL rom_address
+                                    1-  864     	.line	78, "BSP\app_hs6230_test.c"; 	delay_us(40);
+     00D3 2128                      1-  865     	MOVIA	0x28
+                                    1-  866     	MCALL	_delay_us
+     00D4 2rrr                      3-   65 m1      LCALL rom_address
+                                    1-  867     	.line	81, "BSP\app_hs6230_test.c"; 	HS6230_CE_Low();
+                                    1-  868     	MCALL	_HS6230_CE_Low
+     00D5 2rrr                      3-   65 m1      LCALL rom_address
+                                    1-  869     	MGOTO	_02010_DS_
+     00D6 3rrr                      3-   62 m1      LGOTO rom_address
+                                    1-  870     	.line	83, "BSP\app_hs6230_test.c"; 	}
+                                    1-  871     	RETURN	
+     00D7 0010                      3-   39 m1      ret
+                                    1-  872     ; exit point of _send_rf_packet_test
+                                    1-  875     ;	code size estimation:
+                                    1-  876     ;	  324+   70 =   394 instructions (  928 byte)
+                                    1-  878     	end
+
+SYMBOL TABLE            TYPE     VALUE
+__pin_count__           Constant 0000000E
+__processor__           Constant 00800544
+C                       Constant 00000000
+DC                      Constant 00000001
+ENABLE_RAM_BANK         Constant 00000001
+F                       Constant 00000001
+FSR                     Constant 00000004
+INDF                    Constant 00000000
+PCHBUF                  Constant 0000000A
+PCL                     Constant 00000002
+STATUS                  Constant 00000003
+USEFGOTO                Constant 00000000
+W                       Constant 00000000
+Z                       Constant 00000002
+
+
+SOURCE FILE TABLE
+001 OBJ/BSP\app_hs6230_test.s
+002 ny8a054e.inc
+003 common.inc
+004 BSP\app_hs6230_test.c
+
+PROCESSOR    = NY8A054E (8 bits)
+PROGRAM ROM  = 0x00000000 - 0x000007FF
+DATA ROM     = 0x00000000 - 0x000007FF
+RESERVED MEM = 0x00000800 - 0x00000810
+SRAM / SFR   = 0x00000000 - 0x00000000

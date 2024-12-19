@@ -1,0 +1,37 @@
+
+                    Nyquest Technology Co., Ltd.
+
+NYASM 2.42
+
+    ADDR  OPCODE/VALUE              LINE   TAG  SOURCE                   STATEMENT    
+
+                                    1-    1     	list c=on
+                                    1-    2     	extern _get_rolling_code_0
+                                    1-    3     	extern _get_rolling_code_1
+                                    1-    4     	extern _get_rolling_code_2
+                                    1-    5     	extern _get_rolling_code_3
+                                    1-    7     	org 0x07B0
+     07B0                           1-    8     _get_rolling_code_0:
+     07B0 2000                      1-    9     		retia	0x00		; address = 0x0e
+     07B1                           1-   11     _get_rolling_code_1:
+     07B1 2000                      1-   12     		retia	0x00		; address = 0x0f
+     07B2                           1-   14     _get_rolling_code_2:
+     07B2 2000                      1-   15     		retia	0x00		; address = 0x10
+     07B3                           1-   17     _get_rolling_code_3:
+     07B3 2001                      1-   18     		retia	0x01		; address = 0x11
+                                    1-   20     	end
+
+SYMBOL TABLE            TYPE     VALUE
+__pin_count__           Constant 0000000E
+__processor__           Constant 00800544
+ENABLE_RAM_BANK         Constant 00000001
+
+
+SOURCE FILE TABLE
+001 rom.s
+
+PROCESSOR    = NY8A054E (8 bits)
+PROGRAM ROM  = 0x00000000 - 0x000007FF
+DATA ROM     = 0x00000000 - 0x000007FF
+RESERVED MEM = 0x00000800 - 0x00000810
+SRAM / SFR   = 0x00000000 - 0x00000000

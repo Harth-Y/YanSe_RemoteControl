@@ -61,7 +61,7 @@
     <WarningMsgCode8>110</WarningMsgCode8>
     <WarningMsgCode9>112</WarningMsgCode9>
     <WarningMsgCount>1</WarningMsgCount>
-    <WarningMsgFileName0>D:\code\YanSe_RemoteControl18key\CS1630\BSP\bsp_cs1630.c</WarningMsgFileName0>
+    <WarningMsgFileName0>D:\code\YanSe_RemoteControl21key\CS1630\BSP\bsp_cs1630.c</WarningMsgFileName0>
     <WarningMsgFileName1>D:\code\YanSe_RemoteControl\CS1630\BSP\key.c</WarningMsgFileName1>
     <WarningMsgFileName10>D:\code\Master\ChangJi\yanSe\CS1630\CS1630\BSP\bsp_cs1630.c</WarningMsgFileName10>
     <WarningMsgFileName11>D:\code\Master\ChangJi\yanSe\CS1630\CS1630\BSP\bsp_cs1630.c</WarningMsgFileName11>
@@ -180,12 +180,15 @@
     <Array name="ExternalResource" />
     <Array name="files">
       <Element value="BSP/bsp_hs6230.c|False" />
-      <Element value="main.c|False" />
       <Element value="BSP/key.c|False" />
       <Element value="BSP/app_tx.c|False" />
       <Element value="BSP/bsp_delay.c|False" />
       <Element value="../../../NY8_Example_Code/include/NY8 C/NY8_constant.h|False" />
       <Element value="BSP/bsp_cs1630.c|True" />
+      <Element value="main.c|True" />
+      <Element value="rom.h|False" />
+      <Element value="rom.s|False" />
+      <Element value="BSP/bsp_spi.c|False" />
     </Array>
     <Array name="MelodyDatabaseFiles" />
     <Array name="RegisterWindowExpandInfo">

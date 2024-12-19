@@ -1,0 +1,2361 @@
+
+                    Nyquest Technology Co., Ltd.
+
+NYASM 2.42
+
+    ADDR  OPCODE/VALUE              LINE   TAG  SOURCE                   STATEMENT    
+
+                                    1-    1     ;--------------------------------------------------------
+                                    1-    2     ; File Created by SDCC : free open source ISO C Compiler 
+                                    1-    3     ; Version 4.2.2 #0 (MSVC)
+                                    1-    4     ;--------------------------------------------------------
+                                    1-    5     ; NY8A port
+                                    1-    6     ;--------------------------------------------------------
+                                    1-    7     	.file	"BSP\bsp_rf.c"
+                                    1-    8     	list	p=NY8A054E,c=on
+                                    1-    9     	#include "ny8a054e.inc"
+                                    2-    1     #include "common.inc"
+                                    3-    1     ;; header file for 8 bit series assembly -*- mode:asm; coding:utf-8; -*-
+                                    3-    2     ;; author    Ting
+                                    3-    3     ;; date      2020-12-24
+                                    3-    4     ;;
+                                    3-    5     ;; # constant definition
+                                    3-    6     ;;
+                                    3-    7     ;; ## instruction result store destination
+                                    3-    8     ;;  - W: the result is stored in the ACC.
+                                    3-    9     ;;  - F: the result is stored back in register.
+                                    3-   10     ;; ## flag name in STATUS register
+                                    3-   11     ;;  - C, DC, Z
+                                    3-   12     ;;
+                                    3-   13     ;; # macro define
+                                    3-   14     ;;
+                                    3-   15     ;; ## RETURN, used by C compiler, end of function
+                                    3-   16     ;; ## PAGESEL, empty macro, maybe used by C compiler (bug?)
+                                    3-   17     ;; ## BANKSEL, replace by .banksel pseudo command, empty if disable bank.
+                                    3-   18     ;; ## MGOTO, replace by LGOTO (ic<=2K word) or FGOTO (ic>2K word)
+                                    3-   19     ;; ## MCALL, same as above
+                                    3-   20     ;;
+                                    3-   21     W       EQU 0
+                                    3-   21     ;W = 0
+                                    3-   22     F       EQU 1
+                                    3-   22     ;F = 1
+                                    3-   23     C		EQU	0
+                                    3-   23     ;C = 0
+                                    3-   24     DC		EQU	1
+                                    3-   24     ;DC = 1
+                                    3-   25     Z		EQU	2
+                                    3-   25     ;Z = 2
+                                    3-   28     ;; common register for all series
+                                    3-   29     INDF    EQU 0x00
+                                    3-   29     ;INDF = 0
+                                    3-   30     PCL     EQU 0x02
+                                    3-   30     ;PCL = 2
+                                    3-   31     STATUS  EQU 0x03
+                                    3-   31     ;STATUS = 3
+                                    3-   32     FSR     EQU 0x04
+                                    3-   32     ;FSR = 4
+                                    3-   33     PCHBUF  EQU 0x0A
+                                    3-   33     ;PCHBUF = 10
+                                    1-   11     ;--------------------------------------------------------
+                                    1-   12     ; external declarations
+                                    1-   13     ;--------------------------------------------------------
+                                    1-   14     	extern	__muluchar
+                                    1-   15     	extern	_SPI_ReadByte
+                                    1-   16     	extern	_SPI_SendByte
+                                    1-   17     	extern	_RF_softSPI_Init
+                                    1-   18     	extern	_delay_40us
+                                    1-   19     	extern	_delay_us
+                                    1-   20     	extern	_delay_250ms
+                                    1-   21     	extern	_delay_ms
+                                    1-   22     	extern	_clear_ram
+                                    1-   23     	extern	_multi_16b
+                                    1-   24     	extern	_RF_Init
+                                    1-   25     	extern	_RF_spi_wrd
+                                    1-   26     	extern	_RF_CE_Low
+                                    1-   27     	extern	_RF_CE_High_Pulse
+                                    1-   28     	extern	_RF_CE_High
+                                    1-   29     	extern	_T0MD
+                                    1-   30     	extern	_PCON1
+                                    1-   31     	extern	_CMPCR
+                                    1-   32     	extern	_BODCON
+                                    1-   33     	extern	_PS0CV
+                                    1-   34     	extern	_APHCON
+                                    1-   35     	extern	_IOSTB
+                                    1-   36     	extern	_IOSTA
+                                    1-   37     	extern	_PWM5RH
+                                    1-   38     	extern	_PWM5DUTY
+                                    1-   39     	extern	_P5CR1
+                                    1-   40     	extern	_PWM4DUTY
+                                    1-   41     	extern	_P4CR1
+                                    1-   42     	extern	_PS3CV
+                                    1-   43     	extern	_PWM3DUTY
+                                    1-   44     	extern	_T3CR2
+                                    1-   45     	extern	_T3CR1
+                                    1-   46     	extern	_TMR3
+                                    1-   47     	extern	_OSCCR
+                                    1-   48     	extern	_PWM2DUTY
+                                    1-   49     	extern	_P2CR1
+                                    1-   50     	extern	_TBHD
+                                    1-   51     	extern	_TBHP
+                                    1-   52     	extern	_IRCR
+                                    1-   53     	extern	_BZ1CR
+                                    1-   54     	extern	_PS1CV
+                                    1-   55     	extern	_PWM1DUTY
+                                    1-   56     	extern	_T1CR2
+                                    1-   57     	extern	_T1CR1
+                                    1-   58     	extern	_TMR1
+                                    1-   59     	extern	_TM34RH
+                                    1-   60     	extern	_TMRH
+                                    1-   61     	extern	_PCHBUF
+                                    1-   62     	extern	_STATUS
+                                    1-   63     	extern	_PCL
+                                    1-   64     	extern	_TMR0
+                                    1-   65     	extern	_INTE2bits
+                                    1-   66     	extern	_RFCbits
+                                    1-   67     	extern	_INTEDGbits
+                                    1-   68     	extern	_AWUCONbits
+                                    1-   69     	extern	_INTFbits
+                                    1-   70     	extern	_INTEbits
+                                    1-   71     	extern	_BPHCONbits
+                                    1-   72     	extern	_ABPLCONbits
+                                    1-   73     	extern	_BWUCONbits
+                                    1-   74     	extern	_PCONbits
+                                    1-   75     	extern	_PORTBbits
+                                    1-   76     	extern	_PORTAbits
+                                    1-   77     	extern	__gptrget1
+                                    1-   78     	extern	__gptrput1
+                                    1-   80     	extern PSAVE
+                                    1-   81     	extern SSAVE
+                                    1-   82     	extern WSAVE
+                                    1-   83     	extern STK12
+                                    1-   84     	extern ___STK12
+                                    1-   85     	extern STK11
+                                    1-   86     	extern ___STK11
+                                    1-   87     	extern STK10
+                                    1-   88     	extern ___STK10
+                                    1-   89     	extern STK09
+                                    1-   90     	extern ___STK09
+                                    1-   91     	extern STK08
+                                    1-   92     	extern ___STK08
+                                    1-   93     	extern STK07
+                                    1-   94     	extern ___STK07
+                                    1-   95     	extern STK06
+                                    1-   96     	extern ___STK06
+                                    1-   97     	extern STK05
+                                    1-   98     	extern ___STK05
+                                    1-   99     	extern STK04
+                                    1-  100     	extern ___STK04
+                                    1-  101     	extern STK03
+                                    1-  102     	extern ___STK03
+                                    1-  103     	extern STK02
+                                    1-  104     	extern ___STK02
+                                    1-  105     	extern STK01
+                                    1-  106     	extern ___STK01
+                                    1-  107     	extern STK00
+                                    1-  108     	extern ___STK00
+                                    1-  109     ;--------------------------------------------------------
+                                    1-  110     ; global declarations
+                                    1-  111     ;--------------------------------------------------------
+                                    1-  112     	extern	_RF_ChangeCC
+                                    1-  113     	extern	_RF_Tx_Power
+                                    1-  114     	extern	_INTE2
+                                    1-  115     	extern	_RFC
+                                    1-  116     	extern	_INTEDG
+                                    1-  117     	extern	_AWUCON
+                                    1-  118     	extern	_INTF
+                                    1-  119     	extern	_INTE
+                                    1-  120     	extern	_BPHCON
+                                    1-  121     	extern	_ABPLCON
+                                    1-  122     	extern	_BWUCON
+                                    1-  123     	extern	_PCON
+                                    1-  124     	extern	_PORTB
+                                    1-  125     	extern	_PORTA
+                                    1-  126     	extern	_RF_Bank_Switch
+                                    1-  127     	extern	_RF_ChangeAddr_Reg
+                                    1-  128     	extern	_RF_Change_CH
+                                    1-  129     	extern	_RF_Change_Pwr
+                                    1-  130     	extern	_RF_Clear_All_Irq
+                                    1-  131     	extern	_RF_Configure_Reg
+                                    1-  132     	extern	_RF_Flush_Rx
+                                    1-  133     	extern	_RF_Flush_Tx
+                                    1-  134     	extern	_RF_Get_Chip_ID
+                                    1-  135     	extern	_RF_Get_RSSI
+                                    1-  136     	extern	_RF_ModeSwitch
+                                    1-  137     	extern	_RF_Operation
+                                    1-  138     	extern	_RF_read_buffer
+                                    1-  139     	extern	_RF_read_byte
+                                    1-  140     	extern	_RF_Read_Status
+                                    1-  141     	extern	_RF_ReceivePack
+                                    1-  142     	extern	_RF_SendPack
+                                    1-  143     	extern	_RF_Soft_Rst
+                                    1-  144     	extern	_RF_Write_Ack_Payload
+                                    1-  145     	extern	_RF_wr_buffer
+                                    1-  146     	extern	_RF_write_byte
+                                    1-  147     	extern	_RF_wr_cmd
+                                    1-  149     ;--------------------------------------------------------
+                                    1-  150     ; global definitions
+                                    1-  151     ;--------------------------------------------------------
+                                    1-  152     ;--------------------------------------------------------
+                                    1-  153     ; absolute symbol definitions
+                                    1-  154     ;--------------------------------------------------------
+                                    1-  155     ;--------------------------------------------------------
+                                    1-  156     ; compiler-defined variables
+                                    1-  157     ;--------------------------------------------------------
+                                    1-  158     .segment "uninit"
+     0000                           1-  159     r0x1007:
+                                    1-  160     	.res	1
+                                    1-  161     .segment "uninit"
+     0000                           1-  162     r0x1008:
+                                    1-  163     	.res	1
+                                    1-  164     .segment "uninit"
+     0000                           1-  165     r0x1046:
+                                    1-  166     	.res	1
+                                    1-  167     .segment "uninit"
+     0000                           1-  168     r0x1045:
+                                    1-  169     	.res	1
+                                    1-  170     .segment "uninit"
+     0000                           1-  171     r0x1044:
+                                    1-  172     	.res	1
+                                    1-  173     .segment "uninit"
+     0000                           1-  174     r0x1047:
+                                    1-  175     	.res	1
+                                    1-  176     .segment "uninit"
+     0000                           1-  177     r0x1043:
+                                    1-  178     	.res	1
+                                    1-  179     .segment "uninit"
+     0000                           1-  180     r0x103C:
+                                    1-  181     	.res	1
+                                    1-  182     .segment "uninit"
+     0000                           1-  183     r0x103D:
+                                    1-  184     	.res	1
+                                    1-  185     .segment "uninit"
+     0000                           1-  186     r0x103E:
+                                    1-  187     	.res	1
+                                    1-  188     .segment "uninit"
+     0000                           1-  189     r0x103F:
+                                    1-  190     	.res	1
+                                    1-  191     .segment "uninit"
+     0000                           1-  192     r0x1041:
+                                    1-  193     	.res	1
+                                    1-  194     .segment "uninit"
+     0000                           1-  195     r0x1040:
+                                    1-  196     	.res	1
+                                    1-  197     .segment "uninit"
+     0000                           1-  198     r0x1042:
+                                    1-  199     	.res	1
+                                    1-  200     .segment "uninit"
+     0000                           1-  201     r0x1034:
+                                    1-  202     	.res	1
+                                    1-  203     .segment "uninit"
+     0000                           1-  204     r0x1033:
+                                    1-  205     	.res	1
+                                    1-  206     .segment "uninit"
+     0000                           1-  207     r0x1032:
+                                    1-  208     	.res	1
+                                    1-  209     .segment "uninit"
+     0000                           1-  210     r0x1035:
+                                    1-  211     	.res	1
+                                    1-  212     .segment "uninit"
+     0000                           1-  213     r0x1036:
+                                    1-  214     	.res	1
+                                    1-  215     .segment "uninit"
+     0000                           1-  216     r0x1037:
+                                    1-  217     	.res	1
+                                    1-  218     .segment "uninit"
+     0000                           1-  219     r0x1038:
+                                    1-  220     	.res	1
+                                    1-  221     .segment "uninit"
+     0000                           1-  222     r0x1039:
+                                    1-  223     	.res	1
+                                    1-  224     .segment "uninit"
+     0000                           1-  225     r0x103A:
+                                    1-  226     	.res	1
+                                    1-  227     .segment "uninit"
+     0000                           1-  228     r0x103B:
+                                    1-  229     	.res	1
+                                    1-  230     .segment "uninit"
+     0000                           1-  231     r0x1031:
+                                    1-  232     	.res	1
+                                    1-  233     .segment "uninit"
+     0000                           1-  234     r0x102F:
+                                    1-  235     	.res	1
+                                    1-  236     .segment "uninit"
+     0000                           1-  237     r0x1030:
+                                    1-  238     	.res	1
+                                    1-  239     .segment "uninit"
+     0000                           1-  240     r0x102C:
+                                    1-  241     	.res	1
+                                    1-  242     .segment "uninit"
+     0000                           1-  243     r0x102D:
+                                    1-  244     	.res	1
+                                    1-  245     .segment "uninit"
+     0000                           1-  246     r0x102E:
+                                    1-  247     	.res	1
+                                    1-  248     .segment "uninit"
+     0000                           1-  249     r0x101E:
+                                    1-  250     	.res	1
+                                    1-  251     .segment "uninit"
+     0000                           1-  252     r0x1016:
+                                    1-  253     	.res	1
+                                    1-  254     .segment "uninit"
+     0000                           1-  255     r0x1019:
+                                    1-  256     	.res	1
+                                    1-  257     .segment "uninit"
+     0000                           1-  258     r0x1018:
+                                    1-  259     	.res	1
+                                    1-  260     .segment "uninit"
+     0000                           1-  261     r0x1017:
+                                    1-  262     	.res	1
+                                    1-  263     .segment "uninit"
+     0000                           1-  264     r0x101A:
+                                    1-  265     	.res	1
+                                    1-  266     .segment "uninit"
+     0000                           1-  267     r0x1005:
+                                    1-  268     	.res	1
+                                    1-  269     .segment "uninit"
+     0000                           1-  270     r0x101F:
+                                    1-  271     	.res	1
+                                    1-  272     .segment "uninit"
+     0000                           1-  273     r0x1028:
+                                    1-  274     	.res	1
+                                    1-  275     .segment "uninit"
+     0000                           1-  276     r0x1027:
+                                    1-  277     	.res	1
+                                    1-  278     .segment "uninit"
+     0000                           1-  279     r0x1026:
+                                    1-  280     	.res	1
+                                    1-  281     .segment "uninit"
+     0000                           1-  282     r0x1029:
+                                    1-  283     	.res	1
+                                    1-  284     .segment "uninit"
+     0000                           1-  285     r0x102A:
+                                    1-  286     	.res	1
+                                    1-  287     .segment "uninit"
+     0000                           1-  288     r0x102B:
+                                    1-  289     	.res	1
+                                    1-  290     .segment "uninit"
+     0000                           1-  291     r0x1020:
+                                    1-  292     	.res	1
+                                    1-  293     .segment "uninit"
+     0000                           1-  294     r0x1023:
+                                    1-  295     	.res	1
+                                    1-  296     .segment "uninit"
+     0000                           1-  297     r0x1022:
+                                    1-  298     	.res	1
+                                    1-  299     .segment "uninit"
+     0000                           1-  300     r0x1021:
+                                    1-  301     	.res	1
+                                    1-  302     .segment "uninit"
+     0000                           1-  303     r0x1024:
+                                    1-  304     	.res	1
+                                    1-  305     .segment "uninit"
+     0000                           1-  306     r0x1025:
+                                    1-  307     	.res	1
+                                    1-  308     .segment "uninit"
+     0000                           1-  309     r0x101B:
+                                    1-  310     	.res	1
+                                    1-  311     .segment "uninit"
+     0000                           1-  312     r0x101C:
+                                    1-  313     	.res	1
+                                    1-  314     .segment "uninit"
+     0000                           1-  315     r0x101D:
+                                    1-  316     	.res	1
+                                    1-  317     .segment "uninit"
+     0000                           1-  318     r0x1010:
+                                    1-  319     	.res	1
+                                    1-  320     .segment "uninit"
+     0000                           1-  321     r0x1013:
+                                    1-  322     	.res	1
+                                    1-  323     .segment "uninit"
+     0000                           1-  324     r0x1012:
+                                    1-  325     	.res	1
+                                    1-  326     .segment "uninit"
+     0000                           1-  327     r0x1011:
+                                    1-  328     	.res	1
+                                    1-  329     .segment "uninit"
+     0000                           1-  330     r0x1014:
+                                    1-  331     	.res	1
+                                    1-  332     .segment "uninit"
+     0000                           1-  333     r0x1015:
+                                    1-  334     	.res	1
+                                    1-  335     .segment "uninit"
+     0000                           1-  336     r0x100B:
+                                    1-  337     	.res	1
+                                    1-  338     .segment "uninit"
+     0000                           1-  339     r0x100E:
+                                    1-  340     	.res	1
+                                    1-  341     .segment "uninit"
+     0000                           1-  342     r0x100D:
+                                    1-  343     	.res	1
+                                    1-  344     .segment "uninit"
+     0000                           1-  345     r0x100C:
+                                    1-  346     	.res	1
+                                    1-  347     .segment "uninit"
+     0000                           1-  348     r0x100F:
+                                    1-  349     	.res	1
+                                    1-  350     .segment "uninit"
+     0000                           1-  351     r0x1006:
+                                    1-  352     	.res	1
+                                    1-  353     .segment "uninit"
+     0000                           1-  354     r0x1009:
+                                    1-  355     	.res	1
+                                    1-  356     .segment "uninit"
+     0000                           1-  357     r0x100A:
+                                    1-  358     	.res	1
+                                    1-  359     .segment "uninit"
+     0000                           1-  360     _RF_Get_Chip_ID_ReadArr_65536_61:
+                                    1-  361     	.res	1
+                                    1-  363     .segment "uninit"
+     0000                           1-  364     _RF_Soft_Rst_soft_temp_65536_89:
+                                    1-  365     	.res	4
+                                    1-  367     ;--------------------------------------------------------
+                                    1-  368     ; initialized data
+                                    1-  369     ;--------------------------------------------------------
+                                    1-  371     .segment "code"
+     0000                           1-  372     _RF_Tx_Power:
+     0000 2000                      1-  373     	retia 0x00	; 0
+     0001 209F                      1-  374     	retia 0x9f	; 159
+     0002 2064                      1-  375     	retia 0x64	; 100	'd'
+     0003 2000                      1-  376     	retia 0x00	; 0
+     0004 2001                      1-  377     	retia 0x01	; 1
+     0005 2000                      1-  378     	retia 0x00	; 0
+     0006 201F                      1-  379     	retia 0x1f	; 31
+     0007 2064                      1-  380     	retia 0x64	; 100	'd'
+     0008 2000                      1-  381     	retia 0x00	; 0
+     0009 2001                      1-  382     	retia 0x01	; 1
+     000A 2001                      1-  383     	retia 0x01	; 1
+     000B 209F                      1-  384     	retia 0x9f	; 159
+     000C 2064                      1-  385     	retia 0x64	; 100	'd'
+     000D 2000                      1-  386     	retia 0x00	; 0
+     000E 2001                      1-  387     	retia 0x01	; 1
+     000F 2001                      1-  388     	retia 0x01	; 1
+     0010 201F                      1-  389     	retia 0x1f	; 31
+     0011 2064                      1-  390     	retia 0x64	; 100	'd'
+     0012 2000                      1-  391     	retia 0x00	; 0
+     0013 2001                      1-  392     	retia 0x01	; 1
+     0014 2003                      1-  393     	retia 0x03	; 3
+     0015 201F                      1-  394     	retia 0x1f	; 31
+     0016 2064                      1-  395     	retia 0x64	; 100	'd'
+     0017 2000                      1-  396     	retia 0x00	; 0
+     0018 2001                      1-  397     	retia 0x01	; 1
+     0019 2007                      1-  398     	retia 0x07	; 7
+     001A 209F                      1-  399     	retia 0x9f	; 159
+     001B 2064                      1-  400     	retia 0x64	; 100	'd'
+     001C 2000                      1-  401     	retia 0x00	; 0
+     001D 2001                      1-  402     	retia 0x01	; 1
+     001E 2040                      1-  403     	retia 0x40	; 64
+     001F 201F                      1-  404     	retia 0x1f	; 31
+     0020 2064                      1-  405     	retia 0x64	; 100	'd'
+     0021 2000                      1-  406     	retia 0x00	; 0
+     0022 2001                      1-  407     	retia 0x01	; 1
+     0023 2047                      1-  408     	retia 0x47	; 71	'G'
+     0024 201F                      1-  409     	retia 0x1f	; 31
+     0025 2064                      1-  410     	retia 0x64	; 100	'd'
+     0026 2000                      1-  411     	retia 0x00	; 0
+     0027 2001                      1-  412     	retia 0x01	; 1
+                                    1-  413     ;--------------------------------------------------------
+                                    1-  414     ; initialized absolute data
+                                    1-  415     ;--------------------------------------------------------
+                                    1-  416     ;--------------------------------------------------------
+                                    1-  417     ; overlayable items in internal ram 
+                                    1-  418     ;--------------------------------------------------------
+                                    1-  419     ;	udata_ovr
+                                    1-  420     ;--------------------------------------------------------
+                                    1-  421     ; code
+                                    1-  422     ;--------------------------------------------------------
+                                    1-  423     ; code_bsp_rf	code
+                                    1-  424     ;***
+                                    1-  425     ;  pBlock Stats: dbName = C
+                                    1-  426     ;***
+                                    1-  427     ;has an exit
+                                    1-  428     ;functions called:
+                                    1-  429     ;   _RF_Bank_Switch
+                                    1-  430     ;   _RF_read_byte
+                                    1-  431     ;   _RF_write_byte
+                                    1-  432     ;   _RF_Bank_Switch
+                                    1-  433     ;   _RF_Bank_Switch
+                                    1-  434     ;   _RF_read_byte
+                                    1-  435     ;   _RF_write_byte
+                                    1-  436     ;   _RF_Bank_Switch
+                                    1-  437     ;3 compiler assigned registers:
+                                    1-  438     ;   r0x1009
+                                    1-  439     ;   r0x100A
+                                    1-  440     ;   STK00
+                                    1-  441     ;; Starting pCode block
+                                    1-  442     .segment "code"; module=bsp_rf, function=_RF_ChangeCC
+                                    1-  444     ;local variable name mapping:
+     0000                           1-  447     _RF_ChangeCC:
+                                    1-  448     ; 2 exit points
+                                    1-  449     	.line	407, "BSP\bsp_rf.c"; 	void RF_ChangeCC(unsigned char cc)
+                                    1-  450     	BANKSEL	r0x1009
+     0000 rrrr                      3-  109 m1      .banksel ram_address
+     0001 00rr                      1-  451     	MOVAR	r0x1009
+                                    1-  452     	.line	410, "BSP\bsp_rf.c"; 	RF_Bank_Switch(RF_Bank1);
+     0002 2101                      1-  453     	MOVIA	0x01
+                                    1-  454     	MCALL	_RF_Bank_Switch
+     0003 2rrr                      3-   65 m1      LCALL rom_address
+                                    1-  455     	.line	411, "BSP\bsp_rf.c"; 	reg_val = RF_read_byte(RF_BANK1_RF_IVGEN);
+     0004 211E                      1-  456     	MOVIA	0x1e
+                                    1-  457     	MCALL	_RF_read_byte
+     0005 2rrr                      3-   65 m1      LCALL rom_address
+                                    1-  458     	BANKSEL	r0x100A
+     0006 rrrr                      3-  109 m1      .banksel ram_address
+     0007 00rr                      1-  459     	MOVAR	r0x100A
+                                    1-  460     	.line	412, "BSP\bsp_rf.c"; 	reg_val &= ~0x1f;
+     0008 21E0                      1-  461     	MOVIA	0xe0
+     0009 10rr                      1-  462     	ANDAR	r0x100A,F
+                                    1-  463     	.line	413, "BSP\bsp_rf.c"; 	reg_val |= (cc & 0x1f);
+     000A 211F                      1-  464     	MOVIA	0x1f
+                                    1-  465     	BANKSEL	r0x1009
+     000B rrrr                      3-  109 m1      .banksel ram_address
+     000C 10rr                      1-  466     	ANDAR	r0x1009,F
+     000D 01rr                      1-  467     	MOVR	r0x1009,W
+                                    1-  468     	BANKSEL	r0x100A
+     000E rrrr                      3-  109 m1      .banksel ram_address
+     000F 11rr                      1-  469     	IORAR	r0x100A,F
+                                    1-  470     	.line	414, "BSP\bsp_rf.c"; 	RF_write_byte(RF_BANK1_RF_IVGEN, reg_val);
+     0010 01rr                      1-  471     	MOVR	r0x100A,W
+     0011 00rr                      1-  472     	MOVAR	STK00
+     0012 211E                      1-  473     	MOVIA	0x1e
+                                    1-  474     	MCALL	_RF_write_byte
+     0013 2rrr                      3-   65 m1      LCALL rom_address
+                                    1-  475     	.line	415, "BSP\bsp_rf.c"; 	RF_Bank_Switch(RF_Bank0);
+     0014 2100                      1-  476     	MOVIA	0x00
+                                    1-  477     	MCALL	_RF_Bank_Switch
+     0015 2rrr                      3-   65 m1      LCALL rom_address
+                                    1-  478     	.line	416, "BSP\bsp_rf.c"; 	}
+                                    1-  479     	RETURN	
+     0016 0010                      3-   39 m1      ret
+                                    1-  480     ; exit point of _RF_ChangeCC
+                                    1-  482     ;***
+                                    1-  483     ;  pBlock Stats: dbName = C
+                                    1-  484     ;***
+                                    1-  485     ;has an exit
+                                    1-  486     ;functions called:
+                                    1-  487     ;   _RF_spi_wrd
+                                    1-  488     ;   _RF_spi_wrd
+                                    1-  489     ;   _RF_spi_wrd
+                                    1-  490     ;   _RF_spi_wrd
+                                    1-  491     ;3 compiler assigned registers:
+                                    1-  492     ;   r0x1005
+                                    1-  493     ;   STK00
+                                    1-  494     ;   r0x1006
+                                    1-  495     ;; Starting pCode block
+                                    1-  496     .segment "code"; module=bsp_rf, function=_RF_wr_cmd
+                                    1-  498     ;local variable name mapping:
+     0000                           1-  501     _RF_wr_cmd:
+                                    1-  502     ; 2 exit points
+                                    1-  503     	.line	388, "BSP\bsp_rf.c"; 	void RF_wr_cmd(unsigned char cmd, unsigned char D)
+                                    1-  504     	BANKSEL	r0x1005
+     0000 rrrr                      3-  109 m1      .banksel ram_address
+     0001 00rr                      1-  505     	MOVAR	r0x1005
+     0002 01rr                      1-  506     	MOVR	STK00,W
+                                    1-  507     	BANKSEL	r0x1006
+     0003 rrrr                      3-  109 m1      .banksel ram_address
+     0004 00rr                      1-  508     	MOVAR	r0x1006
+                                    1-  509     	.line	391, "BSP\bsp_rf.c"; 	RF_CSN_LOW;
+     0005 1Crr                      1-  510     	BCR	_PORTAbits,1
+                                    1-  511     	.line	394, "BSP\bsp_rf.c"; 	RF_spi_wrd(cmd);
+                                    1-  512     	BANKSEL	r0x1005
+     0006 rrrr                      3-  109 m1      .banksel ram_address
+     0007 01rr                      1-  513     	MOVR	r0x1005,W
+                                    1-  514     	MCALL	_RF_spi_wrd
+     0008 2rrr                      3-   65 m1      LCALL rom_address
+                                    1-  515     	.line	397, "BSP\bsp_rf.c"; 	if (D!= 0)
+                                    1-  516     	BANKSEL	r0x1006
+     0009 rrrr                      3-  109 m1      .banksel ram_address
+     000A 01rr                      1-  517     	MOVR	r0x1006,W
+     000B 0D03                      1-  518     	BTRSC	STATUS,2
+                                    1-  519     	MGOTO	_02215_DS_
+     000C 3rrr                      3-   62 m1      LGOTO rom_address
+                                    1-  520     	.line	399, "BSP\bsp_rf.c"; 	RF_spi_wrd(D);
+     000D 01rr                      1-  521     	MOVR	r0x1006,W
+                                    1-  522     	MCALL	_RF_spi_wrd
+     000E 2rrr                      3-   65 m1      LCALL rom_address
+     000F                           1-  523     _02215_DS_:
+                                    1-  524     	.line	403, "BSP\bsp_rf.c"; 	RF_CSN_HIGH;
+     000F 18rr                      1-  525     	BSR	_PORTAbits,1
+                                    1-  526     	.line	404, "BSP\bsp_rf.c"; 	}
+                                    1-  527     	RETURN	
+     0010 0010                      3-   39 m1      ret
+                                    1-  528     ; exit point of _RF_wr_cmd
+                                    1-  530     ;***
+                                    1-  531     ;  pBlock Stats: dbName = C
+                                    1-  532     ;***
+                                    1-  533     ;has an exit
+                                    1-  534     ;functions called:
+                                    1-  535     ;   _RF_spi_wrd
+                                    1-  536     ;   _RF_spi_wrd
+                                    1-  537     ;   _RF_spi_wrd
+                                    1-  538     ;   _RF_spi_wrd
+                                    1-  539     ;3 compiler assigned registers:
+                                    1-  540     ;   r0x1005
+                                    1-  541     ;   STK00
+                                    1-  542     ;   r0x1006
+                                    1-  543     ;; Starting pCode block
+                                    1-  544     .segment "code"; module=bsp_rf, function=_RF_write_byte
+                                    1-  546     ;local variable name mapping:
+     0000                           1-  549     _RF_write_byte:
+                                    1-  550     ; 2 exit points
+                                    1-  551     	.line	373, "BSP\bsp_rf.c"; 	void RF_write_byte(unsigned char addr,unsigned char D)
+                                    1-  552     	BANKSEL	r0x1005
+     0000 rrrr                      3-  109 m1      .banksel ram_address
+     0001 00rr                      1-  553     	MOVAR	r0x1005
+     0002 01rr                      1-  554     	MOVR	STK00,W
+                                    1-  555     	BANKSEL	r0x1006
+     0003 rrrr                      3-  109 m1      .banksel ram_address
+     0004 00rr                      1-  556     	MOVAR	r0x1006
+                                    1-  557     	.line	375, "BSP\bsp_rf.c"; 	RF_CSN_LOW;
+     0005 1Crr                      1-  558     	BCR	_PORTAbits,1
+                                    1-  559     	.line	376, "BSP\bsp_rf.c"; 	RF_spi_wrd(RF_W_REGISTER|addr);
+                                    1-  560     	BANKSEL	r0x1005
+     0006 rrrr                      3-  109 m1      .banksel ram_address
+     0007 1Arr                      1-  561     	BSR	r0x1005,5
+     0008 01rr                      1-  562     	MOVR	r0x1005,W
+                                    1-  563     	MCALL	_RF_spi_wrd
+     0009 2rrr                      3-   65 m1      LCALL rom_address
+                                    1-  564     	.line	377, "BSP\bsp_rf.c"; 	RF_spi_wrd(D);
+                                    1-  565     	BANKSEL	r0x1006
+     000A rrrr                      3-  109 m1      .banksel ram_address
+     000B 01rr                      1-  566     	MOVR	r0x1006,W
+                                    1-  567     	MCALL	_RF_spi_wrd
+     000C 2rrr                      3-   65 m1      LCALL rom_address
+                                    1-  568     	.line	378, "BSP\bsp_rf.c"; 	RF_CSN_HIGH;
+     000D 18rr                      1-  569     	BSR	_PORTAbits,1
+                                    1-  570     	.line	379, "BSP\bsp_rf.c"; 	}
+                                    1-  571     	RETURN	
+     000E 0010                      3-   39 m1      ret
+                                    1-  572     ; exit point of _RF_write_byte
+                                    1-  574     ;***
+                                    1-  575     ;  pBlock Stats: dbName = C
+                                    1-  576     ;***
+                                    1-  577     ;has an exit
+                                    1-  578     ;functions called:
+                                    1-  579     ;   _RF_spi_wrd
+                                    1-  580     ;   __gptrget1
+                                    1-  581     ;   _RF_spi_wrd
+                                    1-  582     ;   _RF_spi_wrd
+                                    1-  583     ;   __gptrget1
+                                    1-  584     ;   _RF_spi_wrd
+                                    1-  585     ;9 compiler assigned registers:
+                                    1-  586     ;   r0x100B
+                                    1-  587     ;   STK00
+                                    1-  588     ;   r0x100C
+                                    1-  589     ;   STK01
+                                    1-  590     ;   r0x100D
+                                    1-  591     ;   STK02
+                                    1-  592     ;   r0x100E
+                                    1-  593     ;   STK03
+                                    1-  594     ;   r0x100F
+                                    1-  595     ;; Starting pCode block
+                                    1-  596     .segment "code"; module=bsp_rf, function=_RF_wr_buffer
+                                    1-  598     ;local variable name mapping:
+     0000                           1-  600     _RF_wr_buffer:
+                                    1-  601     ; 2 exit points
+                                    1-  602     	.line	361, "BSP\bsp_rf.c"; 	void RF_wr_buffer(unsigned char addr,const unsigned char* buf,unsigned char len)
+                                    1-  603     	BANKSEL	r0x100B
+     0000 rrrr                      3-  109 m1      .banksel ram_address
+     0001 00rr                      1-  604     	MOVAR	r0x100B
+     0002 01rr                      1-  605     	MOVR	STK00,W
+                                    1-  606     	BANKSEL	r0x100C
+     0003 rrrr                      3-  109 m1      .banksel ram_address
+     0004 00rr                      1-  607     	MOVAR	r0x100C
+     0005 01rr                      1-  608     	MOVR	STK01,W
+                                    1-  609     	BANKSEL	r0x100D
+     0006 rrrr                      3-  109 m1      .banksel ram_address
+     0007 00rr                      1-  610     	MOVAR	r0x100D
+     0008 01rr                      1-  611     	MOVR	STK02,W
+                                    1-  612     	BANKSEL	r0x100E
+     0009 rrrr                      3-  109 m1      .banksel ram_address
+     000A 00rr                      1-  613     	MOVAR	r0x100E
+     000B 01rr                      1-  614     	MOVR	STK03,W
+                                    1-  615     	BANKSEL	r0x100F
+     000C rrrr                      3-  109 m1      .banksel ram_address
+     000D 00rr                      1-  616     	MOVAR	r0x100F
+                                    1-  617     	.line	363, "BSP\bsp_rf.c"; 	RF_CSN_LOW;
+     000E 1Crr                      1-  618     	BCR	_PORTAbits,1
+                                    1-  619     	.line	364, "BSP\bsp_rf.c"; 	RF_spi_wrd(RF_W_REGISTER|addr);
+                                    1-  620     	BANKSEL	r0x100B
+     000F rrrr                      3-  109 m1      .banksel ram_address
+     0010 1Arr                      1-  621     	BSR	r0x100B,5
+     0011 01rr                      1-  622     	MOVR	r0x100B,W
+                                    1-  623     	MCALL	_RF_spi_wrd
+     0012 2rrr                      3-   65 m1      LCALL rom_address
+     0013                           1-  624     _02203_DS_:
+                                    1-  625     	.line	365, "BSP\bsp_rf.c"; 	while(len--)
+                                    1-  626     	BANKSEL	r0x100F
+     0013 rrrr                      3-  109 m1      .banksel ram_address
+     0014 01rr                      1-  627     	MOVR	r0x100F,W
+                                    1-  628     	BANKSEL	r0x100B
+     0015 rrrr                      3-  109 m1      .banksel ram_address
+     0016 00rr                      1-  629     	MOVAR	r0x100B
+                                    1-  630     	BANKSEL	r0x100F
+     0017 rrrr                      3-  109 m1      .banksel ram_address
+     0018 06rr                      1-  631     	DECR	r0x100F,F
+                                    1-  632     	BANKSEL	r0x100B
+     0019 rrrr                      3-  109 m1      .banksel ram_address
+     001A 01rr                      1-  633     	MOVR	r0x100B,W
+     001B 0D03                      1-  634     	BTRSC	STATUS,2
+                                    1-  635     	MGOTO	_02205_DS_
+     001C 3rrr                      3-   62 m1      LGOTO rom_address
+                                    1-  636     	.line	367, "BSP\bsp_rf.c"; 	RF_spi_wrd(*buf++);
+                                    1-  637     	BANKSEL	r0x100E
+     001D rrrr                      3-  109 m1      .banksel ram_address
+     001E 01rr                      1-  638     	MOVR	r0x100E,W
+     001F 00rr                      1-  639     	MOVAR	STK01
+                                    1-  640     	BANKSEL	r0x100D
+     0020 rrrr                      3-  109 m1      .banksel ram_address
+     0021 01rr                      1-  641     	MOVR	r0x100D,W
+     0022 00rr                      1-  642     	MOVAR	STK00
+                                    1-  643     	BANKSEL	r0x100C
+     0023 rrrr                      3-  109 m1      .banksel ram_address
+     0024 01rr                      1-  644     	MOVR	r0x100C,W
+                                    1-  645     	MCALL	__gptrget1
+     0025 2rrr                      3-   65 m1      LCALL rom_address
+                                    1-  646     	BANKSEL	r0x100B
+     0026 rrrr                      3-  109 m1      .banksel ram_address
+     0027 00rr                      1-  647     	MOVAR	r0x100B
+                                    1-  648     	BANKSEL	r0x100E
+     0028 rrrr                      3-  109 m1      .banksel ram_address
+     0029 05rr                      1-  649     	INCR	r0x100E,F
+     002A 0903                      1-  650     	BTRSS	STATUS,2
+                                    1-  651     	MGOTO	_00001_DS_
+     002B 3rrr                      3-   62 m1      LGOTO rom_address
+                                    1-  652     	BANKSEL	r0x100D
+     002C rrrr                      3-  109 m1      .banksel ram_address
+     002D 05rr                      1-  653     	INCR	r0x100D,F
+     002E                           1-  654     _00001_DS_:
+     002E 0903                      1-  655     	BTRSS	STATUS,2
+                                    1-  656     	MGOTO	_00002_DS_
+     002F 3rrr                      3-   62 m1      LGOTO rom_address
+                                    1-  657     	BANKSEL	r0x100C
+     0030 rrrr                      3-  109 m1      .banksel ram_address
+     0031 05rr                      1-  658     	INCR	r0x100C,F
+     0032                           1-  659     _00002_DS_:
+                                    1-  660     	BANKSEL	r0x100B
+     0032 rrrr                      3-  109 m1      .banksel ram_address
+     0033 01rr                      1-  661     	MOVR	r0x100B,W
+                                    1-  662     	MCALL	_RF_spi_wrd
+     0034 2rrr                      3-   65 m1      LCALL rom_address
+                                    1-  663     	MGOTO	_02203_DS_
+     0035 3rrr                      3-   62 m1      LGOTO rom_address
+     0036                           1-  664     _02205_DS_:
+                                    1-  665     	.line	369, "BSP\bsp_rf.c"; 	RF_CSN_HIGH;
+     0036 18rr                      1-  666     	BSR	_PORTAbits,1
+                                    1-  667     	.line	370, "BSP\bsp_rf.c"; 	}
+                                    1-  668     	RETURN	
+     0037 0010                      3-   39 m1      ret
+                                    1-  669     ; exit point of _RF_wr_buffer
+                                    1-  671     ;***
+                                    1-  672     ;  pBlock Stats: dbName = C
+                                    1-  673     ;***
+                                    1-  674     ;has an exit
+                                    1-  675     ;functions called:
+                                    1-  676     ;   _RF_spi_wrd
+                                    1-  677     ;   __gptrget1
+                                    1-  678     ;   _RF_spi_wrd
+                                    1-  679     ;   _RF_spi_wrd
+                                    1-  680     ;   __gptrget1
+                                    1-  681     ;   _RF_spi_wrd
+                                    1-  682     ;10 compiler assigned registers:
+                                    1-  683     ;   r0x1010
+                                    1-  684     ;   STK00
+                                    1-  685     ;   r0x1011
+                                    1-  686     ;   STK01
+                                    1-  687     ;   r0x1012
+                                    1-  688     ;   STK02
+                                    1-  689     ;   r0x1013
+                                    1-  690     ;   STK03
+                                    1-  691     ;   r0x1014
+                                    1-  692     ;   r0x1015
+                                    1-  693     ;; Starting pCode block
+                                    1-  694     .segment "code"; module=bsp_rf, function=_RF_Write_Ack_Payload
+                                    1-  696     ;local variable name mapping:
+     0000                           1-  700     _RF_Write_Ack_Payload:
+                                    1-  701     ; 2 exit points
+                                    1-  702     	.line	348, "BSP\bsp_rf.c"; 	void RF_Write_Ack_Payload(unsigned char PipeNum, unsigned char *pBuf, unsigned char bytes)
+                                    1-  703     	BANKSEL	r0x1010
+     0000 rrrr                      3-  109 m1      .banksel ram_address
+     0001 00rr                      1-  704     	MOVAR	r0x1010
+     0002 01rr                      1-  705     	MOVR	STK00,W
+                                    1-  706     	BANKSEL	r0x1011
+     0003 rrrr                      3-  109 m1      .banksel ram_address
+     0004 00rr                      1-  707     	MOVAR	r0x1011
+     0005 01rr                      1-  708     	MOVR	STK01,W
+                                    1-  709     	BANKSEL	r0x1012
+     0006 rrrr                      3-  109 m1      .banksel ram_address
+     0007 00rr                      1-  710     	MOVAR	r0x1012
+     0008 01rr                      1-  711     	MOVR	STK02,W
+                                    1-  712     	BANKSEL	r0x1013
+     0009 rrrr                      3-  109 m1      .banksel ram_address
+     000A 00rr                      1-  713     	MOVAR	r0x1013
+     000B 01rr                      1-  714     	MOVR	STK03,W
+                                    1-  715     	BANKSEL	r0x1014
+     000C rrrr                      3-  109 m1      .banksel ram_address
+     000D 00rr                      1-  716     	MOVAR	r0x1014
+                                    1-  717     	.line	352, "BSP\bsp_rf.c"; 	RF_CSN_LOW;   //����
+     000E 1Crr                      1-  718     	BCR	_PORTAbits,1
+                                    1-  719     	.line	353, "BSP\bsp_rf.c"; 	RF_spi_wrd(RF_W_ACK_PAYLOAD | PipeNum);
+     000F 21A8                      1-  720     	MOVIA	0xa8
+                                    1-  721     	BANKSEL	r0x1010
+     0010 rrrr                      3-  109 m1      .banksel ram_address
+     0011 11rr                      1-  722     	IORAR	r0x1010,F
+     0012 01rr                      1-  723     	MOVR	r0x1010,W
+                                    1-  724     	MCALL	_RF_spi_wrd
+     0013 2rrr                      3-   65 m1      LCALL rom_address
+                                    1-  725     	.line	354, "BSP\bsp_rf.c"; 	for(byte_ctr = 0; byte_ctr < bytes; byte_ctr++)	   // then write all byte in buffer(*pBuf)
+                                    1-  726     	BANKSEL	r0x1010
+     0014 rrrr                      3-  109 m1      .banksel ram_address
+     0015 02rr                      1-  727     	CLRR	r0x1010
+     0016                           1-  728     _02198_DS_:
+                                    1-  729     	BANKSEL	r0x1014
+     0016 rrrr                      3-  109 m1      .banksel ram_address
+     0017 01rr                      1-  730     	MOVR	r0x1014,W
+                                    1-  731     	BANKSEL	r0x1010
+     0018 rrrr                      3-  109 m1      .banksel ram_address
+     0019 04rr                      1-  732     	SUBAR	r0x1010,W
+     001A 0C03                      1-  733     	BTRSC	STATUS,0
+                                    1-  734     	MGOTO	_02196_DS_
+     001B 3rrr                      3-   62 m1      LGOTO rom_address
+                                    1-  735     	.line	356, "BSP\bsp_rf.c"; 	RF_spi_wrd(*pBuf++);
+                                    1-  736     	BANKSEL	r0x1013
+     001C rrrr                      3-  109 m1      .banksel ram_address
+     001D 01rr                      1-  737     	MOVR	r0x1013,W
+     001E 00rr                      1-  738     	MOVAR	STK01
+                                    1-  739     	BANKSEL	r0x1012
+     001F rrrr                      3-  109 m1      .banksel ram_address
+     0020 01rr                      1-  740     	MOVR	r0x1012,W
+     0021 00rr                      1-  741     	MOVAR	STK00
+                                    1-  742     	BANKSEL	r0x1011
+     0022 rrrr                      3-  109 m1      .banksel ram_address
+     0023 01rr                      1-  743     	MOVR	r0x1011,W
+                                    1-  744     	MCALL	__gptrget1
+     0024 2rrr                      3-   65 m1      LCALL rom_address
+                                    1-  745     	BANKSEL	r0x1015
+     0025 rrrr                      3-  109 m1      .banksel ram_address
+     0026 00rr                      1-  746     	MOVAR	r0x1015
+                                    1-  747     	BANKSEL	r0x1013
+     0027 rrrr                      3-  109 m1      .banksel ram_address
+     0028 05rr                      1-  748     	INCR	r0x1013,F
+     0029 0903                      1-  749     	BTRSS	STATUS,2
+                                    1-  750     	MGOTO	_00003_DS_
+     002A 3rrr                      3-   62 m1      LGOTO rom_address
+                                    1-  751     	BANKSEL	r0x1012
+     002B rrrr                      3-  109 m1      .banksel ram_address
+     002C 05rr                      1-  752     	INCR	r0x1012,F
+     002D                           1-  753     _00003_DS_:
+     002D 0903                      1-  754     	BTRSS	STATUS,2
+                                    1-  755     	MGOTO	_00004_DS_
+     002E 3rrr                      3-   62 m1      LGOTO rom_address
+                                    1-  756     	BANKSEL	r0x1011
+     002F rrrr                      3-  109 m1      .banksel ram_address
+     0030 05rr                      1-  757     	INCR	r0x1011,F
+     0031                           1-  758     _00004_DS_:
+                                    1-  759     	BANKSEL	r0x1015
+     0031 rrrr                      3-  109 m1      .banksel ram_address
+     0032 01rr                      1-  760     	MOVR	r0x1015,W
+                                    1-  761     	MCALL	_RF_spi_wrd
+     0033 2rrr                      3-   65 m1      LCALL rom_address
+                                    1-  762     	.line	354, "BSP\bsp_rf.c"; 	for(byte_ctr = 0; byte_ctr < bytes; byte_ctr++)	   // then write all byte in buffer(*pBuf)
+                                    1-  763     	BANKSEL	r0x1010
+     0034 rrrr                      3-  109 m1      .banksel ram_address
+     0035 05rr                      1-  764     	INCR	r0x1010,F
+                                    1-  765     	MGOTO	_02198_DS_
+     0036 3rrr                      3-   62 m1      LGOTO rom_address
+     0037                           1-  766     _02196_DS_:
+                                    1-  767     	.line	358, "BSP\bsp_rf.c"; 	RF_CSN_HIGH;
+     0037 18rr                      1-  768     	BSR	_PORTAbits,1
+                                    1-  769     	.line	359, "BSP\bsp_rf.c"; 	}
+                                    1-  770     	RETURN	
+     0038 0010                      3-   39 m1      ret
+                                    1-  771     ; exit point of _RF_Write_Ack_Payload
+                                    1-  773     ;***
+                                    1-  774     ;  pBlock Stats: dbName = C
+                                    1-  775     ;***
+                                    1-  776     ;has an exit
+                                    1-  777     ;functions called:
+                                    1-  778     ;   _RF_Bank_Switch
+                                    1-  779     ;   _RF_read_buffer
+                                    1-  780     ;   _RF_wr_buffer
+                                    1-  781     ;   _RF_Bank_Switch
+                                    1-  782     ;   _RF_read_buffer
+                                    1-  783     ;   _RF_wr_buffer
+                                    1-  784     ;7 compiler assigned registers:
+                                    1-  785     ;   r0x101B
+                                    1-  786     ;   r0x101C
+                                    1-  787     ;   r0x101D
+                                    1-  788     ;   STK03
+                                    1-  789     ;   STK02
+                                    1-  790     ;   STK01
+                                    1-  791     ;   STK00
+                                    1-  792     ;; Starting pCode block
+                                    1-  793     .segment "code"; module=bsp_rf, function=_RF_Soft_Rst
+                                    1-  795     ;local variable name mapping:
+     0000                           1-  797     _RF_Soft_Rst:
+                                    1-  798     ; 2 exit points
+                                    1-  799     	.line	340, "BSP\bsp_rf.c"; 	RF_Bank_Switch(RF_Bank1);
+     0000 2101                      1-  800     	MOVIA	0x01
+                                    1-  801     	MCALL	_RF_Bank_Switch
+     0001 2rrr                      3-   65 m1      LCALL rom_address
+                                    1-  802     	.line	342, "BSP\bsp_rf.c"; 	RF_read_buffer(RF_BANK1_PLL_CTL1, soft_temp, 4);
+     0002 21rr                      1-  803     	MOVIA	(_RF_Soft_Rst_soft_temp_65536_89 + 0)
+                                    1-  804     	BANKSEL	r0x101B
+     0003 rrrr                      3-  109 m1      .banksel ram_address
+     0004 00rr                      1-  805     	MOVAR	r0x101B
+                                    1-  806     	BANKSEL	r0x101C
+     0005 rrrr                      3-  109 m1      .banksel ram_address
+     0006 02rr                      1-  807     	CLRR	r0x101C
+                                    1-  808     	BANKSEL	r0x101D
+     0007 rrrr                      3-  109 m1      .banksel ram_address
+     0008 02rr                      1-  809     	CLRR	r0x101D
+     0009 2104                      1-  810     	MOVIA	0x04
+     000A 00rr                      1-  811     	MOVAR	STK03
+                                    1-  812     	BANKSEL	r0x101B
+     000B rrrr                      3-  109 m1      .banksel ram_address
+     000C 01rr                      1-  813     	MOVR	r0x101B,W
+     000D 00rr                      1-  814     	MOVAR	STK02
+                                    1-  815     	BANKSEL	r0x101C
+     000E rrrr                      3-  109 m1      .banksel ram_address
+     000F 01rr                      1-  816     	MOVR	r0x101C,W
+     0010 00rr                      1-  817     	MOVAR	STK01
+                                    1-  818     	BANKSEL	r0x101D
+     0011 rrrr                      3-  109 m1      .banksel ram_address
+     0012 01rr                      1-  819     	MOVR	r0x101D,W
+     0013 00rr                      1-  820     	MOVAR	STK00
+     0014 2102                      1-  821     	MOVIA	0x02
+                                    1-  822     	MCALL	_RF_read_buffer
+     0015 2rrr                      3-   65 m1      LCALL rom_address
+                                    1-  823     	.line	343, "BSP\bsp_rf.c"; 	soft_temp[3] |= 0x80;
+                                    1-  824     	BANKSEL	_RF_Soft_Rst_soft_temp_65536_89
+     0016 rrrr                      3-  109 m1      .banksel ram_address
+     0017 01rr                      1-  825     	MOVR	(_RF_Soft_Rst_soft_temp_65536_89 + 3),W
+                                    1-  826     	BANKSEL	r0x101B
+     0018 rrrr                      3-  109 m1      .banksel ram_address
+     0019 00rr                      1-  827     	MOVAR	r0x101B
+     001A 1Brr                      1-  828     	BSR	r0x101B,7
+     001B 01rr                      1-  829     	MOVR	r0x101B,W
+                                    1-  830     	BANKSEL	_RF_Soft_Rst_soft_temp_65536_89
+     001C rrrr                      3-  109 m1      .banksel ram_address
+     001D 00rr                      1-  831     	MOVAR	(_RF_Soft_Rst_soft_temp_65536_89 + 3)
+                                    1-  832     	.line	344, "BSP\bsp_rf.c"; 	RF_wr_buffer(RF_BANK1_PLL_CTL1, soft_temp, 4);
+     001E 21rr                      1-  833     	MOVIA	(_RF_Soft_Rst_soft_temp_65536_89 + 0)
+                                    1-  834     	BANKSEL	r0x101B
+     001F rrrr                      3-  109 m1      .banksel ram_address
+     0020 00rr                      1-  835     	MOVAR	r0x101B
+                                    1-  836     	BANKSEL	r0x101C
+     0021 rrrr                      3-  109 m1      .banksel ram_address
+     0022 02rr                      1-  837     	CLRR	r0x101C
+                                    1-  838     	BANKSEL	r0x101D
+     0023 rrrr                      3-  109 m1      .banksel ram_address
+     0024 02rr                      1-  839     	CLRR	r0x101D
+     0025 2104                      1-  840     	MOVIA	0x04
+     0026 00rr                      1-  841     	MOVAR	STK03
+                                    1-  842     	BANKSEL	r0x101B
+     0027 rrrr                      3-  109 m1      .banksel ram_address
+     0028 01rr                      1-  843     	MOVR	r0x101B,W
+     0029 00rr                      1-  844     	MOVAR	STK02
+                                    1-  845     	BANKSEL	r0x101C
+     002A rrrr                      3-  109 m1      .banksel ram_address
+     002B 01rr                      1-  846     	MOVR	r0x101C,W
+     002C 00rr                      1-  847     	MOVAR	STK01
+                                    1-  848     	BANKSEL	r0x101D
+     002D rrrr                      3-  109 m1      .banksel ram_address
+     002E 01rr                      1-  849     	MOVR	r0x101D,W
+     002F 00rr                      1-  850     	MOVAR	STK00
+     0030 2102                      1-  851     	MOVIA	0x02
+                                    1-  852     	MCALL	_RF_wr_buffer
+     0031 2rrr                      3-   65 m1      LCALL rom_address
+                                    1-  853     	.line	345, "BSP\bsp_rf.c"; 	}
+                                    1-  854     	RETURN	
+     0032 0010                      3-   39 m1      ret
+                                    1-  855     ; exit point of _RF_Soft_Rst
+                                    1-  857     ;***
+                                    1-  858     ;  pBlock Stats: dbName = C
+                                    1-  859     ;***
+                                    1-  860     ;has an exit
+                                    1-  861     ;functions called:
+                                    1-  862     ;   _RF_Read_Status
+                                    1-  863     ;   _RF_wr_buffer
+                                    1-  864     ;   _RF_Read_Status
+                                    1-  865     ;   _RF_wr_buffer
+                                    1-  866     ;10 compiler assigned registers:
+                                    1-  867     ;   r0x1020
+                                    1-  868     ;   STK00
+                                    1-  869     ;   r0x1021
+                                    1-  870     ;   STK01
+                                    1-  871     ;   r0x1022
+                                    1-  872     ;   STK02
+                                    1-  873     ;   r0x1023
+                                    1-  874     ;   STK03
+                                    1-  875     ;   r0x1024
+                                    1-  876     ;   r0x1025
+                                    1-  877     ;; Starting pCode block
+                                    1-  878     .segment "code"; module=bsp_rf, function=_RF_SendPack
+                                    1-  880     ;local variable name mapping:
+     0000                           1-  885     _RF_SendPack:
+                                    1-  886     ; 2 exit points
+                                    1-  887     	.line	326, "BSP\bsp_rf.c"; 	void RF_SendPack(unsigned char cmd, unsigned char* buf, unsigned char len)
+                                    1-  888     	BANKSEL	r0x1020
+     0000 rrrr                      3-  109 m1      .banksel ram_address
+     0001 00rr                      1-  889     	MOVAR	r0x1020
+     0002 01rr                      1-  890     	MOVR	STK00,W
+                                    1-  891     	BANKSEL	r0x1021
+     0003 rrrr                      3-  109 m1      .banksel ram_address
+     0004 00rr                      1-  892     	MOVAR	r0x1021
+     0005 01rr                      1-  893     	MOVR	STK01,W
+                                    1-  894     	BANKSEL	r0x1022
+     0006 rrrr                      3-  109 m1      .banksel ram_address
+     0007 00rr                      1-  895     	MOVAR	r0x1022
+     0008 01rr                      1-  896     	MOVR	STK02,W
+                                    1-  897     	BANKSEL	r0x1023
+     0009 rrrr                      3-  109 m1      .banksel ram_address
+     000A 00rr                      1-  898     	MOVAR	r0x1023
+     000B 01rr                      1-  899     	MOVR	STK03,W
+                                    1-  900     	BANKSEL	r0x1024
+     000C rrrr                      3-  109 m1      .banksel ram_address
+     000D 00rr                      1-  901     	MOVAR	r0x1024
+                                    1-  902     	.line	330, "BSP\bsp_rf.c"; 	sta = RF_Read_Status();
+                                    1-  903     	MCALL	_RF_Read_Status
+     000E 2rrr                      3-   65 m1      LCALL rom_address
+                                    1-  904     	BANKSEL	r0x1025
+     000F rrrr                      3-  109 m1      .banksel ram_address
+     0010 00rr                      1-  905     	MOVAR	r0x1025
+                                    1-  906     	.line	331, "BSP\bsp_rf.c"; 	if(!(sta&RF_STATUS_TX_FULL))
+     0011 0Crr                      1-  907     	BTRSC	r0x1025,0
+                                    1-  908     	MGOTO	_02187_DS_
+     0012 3rrr                      3-   62 m1      LGOTO rom_address
+                                    1-  909     	.line	333, "BSP\bsp_rf.c"; 	RF_wr_buffer(cmd, buf, len);
+                                    1-  910     	BANKSEL	r0x1024
+     0013 rrrr                      3-  109 m1      .banksel ram_address
+     0014 01rr                      1-  911     	MOVR	r0x1024,W
+     0015 00rr                      1-  912     	MOVAR	STK03
+                                    1-  913     	BANKSEL	r0x1023
+     0016 rrrr                      3-  109 m1      .banksel ram_address
+     0017 01rr                      1-  914     	MOVR	r0x1023,W
+     0018 00rr                      1-  915     	MOVAR	STK02
+                                    1-  916     	BANKSEL	r0x1022
+     0019 rrrr                      3-  109 m1      .banksel ram_address
+     001A 01rr                      1-  917     	MOVR	r0x1022,W
+     001B 00rr                      1-  918     	MOVAR	STK01
+                                    1-  919     	BANKSEL	r0x1021
+     001C rrrr                      3-  109 m1      .banksel ram_address
+     001D 01rr                      1-  920     	MOVR	r0x1021,W
+     001E 00rr                      1-  921     	MOVAR	STK00
+                                    1-  922     	BANKSEL	r0x1020
+     001F rrrr                      3-  109 m1      .banksel ram_address
+     0020 01rr                      1-  923     	MOVR	r0x1020,W
+                                    1-  924     	MCALL	_RF_wr_buffer
+     0021 2rrr                      3-   65 m1      LCALL rom_address
+     0022                           1-  925     _02187_DS_:
+                                    1-  926     	.line	335, "BSP\bsp_rf.c"; 	}
+                                    1-  927     	RETURN	
+     0022 0010                      3-   39 m1      ret
+                                    1-  928     ; exit point of _RF_SendPack
+                                    1-  930     ;***
+                                    1-  931     ;  pBlock Stats: dbName = C
+                                    1-  932     ;***
+                                    1-  933     ;has an exit
+                                    1-  934     ;functions called:
+                                    1-  935     ;   _RF_Read_Status
+                                    1-  936     ;   _RF_read_byte
+                                    1-  937     ;   _RF_read_buffer
+                                    1-  938     ;   _RF_Flush_Rx
+                                    1-  939     ;   _RF_read_byte
+                                    1-  940     ;   _RF_write_byte
+                                    1-  941     ;   _RF_write_byte
+                                    1-  942     ;   _RF_Read_Status
+                                    1-  943     ;   _RF_read_byte
+                                    1-  944     ;   _RF_read_buffer
+                                    1-  945     ;   _RF_Flush_Rx
+                                    1-  946     ;   _RF_read_byte
+                                    1-  947     ;   _RF_write_byte
+                                    1-  948     ;   _RF_write_byte
+                                    1-  949     ;10 compiler assigned registers:
+                                    1-  950     ;   r0x1026
+                                    1-  951     ;   STK00
+                                    1-  952     ;   r0x1027
+                                    1-  953     ;   STK01
+                                    1-  954     ;   r0x1028
+                                    1-  955     ;   r0x1029
+                                    1-  956     ;   r0x102A
+                                    1-  957     ;   STK03
+                                    1-  958     ;   STK02
+                                    1-  959     ;   r0x102B
+                                    1-  960     ;; Starting pCode block
+                                    1-  961     .segment "code"; module=bsp_rf, function=_RF_ReceivePack
+                                    1-  963     ;local variable name mapping:
+     0000                           1-  968     _RF_ReceivePack:
+                                    1-  969     ; 2 exit points
+                                    1-  970     	.line	285, "BSP\bsp_rf.c"; 	unsigned char RF_ReceivePack(unsigned char* buf)
+                                    1-  971     	BANKSEL	r0x1026
+     0000 rrrr                      3-  109 m1      .banksel ram_address
+     0001 00rr                      1-  972     	MOVAR	r0x1026
+     0002 01rr                      1-  973     	MOVR	STK00,W
+                                    1-  974     	BANKSEL	r0x1027
+     0003 rrrr                      3-  109 m1      .banksel ram_address
+     0004 00rr                      1-  975     	MOVAR	r0x1027
+     0005 01rr                      1-  976     	MOVR	STK01,W
+                                    1-  977     	BANKSEL	r0x1028
+     0006 rrrr                      3-  109 m1      .banksel ram_address
+     0007 00rr                      1-  978     	MOVAR	r0x1028
+                                    1-  979     	.line	291, "BSP\bsp_rf.c"; 	sta = RF_Read_Status();
+                                    1-  980     	MCALL	_RF_Read_Status
+     0008 2rrr                      3-   65 m1      LCALL rom_address
+                                    1-  981     	BANKSEL	r0x1029
+     0009 rrrr                      3-  109 m1      .banksel ram_address
+     000A 00rr                      1-  982     	MOVAR	r0x1029
+                                    1-  983     	.line	293, "BSP\bsp_rf.c"; 	if(RF_STATUS_RX_DR & sta)
+     000B 0Brr                      1-  984     	BTRSS	r0x1029,6
+                                    1-  985     	MGOTO	_02159_DS_
+     000C 3rrr                      3-   62 m1      LGOTO rom_address
+     000D                           1-  986     _02155_DS_:
+                                    1-  987     	.line	297, "BSP\bsp_rf.c"; 	len = RF_read_byte(RF_R_RX_PL_WID);
+     000D 2160                      1-  988     	MOVIA	0x60
+                                    1-  989     	MCALL	_RF_read_byte
+     000E 2rrr                      3-   65 m1      LCALL rom_address
+                                    1-  990     	BANKSEL	r0x102A
+     000F rrrr                      3-  109 m1      .banksel ram_address
+     0010 00rr                      1-  991     	MOVAR	r0x102A
+                                    1-  992     ;;swapping arguments (AOP_TYPEs 1/2)
+                                    1-  993     ;;unsigned compare: left >= lit(0x21=33), size=1
+                                    1-  994     	.line	299, "BSP\bsp_rf.c"; 	if(len <= RF_FIFO_MAX_PACK_SIZE)
+     0011 2121                      1-  995     	MOVIA	0x21
+     0012 04rr                      1-  996     	SUBAR	r0x102A,W
+     0013 0C03                      1-  997     	BTRSC	STATUS,0
+                                    1-  998     	MGOTO	_02153_DS_
+     0014 3rrr                      3-   62 m1      LGOTO rom_address
+                                    1-  999     	.line	301, "BSP\bsp_rf.c"; 	RF_read_buffer(RF_R_RX_PAYLOAD, buf, len);
+     0015 01rr                      1- 1000     	MOVR	r0x102A,W
+     0016 00rr                      1- 1001     	MOVAR	STK03
+                                    1- 1002     	BANKSEL	r0x1028
+     0017 rrrr                      3-  109 m1      .banksel ram_address
+     0018 01rr                      1- 1003     	MOVR	r0x1028,W
+     0019 00rr                      1- 1004     	MOVAR	STK02
+                                    1- 1005     	BANKSEL	r0x1027
+     001A rrrr                      3-  109 m1      .banksel ram_address
+     001B 01rr                      1- 1006     	MOVR	r0x1027,W
+     001C 00rr                      1- 1007     	MOVAR	STK01
+                                    1- 1008     	BANKSEL	r0x1026
+     001D rrrr                      3-  109 m1      .banksel ram_address
+     001E 01rr                      1- 1009     	MOVR	r0x1026,W
+     001F 00rr                      1- 1010     	MOVAR	STK00
+     0020 2161                      1- 1011     	MOVIA	0x61
+                                    1- 1012     	MCALL	_RF_read_buffer
+     0021 2rrr                      3-   65 m1      LCALL rom_address
+                                    1- 1013     	MGOTO	_02154_DS_
+     0022 3rrr                      3-   62 m1      LGOTO rom_address
+     0023                           1- 1014     _02153_DS_:
+                                    1- 1015     	.line	305, "BSP\bsp_rf.c"; 	RF_Flush_Rx();
+                                    1- 1016     	MCALL	_RF_Flush_Rx
+     0023 2rrr                      3-   65 m1      LCALL rom_address
+     0024                           1- 1017     _02154_DS_:
+                                    1- 1018     	.line	308, "BSP\bsp_rf.c"; 	fifo_sta = RF_read_byte(RF_BANK0_FIFO_STATUS);
+     0024 2117                      1- 1019     	MOVIA	0x17
+                                    1- 1020     	MCALL	_RF_read_byte
+     0025 2rrr                      3-   65 m1      LCALL rom_address
+                                    1- 1021     	BANKSEL	r0x102B
+     0026 rrrr                      3-  109 m1      .banksel ram_address
+     0027 00rr                      1- 1022     	MOVAR	r0x102B
+                                    1- 1023     	.line	311, "BSP\bsp_rf.c"; 	}while(!(fifo_sta & RF_FIFO_STA_RX_EMPTY));/*not empty continue read out*/
+     0028 08rr                      1- 1024     	BTRSS	r0x102B,0
+                                    1- 1025     	MGOTO	_02155_DS_
+     0029 3rrr                      3-   62 m1      LGOTO rom_address
+                                    1- 1026     	.line	313, "BSP\bsp_rf.c"; 	RF_write_byte(RF_BANK0_STATUS, sta);/*clear irq*/
+                                    1- 1027     	BANKSEL	r0x1029
+     002A rrrr                      3-  109 m1      .banksel ram_address
+     002B 01rr                      1- 1028     	MOVR	r0x1029,W
+     002C 00rr                      1- 1029     	MOVAR	STK00
+     002D 2107                      1- 1030     	MOVIA	0x07
+                                    1- 1031     	MCALL	_RF_write_byte
+     002E 2rrr                      3-   65 m1      LCALL rom_address
+                                    1- 1032     	.line	314, "BSP\bsp_rf.c"; 	return len;
+                                    1- 1033     	BANKSEL	r0x102A
+     002F rrrr                      3-  109 m1      .banksel ram_address
+     0030 01rr                      1- 1034     	MOVR	r0x102A,W
+                                    1- 1035     	MGOTO	_02162_DS_
+     0031 3rrr                      3-   62 m1      LGOTO rom_address
+     0032                           1- 1036     _02159_DS_:
+                                    1- 1037     	.line	317, "BSP\bsp_rf.c"; 	if(sta & (RF_STATUS_RX_DR | RF_STATUS_TX_DS | RF_STATUS_MAX_RT))
+                                    1- 1038     	BANKSEL	r0x1029
+     0032 rrrr                      3-  109 m1      .banksel ram_address
+     0033 01rr                      1- 1039     	MOVR	r0x1029,W
+     0034 2270                      1- 1040     	ANDIA	0x70
+     0035 0903                      1- 1041     	BTRSS	STATUS,2
+                                    1- 1042     	MGOTO	_02180_DS_
+     0036 3rrr                      3-   62 m1      LGOTO rom_address
+                                    1- 1043     	MGOTO	_02161_DS_
+     0037 3rrr                      3-   62 m1      LGOTO rom_address
+     0038                           1- 1044     _02180_DS_:
+                                    1- 1045     	.line	319, "BSP\bsp_rf.c"; 	RF_write_byte(RF_BANK0_STATUS, sta);/*clear irq*/
+                                    1- 1046     	BANKSEL	r0x1029
+     0038 rrrr                      3-  109 m1      .banksel ram_address
+     0039 01rr                      1- 1047     	MOVR	r0x1029,W
+     003A 00rr                      1- 1048     	MOVAR	STK00
+     003B 2107                      1- 1049     	MOVIA	0x07
+                                    1- 1050     	MCALL	_RF_write_byte
+     003C 2rrr                      3-   65 m1      LCALL rom_address
+     003D                           1- 1051     _02161_DS_:
+                                    1- 1052     	.line	322, "BSP\bsp_rf.c"; 	return 0;
+     003D 2100                      1- 1053     	MOVIA	0x00
+     003E                           1- 1054     _02162_DS_:
+                                    1- 1055     	.line	323, "BSP\bsp_rf.c"; 	}
+                                    1- 1056     	RETURN	
+     003E 0010                      3-   39 m1      ret
+                                    1- 1057     ; exit point of _RF_ReceivePack
+                                    1- 1059     ;***
+                                    1- 1060     ;  pBlock Stats: dbName = C
+                                    1- 1061     ;***
+                                    1- 1062     ;has an exit
+                                    1- 1063     ;functions called:
+                                    1- 1064     ;   _RF_Operation
+                                    1- 1065     ;   _RF_Operation
+                                    1- 1066     ;1 compiler assigned register :
+                                    1- 1067     ;   r0x101F
+                                    1- 1068     ;; Starting pCode block
+                                    1- 1069     .segment "code"; module=bsp_rf, function=_RF_Read_Status
+                                    1- 1071     ;local variable name mapping:
+     0000                           1- 1073     _RF_Read_Status:
+                                    1- 1074     ; 2 exit points
+                                    1- 1075     	.line	279, "BSP\bsp_rf.c"; 	status = RF_Operation(RF_READ_STATUS);
+     0000 21FF                      1- 1076     	MOVIA	0xff
+                                    1- 1077     	MCALL	_RF_Operation
+     0001 2rrr                      3-   65 m1      LCALL rom_address
+                                    1- 1078     	BANKSEL	r0x101F
+     0002 rrrr                      3-  109 m1      .banksel ram_address
+     0003 00rr                      1- 1079     	MOVAR	r0x101F
+                                    1- 1080     	.line	281, "BSP\bsp_rf.c"; 	return status;
+     0004 01rr                      1- 1081     	MOVR	r0x101F,W
+                                    1- 1082     	.line	282, "BSP\bsp_rf.c"; 	}
+                                    1- 1083     	RETURN	
+     0005 0010                      3-   39 m1      ret
+                                    1- 1084     ; exit point of _RF_Read_Status
+                                    1- 1086     ;***
+                                    1- 1087     ;  pBlock Stats: dbName = C
+                                    1- 1088     ;***
+                                    1- 1089     ;has an exit
+                                    1- 1090     ;functions called:
+                                    1- 1091     ;   _RF_spi_wrd
+                                    1- 1092     ;   _RF_spi_wrd
+                                    1- 1093     ;   _RF_spi_wrd
+                                    1- 1094     ;   _RF_spi_wrd
+                                    1- 1095     ;1 compiler assigned register :
+                                    1- 1096     ;   r0x1005
+                                    1- 1097     ;; Starting pCode block
+                                    1- 1098     .segment "code"; module=bsp_rf, function=_RF_read_byte
+                                    1- 1100     ;local variable name mapping:
+     0000                           1- 1103     _RF_read_byte:
+                                    1- 1104     ; 2 exit points
+                                    1- 1105     	.line	263, "BSP\bsp_rf.c"; 	unsigned char RF_read_byte(unsigned char addr)
+                                    1- 1106     	BANKSEL	r0x1005
+     0000 rrrr                      3-  109 m1      .banksel ram_address
+     0001 00rr                      1- 1107     	MOVAR	r0x1005
+                                    1- 1108     	.line	267, "BSP\bsp_rf.c"; 	RF_CSN_LOW;
+     0002 1Crr                      1- 1109     	BCR	_PORTAbits,1
+                                    1- 1110     	.line	268, "BSP\bsp_rf.c"; 	RF_spi_wrd(RF_R_REGISTER|addr);
+     0003 01rr                      1- 1111     	MOVR	r0x1005,W
+                                    1- 1112     	MCALL	_RF_spi_wrd
+     0004 2rrr                      3-   65 m1      LCALL rom_address
+                                    1- 1113     	.line	269, "BSP\bsp_rf.c"; 	rxdata = RF_spi_wrd(0);
+     0005 2100                      1- 1114     	MOVIA	0x00
+                                    1- 1115     	MCALL	_RF_spi_wrd
+     0006 2rrr                      3-   65 m1      LCALL rom_address
+                                    1- 1116     	BANKSEL	r0x1005
+     0007 rrrr                      3-  109 m1      .banksel ram_address
+     0008 00rr                      1- 1117     	MOVAR	r0x1005
+                                    1- 1118     	.line	270, "BSP\bsp_rf.c"; 	RF_CSN_HIGH;
+     0009 18rr                      1- 1119     	BSR	_PORTAbits,1
+                                    1- 1120     	.line	272, "BSP\bsp_rf.c"; 	return(rxdata);
+     000A 01rr                      1- 1121     	MOVR	r0x1005,W
+                                    1- 1122     	.line	273, "BSP\bsp_rf.c"; 	}
+                                    1- 1123     	RETURN	
+     000B 0010                      3-   39 m1      ret
+                                    1- 1124     ; exit point of _RF_read_byte
+                                    1- 1126     ;***
+                                    1- 1127     ;  pBlock Stats: dbName = C
+                                    1- 1128     ;***
+                                    1- 1129     ;has an exit
+                                    1- 1130     ;functions called:
+                                    1- 1131     ;   _RF_spi_wrd
+                                    1- 1132     ;   _RF_spi_wrd
+                                    1- 1133     ;   __gptrput1
+                                    1- 1134     ;   _delay_us
+                                    1- 1135     ;   _RF_spi_wrd
+                                    1- 1136     ;   _RF_spi_wrd
+                                    1- 1137     ;   __gptrput1
+                                    1- 1138     ;   _delay_us
+                                    1- 1139     ;9 compiler assigned registers:
+                                    1- 1140     ;   r0x1016
+                                    1- 1141     ;   STK00
+                                    1- 1142     ;   r0x1017
+                                    1- 1143     ;   STK01
+                                    1- 1144     ;   r0x1018
+                                    1- 1145     ;   STK02
+                                    1- 1146     ;   r0x1019
+                                    1- 1147     ;   STK03
+                                    1- 1148     ;   r0x101A
+                                    1- 1149     ;; Starting pCode block
+                                    1- 1150     .segment "code"; module=bsp_rf, function=_RF_read_buffer
+                                    1- 1152     ;local variable name mapping:
+     0000                           1- 1154     _RF_read_buffer:
+                                    1- 1155     ; 2 exit points
+                                    1- 1156     	.line	248, "BSP\bsp_rf.c"; 	void RF_read_buffer(unsigned char addr, unsigned char* buf, unsigned char len)
+                                    1- 1157     	BANKSEL	r0x1016
+     0000 rrrr                      3-  109 m1      .banksel ram_address
+     0001 00rr                      1- 1158     	MOVAR	r0x1016
+     0002 01rr                      1- 1159     	MOVR	STK00,W
+                                    1- 1160     	BANKSEL	r0x1017
+     0003 rrrr                      3-  109 m1      .banksel ram_address
+     0004 00rr                      1- 1161     	MOVAR	r0x1017
+     0005 01rr                      1- 1162     	MOVR	STK01,W
+                                    1- 1163     	BANKSEL	r0x1018
+     0006 rrrr                      3-  109 m1      .banksel ram_address
+     0007 00rr                      1- 1164     	MOVAR	r0x1018
+     0008 01rr                      1- 1165     	MOVR	STK02,W
+                                    1- 1166     	BANKSEL	r0x1019
+     0009 rrrr                      3-  109 m1      .banksel ram_address
+     000A 00rr                      1- 1167     	MOVAR	r0x1019
+     000B 01rr                      1- 1168     	MOVR	STK03,W
+                                    1- 1169     	BANKSEL	r0x101A
+     000C rrrr                      3-  109 m1      .banksel ram_address
+     000D 00rr                      1- 1170     	MOVAR	r0x101A
+                                    1- 1171     	.line	250, "BSP\bsp_rf.c"; 	RF_CSN_LOW;
+     000E 1Crr                      1- 1172     	BCR	_PORTAbits,1
+                                    1- 1173     	.line	251, "BSP\bsp_rf.c"; 	RF_spi_wrd(RF_R_REGISTER | addr);
+                                    1- 1174     	BANKSEL	r0x1016
+     000F rrrr                      3-  109 m1      .banksel ram_address
+     0010 01rr                      1- 1175     	MOVR	r0x1016,W
+                                    1- 1176     	MCALL	_RF_spi_wrd
+     0011 2rrr                      3-   65 m1      LCALL rom_address
+     0012                           1- 1177     _02137_DS_:
+                                    1- 1178     	.line	253, "BSP\bsp_rf.c"; 	while(len--)
+                                    1- 1179     	BANKSEL	r0x101A
+     0012 rrrr                      3-  109 m1      .banksel ram_address
+     0013 01rr                      1- 1180     	MOVR	r0x101A,W
+                                    1- 1181     	BANKSEL	r0x1016
+     0014 rrrr                      3-  109 m1      .banksel ram_address
+     0015 00rr                      1- 1182     	MOVAR	r0x1016
+                                    1- 1183     	BANKSEL	r0x101A
+     0016 rrrr                      3-  109 m1      .banksel ram_address
+     0017 06rr                      1- 1184     	DECR	r0x101A,F
+                                    1- 1185     	BANKSEL	r0x1016
+     0018 rrrr                      3-  109 m1      .banksel ram_address
+     0019 01rr                      1- 1186     	MOVR	r0x1016,W
+     001A 0D03                      1- 1187     	BTRSC	STATUS,2
+                                    1- 1188     	MGOTO	_02139_DS_
+     001B 3rrr                      3-   62 m1      LGOTO rom_address
+                                    1- 1189     	.line	255, "BSP\bsp_rf.c"; 	*buf++ = RF_spi_wrd(0);
+     001C 2100                      1- 1190     	MOVIA	0x00
+                                    1- 1191     	MCALL	_RF_spi_wrd
+     001D 2rrr                      3-   65 m1      LCALL rom_address
+                                    1- 1192     	BANKSEL	r0x1016
+     001E rrrr                      3-  109 m1      .banksel ram_address
+     001F 00rr                      1- 1193     	MOVAR	r0x1016
+     0020 01rr                      1- 1194     	MOVR	r0x1016,W
+     0021 00rr                      1- 1195     	MOVAR	STK02
+                                    1- 1196     	BANKSEL	r0x1019
+     0022 rrrr                      3-  109 m1      .banksel ram_address
+     0023 01rr                      1- 1197     	MOVR	r0x1019,W
+     0024 00rr                      1- 1198     	MOVAR	STK01
+                                    1- 1199     	BANKSEL	r0x1018
+     0025 rrrr                      3-  109 m1      .banksel ram_address
+     0026 01rr                      1- 1200     	MOVR	r0x1018,W
+     0027 00rr                      1- 1201     	MOVAR	STK00
+                                    1- 1202     	BANKSEL	r0x1017
+     0028 rrrr                      3-  109 m1      .banksel ram_address
+     0029 01rr                      1- 1203     	MOVR	r0x1017,W
+                                    1- 1204     	MCALL	__gptrput1
+     002A 2rrr                      3-   65 m1      LCALL rom_address
+                                    1- 1205     	BANKSEL	r0x1019
+     002B rrrr                      3-  109 m1      .banksel ram_address
+     002C 05rr                      1- 1206     	INCR	r0x1019,F
+     002D 0903                      1- 1207     	BTRSS	STATUS,2
+                                    1- 1208     	MGOTO	_00005_DS_
+     002E 3rrr                      3-   62 m1      LGOTO rom_address
+                                    1- 1209     	BANKSEL	r0x1018
+     002F rrrr                      3-  109 m1      .banksel ram_address
+     0030 05rr                      1- 1210     	INCR	r0x1018,F
+     0031                           1- 1211     _00005_DS_:
+     0031 0903                      1- 1212     	BTRSS	STATUS,2
+                                    1- 1213     	MGOTO	_00006_DS_
+     0032 3rrr                      3-   62 m1      LGOTO rom_address
+                                    1- 1214     	BANKSEL	r0x1017
+     0033 rrrr                      3-  109 m1      .banksel ram_address
+     0034 05rr                      1- 1215     	INCR	r0x1017,F
+     0035                           1- 1216     _00006_DS_:
+                                    1- 1217     	MGOTO	_02137_DS_
+     0035 3rrr                      3-   62 m1      LGOTO rom_address
+     0036                           1- 1218     _02139_DS_:
+                                    1- 1219     	.line	258, "BSP\bsp_rf.c"; 	delay_us(1);
+     0036 2101                      1- 1220     	MOVIA	0x01
+                                    1- 1221     	MCALL	_delay_us
+     0037 2rrr                      3-   65 m1      LCALL rom_address
+                                    1- 1222     	.line	259, "BSP\bsp_rf.c"; 	RF_CSN_HIGH;
+     0038 18rr                      1- 1223     	BSR	_PORTAbits,1
+                                    1- 1224     	.line	260, "BSP\bsp_rf.c"; 	}
+                                    1- 1225     	RETURN	
+     0039 0010                      3-   39 m1      ret
+                                    1- 1226     ; exit point of _RF_read_buffer
+                                    1- 1228     ;***
+                                    1- 1229     ;  pBlock Stats: dbName = C
+                                    1- 1230     ;***
+                                    1- 1231     ;has an exit
+                                    1- 1232     ;functions called:
+                                    1- 1233     ;   _RF_spi_wrd
+                                    1- 1234     ;   _RF_spi_wrd
+                                    1- 1235     ;1 compiler assigned register :
+                                    1- 1236     ;   r0x101E
+                                    1- 1237     ;; Starting pCode block
+                                    1- 1238     .segment "code"; module=bsp_rf, function=_RF_Operation
+                                    1- 1240     ;local variable name mapping:
+     0000                           1- 1243     _RF_Operation:
+                                    1- 1244     ; 2 exit points
+                                    1- 1245     	.line	238, "BSP\bsp_rf.c"; 	unsigned char RF_Operation(unsigned char opt)
+                                    1- 1246     	BANKSEL	r0x101E
+     0000 rrrr                      3-  109 m1      .banksel ram_address
+     0001 00rr                      1- 1247     	MOVAR	r0x101E
+                                    1- 1248     	.line	242, "BSP\bsp_rf.c"; 	RF_CSN_LOW;
+     0002 1Crr                      1- 1249     	BCR	_PORTAbits,1
+                                    1- 1250     	.line	243, "BSP\bsp_rf.c"; 	status = RF_spi_wrd(opt);
+     0003 01rr                      1- 1251     	MOVR	r0x101E,W
+                                    1- 1252     	MCALL	_RF_spi_wrd
+     0004 2rrr                      3-   65 m1      LCALL rom_address
+                                    1- 1253     	BANKSEL	r0x101E
+     0005 rrrr                      3-  109 m1      .banksel ram_address
+     0006 00rr                      1- 1254     	MOVAR	r0x101E
+                                    1- 1255     	.line	244, "BSP\bsp_rf.c"; 	RF_CSN_HIGH;
+     0007 18rr                      1- 1256     	BSR	_PORTAbits,1
+                                    1- 1257     	.line	245, "BSP\bsp_rf.c"; 	return status;
+     0008 01rr                      1- 1258     	MOVR	r0x101E,W
+                                    1- 1259     	.line	246, "BSP\bsp_rf.c"; 	}
+                                    1- 1260     	RETURN	
+     0009 0010                      3-   39 m1      ret
+                                    1- 1261     ; exit point of _RF_Operation
+                                    1- 1263     ;***
+                                    1- 1264     ;  pBlock Stats: dbName = C
+                                    1- 1265     ;***
+                                    1- 1266     ;has an exit
+                                    1- 1267     ;functions called:
+                                    1- 1268     ;   _RF_read_byte
+                                    1- 1269     ;   _RF_write_byte
+                                    1- 1270     ;   _RF_read_byte
+                                    1- 1271     ;   _RF_write_byte
+                                    1- 1272     ;   _RF_read_byte
+                                    1- 1273     ;   _RF_write_byte
+                                    1- 1274     ;   _RF_read_byte
+                                    1- 1275     ;   _RF_write_byte
+                                    1- 1276     ;4 compiler assigned registers:
+                                    1- 1277     ;   r0x102C
+                                    1- 1278     ;   r0x102D
+                                    1- 1279     ;   r0x102E
+                                    1- 1280     ;   STK00
+                                    1- 1281     ;; Starting pCode block
+                                    1- 1282     .segment "code"; module=bsp_rf, function=_RF_ModeSwitch
+                                    1- 1284     ;local variable name mapping:
+     0000                           1- 1287     _RF_ModeSwitch:
+                                    1- 1288     ; 2 exit points
+                                    1- 1289     	.line	215, "BSP\bsp_rf.c"; 	void RF_ModeSwitch(RF_ModeTypeDef mod)
+                                    1- 1290     	BANKSEL	r0x102C
+     0000 rrrr                      3-  109 m1      .banksel ram_address
+     0001 00rr                      1- 1291     	MOVAR	r0x102C
+                                    1- 1292     	.line	219, "BSP\bsp_rf.c"; 	tmp = RF_read_byte(RF_BANK0_CONFIG);
+     0002 2100                      1- 1293     	MOVIA	0x00
+                                    1- 1294     	MCALL	_RF_read_byte
+     0003 2rrr                      3-   65 m1      LCALL rom_address
+                                    1- 1295     	BANKSEL	r0x102D
+     0004 rrrr                      3-  109 m1      .banksel ram_address
+     0005 00rr                      1- 1296     	MOVAR	r0x102D
+                                    1- 1297     	.line	220, "BSP\bsp_rf.c"; 	if(mod != Rf_PRX_Mode)
+                                    1- 1298     	BANKSEL	r0x102C
+     0006 rrrr                      3-  109 m1      .banksel ram_address
+     0007 01rr                      1- 1299     	MOVR	r0x102C,W
+     0008 0D03                      1- 1300     	BTRSC	STATUS,2
+                                    1- 1301     	MGOTO	_02124_DS_
+     0009 3rrr                      3-   62 m1      LGOTO rom_address
+                                    1- 1302     	.line	222, "BSP\bsp_rf.c"; 	tmp &= 0xFE;
+     000A 21FE                      1- 1303     	MOVIA	0xfe
+                                    1- 1304     	BANKSEL	r0x102D
+     000B rrrr                      3-  109 m1      .banksel ram_address
+     000C 10rr                      1- 1305     	ANDAR	r0x102D,W
+                                    1- 1306     	BANKSEL	r0x102E
+     000D rrrr                      3-  109 m1      .banksel ram_address
+     000E 00rr                      1- 1307     	MOVAR	r0x102E
+                                    1- 1308     	MGOTO	_02125_DS_
+     000F 3rrr                      3-   62 m1      LGOTO rom_address
+     0010                           1- 1309     _02124_DS_:
+                                    1- 1310     	.line	226, "BSP\bsp_rf.c"; 	tmp |= 0x01;
+     0010 2101                      1- 1311     	MOVIA	0x01
+                                    1- 1312     	BANKSEL	r0x102D
+     0011 rrrr                      3-  109 m1      .banksel ram_address
+     0012 11rr                      1- 1313     	IORAR	r0x102D,W
+                                    1- 1314     	BANKSEL	r0x102E
+     0013 rrrr                      3-  109 m1      .banksel ram_address
+     0014 00rr                      1- 1315     	MOVAR	r0x102E
+     0015                           1- 1316     _02125_DS_:
+                                    1- 1317     	.line	228, "BSP\bsp_rf.c"; 	RF_write_byte(RF_BANK0_CONFIG, tmp);
+                                    1- 1318     	BANKSEL	r0x102E
+     0015 rrrr                      3-  109 m1      .banksel ram_address
+     0016 01rr                      1- 1319     	MOVR	r0x102E,W
+     0017 00rr                      1- 1320     	MOVAR	STK00
+     0018 2100                      1- 1321     	MOVIA	0x00
+                                    1- 1322     	MCALL	_RF_write_byte
+     0019 2rrr                      3-   65 m1      LCALL rom_address
+                                    1- 1323     	.line	230, "BSP\bsp_rf.c"; 	if(mod == Rf_Carrier_Mode)
+                                    1- 1324     	BANKSEL	r0x102C
+     001A rrrr                      3-  109 m1      .banksel ram_address
+     001B 01rr                      1- 1325     	MOVR	r0x102C,W
+     001C 2402                      1- 1326     	XORIA	0x02
+     001D 0903                      1- 1327     	BTRSS	STATUS,2
+                                    1- 1328     	MGOTO	_02128_DS_
+     001E 3rrr                      3-   62 m1      LGOTO rom_address
+                                    1- 1329     	.line	232, "BSP\bsp_rf.c"; 	tmp = 0x80 | RF_read_byte(RF_BANK0_RF_SETUP);
+     001F 2106                      1- 1330     	MOVIA	0x06
+                                    1- 1331     	MCALL	_RF_read_byte
+     0020 2rrr                      3-   65 m1      LCALL rom_address
+                                    1- 1332     	BANKSEL	r0x102C
+     0021 rrrr                      3-  109 m1      .banksel ram_address
+     0022 00rr                      1- 1333     	MOVAR	r0x102C
+     0023 1Brr                      1- 1334     	BSR	r0x102C,7
+                                    1- 1335     	.line	233, "BSP\bsp_rf.c"; 	RF_write_byte(RF_BANK0_RF_SETUP, tmp);
+     0024 01rr                      1- 1336     	MOVR	r0x102C,W
+     0025 00rr                      1- 1337     	MOVAR	STK00
+     0026 2106                      1- 1338     	MOVIA	0x06
+                                    1- 1339     	MCALL	_RF_write_byte
+     0027 2rrr                      3-   65 m1      LCALL rom_address
+     0028                           1- 1340     _02128_DS_:
+                                    1- 1341     	.line	235, "BSP\bsp_rf.c"; 	}
+                                    1- 1342     	RETURN	
+     0028 0010                      3-   39 m1      ret
+                                    1- 1343     ; exit point of _RF_ModeSwitch
+                                    1- 1345     ;***
+                                    1- 1346     ;  pBlock Stats: dbName = C
+                                    1- 1347     ;***
+                                    1- 1348     ;has an exit
+                                    1- 1349     ;functions called:
+                                    1- 1350     ;   _RF_Bank_Switch
+                                    1- 1351     ;   _RF_read_byte
+                                    1- 1352     ;   _RF_Bank_Switch
+                                    1- 1353     ;   _RF_read_byte
+                                    1- 1354     ;2 compiler assigned registers:
+                                    1- 1355     ;   r0x102F
+                                    1- 1356     ;   r0x1030
+                                    1- 1357     ;; Starting pCode block
+                                    1- 1358     .segment "code"; module=bsp_rf, function=_RF_Get_RSSI
+                                    1- 1360     ;local variable name mapping:
+     0000                           1- 1362     _RF_Get_RSSI:
+                                    1- 1363     ; 2 exit points
+                                    1- 1364     	.line	205, "BSP\bsp_rf.c"; 	RF_Bank_Switch(RF_Bank0);
+     0000 2100                      1- 1365     	MOVIA	0x00
+                                    1- 1366     	MCALL	_RF_Bank_Switch
+     0001 2rrr                      3-   65 m1      LCALL rom_address
+                                    1- 1367     	.line	206, "BSP\bsp_rf.c"; 	ReadArr = RF_read_byte(RF_BANK0_RPD);
+     0002 2109                      1- 1368     	MOVIA	0x09
+                                    1- 1369     	MCALL	_RF_read_byte
+     0003 2rrr                      3-   65 m1      LCALL rom_address
+                                    1- 1370     	BANKSEL	r0x102F
+     0004 rrrr                      3-  109 m1      .banksel ram_address
+     0005 00rr                      1- 1371     	MOVAR	r0x102F
+                                    1- 1372     	.line	208, "BSP\bsp_rf.c"; 	return ((signed char)ReadArr);
+     0006 01rr                      1- 1373     	MOVR	r0x102F,W
+                                    1- 1374     	BANKSEL	r0x1030
+     0007 rrrr                      3-  109 m1      .banksel ram_address
+     0008 00rr                      1- 1375     	MOVAR	r0x1030
+     0009 01rr                      1- 1376     	MOVR	r0x1030,W
+                                    1- 1377     	.line	209, "BSP\bsp_rf.c"; 	}
+                                    1- 1378     	RETURN	
+     000A 0010                      3-   39 m1      ret
+                                    1- 1379     ; exit point of _RF_Get_RSSI
+                                    1- 1381     ;***
+                                    1- 1382     ;  pBlock Stats: dbName = C
+                                    1- 1383     ;***
+                                    1- 1384     ;has an exit
+                                    1- 1385     ;1 compiler assigned register :
+                                    1- 1386     ;   r0x1031
+                                    1- 1387     ;; Starting pCode block
+                                    1- 1388     .segment "code"; module=bsp_rf, function=_RF_Get_Chip_ID
+                                    1- 1390     ;local variable name mapping:
+     0000                           1- 1392     _RF_Get_Chip_ID:
+                                    1- 1393     ; 2 exit points
+                                    1- 1394     	.line	195, "BSP\bsp_rf.c"; 	return ReadArr[1];
+                                    1- 1395     	BANKSEL	_RF_Get_Chip_ID_ReadArr_65536_61
+     0000 rrrr                      3-  109 m1      .banksel ram_address
+     0001 01rr                      1- 1396     	MOVR	(_RF_Get_Chip_ID_ReadArr_65536_61 + 1),W
+                                    1- 1397     	BANKSEL	r0x1031
+     0002 rrrr                      3-  109 m1      .banksel ram_address
+     0003 00rr                      1- 1398     	MOVAR	r0x1031
+     0004 01rr                      1- 1399     	MOVR	r0x1031,W
+                                    1- 1400     	.line	196, "BSP\bsp_rf.c"; 	}
+                                    1- 1401     	RETURN	
+     0005 0010                      3-   39 m1      ret
+                                    1- 1402     ; exit point of _RF_Get_Chip_ID
+                                    1- 1404     ;***
+                                    1- 1405     ;  pBlock Stats: dbName = C
+                                    1- 1406     ;***
+                                    1- 1407     ;has an exit
+                                    1- 1408     ;functions called:
+                                    1- 1409     ;   _RF_Operation
+                                    1- 1410     ;   _RF_Operation
+                                    1- 1411     ;; Starting pCode block
+                                    1- 1412     .segment "code"; module=bsp_rf, function=_RF_Flush_Tx
+     0000                           1- 1414     _RF_Flush_Tx:
+                                    1- 1415     ; 2 exit points
+                                    1- 1416     	.line	172, "BSP\bsp_rf.c"; 	RF_Operation(RF_FLUSH_TX);
+     0000 21E1                      1- 1417     	MOVIA	0xe1
+                                    1- 1418     	MCALL	_RF_Operation
+     0001 2rrr                      3-   65 m1      LCALL rom_address
+                                    1- 1419     	.line	173, "BSP\bsp_rf.c"; 	}
+                                    1- 1420     	RETURN	
+     0002 0010                      3-   39 m1      ret
+                                    1- 1421     ; exit point of _RF_Flush_Tx
+                                    1- 1423     ;***
+                                    1- 1424     ;  pBlock Stats: dbName = C
+                                    1- 1425     ;***
+                                    1- 1426     ;has an exit
+                                    1- 1427     ;functions called:
+                                    1- 1428     ;   _RF_Operation
+                                    1- 1429     ;   _RF_Operation
+                                    1- 1430     ;; Starting pCode block
+                                    1- 1431     .segment "code"; module=bsp_rf, function=_RF_Flush_Rx
+     0000                           1- 1433     _RF_Flush_Rx:
+                                    1- 1434     ; 2 exit points
+                                    1- 1435     	.line	166, "BSP\bsp_rf.c"; 	RF_Operation(RF_FLUSH_RX);
+     0000 21E2                      1- 1436     	MOVIA	0xe2
+                                    1- 1437     	MCALL	_RF_Operation
+     0001 2rrr                      3-   65 m1      LCALL rom_address
+                                    1- 1438     	.line	167, "BSP\bsp_rf.c"; 	}
+                                    1- 1439     	RETURN	
+     0002 0010                      3-   39 m1      ret
+                                    1- 1440     ; exit point of _RF_Flush_Rx
+                                    1- 1442     ;***
+                                    1- 1443     ;  pBlock Stats: dbName = C
+                                    1- 1444     ;***
+                                    1- 1445     ;has an exit
+                                    1- 1446     ;functions called:
+                                    1- 1447     ;   __gptrget1
+                                    1- 1448     ;   __gptrget1
+                                    1- 1449     ;   _RF_wr_buffer
+                                    1- 1450     ;   __gptrget1
+                                    1- 1451     ;   __gptrget1
+                                    1- 1452     ;   _RF_wr_buffer
+                                    1- 1453     ;14 compiler assigned registers:
+                                    1- 1454     ;   r0x1032
+                                    1- 1455     ;   STK00
+                                    1- 1456     ;   r0x1033
+                                    1- 1457     ;   STK01
+                                    1- 1458     ;   r0x1034
+                                    1- 1459     ;   r0x1035
+                                    1- 1460     ;   r0x1036
+                                    1- 1461     ;   r0x1037
+                                    1- 1462     ;   r0x1038
+                                    1- 1463     ;   r0x1039
+                                    1- 1464     ;   r0x103A
+                                    1- 1465     ;   r0x103B
+                                    1- 1466     ;   STK03
+                                    1- 1467     ;   STK02
+                                    1- 1468     ;; Starting pCode block
+                                    1- 1469     .segment "code"; module=bsp_rf, function=_RF_Configure_Reg
+                                    1- 1471     ;local variable name mapping:
+     0000                           1- 1477     _RF_Configure_Reg:
+                                    1- 1478     ; 2 exit points
+                                    1- 1479     	.line	133, "BSP\bsp_rf.c"; 	void RF_Configure_Reg(const unsigned char* Dbuf)
+                                    1- 1480     	BANKSEL	r0x1032
+     0000 rrrr                      3-  109 m1      .banksel ram_address
+     0001 00rr                      1- 1481     	MOVAR	r0x1032
+     0002 01rr                      1- 1482     	MOVR	STK00,W
+                                    1- 1483     	BANKSEL	r0x1033
+     0003 rrrr                      3-  109 m1      .banksel ram_address
+     0004 00rr                      1- 1484     	MOVAR	r0x1033
+     0005 01rr                      1- 1485     	MOVR	STK01,W
+                                    1- 1486     	BANKSEL	r0x1034
+     0006 rrrr                      3-  109 m1      .banksel ram_address
+     0007 00rr                      1- 1487     	MOVAR	r0x1034
+                                    1- 1488     	.line	135, "BSP\bsp_rf.c"; 	unsigned char cnt = 0;
+                                    1- 1489     	BANKSEL	r0x1035
+     0008 rrrr                      3-  109 m1      .banksel ram_address
+     0009 02rr                      1- 1490     	CLRR	r0x1035
+     000A                           1- 1491     _02088_DS_:
+                                    1- 1492     	.line	143, "BSP\bsp_rf.c"; 	Reg_Addr = Dbuf[cnt];
+                                    1- 1493     	BANKSEL	r0x1034
+     000A rrrr                      3-  109 m1      .banksel ram_address
+     000B 01rr                      1- 1494     	MOVR	r0x1034,W
+                                    1- 1495     	BANKSEL	r0x1035
+     000C rrrr                      3-  109 m1      .banksel ram_address
+     000D 03rr                      1- 1496     	ADDAR	r0x1035,W
+                                    1- 1497     	BANKSEL	r0x1036
+     000E rrrr                      3-  109 m1      .banksel ram_address
+     000F 00rr                      1- 1498     	MOVAR	r0x1036
+                                    1- 1499     	BANKSEL	r0x1033
+     0010 rrrr                      3-  109 m1      .banksel ram_address
+     0011 01rr                      1- 1500     	MOVR	r0x1033,W
+     0012 2600                      1- 1501     	ADCIA	0x00
+                                    1- 1502     	BANKSEL	r0x1037
+     0013 rrrr                      3-  109 m1      .banksel ram_address
+     0014 00rr                      1- 1503     	MOVAR	r0x1037
+                                    1- 1504     	BANKSEL	r0x1032
+     0015 rrrr                      3-  109 m1      .banksel ram_address
+     0016 01rr                      1- 1505     	MOVR	r0x1032,W
+                                    1- 1506     	BANKSEL	r0x1038
+     0017 rrrr                      3-  109 m1      .banksel ram_address
+     0018 00rr                      1- 1507     	MOVAR	r0x1038
+                                    1- 1508     	BANKSEL	r0x1036
+     0019 rrrr                      3-  109 m1      .banksel ram_address
+     001A 01rr                      1- 1509     	MOVR	r0x1036,W
+     001B 00rr                      1- 1510     	MOVAR	STK01
+                                    1- 1511     	BANKSEL	r0x1037
+     001C rrrr                      3-  109 m1      .banksel ram_address
+     001D 01rr                      1- 1512     	MOVR	r0x1037,W
+     001E 00rr                      1- 1513     	MOVAR	STK00
+                                    1- 1514     	BANKSEL	r0x1038
+     001F rrrr                      3-  109 m1      .banksel ram_address
+     0020 01rr                      1- 1515     	MOVR	r0x1038,W
+                                    1- 1516     	MCALL	__gptrget1
+     0021 2rrr                      3-   65 m1      LCALL rom_address
+                                    1- 1517     	BANKSEL	r0x1039
+     0022 rrrr                      3-  109 m1      .banksel ram_address
+     0023 00rr                      1- 1518     	MOVAR	r0x1039
+                                    1- 1519     	.line	144, "BSP\bsp_rf.c"; 	if(0xFF == Reg_Addr)
+     0024 01rr                      1- 1520     	MOVR	r0x1039,W
+     0025 24FF                      1- 1521     	XORIA	0xff
+     0026 0903                      1- 1522     	BTRSS	STATUS,2
+                                    1- 1523     	MGOTO	_02102_DS_
+     0027 3rrr                      3-   62 m1      LGOTO rom_address
+                                    1- 1524     	MGOTO	_02090_DS_
+     0028 3rrr                      3-   62 m1      LGOTO rom_address
+     0029                           1- 1525     _02102_DS_:
+                                    1- 1526     	.line	150, "BSP\bsp_rf.c"; 	cnt += 1;
+                                    1- 1527     	BANKSEL	r0x1035
+     0029 rrrr                      3-  109 m1      .banksel ram_address
+     002A 05rr                      1- 1528     	INCR	r0x1035,W
+                                    1- 1529     	BANKSEL	r0x1036
+     002B rrrr                      3-  109 m1      .banksel ram_address
+     002C 00rr                      1- 1530     	MOVAR	r0x1036
+                                    1- 1531     	.line	151, "BSP\bsp_rf.c"; 	data_lenth = Dbuf[cnt];
+     002D 01rr                      1- 1532     	MOVR	r0x1036,W
+                                    1- 1533     	BANKSEL	r0x1034
+     002E rrrr                      3-  109 m1      .banksel ram_address
+     002F 03rr                      1- 1534     	ADDAR	r0x1034,W
+                                    1- 1535     	BANKSEL	r0x1037
+     0030 rrrr                      3-  109 m1      .banksel ram_address
+     0031 00rr                      1- 1536     	MOVAR	r0x1037
+                                    1- 1537     	BANKSEL	r0x1033
+     0032 rrrr                      3-  109 m1      .banksel ram_address
+     0033 01rr                      1- 1538     	MOVR	r0x1033,W
+     0034 2600                      1- 1539     	ADCIA	0x00
+                                    1- 1540     	BANKSEL	r0x1038
+     0035 rrrr                      3-  109 m1      .banksel ram_address
+     0036 00rr                      1- 1541     	MOVAR	r0x1038
+                                    1- 1542     	BANKSEL	r0x1032
+     0037 rrrr                      3-  109 m1      .banksel ram_address
+     0038 01rr                      1- 1543     	MOVR	r0x1032,W
+                                    1- 1544     	BANKSEL	r0x103A
+     0039 rrrr                      3-  109 m1      .banksel ram_address
+     003A 00rr                      1- 1545     	MOVAR	r0x103A
+                                    1- 1546     	BANKSEL	r0x1037
+     003B rrrr                      3-  109 m1      .banksel ram_address
+     003C 01rr                      1- 1547     	MOVR	r0x1037,W
+     003D 00rr                      1- 1548     	MOVAR	STK01
+                                    1- 1549     	BANKSEL	r0x1038
+     003E rrrr                      3-  109 m1      .banksel ram_address
+     003F 01rr                      1- 1550     	MOVR	r0x1038,W
+     0040 00rr                      1- 1551     	MOVAR	STK00
+                                    1- 1552     	BANKSEL	r0x103A
+     0041 rrrr                      3-  109 m1      .banksel ram_address
+     0042 01rr                      1- 1553     	MOVR	r0x103A,W
+                                    1- 1554     	MCALL	__gptrget1
+     0043 2rrr                      3-   65 m1      LCALL rom_address
+                                    1- 1555     	BANKSEL	r0x103B
+     0044 rrrr                      3-  109 m1      .banksel ram_address
+     0045 00rr                      1- 1556     	MOVAR	r0x103B
+                                    1- 1557     	.line	154, "BSP\bsp_rf.c"; 	cnt += 1;
+                                    1- 1558     	BANKSEL	r0x1036
+     0046 rrrr                      3-  109 m1      .banksel ram_address
+     0047 05rr                      1- 1559     	INCR	r0x1036,F
+                                    1- 1560     	.line	155, "BSP\bsp_rf.c"; 	p_data = &Dbuf[cnt];
+     0048 01rr                      1- 1561     	MOVR	r0x1036,W
+                                    1- 1562     	BANKSEL	r0x1034
+     0049 rrrr                      3-  109 m1      .banksel ram_address
+     004A 03rr                      1- 1563     	ADDAR	r0x1034,W
+                                    1- 1564     	BANKSEL	r0x1037
+     004B rrrr                      3-  109 m1      .banksel ram_address
+     004C 00rr                      1- 1565     	MOVAR	r0x1037
+                                    1- 1566     	BANKSEL	r0x1033
+     004D rrrr                      3-  109 m1      .banksel ram_address
+     004E 01rr                      1- 1567     	MOVR	r0x1033,W
+     004F 2600                      1- 1568     	ADCIA	0x00
+                                    1- 1569     	BANKSEL	r0x1038
+     0050 rrrr                      3-  109 m1      .banksel ram_address
+     0051 00rr                      1- 1570     	MOVAR	r0x1038
+                                    1- 1571     	BANKSEL	r0x1032
+     0052 rrrr                      3-  109 m1      .banksel ram_address
+     0053 01rr                      1- 1572     	MOVR	r0x1032,W
+                                    1- 1573     	BANKSEL	r0x103A
+     0054 rrrr                      3-  109 m1      .banksel ram_address
+     0055 00rr                      1- 1574     	MOVAR	r0x103A
+                                    1- 1575     	.line	158, "BSP\bsp_rf.c"; 	RF_wr_buffer(Reg_Addr, p_data, data_lenth);
+                                    1- 1576     	BANKSEL	r0x103B
+     0056 rrrr                      3-  109 m1      .banksel ram_address
+     0057 01rr                      1- 1577     	MOVR	r0x103B,W
+     0058 00rr                      1- 1578     	MOVAR	STK03
+                                    1- 1579     	BANKSEL	r0x1037
+     0059 rrrr                      3-  109 m1      .banksel ram_address
+     005A 01rr                      1- 1580     	MOVR	r0x1037,W
+     005B 00rr                      1- 1581     	MOVAR	STK02
+                                    1- 1582     	BANKSEL	r0x1038
+     005C rrrr                      3-  109 m1      .banksel ram_address
+     005D 01rr                      1- 1583     	MOVR	r0x1038,W
+     005E 00rr                      1- 1584     	MOVAR	STK01
+                                    1- 1585     	BANKSEL	r0x103A
+     005F rrrr                      3-  109 m1      .banksel ram_address
+     0060 01rr                      1- 1586     	MOVR	r0x103A,W
+     0061 00rr                      1- 1587     	MOVAR	STK00
+                                    1- 1588     	BANKSEL	r0x1039
+     0062 rrrr                      3-  109 m1      .banksel ram_address
+     0063 01rr                      1- 1589     	MOVR	r0x1039,W
+                                    1- 1590     	MCALL	_RF_wr_buffer
+     0064 2rrr                      3-   65 m1      LCALL rom_address
+                                    1- 1591     	.line	159, "BSP\bsp_rf.c"; 	cnt += data_lenth;
+                                    1- 1592     	BANKSEL	r0x1036
+     0065 rrrr                      3-  109 m1      .banksel ram_address
+     0066 01rr                      1- 1593     	MOVR	r0x1036,W
+                                    1- 1594     	BANKSEL	r0x103B
+     0067 rrrr                      3-  109 m1      .banksel ram_address
+     0068 03rr                      1- 1595     	ADDAR	r0x103B,W
+                                    1- 1596     	BANKSEL	r0x1035
+     0069 rrrr                      3-  109 m1      .banksel ram_address
+     006A 00rr                      1- 1597     	MOVAR	r0x1035
+                                    1- 1598     	MGOTO	_02088_DS_
+     006B 3rrr                      3-   62 m1      LGOTO rom_address
+     006C                           1- 1599     _02090_DS_:
+                                    1- 1600     	.line	161, "BSP\bsp_rf.c"; 	}
+                                    1- 1601     	RETURN	
+     006C 0010                      3-   39 m1      ret
+                                    1- 1602     ; exit point of _RF_Configure_Reg
+                                    1- 1604     ;***
+                                    1- 1605     ;  pBlock Stats: dbName = C
+                                    1- 1606     ;***
+                                    1- 1607     ;has an exit
+                                    1- 1608     ;functions called:
+                                    1- 1609     ;   _RF_write_byte
+                                    1- 1610     ;   _RF_write_byte
+                                    1- 1611     ;1 compiler assigned register :
+                                    1- 1612     ;   STK00
+                                    1- 1613     ;; Starting pCode block
+                                    1- 1614     .segment "code"; module=bsp_rf, function=_RF_Clear_All_Irq
+     0000                           1- 1616     _RF_Clear_All_Irq:
+                                    1- 1617     ; 2 exit points
+                                    1- 1618     	.line	129, "BSP\bsp_rf.c"; 	RF_write_byte(RF_BANK0_STATUS, 0x70);
+     0000 2170                      1- 1619     	MOVIA	0x70
+     0001 00rr                      1- 1620     	MOVAR	STK00
+     0002 2107                      1- 1621     	MOVIA	0x07
+                                    1- 1622     	MCALL	_RF_write_byte
+     0003 2rrr                      3-   65 m1      LCALL rom_address
+                                    1- 1623     	.line	130, "BSP\bsp_rf.c"; 	}
+                                    1- 1624     	RETURN	
+     0004 0010                      3-   39 m1      ret
+                                    1- 1625     ; exit point of _RF_Clear_All_Irq
+                                    1- 1627     ;***
+                                    1- 1628     ;  pBlock Stats: dbName = C
+                                    1- 1629     ;***
+                                    1- 1630     ;has an exit
+                                    1- 1631     ;functions called:
+                                    1- 1632     ;   _RF_Bank_Switch
+                                    1- 1633     ;   __muluchar
+                                    1- 1634     ;   _RF_wr_buffer
+                                    1- 1635     ;   _RF_Bank_Switch
+                                    1- 1636     ;   __gptrget1
+                                    1- 1637     ;   _RF_write_byte
+                                    1- 1638     ;   _RF_Bank_Switch
+                                    1- 1639     ;   __muluchar
+                                    1- 1640     ;   _RF_wr_buffer
+                                    1- 1641     ;   _RF_Bank_Switch
+                                    1- 1642     ;   __gptrget1
+                                    1- 1643     ;   _RF_write_byte
+                                    1- 1644     ;11 compiler assigned registers:
+                                    1- 1645     ;   r0x103C
+                                    1- 1646     ;   STK00
+                                    1- 1647     ;   r0x103D
+                                    1- 1648     ;   r0x103E
+                                    1- 1649     ;   r0x103F
+                                    1- 1650     ;   r0x1040
+                                    1- 1651     ;   r0x1041
+                                    1- 1652     ;   r0x1042
+                                    1- 1653     ;   STK03
+                                    1- 1654     ;   STK02
+                                    1- 1655     ;   STK01
+                                    1- 1656     ;; Starting pCode block
+                                    1- 1657     .segment "code"; module=bsp_rf, function=_RF_Change_Pwr
+                                    1- 1659     ;local variable name mapping:
+     0000                           1- 1662     _RF_Change_Pwr:
+                                    1- 1663     ; 2 exit points
+                                    1- 1664     	.line	77, "BSP\bsp_rf.c"; 	void RF_Change_Pwr(signed char Pwr_dBm)
+                                    1- 1665     	BANKSEL	r0x103C
+     0000 rrrr                      3-  109 m1      .banksel ram_address
+     0001 00rr                      1- 1666     	MOVAR	r0x103C
+                                    1- 1667     	.line	81, "BSP\bsp_rf.c"; 	switch(Pwr_dBm)
+     0002 01rr                      1- 1668     	MOVR	r0x103C,W
+     0003 24D5                      1- 1669     	XORIA	0xd5
+     0004 0903                      1- 1670     	BTRSS	STATUS,2
+                                    1- 1671     	MGOTO	_02069_DS_
+     0005 3rrr                      3-   62 m1      LGOTO rom_address
+                                    1- 1672     	MGOTO	_02025_DS_
+     0006 3rrr                      3-   62 m1      LGOTO rom_address
+     0007                           1- 1673     _02069_DS_:
+                                    1- 1674     	BANKSEL	r0x103C
+     0007 rrrr                      3-  109 m1      .banksel ram_address
+     0008 01rr                      1- 1675     	MOVR	r0x103C,W
+     0009 24F0                      1- 1676     	XORIA	0xf0
+     000A 0903                      1- 1677     	BTRSS	STATUS,2
+                                    1- 1678     	MGOTO	_02070_DS_
+     000B 3rrr                      3-   62 m1      LGOTO rom_address
+                                    1- 1679     	MGOTO	_02026_DS_
+     000C 3rrr                      3-   62 m1      LGOTO rom_address
+     000D                           1- 1680     _02070_DS_:
+                                    1- 1681     	BANKSEL	r0x103C
+     000D rrrr                      3-  109 m1      .banksel ram_address
+     000E 01rr                      1- 1682     	MOVR	r0x103C,W
+     000F 24F4                      1- 1683     	XORIA	0xf4
+     0010 0903                      1- 1684     	BTRSS	STATUS,2
+                                    1- 1685     	MGOTO	_02071_DS_
+     0011 3rrr                      3-   62 m1      LGOTO rom_address
+                                    1- 1686     	MGOTO	_02027_DS_
+     0012 3rrr                      3-   62 m1      LGOTO rom_address
+     0013                           1- 1687     _02071_DS_:
+                                    1- 1688     	BANKSEL	r0x103C
+     0013 rrrr                      3-  109 m1      .banksel ram_address
+     0014 01rr                      1- 1689     	MOVR	r0x103C,W
+     0015 24FA                      1- 1690     	XORIA	0xfa
+     0016 0903                      1- 1691     	BTRSS	STATUS,2
+                                    1- 1692     	MGOTO	_02072_DS_
+     0017 3rrr                      3-   62 m1      LGOTO rom_address
+                                    1- 1693     	MGOTO	_02028_DS_
+     0018 3rrr                      3-   62 m1      LGOTO rom_address
+     0019                           1- 1694     _02072_DS_:
+                                    1- 1695     	BANKSEL	r0x103C
+     0019 rrrr                      3-  109 m1      .banksel ram_address
+     001A 01rr                      1- 1696     	MOVR	r0x103C,W
+     001B 0903                      1- 1697     	BTRSS	STATUS,2
+                                    1- 1698     	MGOTO	_02073_DS_
+     001C 3rrr                      3-   62 m1      LGOTO rom_address
+                                    1- 1699     	MGOTO	_02029_DS_
+     001D 3rrr                      3-   62 m1      LGOTO rom_address
+     001E                           1- 1700     _02073_DS_:
+                                    1- 1701     	BANKSEL	r0x103C
+     001E rrrr                      3-  109 m1      .banksel ram_address
+     001F 01rr                      1- 1702     	MOVR	r0x103C,W
+     0020 2404                      1- 1703     	XORIA	0x04
+     0021 0903                      1- 1704     	BTRSS	STATUS,2
+                                    1- 1705     	MGOTO	_02074_DS_
+     0022 3rrr                      3-   62 m1      LGOTO rom_address
+                                    1- 1706     	MGOTO	_02030_DS_
+     0023 3rrr                      3-   62 m1      LGOTO rom_address
+     0024                           1- 1707     _02074_DS_:
+                                    1- 1708     	BANKSEL	r0x103C
+     0024 rrrr                      3-  109 m1      .banksel ram_address
+     0025 01rr                      1- 1709     	MOVR	r0x103C,W
+     0026 2405                      1- 1710     	XORIA	0x05
+     0027 0903                      1- 1711     	BTRSS	STATUS,2
+                                    1- 1712     	MGOTO	_02075_DS_
+     0028 3rrr                      3-   62 m1      LGOTO rom_address
+                                    1- 1713     	MGOTO	_02031_DS_
+     0029 3rrr                      3-   62 m1      LGOTO rom_address
+     002A                           1- 1714     _02075_DS_:
+                                    1- 1715     	BANKSEL	r0x103C
+     002A rrrr                      3-  109 m1      .banksel ram_address
+     002B 01rr                      1- 1716     	MOVR	r0x103C,W
+     002C 2408                      1- 1717     	XORIA	0x08
+     002D 0903                      1- 1718     	BTRSS	STATUS,2
+                                    1- 1719     	MGOTO	_02076_DS_
+     002E 3rrr                      3-   62 m1      LGOTO rom_address
+                                    1- 1720     	MGOTO	_02032_DS_
+     002F 3rrr                      3-   62 m1      LGOTO rom_address
+     0030                           1- 1721     _02076_DS_:
+                                    1- 1722     	MGOTO	_02033_DS_
+     0030 3rrr                      3-   62 m1      LGOTO rom_address
+     0031                           1- 1723     _02025_DS_:
+                                    1- 1724     	.line	84, "BSP\bsp_rf.c"; 	Pwr_Sel = 0;
+                                    1- 1725     	BANKSEL	r0x103C
+     0031 rrrr                      3-  109 m1      .banksel ram_address
+     0032 02rr                      1- 1726     	CLRR	r0x103C
+                                    1- 1727     	.line	85, "BSP\bsp_rf.c"; 	break;
+                                    1- 1728     	MGOTO	_02034_DS_
+     0033 3rrr                      3-   62 m1      LGOTO rom_address
+     0034                           1- 1729     _02026_DS_:
+                                    1- 1730     	.line	88, "BSP\bsp_rf.c"; 	Pwr_Sel = 1;
+     0034 2101                      1- 1731     	MOVIA	0x01
+                                    1- 1732     	BANKSEL	r0x103C
+     0035 rrrr                      3-  109 m1      .banksel ram_address
+     0036 00rr                      1- 1733     	MOVAR	r0x103C
+                                    1- 1734     	.line	89, "BSP\bsp_rf.c"; 	break;
+                                    1- 1735     	MGOTO	_02034_DS_
+     0037 3rrr                      3-   62 m1      LGOTO rom_address
+     0038                           1- 1736     _02027_DS_:
+                                    1- 1737     	.line	92, "BSP\bsp_rf.c"; 	Pwr_Sel = 2;
+     0038 2102                      1- 1738     	MOVIA	0x02
+                                    1- 1739     	BANKSEL	r0x103C
+     0039 rrrr                      3-  109 m1      .banksel ram_address
+     003A 00rr                      1- 1740     	MOVAR	r0x103C
+                                    1- 1741     	.line	93, "BSP\bsp_rf.c"; 	break;
+                                    1- 1742     	MGOTO	_02034_DS_
+     003B 3rrr                      3-   62 m1      LGOTO rom_address
+     003C                           1- 1743     _02028_DS_:
+                                    1- 1744     	.line	96, "BSP\bsp_rf.c"; 	Pwr_Sel = 3;
+     003C 2103                      1- 1745     	MOVIA	0x03
+                                    1- 1746     	BANKSEL	r0x103C
+     003D rrrr                      3-  109 m1      .banksel ram_address
+     003E 00rr                      1- 1747     	MOVAR	r0x103C
+                                    1- 1748     	.line	97, "BSP\bsp_rf.c"; 	break;
+                                    1- 1749     	MGOTO	_02034_DS_
+     003F 3rrr                      3-   62 m1      LGOTO rom_address
+     0040                           1- 1750     _02029_DS_:
+                                    1- 1751     	.line	100, "BSP\bsp_rf.c"; 	Pwr_Sel = 4;
+     0040 2104                      1- 1752     	MOVIA	0x04
+                                    1- 1753     	BANKSEL	r0x103C
+     0041 rrrr                      3-  109 m1      .banksel ram_address
+     0042 00rr                      1- 1754     	MOVAR	r0x103C
+                                    1- 1755     	.line	101, "BSP\bsp_rf.c"; 	break;
+                                    1- 1756     	MGOTO	_02034_DS_
+     0043 3rrr                      3-   62 m1      LGOTO rom_address
+     0044                           1- 1757     _02030_DS_:
+                                    1- 1758     	.line	104, "BSP\bsp_rf.c"; 	Pwr_Sel = 5;
+     0044 2105                      1- 1759     	MOVIA	0x05
+                                    1- 1760     	BANKSEL	r0x103C
+     0045 rrrr                      3-  109 m1      .banksel ram_address
+     0046 00rr                      1- 1761     	MOVAR	r0x103C
+                                    1- 1762     	.line	105, "BSP\bsp_rf.c"; 	break;
+                                    1- 1763     	MGOTO	_02034_DS_
+     0047 3rrr                      3-   62 m1      LGOTO rom_address
+     0048                           1- 1764     _02031_DS_:
+                                    1- 1765     	.line	108, "BSP\bsp_rf.c"; 	Pwr_Sel = 6;
+     0048 2106                      1- 1766     	MOVIA	0x06
+                                    1- 1767     	BANKSEL	r0x103C
+     0049 rrrr                      3-  109 m1      .banksel ram_address
+     004A 00rr                      1- 1768     	MOVAR	r0x103C
+                                    1- 1769     	.line	109, "BSP\bsp_rf.c"; 	break;
+                                    1- 1770     	MGOTO	_02034_DS_
+     004B 3rrr                      3-   62 m1      LGOTO rom_address
+     004C                           1- 1771     _02032_DS_:
+                                    1- 1772     	.line	112, "BSP\bsp_rf.c"; 	Pwr_Sel = 7;
+     004C 2107                      1- 1773     	MOVIA	0x07
+                                    1- 1774     	BANKSEL	r0x103C
+     004D rrrr                      3-  109 m1      .banksel ram_address
+     004E 00rr                      1- 1775     	MOVAR	r0x103C
+                                    1- 1776     	.line	113, "BSP\bsp_rf.c"; 	break;
+                                    1- 1777     	MGOTO	_02034_DS_
+     004F 3rrr                      3-   62 m1      LGOTO rom_address
+     0050                           1- 1778     _02033_DS_:
+                                    1- 1779     	.line	116, "BSP\bsp_rf.c"; 	Pwr_Sel = 4;
+     0050 2104                      1- 1780     	MOVIA	0x04
+                                    1- 1781     	BANKSEL	r0x103C
+     0051 rrrr                      3-  109 m1      .banksel ram_address
+     0052 00rr                      1- 1782     	MOVAR	r0x103C
+     0053                           1- 1783     _02034_DS_:
+                                    1- 1784     	.line	120, "BSP\bsp_rf.c"; 	RF_Bank_Switch(RF_Bank1);
+     0053 2101                      1- 1785     	MOVIA	0x01
+                                    1- 1786     	MCALL	_RF_Bank_Switch
+     0054 2rrr                      3-   65 m1      LCALL rom_address
+                                    1- 1787     	.line	121, "BSP\bsp_rf.c"; 	RF_wr_buffer(RF_BANK1_RF_IVGEN, &RF_Tx_Power[Pwr_Sel][1], 4);
+     0055 2105                      1- 1788     	MOVIA	0x05
+     0056 00rr                      1- 1789     	MOVAR	STK00
+                                    1- 1790     	BANKSEL	r0x103C
+     0057 rrrr                      3-  109 m1      .banksel ram_address
+     0058 01rr                      1- 1791     	MOVR	r0x103C,W
+                                    1- 1792     	MCALL	__muluchar
+     0059 2rrr                      3-   65 m1      LCALL rom_address
+                                    1- 1793     	BANKSEL	r0x103D
+     005A rrrr                      3-  109 m1      .banksel ram_address
+     005B 00rr                      1- 1794     	MOVAR	r0x103D
+     005C 01rr                      1- 1795     	MOVR	STK00,W
+                                    1- 1796     	BANKSEL	r0x103C
+     005D rrrr                      3-  109 m1      .banksel ram_address
+     005E 00rr                      1- 1797     	MOVAR	r0x103C
+     005F 01rr                      1- 1798     	MOVR	r0x103C,W
+     0060 25rr                      1- 1799     	ADDIA	(_RF_Tx_Power + 0)
+     0061 00rr                      1- 1800     	MOVAR	r0x103C
+     0062 21rr                      1- 1801     	MOVIA	((_RF_Tx_Power + 0) >> 8) & 0xff
+                                    1- 1802     	BANKSEL	r0x103D
+     0063 rrrr                      3-  109 m1      .banksel ram_address
+     0064 34rr                      1- 1803     	ADCAR	r0x103D,F
+     0065 2101                      1- 1804     	MOVIA	0x01
+                                    1- 1805     	BANKSEL	r0x103C
+     0066 rrrr                      3-  109 m1      .banksel ram_address
+     0067 03rr                      1- 1806     	ADDAR	r0x103C,W
+                                    1- 1807     	BANKSEL	r0x103E
+     0068 rrrr                      3-  109 m1      .banksel ram_address
+     0069 00rr                      1- 1808     	MOVAR	r0x103E
+     006A 2100                      1- 1809     	MOVIA	0x00
+                                    1- 1810     	BANKSEL	r0x103D
+     006B rrrr                      3-  109 m1      .banksel ram_address
+     006C 34rr                      1- 1811     	ADCAR	r0x103D,W
+                                    1- 1812     	BANKSEL	r0x103F
+     006D rrrr                      3-  109 m1      .banksel ram_address
+     006E 00rr                      1- 1813     	MOVAR	r0x103F
+     006F 01rr                      1- 1814     	MOVR	r0x103F,W
+                                    1- 1815     	BANKSEL	r0x1040
+     0070 rrrr                      3-  109 m1      .banksel ram_address
+     0071 00rr                      1- 1816     	MOVAR	r0x1040
+                                    1- 1817     	BANKSEL	r0x103E
+     0072 rrrr                      3-  109 m1      .banksel ram_address
+     0073 01rr                      1- 1818     	MOVR	r0x103E,W
+                                    1- 1819     	BANKSEL	r0x1041
+     0074 rrrr                      3-  109 m1      .banksel ram_address
+     0075 00rr                      1- 1820     	MOVAR	r0x1041
+     0076 2180                      1- 1821     	MOVIA	0x80
+                                    1- 1822     	BANKSEL	r0x1042
+     0077 rrrr                      3-  109 m1      .banksel ram_address
+     0078 00rr                      1- 1823     	MOVAR	r0x1042
+     0079 2104                      1- 1824     	MOVIA	0x04
+     007A 00rr                      1- 1825     	MOVAR	STK03
+                                    1- 1826     	BANKSEL	r0x1041
+     007B rrrr                      3-  109 m1      .banksel ram_address
+     007C 01rr                      1- 1827     	MOVR	r0x1041,W
+     007D 00rr                      1- 1828     	MOVAR	STK02
+                                    1- 1829     	BANKSEL	r0x1040
+     007E rrrr                      3-  109 m1      .banksel ram_address
+     007F 01rr                      1- 1830     	MOVR	r0x1040,W
+     0080 00rr                      1- 1831     	MOVAR	STK01
+                                    1- 1832     	BANKSEL	r0x1042
+     0081 rrrr                      3-  109 m1      .banksel ram_address
+     0082 01rr                      1- 1833     	MOVR	r0x1042,W
+     0083 00rr                      1- 1834     	MOVAR	STK00
+     0084 211E                      1- 1835     	MOVIA	0x1e
+                                    1- 1836     	MCALL	_RF_wr_buffer
+     0085 2rrr                      3-   65 m1      LCALL rom_address
+                                    1- 1837     	.line	122, "BSP\bsp_rf.c"; 	RF_Bank_Switch(RF_Bank0);
+     0086 2100                      1- 1838     	MOVIA	0x00
+                                    1- 1839     	MCALL	_RF_Bank_Switch
+     0087 2rrr                      3-   65 m1      LCALL rom_address
+                                    1- 1840     	.line	123, "BSP\bsp_rf.c"; 	RF_write_byte(RF_BANK0_RF_SETUP, RF_Tx_Power[Pwr_Sel][0]);
+                                    1- 1841     	BANKSEL	r0x103C
+     0088 rrrr                      3-  109 m1      .banksel ram_address
+     0089 01rr                      1- 1842     	MOVR	r0x103C,W
+     008A 00rr                      1- 1843     	MOVAR	STK01
+                                    1- 1844     	BANKSEL	r0x103D
+     008B rrrr                      3-  109 m1      .banksel ram_address
+     008C 01rr                      1- 1845     	MOVR	r0x103D,W
+     008D 00rr                      1- 1846     	MOVAR	STK00
+     008E 2180                      1- 1847     	MOVIA	0x80
+                                    1- 1848     	MCALL	__gptrget1
+     008F 2rrr                      3-   65 m1      LCALL rom_address
+                                    1- 1849     	BANKSEL	r0x103E
+     0090 rrrr                      3-  109 m1      .banksel ram_address
+     0091 00rr                      1- 1850     	MOVAR	r0x103E
+     0092 01rr                      1- 1851     	MOVR	r0x103E,W
+     0093 00rr                      1- 1852     	MOVAR	STK00
+     0094 2106                      1- 1853     	MOVIA	0x06
+                                    1- 1854     	MCALL	_RF_write_byte
+     0095 2rrr                      3-   65 m1      LCALL rom_address
+                                    1- 1855     	.line	124, "BSP\bsp_rf.c"; 	}
+                                    1- 1856     	RETURN	
+     0096 0010                      3-   39 m1      ret
+                                    1- 1857     ; exit point of _RF_Change_Pwr
+                                    1- 1859     ;***
+                                    1- 1860     ;  pBlock Stats: dbName = C
+                                    1- 1861     ;***
+                                    1- 1862     ;has an exit
+                                    1- 1863     ;functions called:
+                                    1- 1864     ;   _RF_write_byte
+                                    1- 1865     ;   _RF_write_byte
+                                    1- 1866     ;2 compiler assigned registers:
+                                    1- 1867     ;   r0x1043
+                                    1- 1868     ;   STK00
+                                    1- 1869     ;; Starting pCode block
+                                    1- 1870     .segment "code"; module=bsp_rf, function=_RF_Change_CH
+                                    1- 1872     ;local variable name mapping:
+     0000                           1- 1874     _RF_Change_CH:
+                                    1- 1875     ; 2 exit points
+                                    1- 1876     	.line	69, "BSP\bsp_rf.c"; 	void RF_Change_CH(unsigned char ch_index)
+                                    1- 1877     	BANKSEL	r0x1043
+     0000 rrrr                      3-  109 m1      .banksel ram_address
+     0001 00rr                      1- 1878     	MOVAR	r0x1043
+                                    1- 1879     	.line	71, "BSP\bsp_rf.c"; 	RF_write_byte(RF_BANK0_RF_CH, ch_index);
+     0002 01rr                      1- 1880     	MOVR	r0x1043,W
+     0003 00rr                      1- 1881     	MOVAR	STK00
+     0004 2105                      1- 1882     	MOVIA	0x05
+                                    1- 1883     	MCALL	_RF_write_byte
+     0005 2rrr                      3-   65 m1      LCALL rom_address
+                                    1- 1884     	.line	72, "BSP\bsp_rf.c"; 	}
+                                    1- 1885     	RETURN	
+     0006 0010                      3-   39 m1      ret
+                                    1- 1886     ; exit point of _RF_Change_CH
+                                    1- 1888     ;***
+                                    1- 1889     ;  pBlock Stats: dbName = C
+                                    1- 1890     ;***
+                                    1- 1891     ;has an exit
+                                    1- 1892     ;functions called:
+                                    1- 1893     ;   _RF_wr_buffer
+                                    1- 1894     ;   _RF_wr_buffer
+                                    1- 1895     ;   _RF_wr_buffer
+                                    1- 1896     ;   _RF_wr_buffer
+                                    1- 1897     ;8 compiler assigned registers:
+                                    1- 1898     ;   r0x1044
+                                    1- 1899     ;   STK00
+                                    1- 1900     ;   r0x1045
+                                    1- 1901     ;   STK01
+                                    1- 1902     ;   r0x1046
+                                    1- 1903     ;   STK02
+                                    1- 1904     ;   r0x1047
+                                    1- 1905     ;   STK03
+                                    1- 1906     ;; Starting pCode block
+                                    1- 1907     .segment "code"; module=bsp_rf, function=_RF_ChangeAddr_Reg
+                                    1- 1909     ;local variable name mapping:
+     0000                           1- 1912     _RF_ChangeAddr_Reg:
+                                    1- 1913     ; 2 exit points
+                                    1- 1914     	.line	58, "BSP\bsp_rf.c"; 	void RF_ChangeAddr_Reg(unsigned char* AddrBuf,unsigned char len)
+                                    1- 1915     	BANKSEL	r0x1044
+     0000 rrrr                      3-  109 m1      .banksel ram_address
+     0001 00rr                      1- 1916     	MOVAR	r0x1044
+     0002 01rr                      1- 1917     	MOVR	STK00,W
+                                    1- 1918     	BANKSEL	r0x1045
+     0003 rrrr                      3-  109 m1      .banksel ram_address
+     0004 00rr                      1- 1919     	MOVAR	r0x1045
+     0005 01rr                      1- 1920     	MOVR	STK01,W
+                                    1- 1921     	BANKSEL	r0x1046
+     0006 rrrr                      3-  109 m1      .banksel ram_address
+     0007 00rr                      1- 1922     	MOVAR	r0x1046
+     0008 01rr                      1- 1923     	MOVR	STK02,W
+                                    1- 1924     	BANKSEL	r0x1047
+     0009 rrrr                      3-  109 m1      .banksel ram_address
+     000A 00rr                      1- 1925     	MOVAR	r0x1047
+                                    1- 1926     	.line	60, "BSP\bsp_rf.c"; 	RF_wr_buffer(RF_BANK0_RX_ADDR_P0, AddrBuf, len);
+     000B 01rr                      1- 1927     	MOVR	r0x1047,W
+     000C 00rr                      1- 1928     	MOVAR	STK03
+                                    1- 1929     	BANKSEL	r0x1046
+     000D rrrr                      3-  109 m1      .banksel ram_address
+     000E 01rr                      1- 1930     	MOVR	r0x1046,W
+     000F 00rr                      1- 1931     	MOVAR	STK02
+                                    1- 1932     	BANKSEL	r0x1045
+     0010 rrrr                      3-  109 m1      .banksel ram_address
+     0011 01rr                      1- 1933     	MOVR	r0x1045,W
+     0012 00rr                      1- 1934     	MOVAR	STK01
+                                    1- 1935     	BANKSEL	r0x1044
+     0013 rrrr                      3-  109 m1      .banksel ram_address
+     0014 01rr                      1- 1936     	MOVR	r0x1044,W
+     0015 00rr                      1- 1937     	MOVAR	STK00
+     0016 210A                      1- 1938     	MOVIA	0x0a
+                                    1- 1939     	MCALL	_RF_wr_buffer
+     0017 2rrr                      3-   65 m1      LCALL rom_address
+                                    1- 1940     	.line	61, "BSP\bsp_rf.c"; 	RF_wr_buffer(RF_BANK0_TX_ADDR, AddrBuf,len);
+                                    1- 1941     	BANKSEL	r0x1047
+     0018 rrrr                      3-  109 m1      .banksel ram_address
+     0019 01rr                      1- 1942     	MOVR	r0x1047,W
+     001A 00rr                      1- 1943     	MOVAR	STK03
+                                    1- 1944     	BANKSEL	r0x1046
+     001B rrrr                      3-  109 m1      .banksel ram_address
+     001C 01rr                      1- 1945     	MOVR	r0x1046,W
+     001D 00rr                      1- 1946     	MOVAR	STK02
+                                    1- 1947     	BANKSEL	r0x1045
+     001E rrrr                      3-  109 m1      .banksel ram_address
+     001F 01rr                      1- 1948     	MOVR	r0x1045,W
+     0020 00rr                      1- 1949     	MOVAR	STK01
+                                    1- 1950     	BANKSEL	r0x1044
+     0021 rrrr                      3-  109 m1      .banksel ram_address
+     0022 01rr                      1- 1951     	MOVR	r0x1044,W
+     0023 00rr                      1- 1952     	MOVAR	STK00
+     0024 2110                      1- 1953     	MOVIA	0x10
+                                    1- 1954     	MCALL	_RF_wr_buffer
+     0025 2rrr                      3-   65 m1      LCALL rom_address
+                                    1- 1955     	.line	62, "BSP\bsp_rf.c"; 	}
+                                    1- 1956     	RETURN	
+     0026 0010                      3-   39 m1      ret
+                                    1- 1957     ; exit point of _RF_ChangeAddr_Reg
+                                    1- 1959     ;***
+                                    1- 1960     ;  pBlock Stats: dbName = C
+                                    1- 1961     ;***
+                                    1- 1962     ;has an exit
+                                    1- 1963     ;functions called:
+                                    1- 1964     ;   _RF_read_byte
+                                    1- 1965     ;   _RF_wr_cmd
+                                    1- 1966     ;   _RF_wr_cmd
+                                    1- 1967     ;   _RF_read_byte
+                                    1- 1968     ;   _RF_wr_cmd
+                                    1- 1969     ;   _RF_wr_cmd
+                                    1- 1970     ;3 compiler assigned registers:
+                                    1- 1971     ;   r0x1007
+                                    1- 1972     ;   r0x1008
+                                    1- 1973     ;   STK00
+                                    1- 1974     ;; Starting pCode block
+                                    1- 1975     .segment "code"; module=bsp_rf, function=_RF_Bank_Switch
+                                    1- 1977     ;local variable name mapping:
+     0000                           1- 1980     _RF_Bank_Switch:
+                                    1- 1981     ; 2 exit points
+                                    1- 1982     	.line	29, "BSP\bsp_rf.c"; 	void RF_Bank_Switch(RF_Bank_TypeDef bank)
+                                    1- 1983     	BANKSEL	r0x1007
+     0000 rrrr                      3-  109 m1      .banksel ram_address
+     0001 00rr                      1- 1984     	MOVAR	r0x1007
+                                    1- 1985     	.line	34, "BSP\bsp_rf.c"; 	sta = RF_read_byte(RF_BANK0_STATUS);
+     0002 2107                      1- 1986     	MOVIA	0x07
+                                    1- 1987     	MCALL	_RF_read_byte
+     0003 2rrr                      3-   65 m1      LCALL rom_address
+                                    1- 1988     	BANKSEL	r0x1008
+     0004 rrrr                      3-  109 m1      .banksel ram_address
+     0005 00rr                      1- 1989     	MOVAR	r0x1008
+                                    1- 1990     	.line	36, "BSP\bsp_rf.c"; 	if(bank!= RF_BANK0)
+                                    1- 1991     	BANKSEL	r0x1007
+     0006 rrrr                      3-  109 m1      .banksel ram_address
+     0007 01rr                      1- 1992     	MOVR	r0x1007,W
+     0008 0D03                      1- 1993     	BTRSC	STATUS,2
+                                    1- 1994     	MGOTO	_02010_DS_
+     0009 3rrr                      3-   62 m1      LGOTO rom_address
+                                    1- 1995     	.line	39, "BSP\bsp_rf.c"; 	if(!(sta & RF_BANK1))
+                                    1- 1996     	BANKSEL	r0x1008
+     000A rrrr                      3-  109 m1      .banksel ram_address
+     000B 0Frr                      1- 1997     	BTRSC	r0x1008,7
+                                    1- 1998     	MGOTO	_02012_DS_
+     000C 3rrr                      3-   62 m1      LGOTO rom_address
+                                    1- 1999     	.line	42, "BSP\bsp_rf.c"; 	RF_wr_cmd(RF_ACTIVATE, RF_ACTIVATE_DATA);
+     000D 2153                      1- 2000     	MOVIA	0x53
+     000E 00rr                      1- 2001     	MOVAR	STK00
+     000F 2150                      1- 2002     	MOVIA	0x50
+                                    1- 2003     	MCALL	_RF_wr_cmd
+     0010 2rrr                      3-   65 m1      LCALL rom_address
+                                    1- 2004     	MGOTO	_02012_DS_
+     0011 3rrr                      3-   62 m1      LGOTO rom_address
+     0012                           1- 2005     _02010_DS_:
+                                    1- 2006     	.line	48, "BSP\bsp_rf.c"; 	if(sta & RF_BANK1)
+                                    1- 2007     	BANKSEL	r0x1008
+     0012 rrrr                      3-  109 m1      .banksel ram_address
+     0013 0Brr                      1- 2008     	BTRSS	r0x1008,7
+                                    1- 2009     	MGOTO	_02012_DS_
+     0014 3rrr                      3-   62 m1      LGOTO rom_address
+                                    1- 2010     	.line	51, "BSP\bsp_rf.c"; 	RF_wr_cmd(RF_ACTIVATE, RF_ACTIVATE_DATA);
+     0015 2153                      1- 2011     	MOVIA	0x53
+     0016 00rr                      1- 2012     	MOVAR	STK00
+     0017 2150                      1- 2013     	MOVIA	0x50
+                                    1- 2014     	MCALL	_RF_wr_cmd
+     0018 2rrr                      3-   65 m1      LCALL rom_address
+     0019                           1- 2015     _02012_DS_:
+                                    1- 2016     	.line	54, "BSP\bsp_rf.c"; 	}
+                                    1- 2017     	RETURN	
+     0019 0010                      3-   39 m1      ret
+                                    1- 2018     ; exit point of _RF_Bank_Switch
+                                    1- 2021     ;	code size estimation:
+                                    1- 2022     ;	  587+  217 =   804 instructions ( 2042 byte)
+                                    1- 2024     	end
+
+SYMBOL TABLE            TYPE     VALUE
+__pin_count__           Constant 0000000E
+__processor__           Constant 00800544
+C                       Constant 00000000
+DC                      Constant 00000001
+ENABLE_RAM_BANK         Constant 00000001
+F                       Constant 00000001
+FSR                     Constant 00000004
+INDF                    Constant 00000000
+PCHBUF                  Constant 0000000A
+PCL                     Constant 00000002
+STATUS                  Constant 00000003
+USEFGOTO                Constant 00000000
+W                       Constant 00000000
+Z                       Constant 00000002
+
+
+SOURCE FILE TABLE
+001 OBJ/BSP\bsp_rf.s
+002 ny8a054e.inc
+003 common.inc
+004 BSP\bsp_rf.c
+
+PROCESSOR    = NY8A054E (8 bits)
+PROGRAM ROM  = 0x00000000 - 0x000007FF
+DATA ROM     = 0x00000000 - 0x000007FF
+RESERVED MEM = 0x00000800 - 0x00000810
+SRAM / SFR   = 0x00000000 - 0x00000000
