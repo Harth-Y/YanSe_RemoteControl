@@ -3,7 +3,9 @@
 #include "bsp_delay.h"
 #include "app_tx.h"
 //#include "bsp_usart.h"
-
+unsigned char rolling_code_0;
+unsigned char rolling_code_1;
+unsigned char rolling_code_2;
 volatile unsigned char key_status_change = 0;
 volatile unsigned char one_key_twice_dowm = 0;
 static unsigned char CS1630_Tx_Payload[32] = {
@@ -55,7 +57,9 @@ void send_ble_packet(unsigned char code_value, unsigned char send_times, unsigne
     // 构建数据包
     CS1630_Tx_Payload[7] = Serial_Number; // 序号，用于区分不同数据包
     CS1630_Tx_Payload[8] = code_value; // 码值，用于指示功能
-
+    CS1630_Tx_Payload[11] = rolling_code_0; // 码值，用于指示功能
+    CS1630_Tx_Payload[12] = rolling_code_1; // 码值，用于指示功能
+    CS1630_Tx_Payload[13] = rolling_code_2; // 码值，用于指示功能
     // 重置CE，清空TX缓冲区，清除所有中断
     CS1630_CE_Low();
     CS1630_Flush_Tx();

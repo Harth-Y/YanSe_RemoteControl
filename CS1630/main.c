@@ -6,6 +6,7 @@
 #include "bsp_delay.h"
 #include "key.h"
 #include "app_tx.h"
+#include "rom.h"
 //#include "bsp_usart.h"
 
 #define UPDATE_REG(x)  __asm__("MOVR _" #x ",F")
@@ -76,7 +77,9 @@ void main(void)
   unsigned char Code_Value = 0;
   unsigned char old_key_status = 0;
   key_status_change = 0;
-
+  extern unsigned char rolling_code_0 = get_rolling_code_0();
+  extern unsigned char rolling_code_1 = get_rolling_code_1();
+  extern unsigned char rolling_code_2 = get_rolling_code_2();
   while (1)
   {
     CLRWDT();

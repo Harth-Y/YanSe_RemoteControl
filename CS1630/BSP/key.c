@@ -16,6 +16,7 @@ void set_PA_low(void)
     PORTAbits.PA4 = 0;
     PORTAbits.PA5 = 0;
 }
+
 void set_PB_low(void)
 {
     PORTBbits.PB0 = 0;
