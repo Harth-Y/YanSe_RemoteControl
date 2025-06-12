@@ -37,6 +37,7 @@
 	extern	_RF_softSPI_Init
 	extern	_clear_ram
 	extern	_multi_16b
+	extern	_multi_8b
 	extern	_RF_Init
 	extern	_RF_wr_cmd
 	extern	_RF_write_byte
@@ -160,41 +161,29 @@
 	extern	_PORTA
 	extern	_one_key_twice_dowm
 	extern	_key_status_change
-	extern	_rolling_code_3
-	extern	_rolling_code_2
-	extern	_rolling_code_1
-	extern	_rolling_code_0
 	extern	_send_ble_packet
 
 ;--------------------------------------------------------
 ; global definitions
 ;--------------------------------------------------------
-.segment "uninit"
-_rolling_code_0:
-	.res 1
-	.debuginfo complex-type (symbol "_rolling_code_0" 1 global "BSP\app_tx.c" 6 (basetype 1 unsigned))
-
-.segment "uninit"
-_rolling_code_1:
-	.res 1
-	.debuginfo complex-type (symbol "_rolling_code_1" 1 global "BSP\app_tx.c" 7 (basetype 1 unsigned))
-
-.segment "uninit"
-_rolling_code_2:
-	.res 1
-	.debuginfo complex-type (symbol "_rolling_code_2" 1 global "BSP\app_tx.c" 8 (basetype 1 unsigned))
-
-.segment "uninit"
-_rolling_code_3:
-	.res 1
-	.debuginfo complex-type (symbol "_rolling_code_3" 1 global "BSP\app_tx.c" 9 (basetype 1 unsigned))
-
 ;--------------------------------------------------------
 ; absolute symbol definitions
 ;--------------------------------------------------------
 ;--------------------------------------------------------
 ; compiler-defined variables
 ;--------------------------------------------------------
+.segment "uninit"
+r0x1022:
+	.res	1
+.segment "uninit"
+r0x1023:
+	.res	1
+.segment "uninit"
+r0x1024:
+	.res	1
+.segment "uninit"
+r0x1025:
+	.res	1
 .segment "uninit"
 r0x1026:
 	.res	1
@@ -207,39 +196,27 @@ r0x1028:
 .segment "uninit"
 r0x1029:
 	.res	1
-.segment "uninit"
-r0x102A:
-	.res	1
-.segment "uninit"
-r0x102B:
-	.res	1
-.segment "uninit"
-r0x102C:
-	.res	1
-.segment "uninit"
-r0x102D:
-	.res	1
 ;--------------------------------------------------------
 ; initialized data
 ;--------------------------------------------------------
 
 .segment "idata"
 _key_status_change:
-	.debuginfo complex-type (symbol "_key_status_change" 1 global "BSP\app_tx.c" 10 (basetype 1 unsigned))
+	.debuginfo complex-type (symbol "_key_status_change" 1 global "BSP\app_tx.c" 7 (basetype 1 unsigned))
 
 	dw	0x00	; 0
 
 
 .segment "idata"
 _one_key_twice_dowm:
-	.debuginfo complex-type (symbol "_one_key_twice_dowm" 1 global "BSP\app_tx.c" 11 (basetype 1 unsigned))
+	.debuginfo complex-type (symbol "_one_key_twice_dowm" 1 global "BSP\app_tx.c" 8 (basetype 1 unsigned))
 
 	dw	0x00	; 0
 
 
 .segment "idata"
 _CS1630_Tx_Payload:
-	.debuginfo complex-type (symbol "_CS1630_Tx_Payload" 32 local "BSP\app_tx.c" 12 (array 32 (basetype 1 unsigned)))
+	.debuginfo complex-type (symbol "_CS1630_Tx_Payload" 32 local "BSP\app_tx.c" 9 (array 32 (basetype 1 unsigned)))
 
 	dw	0x02	; 2
 	dw	0x01	; 1
@@ -336,369 +313,349 @@ _channel_index:
 ;   _CS1630_write_byte
 ;   _delay_ms
 ;12 compiler assigned registers:
-;   r0x1026
+;   r0x1022
 ;   STK00
-;   r0x1027
+;   r0x1023
 ;   STK01
-;   r0x1028
-;   r0x1029
-;   r0x102A
-;   r0x102B
+;   r0x1024
+;   r0x1025
+;   r0x1026
+;   r0x1027
 ;   STK03
 ;   STK02
-;   r0x102C
-;   r0x102D
+;   r0x1028
+;   r0x1029
 ;; Starting pCode block
 .segment "code"; module=app_tx, function=_send_ble_packet
 	.debuginfo subprogram _send_ble_packet
 ;local variable name mapping:
-	.debuginfo complex-type (local-sym "_code_value" 1 "BSP\app_tx.c" 40 (basetype 1 unsigned) split "r0x1026")
-	.debuginfo complex-type (local-sym "_send_times" 1 "BSP\app_tx.c" 40 (basetype 1 unsigned) split "r0x1027")
-	.debuginfo complex-type (local-sym "_Serial_Number" 1 "BSP\app_tx.c" 40 (basetype 1 unsigned) split "r0x1028")
-	.debuginfo complex-type (local-sym "_idx" 1 "BSP\app_tx.c" 45 (basetype 1 unsigned) split "r0x1026")
-	.debuginfo complex-type (local-sym "_mini_circle" 1 "BSP\app_tx.c" 43 (basetype 1 unsigned) split "r0x1028")
-	.debuginfo complex-type (local-sym "_status" 1 "BSP\app_tx.c" 46 (basetype 1 unsigned) split "r0x1029")
-	.debuginfo complex-type (local-sym "_enter_interput_times" 1 "BSP\app_tx.c" 47 (basetype 1 unsigned) split "r0x1026")
-	.debuginfo complex-type (local-sym "_great_circle" 1 "BSP\app_tx.c" 44 (basetype 1 unsigned) split "r0x1028")
+	.debuginfo complex-type (local-sym "_code_value" 1 "BSP\app_tx.c" 37 (basetype 1 unsigned) split "r0x1022")
+	.debuginfo complex-type (local-sym "_send_times" 1 "BSP\app_tx.c" 37 (basetype 1 unsigned) split "r0x1023")
+	.debuginfo complex-type (local-sym "_Serial_Number" 1 "BSP\app_tx.c" 37 (basetype 1 unsigned) split "r0x1024")
+	.debuginfo complex-type (local-sym "_idx" 1 "BSP\app_tx.c" 42 (basetype 1 unsigned) split "r0x1022")
+	.debuginfo complex-type (local-sym "_mini_circle" 1 "BSP\app_tx.c" 40 (basetype 1 unsigned) split "r0x1024")
+	.debuginfo complex-type (local-sym "_status" 1 "BSP\app_tx.c" 43 (basetype 1 unsigned) split "r0x1025")
+	.debuginfo complex-type (local-sym "_enter_interput_times" 1 "BSP\app_tx.c" 44 (basetype 1 unsigned) split "r0x1022")
+	.debuginfo complex-type (local-sym "_great_circle" 1 "BSP\app_tx.c" 41 (basetype 1 unsigned) split "r0x1024")
 _send_ble_packet:
 ; 2 exit points
-	.line	40, "BSP\app_tx.c"; 	void send_ble_packet(unsigned char code_value, unsigned char send_times, unsigned char Serial_Number)
-	BANKSEL	r0x1026
-	MOVAR	r0x1026
+	.line	37, "BSP\app_tx.c"; 	void send_ble_packet(unsigned char code_value, unsigned char send_times, unsigned char Serial_Number)
+	BANKSEL	r0x1022
+	MOVAR	r0x1022
 	MOVR	STK00,W
-	BANKSEL	r0x1027
-	MOVAR	r0x1027
+	BANKSEL	r0x1023
+	MOVAR	r0x1023
 	MOVR	STK01,W
-	BANKSEL	r0x1028
-	MOVAR	r0x1028
-	.line	42, "BSP\app_tx.c"; 	CLRWDT();
+	BANKSEL	r0x1024
+	MOVAR	r0x1024
+	.line	39, "BSP\app_tx.c"; 	CLRWDT();
 	clrwdt
-	.line	50, "BSP\app_tx.c"; 	AWUCON = 0xfc;
+	.line	47, "BSP\app_tx.c"; 	AWUCON = 0xfc;
 	MOVIA	0xfc
 	MOVAR	_AWUCON
-	.line	51, "BSP\app_tx.c"; 	BWUCON = 0x00;
+	.line	48, "BSP\app_tx.c"; 	BWUCON = 0x00;
 	CLRR	_BWUCON
-	.line	52, "BSP\app_tx.c"; 	IOSTA = C_PA2_Input | C_PA3_Input | C_PA4_Input | C_PA5_Input | C_PA6_Input | C_PA7_Input;  // 配置PA2、3、4、5、6、7为输入
+	.line	49, "BSP\app_tx.c"; 	IOSTA = C_PA2_Input | C_PA3_Input | C_PA4_Input | C_PA5_Input | C_PA6_Input | C_PA7_Input;  // 配置PA2、3、4、5、6、7为输入
 	MOVIA	0xfc
 	IOST	_IOSTA
-	.line	53, "BSP\app_tx.c"; 	APHCON = 0b00100011; // 设置2、3、4、6、7上拉
+	.line	50, "BSP\app_tx.c"; 	APHCON = 0b00100011; // 设置2、3、4、6、7上拉
 	MOVIA	0x23
 	IOST	_APHCON
-	.line	55, "BSP\app_tx.c"; 	INTE = C_INT_PABKey;
+	.line	52, "BSP\app_tx.c"; 	INTE = C_INT_PABKey;
 	MOVIA	0x02
 	MOVAR	_INTE
-	.line	56, "BSP\app_tx.c"; 	INTF = 0x00;
+	.line	53, "BSP\app_tx.c"; 	INTF = 0x00;
 	CLRR	_INTF
-	.line	59, "BSP\app_tx.c"; 	CS1630_Tx_Payload[7] = Serial_Number; // 序号，用于区分不同数据包
-	BANKSEL	r0x1028
-	MOVR	r0x1028,W
+	.line	56, "BSP\app_tx.c"; 	CS1630_Tx_Payload[7] = Serial_Number; // 序号，用于区分不同数据包
+	BANKSEL	r0x1024
+	MOVR	r0x1024,W
 	BANKSEL	_CS1630_Tx_Payload
 	MOVAR	(_CS1630_Tx_Payload + 7)
-	.line	60, "BSP\app_tx.c"; 	CS1630_Tx_Payload[8] = code_value; // 码值，用于指示功能
-	BANKSEL	r0x1026
-	MOVR	r0x1026,W
+	.line	57, "BSP\app_tx.c"; 	CS1630_Tx_Payload[8] = code_value; // 码值，用于指示功能
+	BANKSEL	r0x1022
+	MOVR	r0x1022,W
 	BANKSEL	_CS1630_Tx_Payload
 	MOVAR	(_CS1630_Tx_Payload + 8)
-	.line	61, "BSP\app_tx.c"; 	CS1630_Tx_Payload[11] = rolling_code_0; // 码值，用于指示功能
-	BANKSEL	_rolling_code_0
-	MOVR	_rolling_code_0,W
-	BANKSEL	_CS1630_Tx_Payload
-	MOVAR	(_CS1630_Tx_Payload + 11)
-	.line	62, "BSP\app_tx.c"; 	CS1630_Tx_Payload[12] = rolling_code_1; // 码值，用于指示功能
-	BANKSEL	_rolling_code_1
-	MOVR	_rolling_code_1,W
-	BANKSEL	_CS1630_Tx_Payload
-	MOVAR	(_CS1630_Tx_Payload + 12)
-	.line	63, "BSP\app_tx.c"; 	CS1630_Tx_Payload[13] = rolling_code_2; // 码值，用于指示功能
-	BANKSEL	_rolling_code_2
-	MOVR	_rolling_code_2,W
-	BANKSEL	_CS1630_Tx_Payload
-	MOVAR	(_CS1630_Tx_Payload + 13)
-	.line	64, "BSP\app_tx.c"; 	CS1630_Tx_Payload[14] = rolling_code_3; // 码值，用于指示功能
-	BANKSEL	_rolling_code_3
-	MOVR	_rolling_code_3,W
-	BANKSEL	_CS1630_Tx_Payload
-	MOVAR	(_CS1630_Tx_Payload + 14)
-	.line	67, "BSP\app_tx.c"; 	CS1630_CE_Low();
+	.line	61, "BSP\app_tx.c"; 	CS1630_CE_Low();
 	MCALL	_CS1630_CE_Low
-	.line	68, "BSP\app_tx.c"; 	CS1630_Flush_Tx();
+	.line	62, "BSP\app_tx.c"; 	CS1630_Flush_Tx();
 	MCALL	_CS1630_Flush_Tx
-	.line	69, "BSP\app_tx.c"; 	CS1630_Clear_All_Irq();
+	.line	63, "BSP\app_tx.c"; 	CS1630_Clear_All_Irq();
 	MCALL	_CS1630_Clear_All_Irq
-	.line	72, "BSP\app_tx.c"; 	CS1630_write_byte(CS1630_BANK0_CONFIG, 0x0f);
+	.line	66, "BSP\app_tx.c"; 	CS1630_write_byte(CS1630_BANK0_CONFIG, 0x0f);
 	MOVIA	0x0f
 	MOVAR	STK00
 	MOVIA	0x00
 	MCALL	_CS1630_write_byte
-	.line	73, "BSP\app_tx.c"; 	delay_ms(5);
+	.line	67, "BSP\app_tx.c"; 	delay_ms(5);
 	MOVIA	0x05
 	MCALL	_delay_ms
-	.line	75, "BSP\app_tx.c"; 	CLRWDT();
+	.line	69, "BSP\app_tx.c"; 	CLRWDT();
 	clrwdt
-	.line	76, "BSP\app_tx.c"; 	PB4 = 1;
+	.line	70, "BSP\app_tx.c"; 	PB4 = 1;
 	BANKSEL	_PORTB
 	BSR	_PORTB,4
-	.line	78, "BSP\app_tx.c"; 	for(idx = 0; idx < 3; idx++)
-	BANKSEL	r0x1026
-	CLRR	r0x1026
+	.line	72, "BSP\app_tx.c"; 	for(idx = 0; idx < 3; idx++)
+	BANKSEL	r0x1022
+	CLRR	r0x1022
 _02028_DS_:
-	.line	80, "BSP\app_tx.c"; 	CLRWDT();
+	.line	74, "BSP\app_tx.c"; 	CLRWDT();
 	clrwdt
-	.line	81, "BSP\app_tx.c"; 	CS1630_write_byte(CS1630_BANK0_RF_CH, channel_index[idx]); // 设置射频频道
-	BANKSEL	r0x1026
-	MOVR	r0x1026,W
+	.line	75, "BSP\app_tx.c"; 	CS1630_write_byte(CS1630_BANK0_RF_CH, channel_index[idx]); // 设置射频频道
+	BANKSEL	r0x1022
+	MOVR	r0x1022,W
 	ADDIA	(_channel_index + 0)
-	BANKSEL	r0x1028
-	MOVAR	r0x1028
+	BANKSEL	r0x1024
+	MOVAR	r0x1024
 	MOVIA	((_channel_index + 0) >> 8) & 0xff
 	ADCIA	0x00
+	BANKSEL	r0x1025
+	MOVAR	r0x1025
+	BANKSEL	r0x1024
+	MOVR	r0x1024,W
+	MOVAR	STK01
+	BANKSEL	r0x1025
+	MOVR	r0x1025,W
+	MOVAR	STK00
+	MOVIA	0x80
+	MCALL	__gptrget1
+	BANKSEL	r0x1026
+	MOVAR	r0x1026
+	MOVR	r0x1026,W
+	MOVAR	STK00
+	MOVIA	0x05
+	MCALL	_CS1630_write_byte
+	.line	76, "BSP\app_tx.c"; 	for(mini_circle = 0; mini_circle < 3; mini_circle++)
+	BANKSEL	r0x1024
+	CLRR	r0x1024
+_02026_DS_:
+	.line	78, "BSP\app_tx.c"; 	CS1630_SendPack(RF_W_TX_PAYLOAD, CS1630_Tx_Payload, 0x14); // 发送数据包
+	MOVIA	(_CS1630_Tx_Payload + 0)
+	BANKSEL	r0x1025
+	MOVAR	r0x1025
+	BANKSEL	r0x1026
+	CLRR	r0x1026
+	BANKSEL	r0x1027
+	CLRR	r0x1027
+	MOVIA	0x14
+	MOVAR	STK03
+	BANKSEL	r0x1025
+	MOVR	r0x1025,W
+	MOVAR	STK02
+	BANKSEL	r0x1026
+	MOVR	r0x1026,W
+	MOVAR	STK01
+	BANKSEL	r0x1027
+	MOVR	r0x1027,W
+	MOVAR	STK00
+	MOVIA	0xa0
+	MCALL	_CS1630_SendPack
+	.line	79, "BSP\app_tx.c"; 	CS1630_CE_High(); // 产生CE脉冲，开始发送
+	MCALL	_CS1630_CE_High
+	.line	80, "BSP\app_tx.c"; 	delay_40us(); // 等待脉冲稳定
+	MCALL	_delay_40us
+	.line	81, "BSP\app_tx.c"; 	CS1630_CE_Low(); // 结束脉冲
+	MCALL	_CS1630_CE_Low
+_02009_DS_:
+	.line	85, "BSP\app_tx.c"; 	status = CS1630_read_byte(CS1630_BANK0_STATUS); // 读取状态寄存器
+	MOVIA	0x07
+	MCALL	_CS1630_read_byte
+	BANKSEL	r0x1025
+	MOVAR	r0x1025
+	.line	86, "BSP\app_tx.c"; 	if ((TX_DS & status) || (MAX_RT & status)) // 检查发送完成或重传达到最大次数
+	BTRSC	r0x1025,5
+	MGOTO	_02005_DS_
+	BTRSS	r0x1025,4
+	MGOTO	_02009_DS_
+_02005_DS_:
+	.line	88, "BSP\app_tx.c"; 	CS1630_write_byte(CS1630_BANK0_STATUS, status); // 清除状态
+	BANKSEL	r0x1025
+	MOVR	r0x1025,W
+	MOVAR	STK00
+	MOVIA	0x07
+	MCALL	_CS1630_write_byte
+	.line	76, "BSP\app_tx.c"; 	for(mini_circle = 0; mini_circle < 3; mini_circle++)
+	BANKSEL	r0x1024
+	INCR	r0x1024,F
+;;unsigned compare: left < lit(0x3=3), size=1
+	MOVIA	0x03
+	SUBAR	r0x1024,W
+	BTRSS	STATUS,0
+	MGOTO	_02026_DS_
+	.line	72, "BSP\app_tx.c"; 	for(idx = 0; idx < 3; idx++)
+	BANKSEL	r0x1022
+	INCR	r0x1022,F
+;;unsigned compare: left < lit(0x3=3), size=1
+	MOVIA	0x03
+	SUBAR	r0x1022,W
+	BTRSS	STATUS,0
+	MGOTO	_02028_DS_
+	.line	94, "BSP\app_tx.c"; 	PB4 = 0;
+	BANKSEL	_PORTB
+	BCR	_PORTB,4
+	.line	95, "BSP\app_tx.c"; 	key_status_change = 0;
+	BANKSEL	_key_status_change
+	CLRR	_key_status_change
+	.line	97, "BSP\app_tx.c"; 	for(great_circle = 0; great_circle < send_times; great_circle++)
+	BANKSEL	r0x1022
+	CLRR	r0x1022
+	BANKSEL	r0x1024
+	CLRR	r0x1024
+_02035_DS_:
+	BANKSEL	r0x1023
+	MOVR	r0x1023,W
+	BANKSEL	r0x1024
+	SUBAR	r0x1024,W
+	BTRSC	STATUS,0
+	MGOTO	_02025_DS_
+	.line	99, "BSP\app_tx.c"; 	CLRWDT();
+	clrwdt
+	.line	101, "BSP\app_tx.c"; 	for(idx = 0; idx < 3; idx++)
+	BANKSEL	r0x1025
+	CLRR	r0x1025
+_02032_DS_:
+	.line	103, "BSP\app_tx.c"; 	CLRWDT();
+	clrwdt
+	.line	104, "BSP\app_tx.c"; 	CS1630_write_byte(CS1630_BANK0_RF_CH, channel_index[idx]); // 设置射频频道
+	BANKSEL	r0x1025
+	MOVR	r0x1025,W
+	ADDIA	(_channel_index + 0)
+	BANKSEL	r0x1026
+	MOVAR	r0x1026
+	MOVIA	((_channel_index + 0) >> 8) & 0xff
+	ADCIA	0x00
+	BANKSEL	r0x1027
+	MOVAR	r0x1027
+	BANKSEL	r0x1026
+	MOVR	r0x1026,W
+	MOVAR	STK01
+	BANKSEL	r0x1027
+	MOVR	r0x1027,W
+	MOVAR	STK00
+	MOVIA	0x80
+	MCALL	__gptrget1
+	BANKSEL	r0x1028
+	MOVAR	r0x1028
+	MOVR	r0x1028,W
+	MOVAR	STK00
+	MOVIA	0x05
+	MCALL	_CS1630_write_byte
+	.line	105, "BSP\app_tx.c"; 	for(mini_circle = 0; mini_circle < 3; mini_circle++)
+	BANKSEL	r0x1026
+	CLRR	r0x1026
+_02030_DS_:
+	.line	107, "BSP\app_tx.c"; 	CS1630_SendPack(RF_W_TX_PAYLOAD, CS1630_Tx_Payload, 0x14); // 发送数据包
+	MOVIA	(_CS1630_Tx_Payload + 0)
+	BANKSEL	r0x1027
+	MOVAR	r0x1027
+	BANKSEL	r0x1028
+	CLRR	r0x1028
 	BANKSEL	r0x1029
-	MOVAR	r0x1029
+	CLRR	r0x1029
+	MOVIA	0x14
+	MOVAR	STK03
+	BANKSEL	r0x1027
+	MOVR	r0x1027,W
+	MOVAR	STK02
 	BANKSEL	r0x1028
 	MOVR	r0x1028,W
 	MOVAR	STK01
 	BANKSEL	r0x1029
 	MOVR	r0x1029,W
 	MOVAR	STK00
-	MOVIA	0x80
-	MCALL	__gptrget1
-	BANKSEL	r0x102A
-	MOVAR	r0x102A
-	MOVR	r0x102A,W
-	MOVAR	STK00
-	MOVIA	0x05
-	MCALL	_CS1630_write_byte
-	.line	82, "BSP\app_tx.c"; 	for(mini_circle = 0; mini_circle < 3; mini_circle++)
-	BANKSEL	r0x1028
-	CLRR	r0x1028
-_02026_DS_:
-	.line	84, "BSP\app_tx.c"; 	CS1630_SendPack(RF_W_TX_PAYLOAD, CS1630_Tx_Payload, 0x14); // 发送数据包
-	MOVIA	(_CS1630_Tx_Payload + 0)
-	BANKSEL	r0x1029
-	MOVAR	r0x1029
-	BANKSEL	r0x102A
-	CLRR	r0x102A
-	BANKSEL	r0x102B
-	CLRR	r0x102B
-	MOVIA	0x14
-	MOVAR	STK03
-	BANKSEL	r0x1029
-	MOVR	r0x1029,W
-	MOVAR	STK02
-	BANKSEL	r0x102A
-	MOVR	r0x102A,W
-	MOVAR	STK01
-	BANKSEL	r0x102B
-	MOVR	r0x102B,W
-	MOVAR	STK00
 	MOVIA	0xa0
 	MCALL	_CS1630_SendPack
-	.line	85, "BSP\app_tx.c"; 	CS1630_CE_High(); // 产生CE脉冲，开始发送
+	.line	109, "BSP\app_tx.c"; 	CS1630_CE_High(); // 产生CE脉冲，开始发送
 	MCALL	_CS1630_CE_High
-	.line	86, "BSP\app_tx.c"; 	delay_40us(); // 等待脉冲稳定
+	.line	110, "BSP\app_tx.c"; 	delay_40us(); // 等待脉冲稳定
 	MCALL	_delay_40us
-	.line	87, "BSP\app_tx.c"; 	CS1630_CE_Low(); // 结束脉冲
+	.line	111, "BSP\app_tx.c"; 	CS1630_CE_Low(); // 结束脉冲
 	MCALL	_CS1630_CE_Low
-_02009_DS_:
-	.line	91, "BSP\app_tx.c"; 	status = CS1630_read_byte(CS1630_BANK0_STATUS); // 读取状态寄存器
+_02017_DS_:
+	.line	115, "BSP\app_tx.c"; 	status = CS1630_read_byte(CS1630_BANK0_STATUS); // 读取状态寄存器
 	MOVIA	0x07
 	MCALL	_CS1630_read_byte
-	BANKSEL	r0x1029
-	MOVAR	r0x1029
-	.line	92, "BSP\app_tx.c"; 	if ((TX_DS & status) || (MAX_RT & status)) // 检查发送完成或重传达到最大次数
-	BTRSC	r0x1029,5
-	MGOTO	_02005_DS_
-	BTRSS	r0x1029,4
-	MGOTO	_02009_DS_
-_02005_DS_:
-	.line	94, "BSP\app_tx.c"; 	CS1630_write_byte(CS1630_BANK0_STATUS, status); // 清除状态
-	BANKSEL	r0x1029
-	MOVR	r0x1029,W
+	BANKSEL	r0x1027
+	MOVAR	r0x1027
+	.line	116, "BSP\app_tx.c"; 	if ((TX_DS & status) || (MAX_RT & status)) // 检查发送完成或重传达到最大次数
+	BTRSC	r0x1027,5
+	MGOTO	_02013_DS_
+	BTRSS	r0x1027,4
+	MGOTO	_02017_DS_
+_02013_DS_:
+	.line	118, "BSP\app_tx.c"; 	CS1630_write_byte(CS1630_BANK0_STATUS, status); // 清除状态
+	BANKSEL	r0x1027
+	MOVR	r0x1027,W
 	MOVAR	STK00
 	MOVIA	0x07
 	MCALL	_CS1630_write_byte
-	.line	82, "BSP\app_tx.c"; 	for(mini_circle = 0; mini_circle < 3; mini_circle++)
-	BANKSEL	r0x1028
-	INCR	r0x1028,F
-;;unsigned compare: left < lit(0x3=3), size=1
-	MOVIA	0x03
-	SUBAR	r0x1028,W
-	BTRSS	STATUS,0
-	MGOTO	_02026_DS_
-	.line	78, "BSP\app_tx.c"; 	for(idx = 0; idx < 3; idx++)
+	.line	105, "BSP\app_tx.c"; 	for(mini_circle = 0; mini_circle < 3; mini_circle++)
 	BANKSEL	r0x1026
 	INCR	r0x1026,F
 ;;unsigned compare: left < lit(0x3=3), size=1
 	MOVIA	0x03
 	SUBAR	r0x1026,W
 	BTRSS	STATUS,0
-	MGOTO	_02028_DS_
-	.line	100, "BSP\app_tx.c"; 	PB4 = 0;
-	BANKSEL	_PORTB
-	BCR	_PORTB,4
-	.line	101, "BSP\app_tx.c"; 	key_status_change = 0;
-	BANKSEL	_key_status_change
-	CLRR	_key_status_change
-	.line	103, "BSP\app_tx.c"; 	for(great_circle = 0; great_circle < send_times; great_circle++)
-	BANKSEL	r0x1026
-	CLRR	r0x1026
-	BANKSEL	r0x1028
-	CLRR	r0x1028
-_02035_DS_:
-	BANKSEL	r0x1027
-	MOVR	r0x1027,W
-	BANKSEL	r0x1028
-	SUBAR	r0x1028,W
-	BTRSC	STATUS,0
-	MGOTO	_02025_DS_
-	.line	105, "BSP\app_tx.c"; 	CLRWDT();
-	clrwdt
-	.line	107, "BSP\app_tx.c"; 	for(idx = 0; idx < 3; idx++)
-	BANKSEL	r0x1029
-	CLRR	r0x1029
-_02032_DS_:
-	.line	109, "BSP\app_tx.c"; 	CLRWDT();
-	clrwdt
-	.line	110, "BSP\app_tx.c"; 	CS1630_write_byte(CS1630_BANK0_RF_CH, channel_index[idx]); // 设置射频频道
-	BANKSEL	r0x1029
-	MOVR	r0x1029,W
-	ADDIA	(_channel_index + 0)
-	BANKSEL	r0x102A
-	MOVAR	r0x102A
-	MOVIA	((_channel_index + 0) >> 8) & 0xff
-	ADCIA	0x00
-	BANKSEL	r0x102B
-	MOVAR	r0x102B
-	BANKSEL	r0x102A
-	MOVR	r0x102A,W
-	MOVAR	STK01
-	BANKSEL	r0x102B
-	MOVR	r0x102B,W
-	MOVAR	STK00
-	MOVIA	0x80
-	MCALL	__gptrget1
-	BANKSEL	r0x102C
-	MOVAR	r0x102C
-	MOVR	r0x102C,W
-	MOVAR	STK00
-	MOVIA	0x05
-	MCALL	_CS1630_write_byte
-	.line	111, "BSP\app_tx.c"; 	for(mini_circle = 0; mini_circle < 3; mini_circle++)
-	BANKSEL	r0x102A
-	CLRR	r0x102A
-_02030_DS_:
-	.line	113, "BSP\app_tx.c"; 	CS1630_SendPack(RF_W_TX_PAYLOAD, CS1630_Tx_Payload, 0x14); // 发送数据包
-	MOVIA	(_CS1630_Tx_Payload + 0)
-	BANKSEL	r0x102B
-	MOVAR	r0x102B
-	BANKSEL	r0x102C
-	CLRR	r0x102C
-	BANKSEL	r0x102D
-	CLRR	r0x102D
-	MOVIA	0x14
-	MOVAR	STK03
-	BANKSEL	r0x102B
-	MOVR	r0x102B,W
-	MOVAR	STK02
-	BANKSEL	r0x102C
-	MOVR	r0x102C,W
-	MOVAR	STK01
-	BANKSEL	r0x102D
-	MOVR	r0x102D,W
-	MOVAR	STK00
-	MOVIA	0xa0
-	MCALL	_CS1630_SendPack
-	.line	115, "BSP\app_tx.c"; 	CS1630_CE_High(); // 产生CE脉冲，开始发送
-	MCALL	_CS1630_CE_High
-	.line	116, "BSP\app_tx.c"; 	delay_40us(); // 等待脉冲稳定
-	MCALL	_delay_40us
-	.line	117, "BSP\app_tx.c"; 	CS1630_CE_Low(); // 结束脉冲
-	MCALL	_CS1630_CE_Low
-_02017_DS_:
-	.line	121, "BSP\app_tx.c"; 	status = CS1630_read_byte(CS1630_BANK0_STATUS); // 读取状态寄存器
-	MOVIA	0x07
-	MCALL	_CS1630_read_byte
-	BANKSEL	r0x102B
-	MOVAR	r0x102B
-	.line	122, "BSP\app_tx.c"; 	if ((TX_DS & status) || (MAX_RT & status)) // 检查发送完成或重传达到最大次数
-	BTRSC	r0x102B,5
-	MGOTO	_02013_DS_
-	BTRSS	r0x102B,4
-	MGOTO	_02017_DS_
-_02013_DS_:
-	.line	124, "BSP\app_tx.c"; 	CS1630_write_byte(CS1630_BANK0_STATUS, status); // 清除状态
-	BANKSEL	r0x102B
-	MOVR	r0x102B,W
-	MOVAR	STK00
-	MOVIA	0x07
-	MCALL	_CS1630_write_byte
-	.line	111, "BSP\app_tx.c"; 	for(mini_circle = 0; mini_circle < 3; mini_circle++)
-	BANKSEL	r0x102A
-	INCR	r0x102A,F
-;;unsigned compare: left < lit(0x3=3), size=1
-	MOVIA	0x03
-	SUBAR	r0x102A,W
-	BTRSS	STATUS,0
 	MGOTO	_02030_DS_
-	.line	107, "BSP\app_tx.c"; 	for(idx = 0; idx < 3; idx++)
-	BANKSEL	r0x1029
-	INCR	r0x1029,F
+	.line	101, "BSP\app_tx.c"; 	for(idx = 0; idx < 3; idx++)
+	BANKSEL	r0x1025
+	INCR	r0x1025,F
 ;;unsigned compare: left < lit(0x3=3), size=1
 	MOVIA	0x03
-	SUBAR	r0x1029,W
+	SUBAR	r0x1025,W
 	BTRSS	STATUS,0
 	MGOTO	_02032_DS_
-	.line	131, "BSP\app_tx.c"; 	if(key_status_change == 1)
+	.line	125, "BSP\app_tx.c"; 	if(key_status_change == 1)
 	BANKSEL	_key_status_change
 	MOVR	_key_status_change,W
 	XORIA	0x01
 	BTRSS	STATUS,2
 	MGOTO	_02036_DS_
-	.line	133, "BSP\app_tx.c"; 	key_status_change = 0;
+	.line	127, "BSP\app_tx.c"; 	key_status_change = 0;
 	CLRR	_key_status_change
-	.line	134, "BSP\app_tx.c"; 	enter_interput_times++;
-	BANKSEL	r0x1026
-	INCR	r0x1026,F
-	.line	135, "BSP\app_tx.c"; 	if(enter_interput_times == 2)
-	MOVR	r0x1026,W
+	.line	128, "BSP\app_tx.c"; 	enter_interput_times++;
+	BANKSEL	r0x1022
+	INCR	r0x1022,F
+	.line	129, "BSP\app_tx.c"; 	if(enter_interput_times == 2)
+	MOVR	r0x1022,W
 	XORIA	0x02
 	BTRSS	STATUS,2
 	MGOTO	_02036_DS_
-	.line	137, "BSP\app_tx.c"; 	one_key_twice_dowm = 1;
+	.line	131, "BSP\app_tx.c"; 	one_key_twice_dowm = 1;
 	MOVIA	0x01
 	BANKSEL	_one_key_twice_dowm
 	MOVAR	_one_key_twice_dowm
-	.line	139, "BSP\app_tx.c"; 	CS1630_write_byte(CS1630_BANK0_CONFIG, 0x0d);
+	.line	133, "BSP\app_tx.c"; 	CS1630_write_byte(CS1630_BANK0_CONFIG, 0x0d);
 	MOVIA	0x0d
 	MOVAR	STK00
 	MOVIA	0x00
 	MCALL	_CS1630_write_byte
-	.line	140, "BSP\app_tx.c"; 	delay_ms(2);
+	.line	134, "BSP\app_tx.c"; 	delay_ms(2);
 	MOVIA	0x02
 	MCALL	_delay_ms
-	.line	141, "BSP\app_tx.c"; 	return;
+	.line	135, "BSP\app_tx.c"; 	return;
 	MGOTO	_02037_DS_
 _02036_DS_:
-	.line	103, "BSP\app_tx.c"; 	for(great_circle = 0; great_circle < send_times; great_circle++)
-	BANKSEL	r0x1028
-	INCR	r0x1028,F
+	.line	97, "BSP\app_tx.c"; 	for(great_circle = 0; great_circle < send_times; great_circle++)
+	BANKSEL	r0x1024
+	INCR	r0x1024,F
 	MGOTO	_02035_DS_
 _02025_DS_:
-	.line	147, "BSP\app_tx.c"; 	CS1630_write_byte(CS1630_BANK0_CONFIG, 0x0d);
+	.line	141, "BSP\app_tx.c"; 	CS1630_write_byte(CS1630_BANK0_CONFIG, 0x0d);
 	MOVIA	0x0d
 	MOVAR	STK00
 	MOVIA	0x00
 	MCALL	_CS1630_write_byte
-	.line	148, "BSP\app_tx.c"; 	delay_ms(2);
+	.line	142, "BSP\app_tx.c"; 	delay_ms(2);
 	MOVIA	0x02
 	MCALL	_delay_ms
 _02037_DS_:
-	.line	149, "BSP\app_tx.c"; 	}
+	.line	143, "BSP\app_tx.c"; 	}
 	RETURN	
 ; exit point of _send_ble_packet
 
 
 ;	code size estimation:
-;	  187+   62 =   249 instructions (  622 byte)
+;	  179+   54 =   233 instructions (  574 byte)
 
 	end

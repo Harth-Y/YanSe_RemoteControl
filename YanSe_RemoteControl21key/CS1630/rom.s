@@ -4,7 +4,7 @@
 	extern _get_rolling_code_2
 	extern _get_rolling_code_3
 
-	org 0x07B0
+	org 0x0e
 _get_rolling_code_0:
 		retia	0x00		; address = 0x0e
 

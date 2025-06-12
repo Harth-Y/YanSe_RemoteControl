@@ -1,6 +1,6 @@
 ﻿
 Nyquest IDE Solution File, Format Version 1.00
-# NYIDE 5.32.0.3800
+# NYIDE 5.42.0.4160
 Project("{608D5F73-6C2E-489F-8ED6-C0FBCCEB586F}") = "CS1630", "CS1630\CS1630.naprj", "{E38045B6-6119-442E-B6AD-B939CE62CC8B}"
 EndProject
 Global

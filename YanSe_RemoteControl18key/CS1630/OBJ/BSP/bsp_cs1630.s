@@ -11,6 +11,10 @@
 ;--------------------------------------------------------
 ; external declarations
 ;--------------------------------------------------------
+	extern	_get_rolling_code_3
+	extern	_get_rolling_code_2
+	extern	_get_rolling_code_1
+	extern	_get_rolling_code_0
 	extern	_usart_send_string
 	extern	_usart_send_byte
 	extern	_usart_init
@@ -51,6 +55,7 @@
 	extern	_RF_Bank_Switch
 	extern	_clear_ram
 	extern	_multi_16b
+	extern	_multi_8b
 	extern	_T0MD
 	extern	_PCON1
 	extern	_CMPCR
@@ -283,13 +288,13 @@ r0x100A:
 r0x100B:
 	.res	1
 .segment "uninit"
-_CS1630_Soft_Rst_soft_temp_65536_56:
+_CS1630_Soft_Rst_soft_temp_65536_61:
 	.res	4
-	.debuginfo complex-type (symbol "_CS1630_Soft_Rst_soft_temp_65536_56" 4 global "" 0 (basetype 4 unsigned))
+	.debuginfo complex-type (symbol "_CS1630_Soft_Rst_soft_temp_65536_61" 4 global "" 0 (basetype 4 unsigned))
 .segment "uninit"
-_CS1630_Init_temp_65536_58:
+_CS1630_Init_temp_65536_63:
 	.res	5
-	.debuginfo complex-type (symbol "_CS1630_Init_temp_65536_58" 5 global "" 0 (basetype 5 unsigned))
+	.debuginfo complex-type (symbol "_CS1630_Init_temp_65536_63" 5 global "" 0 (basetype 5 unsigned))
 ;--------------------------------------------------------
 ; initialized data
 ;--------------------------------------------------------
@@ -1089,6 +1094,10 @@ _02016_DS_:
 ;   _CS1630_write_byte
 ;   _CS1630_Bank_Switch
 ;   _CS1630_write_byte
+;   _get_rolling_code_0
+;   _get_rolling_code_1
+;   _get_rolling_code_2
+;   _get_rolling_code_3
 ;   _CS1630_wr_buffer
 ;   _CS1630_Clear_All_Irq
 ;   _CS1630_Flush_Tx
@@ -1108,6 +1117,10 @@ _02016_DS_:
 ;   _CS1630_write_byte
 ;   _CS1630_Bank_Switch
 ;   _CS1630_write_byte
+;   _get_rolling_code_0
+;   _get_rolling_code_1
+;   _get_rolling_code_2
+;   _get_rolling_code_3
 ;   _CS1630_wr_buffer
 ;   _CS1630_Clear_All_Irq
 ;   _CS1630_Flush_Tx
@@ -1125,7 +1138,7 @@ _02016_DS_:
 	.debuginfo subprogram _CS1630_Init
 ;local variable name mapping:
 	.debuginfo complex-type (local-sym "_regval" 1 "BSP\bsp_cs1630.c" 25 (basetype 1 unsigned) split "r0x102A")
-	.debuginfo complex-type (local-sym "_temp" 5 "BSP\bsp_cs1630.c" 24 (array 5 (basetype 1 unsigned)) link "_CS1630_Init_temp_65536_58")
+	.debuginfo complex-type (local-sym "_temp" 5 "BSP\bsp_cs1630.c" 24 (array 5 (basetype 1 unsigned)) link "_CS1630_Init_temp_65536_63")
 _CS1630_Init:
 ; 2 exit points
 	.line	27, "BSP\bsp_cs1630.c"; 	RF_softSPI_Init();
@@ -1166,7 +1179,7 @@ _02009_DS_:
 	BANKSEL	r0x102A
 	MOVAR	r0x102A
 	.line	47, "BSP\bsp_cs1630.c"; 	CS1630_read_buffer(CS1630_BANK1_PLL_CTL0, temp, 4);
-	MOVIA	(_CS1630_Init_temp_65536_58 + 0)
+	MOVIA	(_CS1630_Init_temp_65536_63 + 0)
 	BANKSEL	r0x102B
 	MOVAR	r0x102B
 	BANKSEL	r0x102C
@@ -1188,22 +1201,22 @@ _02009_DS_:
 	MCALL	_CS1630_read_buffer
 	.line	48, "BSP\bsp_cs1630.c"; 	temp[0] = 0x07;
 	MOVIA	0x07
-	BANKSEL	_CS1630_Init_temp_65536_58
-	MOVAR	(_CS1630_Init_temp_65536_58 + 0)
+	BANKSEL	_CS1630_Init_temp_65536_63
+	MOVAR	(_CS1630_Init_temp_65536_63 + 0)
 	.line	49, "BSP\bsp_cs1630.c"; 	temp[1] = 0x80;
 	MOVIA	0x80
-	MOVAR	(_CS1630_Init_temp_65536_58 + 1)
+	MOVAR	(_CS1630_Init_temp_65536_63 + 1)
 	.line	50, "BSP\bsp_cs1630.c"; 	temp[2] |= (BIT6+BIT3);
-	MOVR	(_CS1630_Init_temp_65536_58 + 2),W
+	MOVR	(_CS1630_Init_temp_65536_63 + 2),W
 	BANKSEL	r0x102B
 	MOVAR	r0x102B
 	MOVIA	0x48
 	IORAR	r0x102B,F
 	MOVR	r0x102B,W
-	BANKSEL	_CS1630_Init_temp_65536_58
-	MOVAR	(_CS1630_Init_temp_65536_58 + 2)
+	BANKSEL	_CS1630_Init_temp_65536_63
+	MOVAR	(_CS1630_Init_temp_65536_63 + 2)
 	.line	51, "BSP\bsp_cs1630.c"; 	CS1630_wr_buffer(CS1630_BANK1_PLL_CTL0, temp, 4); // 配置Bank1 的 PLL_CTL0为07  80  48
-	MOVIA	(_CS1630_Init_temp_65536_58 + 0)
+	MOVIA	(_CS1630_Init_temp_65536_63 + 0)
 	BANKSEL	r0x102B
 	MOVAR	r0x102B
 	BANKSEL	r0x102C
@@ -1237,24 +1250,44 @@ _02009_DS_:
 	MOVAR	STK00
 	MOVIA	0x1e
 	MCALL	_CS1630_write_byte
-	.line	61, "BSP\bsp_cs1630.c"; 	temp[0] = 0x12;
-	MOVIA	0x12
-	BANKSEL	_CS1630_Init_temp_65536_58
-	MOVAR	(_CS1630_Init_temp_65536_58 + 0)
-	.line	62, "BSP\bsp_cs1630.c"; 	temp[1] = 0x34;
+	.line	61, "BSP\bsp_cs1630.c"; 	temp[0] = 0x34;
 	MOVIA	0x34
-	MOVAR	(_CS1630_Init_temp_65536_58 + 1)
-	.line	63, "BSP\bsp_cs1630.c"; 	temp[2] = 0x56;
-	MOVIA	0x56
-	MOVAR	(_CS1630_Init_temp_65536_58 + 2)
-	.line	64, "BSP\bsp_cs1630.c"; 	temp[3] = 0x78;
-	MOVIA	0x78
-	MOVAR	(_CS1630_Init_temp_65536_58 + 3)
-	.line	65, "BSP\bsp_cs1630.c"; 	temp[4] = 0x9a;
-	MOVIA	0x9a
-	MOVAR	(_CS1630_Init_temp_65536_58 + 4)
+	BANKSEL	_CS1630_Init_temp_65536_63
+	MOVAR	(_CS1630_Init_temp_65536_63 + 0)
+	.line	62, "BSP\bsp_cs1630.c"; 	temp[1] = get_rolling_code_0()+1;
+	MCALL	_get_rolling_code_0
+	BANKSEL	r0x102A
+	MOVAR	r0x102A
+	INCR	r0x102A,F
+	MOVR	r0x102A,W
+	BANKSEL	_CS1630_Init_temp_65536_63
+	MOVAR	(_CS1630_Init_temp_65536_63 + 1)
+	.line	63, "BSP\bsp_cs1630.c"; 	temp[2] = get_rolling_code_1()+1;
+	MCALL	_get_rolling_code_1
+	BANKSEL	r0x102A
+	MOVAR	r0x102A
+	INCR	r0x102A,F
+	MOVR	r0x102A,W
+	BANKSEL	_CS1630_Init_temp_65536_63
+	MOVAR	(_CS1630_Init_temp_65536_63 + 2)
+	.line	64, "BSP\bsp_cs1630.c"; 	temp[3] = get_rolling_code_2()+1;
+	MCALL	_get_rolling_code_2
+	BANKSEL	r0x102A
+	MOVAR	r0x102A
+	INCR	r0x102A,F
+	MOVR	r0x102A,W
+	BANKSEL	_CS1630_Init_temp_65536_63
+	MOVAR	(_CS1630_Init_temp_65536_63 + 3)
+	.line	65, "BSP\bsp_cs1630.c"; 	temp[4] = get_rolling_code_3()+1;
+	MCALL	_get_rolling_code_3
+	BANKSEL	r0x102A
+	MOVAR	r0x102A
+	INCR	r0x102A,F
+	MOVR	r0x102A,W
+	BANKSEL	_CS1630_Init_temp_65536_63
+	MOVAR	(_CS1630_Init_temp_65536_63 + 4)
 	.line	67, "BSP\bsp_cs1630.c"; 	CS1630_wr_buffer(CS1630_BANK0_TX_ADDR, temp, 5); // set address
-	MOVIA	(_CS1630_Init_temp_65536_58 + 0)
+	MOVIA	(_CS1630_Init_temp_65536_63 + 0)
 	BANKSEL	r0x102A
 	MOVAR	r0x102A
 	BANKSEL	r0x102B
@@ -1311,14 +1344,14 @@ _02009_DS_:
 .segment "code"; module=bsp_cs1630, function=_CS1630_Soft_Rst
 	.debuginfo subprogram _CS1630_Soft_Rst
 ;local variable name mapping:
-	.debuginfo complex-type (local-sym "_soft_temp" 4 "BSP\bsp_cs1630.c" 11 (array 4 (basetype 1 unsigned)) link "_CS1630_Soft_Rst_soft_temp_65536_56")
+	.debuginfo complex-type (local-sym "_soft_temp" 4 "BSP\bsp_cs1630.c" 11 (array 4 (basetype 1 unsigned)) link "_CS1630_Soft_Rst_soft_temp_65536_61")
 _CS1630_Soft_Rst:
 ; 2 exit points
 	.line	12, "BSP\bsp_cs1630.c"; 	CS1630_Bank_Switch(RF_Bank1);
 	MOVIA	0x01
 	MCALL	_CS1630_Bank_Switch
 	.line	14, "BSP\bsp_cs1630.c"; 	CS1630_read_buffer(CS1630_BANK1_PLL_CTL0, soft_temp, 4); // 读取该寄存器状态
-	MOVIA	(_CS1630_Soft_Rst_soft_temp_65536_56 + 0)
+	MOVIA	(_CS1630_Soft_Rst_soft_temp_65536_61 + 0)
 	BANKSEL	r0x1027
 	MOVAR	r0x1027
 	BANKSEL	r0x1028
@@ -1339,16 +1372,16 @@ _CS1630_Soft_Rst:
 	MOVIA	0x01
 	MCALL	_CS1630_read_buffer
 	.line	15, "BSP\bsp_cs1630.c"; 	soft_temp[3] |= 0x80; // 将最低位置0
-	BANKSEL	_CS1630_Soft_Rst_soft_temp_65536_56
-	MOVR	(_CS1630_Soft_Rst_soft_temp_65536_56 + 3),W
+	BANKSEL	_CS1630_Soft_Rst_soft_temp_65536_61
+	MOVR	(_CS1630_Soft_Rst_soft_temp_65536_61 + 3),W
 	BANKSEL	r0x1027
 	MOVAR	r0x1027
 	BSR	r0x1027,7
 	MOVR	r0x1027,W
-	BANKSEL	_CS1630_Soft_Rst_soft_temp_65536_56
-	MOVAR	(_CS1630_Soft_Rst_soft_temp_65536_56 + 3)
+	BANKSEL	_CS1630_Soft_Rst_soft_temp_65536_61
+	MOVAR	(_CS1630_Soft_Rst_soft_temp_65536_61 + 3)
 	.line	16, "BSP\bsp_cs1630.c"; 	CS1630_wr_buffer(CS1630_BANK1_PLL_CTL0, soft_temp, 4);
-	MOVIA	(_CS1630_Soft_Rst_soft_temp_65536_56 + 0)
+	MOVIA	(_CS1630_Soft_Rst_soft_temp_65536_61 + 0)
 	BANKSEL	r0x1027
 	MOVAR	r0x1027
 	BANKSEL	r0x1028
@@ -1369,7 +1402,7 @@ _CS1630_Soft_Rst:
 	MOVIA	0x01
 	MCALL	_CS1630_wr_buffer
 	.line	17, "BSP\bsp_cs1630.c"; 	CS1630_read_buffer(CS1630_BANK1_PLL_CTL0, soft_temp, 4);
-	MOVIA	(_CS1630_Soft_Rst_soft_temp_65536_56 + 0)
+	MOVIA	(_CS1630_Soft_Rst_soft_temp_65536_61 + 0)
 	BANKSEL	r0x1027
 	MOVAR	r0x1027
 	BANKSEL	r0x1028
@@ -1398,6 +1431,6 @@ _CS1630_Soft_Rst:
 
 
 ;	code size estimation:
-;	  408+  123 =   531 instructions ( 1308 byte)
+;	  420+  131 =   551 instructions ( 1364 byte)
 
 	end

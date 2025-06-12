@@ -16,6 +16,7 @@
 	extern	_usart_init
 	extern	_clear_ram
 	extern	_multi_16b
+	extern	_multi_8b
 	extern	_T0MD
 	extern	_PCON1
 	extern	_CMPCR

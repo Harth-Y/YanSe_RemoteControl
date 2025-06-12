@@ -1,16 +1,16 @@
 ICBODY       := NY8A054E
 CLIENT_NAME  := yanSe
 CB_FILE      := CS1630.cb
-HOST_TOOL    := NYIDE 5.32
+HOST_TOOL    := NYIDE 5.42
 USER_C       := BSP\app_tx.c BSP\bsp_cs1630.c BSP\bsp_delay.c BSP\bsp_rf.c BSP\bsp_spi.c BSP\bsp_usart.c BSP\key.c main.c  
-LIBS         :=  
+LIBS         := 
 USER_ASM     := rom.s  
 OUT_NAME     := CS1630
 OUT_NAME_U   := CS1630
-CC_PATH      := D:\NYC_NY8
+CC_PATH      := D:\NYC_NY8\NYC_NY8
 TEMP_FOLDER  := 
 OBJDIR       := OBJ
-VPATH        := 
+VPATH        := $(CC_PATH)/libsrc/eeprom:
 
 #  - small: disable bank ram
 #  - bank2: 2 bank ram (1 word BANKSEL)
@@ -38,18 +38,21 @@ LDFLAGS     := -p $(ICBODY) --client "$(CLIENT_NAME)" -L "$(CC_PATH)/lib"      \
 			   
 
 CFLAGS      := -mny8 --errfmt-ny -p$(ICBODY) -D__CPU_$(ICBODY) --debug \
-               -I"$(CC_PATH)/include" -I"BSP" -I"D:\NY8_Example_Code\include\NY8 C"  -MD   \
-               --no-peep --no-pcode-opt --backup-stk 2   
+               -I"$(CC_PATH)/include" -I"BSP" -I"../../YanSe_RemoteControl18key" -I"../CS1630" -I"D:\NY8_Example_Code\include\NY8 C"  -MD   \
+               --no-peep --no-pcode-opt --backup-stk 2    --osccr-nop 2
 
 ASFLAGS     := -p $(ICBODY) --dbgfmt 2 -g -l --w-no 32797 --lang zh-cn  \
-               -I "$(CC_PATH)/inc" -I "BSP" -I "D:\NY8_Example_Code\include\NY8 C" 
+               -I "$(CC_PATH)/inc" -I "BSP" -I "../../YanSe_RemoteControl18key" -I "../CS1630" -I "D:\NY8_Example_Code\include\NY8 C" 
 
-DEPS        := $(patsubst %.c,%.d, $(USER_C))
+DEPS        := $(addprefix $(OBJDIR)/,$(subst /,\, $(patsubst %.c,%.d,$(USER_C))))
 ASM_SRC     := $(USER_ASM)
 ASM_SRC     := $(addprefix $(OBJDIR)/,$(subst /,\, $(patsubst %.c,%.s,$(USER_C))))
 OBJS        := $(addprefix $(OBJDIR)/,$(subst /,\, $(patsubst %.c,%.o,$(USER_C)))) \
                $(addprefix $(OBJDIR)/,$(subst /,\, $(patsubst %.s,%.o,$(USER_ASM))))
 OBJS        := $(sort $(OBJS))
+
+OBJ_DIRS := $(sort $(dir $(OBJS)))
+OBJ_DIRS := $(OBJ_DIRS:%\=%)
 
 LIBS        += $(ICBODY).a
 BIN_FILE    := $(strip $(OUT_NAME_U)).bin
@@ -106,18 +109,21 @@ mkdir = -@mkdir $(subst /,\,$(1)) >nul 2>nul
 
 all: $(BIN_FILE)
 
+$(OBJ_DIRS):
+	-@1>nul 2>nul mkdir $(subst /,\,$@)
+
 $(BIN_FILE): $(OBJS)
 	$(call ld,$(OBJS) $(LIBS) "$(CB_FILE)" -s "$(CFG_FILE)" -o "$(TEMP_FOLDER)$(OUT_NAME)" $(LDFLAGS),$@)
 
 
 
-$(OBJDIR)/%.s: %.c
+$(OBJDIR)/%.s: %.c | $(OBJ_DIRS)
 	$(call cc,-S $< $(CFLAGS),$@,$<)
 
 $(OBJDIR)/%.o: $(OBJDIR)/%.s
 	$(call as,$< $(ASFLAGS),$@,$<)
 
-$(OBJDIR)/%.o: %.s
+$(OBJDIR)/%.o: %.s | $(OBJ_DIRS)
 	$(call as,$< $(ASFLAGS),$@,$<)
 
 -include $(DEPS)
@@ -125,6 +131,7 @@ $(OBJDIR)/%.o: %.s
 rebuild: clean all
 
 clean:
+	-@1>nul 2>nul rmdir /s /q OBJ
 	-@1>nul 2>nul del "$(OUT_NAME).bin" "$(OUT_NAME).fpga" "$(OUT_NAME).elf" "$(OUT_NAME).link.lst" "$(OUT_NAME).map" "$(OUT_NAME).htm"
 	-@1>nul 2>nul del $(patsubst %.c, %.adb, $(USER_C))
 	-@1>nul 2>nul del $(patsubst %.c, %.p, $(USER_C))
@@ -133,8 +140,3 @@ clean:
 	-@1>nul 2>nul del $(patsubst %.c, %.d, $(USER_C))
 	-@1>nul 2>nul del $(subst /,\,$(addsuffix .o, $(basename $(ASM_SRC))))
 	-@1>nul 2>nul del $(subst /,\,$(addsuffix .lst, $(basename $(ASM_SRC))))
-	-@1>nul 2>nul del $(addprefix $(OBJDIR)\,$(subst /,\, $(patsubst %.c,%.adb,$(USER_C))))
-	-@1>nul 2>nul del $(addprefix $(OBJDIR)\,$(subst /,\, $(patsubst %.c,%.p,$(USER_C))))
-	-@1>nul 2>nul del $(addprefix $(OBJDIR)\,$(subst /,\, $(patsubst %.c,%.s,$(USER_C))))
-	-@1>nul 2>nul del $(addprefix $(OBJDIR)\,$(subst /,\, $(addsuffix .o, $(basename $(USER_ASM)))))
-	-@1>nul 2>nul del $(addprefix $(OBJDIR)\,$(subst /,\, $(addsuffix .lst, $(basename $(USER_ASM)))))

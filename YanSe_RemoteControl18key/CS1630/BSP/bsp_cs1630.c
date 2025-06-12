@@ -5,7 +5,7 @@
 #include "bsp_cs1630.h"
 #include "bsp_delay.h"
 #include "bsp_usart.h"
-
+#include "rom.h"
 void CS1630_Soft_Rst(void)
 {
 	unsigned char soft_temp[4];
@@ -58,11 +58,11 @@ void CS1630_Init(void)
 #endif
 
 #if 1
-	temp[0] = 0x12;
-	temp[1] = 0x34;
-	temp[2] = 0x56;
-	temp[3] = 0x78;
-	temp[4] = 0x9a;
+	temp[0] = 0x34;
+	temp[1] = get_rolling_code_0()+1;
+	temp[2] = get_rolling_code_1()+1;
+	temp[3] = get_rolling_code_2()+1;
+	temp[4] = get_rolling_code_3()+1;
 #endif
     CS1630_wr_buffer(CS1630_BANK0_TX_ADDR, temp, 5); // set address
 

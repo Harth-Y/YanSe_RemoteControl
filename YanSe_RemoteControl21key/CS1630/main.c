@@ -78,10 +78,6 @@ void main(void)
   unsigned char old_key_status = 0;
   key_status_change = 0;
 
-  extern unsigned char rolling_code_0 = get_rolling_code_0();
-  extern unsigned char rolling_code_1 = get_rolling_code_1();
-  extern unsigned char rolling_code_2 = get_rolling_code_2();
-  extern unsigned char rolling_code_3 = get_rolling_code_3();
 
   while (1)
   {

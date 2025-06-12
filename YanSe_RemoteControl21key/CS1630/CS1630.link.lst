@@ -1,832 +1,837 @@
 00000000 c7fe                LGOTO    0x1; __nyc_ny8_startup=0x1
 __nyc_ny8_startup:
-00000001 d437                LCALL    0x3c8; ___cinit_load__=0x3c8
-00000002 c6f8                LGOTO    0x107; _main=0x107
+00000001 d436                LCALL    0x3c9; ___cinit_load__=0x3c9
+00000002 c6ff                LGOTO    0x100; _main=0x100
 _CS1630_Clear_All_Irq:
 crt0.o:crt0_end:
 00000003 de8f                MOVIA    0x70
 00000004 ff06                MOVAR    0x79
 00000005 def8                MOVIA    0x7
-00000006 d30b                LCALL    0x4f4; _CS1630_write_byte=0x4f4
+00000006 d30a                LCALL    0x4f5; _CS1630_write_byte=0x4f5
 00000007 ffef                RET
-00000008 c3af                LGOTO    0x450; _isr=0x450
+00000008 c3ae                LGOTO    0x451; _isr=0x451
+_set_PB_low:
+00000009 e3f9                BCR      PORTB, PB0
+0000000a e379                BCR      PORTB, PB1
+0000000b e2f9                BCR      PORTB, PB2
+0000000c e279                BCR      PORTB, PB3
+0000000d ffef                RET
+_get_rolling_code_0:
+0000000e dfff                RETIA    0x0
+_get_rolling_code_1:
+0000000f dfff                RETIA    0x0
+_get_rolling_code_2:
+00000010 dfff                RETIA    0x0
+_get_rolling_code_3:
+00000011 dfff                RETIA    0x0
 _send_ble_packet:
-00000009 e0fc                BCR      STATUS, BK0
-0000000a ff52                MOVAR    0x2d
-0000000b fe86                MOVR     0x79, ToAcc
-0000000c e0fc                BCR      STATUS, BK0
-0000000d ff51                MOVAR    0x2e
-0000000e fe85                MOVR     0x7a, ToAcc
-0000000f e0fc                BCR      STATUS, BK0
-00000010 ff50                MOVAR    0x2f
-00000011 fffd                CLRWDT
-00000012 de03                MOVIA    0xfc
-00000013 ff6a                MOVAR    AWUCON
-00000014 fd76                CLRR     BWUCON
-00000015 de03                MOVIA    0xfc
-00000016 fffa                IOST     IOSTA
-00000017 dedc                MOVIA    0x23
-00000018 fff6                IOST     APHCON
-00000019 defd                MOVIA    0x2
-0000001a ff71                MOVAR    INTE
-0000001b fd70                CLRR     INTF
-0000001c e0fc                BCR      STATUS, BK0
-0000001d fed0                MOVR     0x2f, ToAcc
-0000001e e4fc                BSR      STATUS, BK0
-0000001f ff58                MOVAR    0x27
-00000020 e0fc                BCR      STATUS, BK0
-00000021 fed2                MOVR     0x2d, ToAcc
-00000022 e4fc                BSR      STATUS, BK0
-00000023 ff57                MOVAR    0x28
-00000024 e0fc                BCR      STATUS, BK0
-00000025 fed6                MOVR     0x29, ToAcc
-00000026 e4fc                BSR      STATUS, BK0
-00000027 ff54                MOVAR    0x2b
-00000028 e0fc                BCR      STATUS, BK0
-00000029 fed5                MOVR     0x2a, ToAcc
-0000002a e4fc                BSR      STATUS, BK0
-0000002b ff53                MOVAR    0x2c
-0000002c e0fc                BCR      STATUS, BK0
-0000002d fed4                MOVR     0x2b, ToAcc
-0000002e e4fc                BSR      STATUS, BK0
-0000002f ff52                MOVAR    0x2d
-00000030 e0fc                BCR      STATUS, BK0
-00000031 fed3                MOVR     0x2c, ToAcc
-00000032 e4fc                BSR      STATUS, BK0
-00000033 ff51                MOVAR    0x2e
-00000034 d28e                LCALL    0x571; _CS1630_CE_Low=0x571
-00000035 d27a                LCALL    0x585; _CS1630_Flush_Tx=0x585
-00000036 d7fc                LCALL    0x3; _CS1630_Clear_All_Irq=0x3
-00000037 def0                MOVIA    0xf
-00000038 ff06                MOVAR    0x79
-00000039 deff                MOVIA    0x0
-0000003a d30b                LCALL    0x4f4; _CS1630_write_byte=0x4f4
-0000003b defa                MOVIA    0x5
-0000003c d34c                LCALL    0x4b3; _delay_ms=0x4b3
-0000003d fffd                CLRWDT
-0000003e e0fc                BCR      STATUS, BK0
-0000003f e5f9                BSR      PORTB, PB4
-00000040 e0fc                BCR      STATUS, BK0
-00000041 fd52                CLRR     0x2d
+00000012 e0fc                BCR      STATUS, BK0
+00000013 ff56                MOVAR    0x29
+00000014 fe86                MOVR     0x79, ToAcc
+00000015 e0fc                BCR      STATUS, BK0
+00000016 ff55                MOVAR    0x2a
+00000017 fe85                MOVR     0x7a, ToAcc
+00000018 e0fc                BCR      STATUS, BK0
+00000019 ff54                MOVAR    0x2b
+0000001a fffd                CLRWDT
+0000001b de03                MOVIA    0xfc
+0000001c ff6a                MOVAR    AWUCON
+0000001d fd76                CLRR     BWUCON
+0000001e de03                MOVIA    0xfc
+0000001f fffa                IOST     IOSTA
+00000020 dedc                MOVIA    0x23
+00000021 fff6                IOST     APHCON
+00000022 defd                MOVIA    0x2
+00000023 ff71                MOVAR    INTE
+00000024 fd70                CLRR     INTF
+00000025 e0fc                BCR      STATUS, BK0
+00000026 fed4                MOVR     0x2b, ToAcc
+00000027 e4fc                BSR      STATUS, BK0
+00000028 ff58                MOVAR    0x27
+00000029 e0fc                BCR      STATUS, BK0
+0000002a fed6                MOVR     0x29, ToAcc
+0000002b e4fc                BSR      STATUS, BK0
+0000002c ff57                MOVAR    0x28
+0000002d d28d                LCALL    0x572; _CS1630_CE_Low=0x572
+0000002e d279                LCALL    0x586; _CS1630_Flush_Tx=0x586
+0000002f d7fc                LCALL    0x3; _CS1630_Clear_All_Irq=0x3
+00000030 def0                MOVIA    0xf
+00000031 ff06                MOVAR    0x79
+00000032 deff                MOVIA    0x0
+00000033 d30a                LCALL    0x4f5; _CS1630_write_byte=0x4f5
+00000034 defa                MOVIA    0x5
+00000035 d34b                LCALL    0x4b4; _delay_ms=0x4b4
+00000036 fffd                CLRWDT
+00000037 e0fc                BCR      STATUS, BK0
+00000038 e5f9                BSR      PORTB, PB4
+00000039 e0fc                BCR      STATUS, BK0
+0000003a fd56                CLRR     0x29
 app_tx.o:_02028_DS_:
-00000042 fffd                CLRWDT
+0000003b fffd                CLRWDT
+0000003c e0fc                BCR      STATUS, BK0
+0000003d fed6                MOVR     0x29, ToAcc
+0000003e da6c                ADDIA    0x93
+0000003f e0fc                BCR      STATUS, BK0
+00000040 ff54                MOVAR    0x2b
+00000041 defa                MOVIA    0x5
+00000042 d9ff                ADCIA    0x0
 00000043 e0fc                BCR      STATUS, BK0
-00000044 fed2                MOVR     0x2d, ToAcc
-00000045 da68                ADDIA    0x97
-00000046 e0fc                BCR      STATUS, BK0
-00000047 ff50                MOVAR    0x2f
-00000048 defa                MOVIA    0x5
-00000049 d9ff                ADCIA    0x0
-0000004a e0fc                BCR      STATUS, BK0
-0000004b ff4f                MOVAR    0x30
-0000004c e0fc                BCR      STATUS, BK0
-0000004d fed0                MOVR     0x2f, ToAcc
-0000004e ff05                MOVAR    0x7a
-0000004f e0fc                BCR      STATUS, BK0
-00000050 fecf                MOVR     0x30, ToAcc
-00000051 ff06                MOVAR    0x79
-00000052 de7f                MOVIA    0x80
-00000053 d31e                LCALL    0x4e1; __gptrget=0x4e1
-00000054 e0fc                BCR      STATUS, BK0
-00000055 ff4e                MOVAR    0x31
-00000056 fece                MOVR     0x31, ToAcc
-00000057 ff06                MOVAR    0x79
-00000058 defa                MOVIA    0x5
-00000059 d30b                LCALL    0x4f4; _CS1630_write_byte=0x4f4
-0000005a e0fc                BCR      STATUS, BK0
-0000005b fd50                CLRR     0x2f
+00000044 ff53                MOVAR    0x2c
+00000045 e0fc                BCR      STATUS, BK0
+00000046 fed4                MOVR     0x2b, ToAcc
+00000047 ff05                MOVAR    0x7a
+00000048 e0fc                BCR      STATUS, BK0
+00000049 fed3                MOVR     0x2c, ToAcc
+0000004a ff06                MOVAR    0x79
+0000004b de7f                MOVIA    0x80
+0000004c d31d                LCALL    0x4e2; __gptrget=0x4e2
+0000004d e0fc                BCR      STATUS, BK0
+0000004e ff52                MOVAR    0x2d
+0000004f fed2                MOVR     0x2d, ToAcc
+00000050 ff06                MOVAR    0x79
+00000051 defa                MOVIA    0x5
+00000052 d30a                LCALL    0x4f5; _CS1630_write_byte=0x4f5
+00000053 e0fc                BCR      STATUS, BK0
+00000054 fd54                CLRR     0x2b
 app_tx.o:_02026_DS_:
-0000005c de5f                MOVIA    0xa0
-0000005d e0fc                BCR      STATUS, BK0
-0000005e ff4f                MOVAR    0x30
-0000005f e0fc                BCR      STATUS, BK0
-00000060 fd4e                CLRR     0x31
+00000055 de5f                MOVIA    0xa0
+00000056 e0fc                BCR      STATUS, BK0
+00000057 ff53                MOVAR    0x2c
+00000058 e0fc                BCR      STATUS, BK0
+00000059 fd52                CLRR     0x2d
+0000005a e0fc                BCR      STATUS, BK0
+0000005b fd51                CLRR     0x2e
+0000005c deeb                MOVIA    0x14
+0000005d ff03                MOVAR    0x7c
+0000005e e0fc                BCR      STATUS, BK0
+0000005f fed3                MOVR     0x2c, ToAcc
+00000060 ff04                MOVAR    0x7b
 00000061 e0fc                BCR      STATUS, BK0
-00000062 fd4d                CLRR     0x32
-00000063 deeb                MOVIA    0x14
-00000064 ff03                MOVAR    0x7c
-00000065 e0fc                BCR      STATUS, BK0
-00000066 fecf                MOVR     0x30, ToAcc
-00000067 ff04                MOVAR    0x7b
-00000068 e0fc                BCR      STATUS, BK0
-00000069 fece                MOVR     0x31, ToAcc
-0000006a ff05                MOVAR    0x7a
-0000006b e0fc                BCR      STATUS, BK0
-0000006c fecd                MOVR     0x32, ToAcc
-0000006d ff06                MOVAR    0x79
-0000006e de5f                MOVIA    0xa0
-0000006f d387                LCALL    0x478; _CS1630_SendPack=0x478
-00000070 d284                LCALL    0x57b; _CS1630_CE_High=0x57b
-00000071 d265                LCALL    0x59a; _delay_40us=0x59a
-00000072 d28e                LCALL    0x571; _CS1630_CE_Low=0x571
+00000062 fed2                MOVR     0x2d, ToAcc
+00000063 ff05                MOVAR    0x7a
+00000064 e0fc                BCR      STATUS, BK0
+00000065 fed1                MOVR     0x2e, ToAcc
+00000066 ff06                MOVAR    0x79
+00000067 de5f                MOVIA    0xa0
+00000068 d386                LCALL    0x479; _CS1630_SendPack=0x479
+00000069 d283                LCALL    0x57c; _CS1630_CE_High=0x57c
+0000006a d269                LCALL    0x596; _delay_40us=0x596
+0000006b d28d                LCALL    0x572; _CS1630_CE_Low=0x572
 app_tx.o:_02009_DS_:
-00000073 def8                MOVIA    0x7
-00000074 d2da                LCALL    0x525; _CS1630_read_byte=0x525
-00000075 e0fc                BCR      STATUS, BK0
-00000076 ff4f                MOVAR    0x30
-00000077 f14f                BTRSC    0x30, 0x5
-00000078 c784                LGOTO    0x7b; app_tx.o:_02005_DS_=0x7b
-00000079 f5cf                BTRSS    0x30, 0x4
-0000007a c78c                LGOTO    0x73; app_tx.o:_02009_DS_=0x73
+0000006c def8                MOVIA    0x7
+0000006d d2d9                LCALL    0x526; _CS1630_read_byte=0x526
+0000006e e0fc                BCR      STATUS, BK0
+0000006f ff53                MOVAR    0x2c
+00000070 f153                BTRSC    0x2c, 0x5
+00000071 c78b                LGOTO    0x74; app_tx.o:_02005_DS_=0x74
+00000072 f5d3                BTRSS    0x2c, 0x4
+00000073 c793                LGOTO    0x6c; app_tx.o:_02009_DS_=0x6c
 app_tx.o:_02005_DS_:
-0000007b e0fc                BCR      STATUS, BK0
-0000007c fecf                MOVR     0x30, ToAcc
-0000007d ff06                MOVAR    0x79
-0000007e def8                MOVIA    0x7
-0000007f d30b                LCALL    0x4f4; _CS1630_write_byte=0x4f4
-00000080 e0fc                BCR      STATUS, BK0
-00000081 fa50                INCR     0x2f, ToReg
-00000082 defc                MOVIA    0x3
-00000083 fbd0                SUBAR    0x2f, ToAcc
-00000084 f7fc                BTRSS    STATUS, C
-00000085 c7a3                LGOTO    0x5c; app_tx.o:_02026_DS_=0x5c
-00000086 e0fc                BCR      STATUS, BK0
-00000087 fa52                INCR     0x2d, ToReg
-00000088 defc                MOVIA    0x3
-00000089 fbd2                SUBAR    0x2d, ToAcc
-0000008a f7fc                BTRSS    STATUS, C
-0000008b c7bd                LGOTO    0x42; app_tx.o:_02028_DS_=0x42
-0000008c e0fc                BCR      STATUS, BK0
-0000008d e1f9                BCR      PORTB, PB4
-0000008e e0fc                BCR      STATUS, BK0
-0000008f fd11                CLRR     0x6e
-00000090 e0fc                BCR      STATUS, BK0
-00000091 fd52                CLRR     0x2d
-00000092 e0fc                BCR      STATUS, BK0
-00000093 fd50                CLRR     0x2f
+00000074 e0fc                BCR      STATUS, BK0
+00000075 fed3                MOVR     0x2c, ToAcc
+00000076 ff06                MOVAR    0x79
+00000077 def8                MOVIA    0x7
+00000078 d30a                LCALL    0x4f5; _CS1630_write_byte=0x4f5
+00000079 e0fc                BCR      STATUS, BK0
+0000007a fa54                INCR     0x2b, ToReg
+0000007b defc                MOVIA    0x3
+0000007c fbd4                SUBAR    0x2b, ToAcc
+0000007d f7fc                BTRSS    STATUS, C
+0000007e c7aa                LGOTO    0x55; app_tx.o:_02026_DS_=0x55
+0000007f e0fc                BCR      STATUS, BK0
+00000080 fa56                INCR     0x29, ToReg
+00000081 defc                MOVIA    0x3
+00000082 fbd6                SUBAR    0x29, ToAcc
+00000083 f7fc                BTRSS    STATUS, C
+00000084 c7c4                LGOTO    0x3b; app_tx.o:_02028_DS_=0x3b
+00000085 e0fc                BCR      STATUS, BK0
+00000086 e1f9                BCR      PORTB, PB4
+00000087 e0fc                BCR      STATUS, BK0
+00000088 fd15                CLRR     0x6a
+00000089 e0fc                BCR      STATUS, BK0
+0000008a fd56                CLRR     0x29
+0000008b e0fc                BCR      STATUS, BK0
+0000008c fd54                CLRR     0x2b
 app_tx.o:_02035_DS_:
+0000008d e0fc                BCR      STATUS, BK0
+0000008e fed5                MOVR     0x2a, ToAcc
+0000008f e0fc                BCR      STATUS, BK0
+00000090 fbd4                SUBAR    0x2b, ToAcc
+00000091 f3fc                BTRSC    STATUS, C
+00000092 c706                LGOTO    0xf9; app_tx.o:_02025_DS_=0xf9
+00000093 fffd                CLRWDT
 00000094 e0fc                BCR      STATUS, BK0
-00000095 fed1                MOVR     0x2e, ToAcc
-00000096 e0fc                BCR      STATUS, BK0
-00000097 fbd0                SUBAR    0x2f, ToAcc
-00000098 f3fc                BTRSC    STATUS, C
-00000099 c6ff                LGOTO    0x100; app_tx.o:_02025_DS_=0x100
-0000009a fffd                CLRWDT
-0000009b e0fc                BCR      STATUS, BK0
-0000009c fd4f                CLRR     0x30
+00000095 fd53                CLRR     0x2c
 app_tx.o:_02032_DS_:
-0000009d fffd                CLRWDT
+00000096 fffd                CLRWDT
+00000097 e0fc                BCR      STATUS, BK0
+00000098 fed3                MOVR     0x2c, ToAcc
+00000099 da6c                ADDIA    0x93
+0000009a e0fc                BCR      STATUS, BK0
+0000009b ff52                MOVAR    0x2d
+0000009c defa                MOVIA    0x5
+0000009d d9ff                ADCIA    0x0
 0000009e e0fc                BCR      STATUS, BK0
-0000009f fecf                MOVR     0x30, ToAcc
-000000a0 da68                ADDIA    0x97
-000000a1 e0fc                BCR      STATUS, BK0
-000000a2 ff4e                MOVAR    0x31
-000000a3 defa                MOVIA    0x5
-000000a4 d9ff                ADCIA    0x0
-000000a5 e0fc                BCR      STATUS, BK0
-000000a6 ff4d                MOVAR    0x32
-000000a7 e0fc                BCR      STATUS, BK0
-000000a8 fece                MOVR     0x31, ToAcc
-000000a9 ff05                MOVAR    0x7a
-000000aa e0fc                BCR      STATUS, BK0
-000000ab fecd                MOVR     0x32, ToAcc
-000000ac ff06                MOVAR    0x79
-000000ad de7f                MOVIA    0x80
-000000ae d31e                LCALL    0x4e1; __gptrget=0x4e1
-000000af e0fc                BCR      STATUS, BK0
-000000b0 ff4c                MOVAR    0x33
-000000b1 fecc                MOVR     0x33, ToAcc
-000000b2 ff06                MOVAR    0x79
-000000b3 defa                MOVIA    0x5
-000000b4 d30b                LCALL    0x4f4; _CS1630_write_byte=0x4f4
-000000b5 e0fc                BCR      STATUS, BK0
-000000b6 fd4e                CLRR     0x31
+0000009f ff51                MOVAR    0x2e
+000000a0 e0fc                BCR      STATUS, BK0
+000000a1 fed2                MOVR     0x2d, ToAcc
+000000a2 ff05                MOVAR    0x7a
+000000a3 e0fc                BCR      STATUS, BK0
+000000a4 fed1                MOVR     0x2e, ToAcc
+000000a5 ff06                MOVAR    0x79
+000000a6 de7f                MOVIA    0x80
+000000a7 d31d                LCALL    0x4e2; __gptrget=0x4e2
+000000a8 e0fc                BCR      STATUS, BK0
+000000a9 ff50                MOVAR    0x2f
+000000aa fed0                MOVR     0x2f, ToAcc
+000000ab ff06                MOVAR    0x79
+000000ac defa                MOVIA    0x5
+000000ad d30a                LCALL    0x4f5; _CS1630_write_byte=0x4f5
+000000ae e0fc                BCR      STATUS, BK0
+000000af fd52                CLRR     0x2d
 app_tx.o:_02030_DS_:
-000000b7 de5f                MOVIA    0xa0
-000000b8 e0fc                BCR      STATUS, BK0
-000000b9 ff4d                MOVAR    0x32
-000000ba e0fc                BCR      STATUS, BK0
-000000bb fd4c                CLRR     0x33
+000000b0 de5f                MOVIA    0xa0
+000000b1 e0fc                BCR      STATUS, BK0
+000000b2 ff51                MOVAR    0x2e
+000000b3 e0fc                BCR      STATUS, BK0
+000000b4 fd50                CLRR     0x2f
+000000b5 e0fc                BCR      STATUS, BK0
+000000b6 fd4f                CLRR     0x30
+000000b7 deeb                MOVIA    0x14
+000000b8 ff03                MOVAR    0x7c
+000000b9 e0fc                BCR      STATUS, BK0
+000000ba fed1                MOVR     0x2e, ToAcc
+000000bb ff04                MOVAR    0x7b
 000000bc e0fc                BCR      STATUS, BK0
-000000bd fd4b                CLRR     0x34
-000000be deeb                MOVIA    0x14
-000000bf ff03                MOVAR    0x7c
-000000c0 e0fc                BCR      STATUS, BK0
-000000c1 fecd                MOVR     0x32, ToAcc
-000000c2 ff04                MOVAR    0x7b
-000000c3 e0fc                BCR      STATUS, BK0
-000000c4 fecc                MOVR     0x33, ToAcc
-000000c5 ff05                MOVAR    0x7a
-000000c6 e0fc                BCR      STATUS, BK0
-000000c7 fecb                MOVR     0x34, ToAcc
-000000c8 ff06                MOVAR    0x79
-000000c9 de5f                MOVIA    0xa0
-000000ca d387                LCALL    0x478; _CS1630_SendPack=0x478
-000000cb d284                LCALL    0x57b; _CS1630_CE_High=0x57b
-000000cc d265                LCALL    0x59a; _delay_40us=0x59a
-000000cd d28e                LCALL    0x571; _CS1630_CE_Low=0x571
+000000bd fed0                MOVR     0x2f, ToAcc
+000000be ff05                MOVAR    0x7a
+000000bf e0fc                BCR      STATUS, BK0
+000000c0 fecf                MOVR     0x30, ToAcc
+000000c1 ff06                MOVAR    0x79
+000000c2 de5f                MOVIA    0xa0
+000000c3 d386                LCALL    0x479; _CS1630_SendPack=0x479
+000000c4 d283                LCALL    0x57c; _CS1630_CE_High=0x57c
+000000c5 d269                LCALL    0x596; _delay_40us=0x596
+000000c6 d28d                LCALL    0x572; _CS1630_CE_Low=0x572
 app_tx.o:_02017_DS_:
-000000ce def8                MOVIA    0x7
-000000cf d2da                LCALL    0x525; _CS1630_read_byte=0x525
-000000d0 e0fc                BCR      STATUS, BK0
-000000d1 ff4d                MOVAR    0x32
-000000d2 f14d                BTRSC    0x32, 0x5
-000000d3 c729                LGOTO    0xd6; app_tx.o:_02013_DS_=0xd6
-000000d4 f5cd                BTRSS    0x32, 0x4
-000000d5 c731                LGOTO    0xce; app_tx.o:_02017_DS_=0xce
+000000c7 def8                MOVIA    0x7
+000000c8 d2d9                LCALL    0x526; _CS1630_read_byte=0x526
+000000c9 e0fc                BCR      STATUS, BK0
+000000ca ff51                MOVAR    0x2e
+000000cb f151                BTRSC    0x2e, 0x5
+000000cc c730                LGOTO    0xcf; app_tx.o:_02013_DS_=0xcf
+000000cd f5d1                BTRSS    0x2e, 0x4
+000000ce c738                LGOTO    0xc7; app_tx.o:_02017_DS_=0xc7
 app_tx.o:_02013_DS_:
-000000d6 e0fc                BCR      STATUS, BK0
-000000d7 fecd                MOVR     0x32, ToAcc
-000000d8 ff06                MOVAR    0x79
-000000d9 def8                MOVIA    0x7
-000000da d30b                LCALL    0x4f4; _CS1630_write_byte=0x4f4
-000000db e0fc                BCR      STATUS, BK0
-000000dc fa4e                INCR     0x31, ToReg
-000000dd defc                MOVIA    0x3
-000000de fbce                SUBAR    0x31, ToAcc
-000000df f7fc                BTRSS    STATUS, C
-000000e0 c748                LGOTO    0xb7; app_tx.o:_02030_DS_=0xb7
-000000e1 e0fc                BCR      STATUS, BK0
-000000e2 fa4f                INCR     0x30, ToReg
-000000e3 defc                MOVIA    0x3
-000000e4 fbcf                SUBAR    0x30, ToAcc
-000000e5 f7fc                BTRSS    STATUS, C
-000000e6 c762                LGOTO    0x9d; app_tx.o:_02032_DS_=0x9d
-000000e7 e0fc                BCR      STATUS, BK0
-000000e8 fe91                MOVR     0x6e, ToAcc
-000000e9 dbfe                XORIA    0x1
+000000cf e0fc                BCR      STATUS, BK0
+000000d0 fed1                MOVR     0x2e, ToAcc
+000000d1 ff06                MOVAR    0x79
+000000d2 def8                MOVIA    0x7
+000000d3 d30a                LCALL    0x4f5; _CS1630_write_byte=0x4f5
+000000d4 e0fc                BCR      STATUS, BK0
+000000d5 fa52                INCR     0x2d, ToReg
+000000d6 defc                MOVIA    0x3
+000000d7 fbd2                SUBAR    0x2d, ToAcc
+000000d8 f7fc                BTRSS    STATUS, C
+000000d9 c74f                LGOTO    0xb0; app_tx.o:_02030_DS_=0xb0
+000000da e0fc                BCR      STATUS, BK0
+000000db fa53                INCR     0x2c, ToReg
+000000dc defc                MOVIA    0x3
+000000dd fbd3                SUBAR    0x2c, ToAcc
+000000de f7fc                BTRSS    STATUS, C
+000000df c769                LGOTO    0x96; app_tx.o:_02032_DS_=0x96
+000000e0 e0fc                BCR      STATUS, BK0
+000000e1 fe95                MOVR     0x6a, ToAcc
+000000e2 dbfe                XORIA    0x1
+000000e3 f6fc                BTRSS    STATUS, Z
+000000e4 c709                LGOTO    0xf6; app_tx.o:_02036_DS_=0xf6
+000000e5 fd15                CLRR     0x6a
+000000e6 e0fc                BCR      STATUS, BK0
+000000e7 fa56                INCR     0x29, ToReg
+000000e8 fed6                MOVR     0x29, ToAcc
+000000e9 dbfd                XORIA    0x2
 000000ea f6fc                BTRSS    STATUS, Z
-000000eb c702                LGOTO    0xfd; app_tx.o:_02036_DS_=0xfd
-000000ec fd11                CLRR     0x6e
+000000eb c709                LGOTO    0xf6; app_tx.o:_02036_DS_=0xf6
+000000ec defe                MOVIA    0x1
 000000ed e0fc                BCR      STATUS, BK0
-000000ee fa52                INCR     0x2d, ToReg
-000000ef fed2                MOVR     0x2d, ToAcc
-000000f0 dbfd                XORIA    0x2
-000000f1 f6fc                BTRSS    STATUS, Z
-000000f2 c702                LGOTO    0xfd; app_tx.o:_02036_DS_=0xfd
-000000f3 defe                MOVIA    0x1
-000000f4 e0fc                BCR      STATUS, BK0
-000000f5 ff10                MOVAR    0x6f
-000000f6 def2                MOVIA    0xd
-000000f7 ff06                MOVAR    0x79
-000000f8 deff                MOVIA    0x0
-000000f9 d30b                LCALL    0x4f4; _CS1630_write_byte=0x4f4
-000000fa defd                MOVIA    0x2
-000000fb d34c                LCALL    0x4b3; _delay_ms=0x4b3
-000000fc c6f9                LGOTO    0x106; app_tx.o:_02037_DS_=0x106
+000000ee ff14                MOVAR    0x6b
+000000ef def2                MOVIA    0xd
+000000f0 ff06                MOVAR    0x79
+000000f1 deff                MOVIA    0x0
+000000f2 d30a                LCALL    0x4f5; _CS1630_write_byte=0x4f5
+000000f3 defd                MOVIA    0x2
+000000f4 d34b                LCALL    0x4b4; _delay_ms=0x4b4
+000000f5 c700                LGOTO    0xff; app_tx.o:_02037_DS_=0xff
 app_tx.o:_02036_DS_:
-000000fd e0fc                BCR      STATUS, BK0
-000000fe fa50                INCR     0x2f, ToReg
-000000ff c76b                LGOTO    0x94; app_tx.o:_02035_DS_=0x94
+000000f6 e0fc                BCR      STATUS, BK0
+000000f7 fa54                INCR     0x2b, ToReg
+000000f8 c772                LGOTO    0x8d; app_tx.o:_02035_DS_=0x8d
 app_tx.o:_02025_DS_:
-00000100 def2                MOVIA    0xd
-00000101 ff06                MOVAR    0x79
-00000102 deff                MOVIA    0x0
-00000103 d30b                LCALL    0x4f4; _CS1630_write_byte=0x4f4
-00000104 defd                MOVIA    0x2
-00000105 d34c                LCALL    0x4b3; _delay_ms=0x4b3
+000000f9 def2                MOVIA    0xd
+000000fa ff06                MOVAR    0x79
+000000fb deff                MOVIA    0x0
+000000fc d30a                LCALL    0x4f5; _CS1630_write_byte=0x4f5
+000000fd defd                MOVIA    0x2
+000000fe d34b                LCALL    0x4b4; _delay_ms=0x4b4
 app_tx.o:_02037_DS_:
-00000106 ffef                RET
+000000ff ffef                RET
 _main:
-00000107 ffec                DISI
-00000108 d335                LCALL    0x4ca; _CS1630_init_main=0x4ca
-00000109 d299                LCALL    0x566; _wake_up_init=0x566
-0000010a d25f                LCALL    0x5a0; _open_WDT=0x5a0
-0000010b fffb                ENI
-0000010c e0fc                BCR      STATUS, BK0
-0000010d fd18                CLRR     0x67
-0000010e e0fc                BCR      STATUS, BK0
-0000010f fd11                CLRR     0x6e
-00000110 d04f                LCALL    0x7b0; _get_rolling_code_0=0x7b0
-00000111 e0fc                BCR      STATUS, BK0
-00000112 ff56                MOVAR    0x29
-00000113 d04e                LCALL    0x7b1; _get_rolling_code_1=0x7b1
-00000114 e0fc                BCR      STATUS, BK0
-00000115 ff55                MOVAR    0x2a
-00000116 d04d                LCALL    0x7b2; _get_rolling_code_2=0x7b2
-00000117 e0fc                BCR      STATUS, BK0
-00000118 ff54                MOVAR    0x2b
-00000119 d04c                LCALL    0x7b3; _get_rolling_code_3=0x7b3
-0000011a e0fc                BCR      STATUS, BK0
-0000011b ff53                MOVAR    0x2c
+00000100 ffec                DISI
+00000101 d334                LCALL    0x4cb; _CS1630_init_main=0x4cb
+00000102 d298                LCALL    0x567; _wake_up_init=0x567
+00000103 d263                LCALL    0x59c; _open_WDT=0x59c
+00000104 fffb                ENI
+00000105 e0fc                BCR      STATUS, BK0
+00000106 fd1c                CLRR     0x63
+00000107 e0fc                BCR      STATUS, BK0
+00000108 fd15                CLRR     0x6a
 main.o:_02050_DS_:
-0000011c fffd                CLRWDT
-0000011d d2be                LCALL    0x541; _key_init=0x541
-0000011e d654                LCALL    0x1ab; _Check_Keydown=0x1ab
-0000011f e0fc                BCR      STATUS, BK0
-00000120 ff17                MOVAR    0x68
-00000121 fe97                MOVR     0x68, ToAcc
-00000122 f2fc                BTRSC    STATUS, Z
-00000123 c6d2                LGOTO    0x12d; main.o:_02029_DS_=0x12d
-00000124 e0fc                BCR      STATUS, BK0
-00000125 fd0f                CLRR     0x70
-00000126 e0fc                BCR      STATUS, BK0
-00000127 fd0e                CLRR     0x71
-00000128 e0fc                BCR      STATUS, BK0
-00000129 f997                DECR     0x68, ToAcc
-0000012a e0fc                BCR      STATUS, BK0
-0000012b ff16                MOVAR    0x69
-0000012c c6cf                LGOTO    0x130; main.o:_02030_DS_=0x130
+00000109 fffd                CLRWDT
+0000010a d2bd                LCALL    0x542; _key_init=0x542
+0000010b d5d7                LCALL    0x228; _Check_Keydown=0x228
+0000010c e0fc                BCR      STATUS, BK0
+0000010d ff1b                MOVAR    0x64
+0000010e fe9b                MOVR     0x64, ToAcc
+0000010f f2fc                BTRSC    STATUS, Z
+00000110 c6e5                LGOTO    0x11a; main.o:_02029_DS_=0x11a
+00000111 e0fc                BCR      STATUS, BK0
+00000112 fd13                CLRR     0x6c
+00000113 e0fc                BCR      STATUS, BK0
+00000114 fd12                CLRR     0x6d
+00000115 e0fc                BCR      STATUS, BK0
+00000116 f99b                DECR     0x64, ToAcc
+00000117 e0fc                BCR      STATUS, BK0
+00000118 ff1a                MOVAR    0x65
+00000119 c6e2                LGOTO    0x11d; main.o:_02030_DS_=0x11d
 main.o:_02029_DS_:
-0000012d de00                MOVIA    0xff
-0000012e e0fc                BCR      STATUS, BK0
-0000012f ff16                MOVAR    0x69
+0000011a de00                MOVIA    0xff
+0000011b e0fc                BCR      STATUS, BK0
+0000011c ff1a                MOVAR    0x65
 main.o:_02030_DS_:
+0000011d e0fc                BCR      STATUS, BK0
+0000011e fe9b                MOVR     0x64, ToAcc
+0000011f f2fc                BTRSC    STATUS, Z
+00000120 c697                LGOTO    0x168; main.o:_02041_DS_=0x168
+00000121 e0fc                BCR      STATUS, BK0
+00000122 fe9c                MOVR     0x63, ToAcc
+00000123 f6fc                BTRSS    STATUS, Z
+00000124 c6cb                LGOTO    0x134; main.o:_02038_DS_=0x134
+00000125 e0fc                BCR      STATUS, BK0
+00000126 fe90                MOVR     0x6f, ToAcc
+00000127 e0fc                BCR      STATUS, BK0
+00000128 ff19                MOVAR    0x66
+00000129 fa99                INCR     0x66, ToAcc
+0000012a e0fc                BCR      STATUS, BK0
+0000012b ff10                MOVAR    0x6f
+0000012c fe90                MOVR     0x6f, ToAcc
+0000012d ff05                MOVAR    0x7a
+0000012e dee8                MOVIA    0x17
+0000012f ff06                MOVAR    0x79
 00000130 e0fc                BCR      STATUS, BK0
-00000131 fe97                MOVR     0x68, ToAcc
-00000132 f2fc                BTRSC    STATUS, Z
-00000133 c684                LGOTO    0x17b; main.o:_02041_DS_=0x17b
+00000131 fe9a                MOVR     0x65, ToAcc
+00000132 d7ed                LCALL    0x12; _send_ble_packet=0x12
+00000133 c697                LGOTO    0x168; main.o:_02041_DS_=0x168
+main.o:_02038_DS_:
 00000134 e0fc                BCR      STATUS, BK0
-00000135 fe98                MOVR     0x67, ToAcc
-00000136 f6fc                BTRSS    STATUS, Z
-00000137 c6b8                LGOTO    0x147; main.o:_02038_DS_=0x147
-00000138 e0fc                BCR      STATUS, BK0
-00000139 fe8c                MOVR     0x73, ToAcc
+00000135 fe91                MOVR     0x6e, ToAcc
+00000136 e0fc                BCR      STATUS, BK0
+00000137 ed9b                XORAR    0x64, ToAcc
+00000138 f6fc                BTRSS    STATUS, Z
+00000139 c6a5                LGOTO    0x15a; main.o:_02035_DS_=0x15a
 0000013a e0fc                BCR      STATUS, BK0
-0000013b ff15                MOVAR    0x6a
-0000013c fa95                INCR     0x6a, ToAcc
-0000013d e0fc                BCR      STATUS, BK0
-0000013e ff0c                MOVAR    0x73
-0000013f fe8c                MOVR     0x73, ToAcc
+0000013b fe94                MOVR     0x6b, ToAcc
+0000013c f6fc                BTRSS    STATUS, Z
+0000013d c6b6                LGOTO    0x149; main.o:_02032_DS_=0x149
+0000013e e0fc                BCR      STATUS, BK0
+0000013f fe90                MOVR     0x6f, ToAcc
 00000140 ff05                MOVAR    0x7a
-00000141 dee8                MOVIA    0x17
+00000141 deff                MOVIA    0x0
 00000142 ff06                MOVAR    0x79
 00000143 e0fc                BCR      STATUS, BK0
-00000144 fe96                MOVR     0x69, ToAcc
-00000145 d7f6                LCALL    0x9; _send_ble_packet=0x9
-00000146 c684                LGOTO    0x17b; main.o:_02041_DS_=0x17b
-main.o:_02038_DS_:
-00000147 e0fc                BCR      STATUS, BK0
-00000148 fe8d                MOVR     0x72, ToAcc
+00000144 fe9a                MOVR     0x65, ToAcc
+00000145 d7ed                LCALL    0x12; _send_ble_packet=0x12
+00000146 dea5                MOVIA    0x5a
+00000147 d34b                LCALL    0x4b4; _delay_ms=0x4b4
+00000148 c697                LGOTO    0x168; main.o:_02041_DS_=0x168
+main.o:_02032_DS_:
 00000149 e0fc                BCR      STATUS, BK0
-0000014a ed97                XORAR    0x68, ToAcc
-0000014b f6fc                BTRSS    STATUS, Z
-0000014c c692                LGOTO    0x16d; main.o:_02035_DS_=0x16d
+0000014a fd14                CLRR     0x6b
+0000014b e0fc                BCR      STATUS, BK0
+0000014c fe90                MOVR     0x6f, ToAcc
 0000014d e0fc                BCR      STATUS, BK0
-0000014e fe90                MOVR     0x6f, ToAcc
-0000014f f6fc                BTRSS    STATUS, Z
-00000150 c6a3                LGOTO    0x15c; main.o:_02032_DS_=0x15c
-00000151 e0fc                BCR      STATUS, BK0
-00000152 fe8c                MOVR     0x73, ToAcc
+0000014e ff19                MOVAR    0x66
+0000014f fa99                INCR     0x66, ToAcc
+00000150 e0fc                BCR      STATUS, BK0
+00000151 ff10                MOVAR    0x6f
+00000152 fe90                MOVR     0x6f, ToAcc
 00000153 ff05                MOVAR    0x7a
-00000154 deff                MOVIA    0x0
+00000154 dee8                MOVIA    0x17
 00000155 ff06                MOVAR    0x79
 00000156 e0fc                BCR      STATUS, BK0
-00000157 fe96                MOVR     0x69, ToAcc
-00000158 d7f6                LCALL    0x9; _send_ble_packet=0x9
-00000159 dea5                MOVIA    0x5a
-0000015a d34c                LCALL    0x4b3; _delay_ms=0x4b3
-0000015b c684                LGOTO    0x17b; main.o:_02041_DS_=0x17b
-main.o:_02032_DS_:
-0000015c e0fc                BCR      STATUS, BK0
-0000015d fd10                CLRR     0x6f
-0000015e e0fc                BCR      STATUS, BK0
-0000015f fe8c                MOVR     0x73, ToAcc
-00000160 e0fc                BCR      STATUS, BK0
-00000161 ff15                MOVAR    0x6a
-00000162 fa95                INCR     0x6a, ToAcc
-00000163 e0fc                BCR      STATUS, BK0
-00000164 ff0c                MOVAR    0x73
-00000165 fe8c                MOVR     0x73, ToAcc
-00000166 ff05                MOVAR    0x7a
-00000167 dee8                MOVIA    0x17
-00000168 ff06                MOVAR    0x79
-00000169 e0fc                BCR      STATUS, BK0
-0000016a fe96                MOVR     0x69, ToAcc
-0000016b d7f6                LCALL    0x9; _send_ble_packet=0x9
-0000016c c684                LGOTO    0x17b; main.o:_02041_DS_=0x17b
+00000157 fe9a                MOVR     0x65, ToAcc
+00000158 d7ed                LCALL    0x12; _send_ble_packet=0x12
+00000159 c697                LGOTO    0x168; main.o:_02041_DS_=0x168
 main.o:_02035_DS_:
-0000016d e0fc                BCR      STATUS, BK0
-0000016e fe8c                MOVR     0x73, ToAcc
-0000016f e0fc                BCR      STATUS, BK0
-00000170 ff15                MOVAR    0x6a
-00000171 fa95                INCR     0x6a, ToAcc
-00000172 e0fc                BCR      STATUS, BK0
-00000173 ff0c                MOVAR    0x73
-00000174 fe8c                MOVR     0x73, ToAcc
-00000175 ff05                MOVAR    0x7a
-00000176 dee8                MOVIA    0x17
-00000177 ff06                MOVAR    0x79
-00000178 e0fc                BCR      STATUS, BK0
-00000179 fe96                MOVR     0x69, ToAcc
-0000017a d7f6                LCALL    0x9; _send_ble_packet=0x9
+0000015a e0fc                BCR      STATUS, BK0
+0000015b fe90                MOVR     0x6f, ToAcc
+0000015c e0fc                BCR      STATUS, BK0
+0000015d ff19                MOVAR    0x66
+0000015e fa99                INCR     0x66, ToAcc
+0000015f e0fc                BCR      STATUS, BK0
+00000160 ff10                MOVAR    0x6f
+00000161 fe90                MOVR     0x6f, ToAcc
+00000162 ff05                MOVAR    0x7a
+00000163 dee8                MOVIA    0x17
+00000164 ff06                MOVAR    0x79
+00000165 e0fc                BCR      STATUS, BK0
+00000166 fe9a                MOVR     0x65, ToAcc
+00000167 d7ed                LCALL    0x12; _send_ble_packet=0x12
 main.o:_02041_DS_:
-0000017b fffd                CLRWDT
-0000017c e0fc                BCR      STATUS, BK0
-0000017d fe97                MOVR     0x68, ToAcc
-0000017e f2fc                BTRSC    STATUS, Z
-0000017f c677                LGOTO    0x188; main.o:_02043_DS_=0x188
-00000180 defe                MOVIA    0x1
-00000181 e0fc                BCR      STATUS, BK0
-00000182 ff18                MOVAR    0x67
-00000183 e0fc                BCR      STATUS, BK0
-00000184 fe97                MOVR     0x68, ToAcc
-00000185 e0fc                BCR      STATUS, BK0
-00000186 ff0d                MOVAR    0x72
-00000187 c675                LGOTO    0x18a; main.o:_02044_DS_=0x18a
+00000168 fffd                CLRWDT
+00000169 e0fc                BCR      STATUS, BK0
+0000016a fe9b                MOVR     0x64, ToAcc
+0000016b f2fc                BTRSC    STATUS, Z
+0000016c c68a                LGOTO    0x175; main.o:_02043_DS_=0x175
+0000016d defe                MOVIA    0x1
+0000016e e0fc                BCR      STATUS, BK0
+0000016f ff1c                MOVAR    0x63
+00000170 e0fc                BCR      STATUS, BK0
+00000171 fe9b                MOVR     0x64, ToAcc
+00000172 e0fc                BCR      STATUS, BK0
+00000173 ff11                MOVAR    0x6e
+00000174 c688                LGOTO    0x177; main.o:_02044_DS_=0x177
 main.o:_02043_DS_:
-00000188 e0fc                BCR      STATUS, BK0
-00000189 fd18                CLRR     0x67
+00000175 e0fc                BCR      STATUS, BK0
+00000176 fd1c                CLRR     0x63
 main.o:_02044_DS_:
-0000018a e0fc                BCR      STATUS, BK0
-0000018b fe8f                MOVR     0x70, ToAcc
-0000018c e0fc                BCR      STATUS, BK0
-0000018d ff17                MOVAR    0x68
-0000018e fa97                INCR     0x68, ToAcc
-0000018f e0fc                BCR      STATUS, BK0
-00000190 ff0f                MOVAR    0x70
-00000191 fe8f                MOVR     0x70, ToAcc
-00000192 db00                XORIA    0xff
-00000193 f6fc                BTRSS    STATUS, Z
-00000194 c662                LGOTO    0x19d; main.o:_02046_DS_=0x19d
-00000195 fd0f                CLRR     0x70
-00000196 e0fc                BCR      STATUS, BK0
-00000197 fe8e                MOVR     0x71, ToAcc
-00000198 e0fc                BCR      STATUS, BK0
-00000199 ff17                MOVAR    0x68
-0000019a fa97                INCR     0x68, ToAcc
-0000019b e0fc                BCR      STATUS, BK0
-0000019c ff0e                MOVAR    0x71
+00000177 e0fc                BCR      STATUS, BK0
+00000178 fe93                MOVR     0x6c, ToAcc
+00000179 e0fc                BCR      STATUS, BK0
+0000017a ff1b                MOVAR    0x64
+0000017b fa9b                INCR     0x64, ToAcc
+0000017c e0fc                BCR      STATUS, BK0
+0000017d ff13                MOVAR    0x6c
+0000017e fe93                MOVR     0x6c, ToAcc
+0000017f db00                XORIA    0xff
+00000180 f6fc                BTRSS    STATUS, Z
+00000181 c675                LGOTO    0x18a; main.o:_02046_DS_=0x18a
+00000182 fd13                CLRR     0x6c
+00000183 e0fc                BCR      STATUS, BK0
+00000184 fe92                MOVR     0x6d, ToAcc
+00000185 e0fc                BCR      STATUS, BK0
+00000186 ff1b                MOVAR    0x64
+00000187 fa9b                INCR     0x64, ToAcc
+00000188 e0fc                BCR      STATUS, BK0
+00000189 ff12                MOVAR    0x6d
 main.o:_02046_DS_:
-0000019d e0fc                BCR      STATUS, BK0
-0000019e fe8e                MOVR     0x71, ToAcc
-0000019f dbeb                XORIA    0x14
-000001a0 f6fc                BTRSS    STATUS, Z
-000001a1 c6e3                LGOTO    0x11c; main.o:_02050_DS_=0x11c
-000001a2 fd0e                CLRR     0x71
-000001a3 d299                LCALL    0x566; _wake_up_init=0x566
-000001a4 d262                LCALL    0x59d; _close_WDT=0x59d
-000001a5 fe7a                MOVR     PORTA, ToReg
-000001a6 fd70                CLRR     INTF
-000001a7 fffe                SLEEP
-000001a8 d25f                LCALL    0x5a0; _open_WDT=0x5a0
-000001a9 c6e3                LGOTO    0x11c; main.o:_02050_DS_=0x11c
-000001aa ffef                RET
-_Check_Keydown:
-000001ab fefa                MOVR     PORTA, ToAcc
-000001ac e0fc                BCR      STATUS, BK0
-000001ad ff1a                MOVAR    0x65
-000001ae de03                MOVIA    0xfc
-000001af ef1a                ANDAR    0x65, ToReg
-000001b0 fe9a                MOVR     0x65, ToAcc
-000001b1 db03                XORIA    0xfc
-000001b2 f6fc                BTRSS    STATUS, Z
-000001b3 c64a                LGOTO    0x1b5; key.o:_02103_DS_=0x1b5
-000001b4 c5d4                LGOTO    0x22b; key.o:_02040_DS_=0x22b
-key.o:_02103_DS_:
-000001b5 defb                MOVIA    0x4
-000001b6 d34c                LCALL    0x4b3; _delay_ms=0x4b3
-000001b7 fefa                MOVR     PORTA, ToAcc
-000001b8 e0fc                BCR      STATUS, BK0
-000001b9 ff1a                MOVAR    0x65
-000001ba de03                MOVIA    0xfc
-000001bb ef1a                ANDAR    0x65, ToReg
-000001bc fe9a                MOVR     0x65, ToAcc
-000001bd db03                XORIA    0xfc
-000001be f6fc                BTRSS    STATUS, Z
-000001bf c63e                LGOTO    0x1c1; key.o:_02104_DS_=0x1c1
-000001c0 c5d6                LGOTO    0x229; key.o:_02037_DS_=0x229
-key.o:_02104_DS_:
-000001c1 f07a                BTRSC    PORTA, PA7
-000001c2 c63a                LGOTO    0x1c5; key.o:_02022_DS_=0x1c5
-000001c3 deea                MOVIA    0x15
-000001c4 c5d3                LGOTO    0x22c; key.o:_02041_DS_=0x22c
-key.o:_02022_DS_:
-000001c5 de83                MOVIA    0x7c
-000001c6 e0fc                BCR      STATUS, BK0
-000001c7 ef1a                ANDAR    0x65, ToReg
-000001c8 fe9a                MOVR     0x65, ToAcc
-000001c9 dbc3                XORIA    0x3c
-000001ca f6fc                BTRSS    STATUS, Z
-000001cb c632                LGOTO    0x1cd; key.o:_02105_DS_=0x1cd
-000001cc c60c                LGOTO    0x1f3; key.o:_02027_DS_=0x1f3
-key.o:_02105_DS_:
-000001cd e0fc                BCR      STATUS, BK0
-000001ce fe9a                MOVR     0x65, ToAcc
-000001cf dba3                XORIA    0x5c
-000001d0 f6fc                BTRSS    STATUS, Z
-000001d1 c62c                LGOTO    0x1d3; key.o:_02106_DS_=0x1d3
-000001d2 c610                LGOTO    0x1ef; key.o:_02026_DS_=0x1ef
-key.o:_02106_DS_:
-000001d3 e0fc                BCR      STATUS, BK0
-000001d4 fe9a                MOVR     0x65, ToAcc
-000001d5 db93                XORIA    0x6c
-000001d6 f6fc                BTRSS    STATUS, Z
-000001d7 c626                LGOTO    0x1d9; key.o:_02107_DS_=0x1d9
-000001d8 c614                LGOTO    0x1eb; key.o:_02025_DS_=0x1eb
-key.o:_02107_DS_:
-000001d9 e0fc                BCR      STATUS, BK0
-000001da fe9a                MOVR     0x65, ToAcc
-000001db db8b                XORIA    0x74
-000001dc f6fc                BTRSS    STATUS, Z
-000001dd c620                LGOTO    0x1df; key.o:_02108_DS_=0x1df
-000001de c618                LGOTO    0x1e7; key.o:_02024_DS_=0x1e7
-key.o:_02108_DS_:
-000001df e0fc                BCR      STATUS, BK0
-000001e0 fe9a                MOVR     0x65, ToAcc
-000001e1 db87                XORIA    0x78
-000001e2 f6fc                BTRSS    STATUS, Z
-000001e3 c608                LGOTO    0x1f7; key.o:_02028_DS_=0x1f7
-000001e4 defe                MOVIA    0x1
-000001e5 ff1a                MOVAR    0x65
-000001e6 c606                LGOTO    0x1f9; key.o:_02029_DS_=0x1f9
-key.o:_02024_DS_:
-000001e7 defd                MOVIA    0x2
-000001e8 e0fc                BCR      STATUS, BK0
-000001e9 ff1a                MOVAR    0x65
-000001ea c606                LGOTO    0x1f9; key.o:_02029_DS_=0x1f9
-key.o:_02025_DS_:
-000001eb defc                MOVIA    0x3
-000001ec e0fc                BCR      STATUS, BK0
-000001ed ff1a                MOVAR    0x65
-000001ee c606                LGOTO    0x1f9; key.o:_02029_DS_=0x1f9
-key.o:_02026_DS_:
-000001ef defb                MOVIA    0x4
-000001f0 e0fc                BCR      STATUS, BK0
-000001f1 ff1a                MOVAR    0x65
-000001f2 c606                LGOTO    0x1f9; key.o:_02029_DS_=0x1f9
-key.o:_02027_DS_:
-000001f3 defa                MOVIA    0x5
-000001f4 e0fc                BCR      STATUS, BK0
-000001f5 ff1a                MOVAR    0x65
-000001f6 c606                LGOTO    0x1f9; key.o:_02029_DS_=0x1f9
-key.o:_02028_DS_:
-000001f7 e0fc                BCR      STATUS, BK0
-000001f8 fd1a                CLRR     0x65
-key.o:_02029_DS_:
-000001f9 d2b1                LCALL    0x54e; _toggle_key=0x54e
-000001fa fef9                MOVR     PORTB, ToAcc
-000001fb e0fc                BCR      STATUS, BK0
-000001fc ff19                MOVAR    0x66
-000001fd def0                MOVIA    0xf
-000001fe ef19                ANDAR    0x66, ToReg
-000001ff fe99                MOVR     0x66, ToAcc
-00000200 dbf8                XORIA    0x7
-00000201 f6fc                BTRSS    STATUS, Z
-00000202 c5fb                LGOTO    0x204; key.o:_02109_DS_=0x204
-00000203 c5da                LGOTO    0x225; key.o:_02035_DS_=0x225
-key.o:_02109_DS_:
-00000204 e0fc                BCR      STATUS, BK0
-00000205 fe99                MOVR     0x66, ToAcc
-00000206 dbf4                XORIA    0xb
-00000207 f6fc                BTRSS    STATUS, Z
-00000208 c5f5                LGOTO    0x20a; key.o:_02110_DS_=0x20a
-00000209 c5e8                LGOTO    0x217; key.o:_02031_DS_=0x217
-key.o:_02110_DS_:
-0000020a e0fc                BCR      STATUS, BK0
-0000020b fe99                MOVR     0x66, ToAcc
-0000020c dbf2                XORIA    0xd
-0000020d f6fc                BTRSS    STATUS, Z
-0000020e c5ef                LGOTO    0x210; key.o:_02111_DS_=0x210
-0000020f c5e4                LGOTO    0x21b; key.o:_02032_DS_=0x21b
-key.o:_02111_DS_:
-00000210 e0fc                BCR      STATUS, BK0
-00000211 fe99                MOVR     0x66, ToAcc
-00000212 dbf1                XORIA    0xe
-00000213 f6fc                BTRSS    STATUS, Z
-00000214 c5e9                LGOTO    0x216; key.o:_02112_DS_=0x216
-00000215 c5e0                LGOTO    0x21f; key.o:_02033_DS_=0x21f
-key.o:_02112_DS_:
-00000216 c5dc                LGOTO    0x223; key.o:_02034_DS_=0x223
-key.o:_02031_DS_:
-00000217 defa                MOVIA    0x5
-00000218 e0fc                BCR      STATUS, BK0
-00000219 fc1a                ADDAR    0x65, ToReg
-0000021a c5da                LGOTO    0x225; key.o:_02035_DS_=0x225
-key.o:_02032_DS_:
-0000021b def5                MOVIA    0xa
-0000021c e0fc                BCR      STATUS, BK0
-0000021d fc1a                ADDAR    0x65, ToReg
-0000021e c5da                LGOTO    0x225; key.o:_02035_DS_=0x225
-key.o:_02033_DS_:
-0000021f def0                MOVIA    0xf
-00000220 e0fc                BCR      STATUS, BK0
-00000221 fc1a                ADDAR    0x65, ToReg
-00000222 c5da                LGOTO    0x225; key.o:_02035_DS_=0x225
-key.o:_02034_DS_:
-00000223 e0fc                BCR      STATUS, BK0
-00000224 fd1a                CLRR     0x65
-key.o:_02035_DS_:
-00000225 fffd                CLRWDT
-00000226 e0fc                BCR      STATUS, BK0
-00000227 fe9a                MOVR     0x65, ToAcc
-00000228 c5d3                LGOTO    0x22c; key.o:_02041_DS_=0x22c
-key.o:_02037_DS_:
-00000229 deff                MOVIA    0x0
-0000022a c5d3                LGOTO    0x22c; key.o:_02041_DS_=0x22c
-key.o:_02040_DS_:
-0000022b deff                MOVIA    0x0
-key.o:_02041_DS_:
-0000022c ffef                RET
+0000018a e0fc                BCR      STATUS, BK0
+0000018b fe92                MOVR     0x6d, ToAcc
+0000018c dbeb                XORIA    0x14
+0000018d f6fc                BTRSS    STATUS, Z
+0000018e c6f6                LGOTO    0x109; main.o:_02050_DS_=0x109
+0000018f fd12                CLRR     0x6d
+00000190 d298                LCALL    0x567; _wake_up_init=0x567
+00000191 d266                LCALL    0x599; _close_WDT=0x599
+00000192 fe7a                MOVR     PORTA, ToReg
+00000193 fd70                CLRR     INTF
+00000194 fffe                SLEEP
+00000195 d263                LCALL    0x59c; _open_WDT=0x59c
+00000196 c6f6                LGOTO    0x109; main.o:_02050_DS_=0x109
+00000197 ffef                RET
 _CS1630_Init:
-0000022d d2cc                LCALL    0x533; _RF_softSPI_Init=0x533
-0000022e d28e                LCALL    0x571; _CS1630_CE_Low=0x571
-0000022f defd                MOVIA    0x2
-00000230 ff06                MOVAR    0x79
-00000231 deff                MOVIA    0x0
-00000232 d30b                LCALL    0x4f4; _CS1630_write_byte=0x4f4
-00000233 defb                MOVIA    0x4
-00000234 d34c                LCALL    0x4b3; _delay_ms=0x4b3
-00000235 d4f5                LCALL    0x30a; _CS1630_Soft_Rst=0x30a
-00000236 d284                LCALL    0x57b; _CS1630_CE_High=0x57b
-00000237 deef                MOVIA    0x10
-00000238 d2ea                LCALL    0x515; _delay_us=0x515
-00000239 d28e                LCALL    0x571; _CS1630_CE_Low=0x571
+00000198 d2cb                LCALL    0x534; _RF_softSPI_Init=0x534
+00000199 d28d                LCALL    0x572; _CS1630_CE_Low=0x572
+0000019a defd                MOVIA    0x2
+0000019b ff06                MOVAR    0x79
+0000019c deff                MOVIA    0x0
+0000019d d30a                LCALL    0x4f5; _CS1630_write_byte=0x4f5
+0000019e defb                MOVIA    0x4
+0000019f d34b                LCALL    0x4b4; _delay_ms=0x4b4
+000001a0 d4f4                LCALL    0x30b; _CS1630_Soft_Rst=0x30b
+000001a1 d283                LCALL    0x57c; _CS1630_CE_High=0x57c
+000001a2 deef                MOVIA    0x10
+000001a3 d2e9                LCALL    0x516; _delay_us=0x516
+000001a4 d28d                LCALL    0x572; _CS1630_CE_Low=0x572
 bsp_cs1630.o:_02009_DS_:
-0000023a dee1                MOVIA    0x1e
-0000023b d2da                LCALL    0x525; _CS1630_read_byte=0x525
-0000023c e0fc                BCR      STATUS, BK0
-0000023d ff47                MOVAR    0x38
-0000023e f7c7                BTRSS    0x38, 0x0
-0000023f c5c5                LGOTO    0x23a; bsp_cs1630.o:_02009_DS_=0x23a
-00000240 defe                MOVIA    0x1
-00000241 d363                LCALL    0x49c; _CS1630_Bank_Switch=0x49c
-00000242 deee                MOVIA    0x11
-00000243 d2da                LCALL    0x525; _CS1630_read_byte=0x525
-00000244 e0fc                BCR      STATUS, BK0
-00000245 ff47                MOVAR    0x38
-00000246 dedf                MOVIA    0x20
-00000247 e0fc                BCR      STATUS, BK0
-00000248 ff46                MOVAR    0x39
-00000249 e0fc                BCR      STATUS, BK0
-0000024a fd45                CLRR     0x3a
-0000024b e0fc                BCR      STATUS, BK0
-0000024c fd44                CLRR     0x3b
-0000024d defb                MOVIA    0x4
-0000024e ff03                MOVAR    0x7c
-0000024f e0fc                BCR      STATUS, BK0
-00000250 fec6                MOVR     0x39, ToAcc
-00000251 ff04                MOVAR    0x7b
-00000252 e0fc                BCR      STATUS, BK0
-00000253 fec5                MOVR     0x3a, ToAcc
-00000254 ff05                MOVAR    0x7a
-00000255 e0fc                BCR      STATUS, BK0
-00000256 fec4                MOVR     0x3b, ToAcc
-00000257 ff06                MOVAR    0x79
-00000258 defe                MOVIA    0x1
-00000259 d4ac                LCALL    0x353; _CS1630_read_buffer=0x353
-0000025a def8                MOVIA    0x7
-0000025b e0fc                BCR      STATUS, BK0
-0000025c ff5f                MOVAR    0x20
-0000025d de7f                MOVIA    0x80
-0000025e ff5e                MOVAR    0x21
-0000025f fedd                MOVR     0x22, ToAcc
-00000260 e0fc                BCR      STATUS, BK0
-00000261 ff46                MOVAR    0x39
-00000262 deb7                MOVIA    0x48
-00000263 ee46                IORAR    0x39, ToReg
-00000264 fec6                MOVR     0x39, ToAcc
+000001a5 dee1                MOVIA    0x1e
+000001a6 d2d9                LCALL    0x526; _CS1630_read_byte=0x526
+000001a7 e0fc                BCR      STATUS, BK0
+000001a8 ff4b                MOVAR    0x34
+000001a9 f7cb                BTRSS    0x34, 0x0
+000001aa c65a                LGOTO    0x1a5; bsp_cs1630.o:_02009_DS_=0x1a5
+000001ab defe                MOVIA    0x1
+000001ac d362                LCALL    0x49d; _CS1630_Bank_Switch=0x49d
+000001ad deee                MOVIA    0x11
+000001ae d2d9                LCALL    0x526; _CS1630_read_byte=0x526
+000001af e0fc                BCR      STATUS, BK0
+000001b0 ff4b                MOVAR    0x34
+000001b1 dedf                MOVIA    0x20
+000001b2 e0fc                BCR      STATUS, BK0
+000001b3 ff4a                MOVAR    0x35
+000001b4 e0fc                BCR      STATUS, BK0
+000001b5 fd49                CLRR     0x36
+000001b6 e0fc                BCR      STATUS, BK0
+000001b7 fd48                CLRR     0x37
+000001b8 defb                MOVIA    0x4
+000001b9 ff03                MOVAR    0x7c
+000001ba e0fc                BCR      STATUS, BK0
+000001bb feca                MOVR     0x35, ToAcc
+000001bc ff04                MOVAR    0x7b
+000001bd e0fc                BCR      STATUS, BK0
+000001be fec9                MOVR     0x36, ToAcc
+000001bf ff05                MOVAR    0x7a
+000001c0 e0fc                BCR      STATUS, BK0
+000001c1 fec8                MOVR     0x37, ToAcc
+000001c2 ff06                MOVAR    0x79
+000001c3 defe                MOVIA    0x1
+000001c4 d4ab                LCALL    0x354; _CS1630_read_buffer=0x354
+000001c5 def8                MOVIA    0x7
+000001c6 e0fc                BCR      STATUS, BK0
+000001c7 ff5f                MOVAR    0x20
+000001c8 de7f                MOVIA    0x80
+000001c9 ff5e                MOVAR    0x21
+000001ca fedd                MOVR     0x22, ToAcc
+000001cb e0fc                BCR      STATUS, BK0
+000001cc ff4a                MOVAR    0x35
+000001cd deb7                MOVIA    0x48
+000001ce ee4a                IORAR    0x35, ToReg
+000001cf feca                MOVR     0x35, ToAcc
+000001d0 e0fc                BCR      STATUS, BK0
+000001d1 ff5d                MOVAR    0x22
+000001d2 dedf                MOVIA    0x20
+000001d3 e0fc                BCR      STATUS, BK0
+000001d4 ff4a                MOVAR    0x35
+000001d5 e0fc                BCR      STATUS, BK0
+000001d6 fd49                CLRR     0x36
+000001d7 e0fc                BCR      STATUS, BK0
+000001d8 fd48                CLRR     0x37
+000001d9 defb                MOVIA    0x4
+000001da ff03                MOVAR    0x7c
+000001db e0fc                BCR      STATUS, BK0
+000001dc feca                MOVR     0x35, ToAcc
+000001dd ff04                MOVAR    0x7b
+000001de e0fc                BCR      STATUS, BK0
+000001df fec9                MOVR     0x36, ToAcc
+000001e0 ff05                MOVAR    0x7a
+000001e1 e0fc                BCR      STATUS, BK0
+000001e2 fec8                MOVR     0x37, ToAcc
+000001e3 ff06                MOVAR    0x79
+000001e4 defe                MOVIA    0x1
+000001e5 d470                LCALL    0x38f; _CS1630_wr_buffer=0x38f
+000001e6 e0fc                BCR      STATUS, BK0
+000001e7 fecb                MOVR     0x34, ToAcc
+000001e8 ff06                MOVAR    0x79
+000001e9 deee                MOVIA    0x11
+000001ea d30a                LCALL    0x4f5; _CS1630_write_byte=0x4f5
+000001eb deff                MOVIA    0x0
+000001ec d362                LCALL    0x49d; _CS1630_Bank_Switch=0x49d
+000001ed defe                MOVIA    0x1
+000001ee ff06                MOVAR    0x79
+000001ef dee1                MOVIA    0x1e
+000001f0 d30a                LCALL    0x4f5; _CS1630_write_byte=0x4f5
+000001f1 decb                MOVIA    0x34
+000001f2 e0fc                BCR      STATUS, BK0
+000001f3 ff5f                MOVAR    0x20
+000001f4 d7f1                LCALL    0xe; _get_rolling_code_0=0xe
+000001f5 e0fc                BCR      STATUS, BK0
+000001f6 ff4b                MOVAR    0x34
+000001f7 fa4b                INCR     0x34, ToReg
+000001f8 fecb                MOVR     0x34, ToAcc
+000001f9 e0fc                BCR      STATUS, BK0
+000001fa ff5e                MOVAR    0x21
+000001fb d7f0                LCALL    0xf; _get_rolling_code_1=0xf
+000001fc e0fc                BCR      STATUS, BK0
+000001fd ff4b                MOVAR    0x34
+000001fe fa4b                INCR     0x34, ToReg
+000001ff fecb                MOVR     0x34, ToAcc
+00000200 e0fc                BCR      STATUS, BK0
+00000201 ff5d                MOVAR    0x22
+00000202 d7ef                LCALL    0x10; _get_rolling_code_2=0x10
+00000203 e0fc                BCR      STATUS, BK0
+00000204 ff4b                MOVAR    0x34
+00000205 fa4b                INCR     0x34, ToReg
+00000206 fecb                MOVR     0x34, ToAcc
+00000207 e0fc                BCR      STATUS, BK0
+00000208 ff5c                MOVAR    0x23
+00000209 d7ee                LCALL    0x11; _get_rolling_code_3=0x11
+0000020a e0fc                BCR      STATUS, BK0
+0000020b ff4b                MOVAR    0x34
+0000020c fa4b                INCR     0x34, ToReg
+0000020d fecb                MOVR     0x34, ToAcc
+0000020e e0fc                BCR      STATUS, BK0
+0000020f ff5b                MOVAR    0x24
+00000210 dedf                MOVIA    0x20
+00000211 e0fc                BCR      STATUS, BK0
+00000212 ff4b                MOVAR    0x34
+00000213 e0fc                BCR      STATUS, BK0
+00000214 fd4a                CLRR     0x35
+00000215 e0fc                BCR      STATUS, BK0
+00000216 fd49                CLRR     0x36
+00000217 defa                MOVIA    0x5
+00000218 ff03                MOVAR    0x7c
+00000219 e0fc                BCR      STATUS, BK0
+0000021a fecb                MOVR     0x34, ToAcc
+0000021b ff04                MOVAR    0x7b
+0000021c e0fc                BCR      STATUS, BK0
+0000021d feca                MOVR     0x35, ToAcc
+0000021e ff05                MOVAR    0x7a
+0000021f e0fc                BCR      STATUS, BK0
+00000220 fec9                MOVR     0x36, ToAcc
+00000221 ff06                MOVAR    0x79
+00000222 deef                MOVIA    0x10
+00000223 d470                LCALL    0x38f; _CS1630_wr_buffer=0x38f
+00000224 d7fc                LCALL    0x3; _CS1630_Clear_All_Irq=0x3
+00000225 d279                LCALL    0x586; _CS1630_Flush_Tx=0x586
+00000226 fffd                CLRWDT
+00000227 ffef                RET
+_Check_Keydown:
+00000228 fefa                MOVR     PORTA, ToAcc
+00000229 e0fc                BCR      STATUS, BK0
+0000022a ff1e                MOVAR    0x61
+0000022b de03                MOVIA    0xfc
+0000022c ef1e                ANDAR    0x61, ToReg
+0000022d fe9e                MOVR     0x61, ToAcc
+0000022e db03                XORIA    0xfc
+0000022f f6fc                BTRSS    STATUS, Z
+00000230 c5cd                LGOTO    0x232; key.o:_02103_DS_=0x232
+00000231 c557                LGOTO    0x2a8; key.o:_02040_DS_=0x2a8
+key.o:_02103_DS_:
+00000232 defb                MOVIA    0x4
+00000233 d34b                LCALL    0x4b4; _delay_ms=0x4b4
+00000234 fefa                MOVR     PORTA, ToAcc
+00000235 e0fc                BCR      STATUS, BK0
+00000236 ff1e                MOVAR    0x61
+00000237 de03                MOVIA    0xfc
+00000238 ef1e                ANDAR    0x61, ToReg
+00000239 fe9e                MOVR     0x61, ToAcc
+0000023a db03                XORIA    0xfc
+0000023b f6fc                BTRSS    STATUS, Z
+0000023c c5c1                LGOTO    0x23e; key.o:_02104_DS_=0x23e
+0000023d c559                LGOTO    0x2a6; key.o:_02037_DS_=0x2a6
+key.o:_02104_DS_:
+0000023e f07a                BTRSC    PORTA, PA7
+0000023f c5bd                LGOTO    0x242; key.o:_02022_DS_=0x242
+00000240 deea                MOVIA    0x15
+00000241 c556                LGOTO    0x2a9; key.o:_02041_DS_=0x2a9
+key.o:_02022_DS_:
+00000242 de83                MOVIA    0x7c
+00000243 e0fc                BCR      STATUS, BK0
+00000244 ef1e                ANDAR    0x61, ToReg
+00000245 fe9e                MOVR     0x61, ToAcc
+00000246 dbc3                XORIA    0x3c
+00000247 f6fc                BTRSS    STATUS, Z
+00000248 c5b5                LGOTO    0x24a; key.o:_02105_DS_=0x24a
+00000249 c58f                LGOTO    0x270; key.o:_02027_DS_=0x270
+key.o:_02105_DS_:
+0000024a e0fc                BCR      STATUS, BK0
+0000024b fe9e                MOVR     0x61, ToAcc
+0000024c dba3                XORIA    0x5c
+0000024d f6fc                BTRSS    STATUS, Z
+0000024e c5af                LGOTO    0x250; key.o:_02106_DS_=0x250
+0000024f c593                LGOTO    0x26c; key.o:_02026_DS_=0x26c
+key.o:_02106_DS_:
+00000250 e0fc                BCR      STATUS, BK0
+00000251 fe9e                MOVR     0x61, ToAcc
+00000252 db93                XORIA    0x6c
+00000253 f6fc                BTRSS    STATUS, Z
+00000254 c5a9                LGOTO    0x256; key.o:_02107_DS_=0x256
+00000255 c597                LGOTO    0x268; key.o:_02025_DS_=0x268
+key.o:_02107_DS_:
+00000256 e0fc                BCR      STATUS, BK0
+00000257 fe9e                MOVR     0x61, ToAcc
+00000258 db8b                XORIA    0x74
+00000259 f6fc                BTRSS    STATUS, Z
+0000025a c5a3                LGOTO    0x25c; key.o:_02108_DS_=0x25c
+0000025b c59b                LGOTO    0x264; key.o:_02024_DS_=0x264
+key.o:_02108_DS_:
+0000025c e0fc                BCR      STATUS, BK0
+0000025d fe9e                MOVR     0x61, ToAcc
+0000025e db87                XORIA    0x78
+0000025f f6fc                BTRSS    STATUS, Z
+00000260 c58b                LGOTO    0x274; key.o:_02028_DS_=0x274
+00000261 defe                MOVIA    0x1
+00000262 ff1e                MOVAR    0x61
+00000263 c589                LGOTO    0x276; key.o:_02029_DS_=0x276
+key.o:_02024_DS_:
+00000264 defd                MOVIA    0x2
 00000265 e0fc                BCR      STATUS, BK0
-00000266 ff5d                MOVAR    0x22
-00000267 dedf                MOVIA    0x20
-00000268 e0fc                BCR      STATUS, BK0
-00000269 ff46                MOVAR    0x39
-0000026a e0fc                BCR      STATUS, BK0
-0000026b fd45                CLRR     0x3a
-0000026c e0fc                BCR      STATUS, BK0
-0000026d fd44                CLRR     0x3b
-0000026e defb                MOVIA    0x4
-0000026f ff03                MOVAR    0x7c
-00000270 e0fc                BCR      STATUS, BK0
-00000271 fec6                MOVR     0x39, ToAcc
-00000272 ff04                MOVAR    0x7b
-00000273 e0fc                BCR      STATUS, BK0
-00000274 fec5                MOVR     0x3a, ToAcc
-00000275 ff05                MOVAR    0x7a
-00000276 e0fc                BCR      STATUS, BK0
-00000277 fec4                MOVR     0x3b, ToAcc
-00000278 ff06                MOVAR    0x79
-00000279 defe                MOVIA    0x1
-0000027a d471                LCALL    0x38e; _CS1630_wr_buffer=0x38e
-0000027b e0fc                BCR      STATUS, BK0
-0000027c fec7                MOVR     0x38, ToAcc
-0000027d ff06                MOVAR    0x79
-0000027e deee                MOVIA    0x11
-0000027f d30b                LCALL    0x4f4; _CS1630_write_byte=0x4f4
-00000280 deff                MOVIA    0x0
-00000281 d363                LCALL    0x49c; _CS1630_Bank_Switch=0x49c
-00000282 defe                MOVIA    0x1
-00000283 ff06                MOVAR    0x79
-00000284 dee1                MOVIA    0x1e
-00000285 d30b                LCALL    0x4f4; _CS1630_write_byte=0x4f4
-00000286 deed                MOVIA    0x12
+00000266 ff1e                MOVAR    0x61
+00000267 c589                LGOTO    0x276; key.o:_02029_DS_=0x276
+key.o:_02025_DS_:
+00000268 defc                MOVIA    0x3
+00000269 e0fc                BCR      STATUS, BK0
+0000026a ff1e                MOVAR    0x61
+0000026b c589                LGOTO    0x276; key.o:_02029_DS_=0x276
+key.o:_02026_DS_:
+0000026c defb                MOVIA    0x4
+0000026d e0fc                BCR      STATUS, BK0
+0000026e ff1e                MOVAR    0x61
+0000026f c589                LGOTO    0x276; key.o:_02029_DS_=0x276
+key.o:_02027_DS_:
+00000270 defa                MOVIA    0x5
+00000271 e0fc                BCR      STATUS, BK0
+00000272 ff1e                MOVAR    0x61
+00000273 c589                LGOTO    0x276; key.o:_02029_DS_=0x276
+key.o:_02028_DS_:
+00000274 e0fc                BCR      STATUS, BK0
+00000275 fd1e                CLRR     0x61
+key.o:_02029_DS_:
+00000276 d2b0                LCALL    0x54f; _toggle_key=0x54f
+00000277 fef9                MOVR     PORTB, ToAcc
+00000278 e0fc                BCR      STATUS, BK0
+00000279 ff1d                MOVAR    0x62
+0000027a def0                MOVIA    0xf
+0000027b ef1d                ANDAR    0x62, ToReg
+0000027c fe9d                MOVR     0x62, ToAcc
+0000027d dbf8                XORIA    0x7
+0000027e f6fc                BTRSS    STATUS, Z
+0000027f c57e                LGOTO    0x281; key.o:_02109_DS_=0x281
+00000280 c55d                LGOTO    0x2a2; key.o:_02035_DS_=0x2a2
+key.o:_02109_DS_:
+00000281 e0fc                BCR      STATUS, BK0
+00000282 fe9d                MOVR     0x62, ToAcc
+00000283 dbf4                XORIA    0xb
+00000284 f6fc                BTRSS    STATUS, Z
+00000285 c578                LGOTO    0x287; key.o:_02110_DS_=0x287
+00000286 c56b                LGOTO    0x294; key.o:_02031_DS_=0x294
+key.o:_02110_DS_:
 00000287 e0fc                BCR      STATUS, BK0
-00000288 ff5f                MOVAR    0x20
-00000289 decb                MOVIA    0x34
-0000028a ff5e                MOVAR    0x21
-0000028b dea9                MOVIA    0x56
-0000028c ff5d                MOVAR    0x22
-0000028d de87                MOVIA    0x78
-0000028e ff5c                MOVAR    0x23
-0000028f de65                MOVIA    0x9a
-00000290 ff5b                MOVAR    0x24
-00000291 dedf                MOVIA    0x20
-00000292 e0fc                BCR      STATUS, BK0
-00000293 ff47                MOVAR    0x38
-00000294 e0fc                BCR      STATUS, BK0
-00000295 fd46                CLRR     0x39
-00000296 e0fc                BCR      STATUS, BK0
-00000297 fd45                CLRR     0x3a
-00000298 defa                MOVIA    0x5
-00000299 ff03                MOVAR    0x7c
-0000029a e0fc                BCR      STATUS, BK0
-0000029b fec7                MOVR     0x38, ToAcc
-0000029c ff04                MOVAR    0x7b
+00000288 fe9d                MOVR     0x62, ToAcc
+00000289 dbf2                XORIA    0xd
+0000028a f6fc                BTRSS    STATUS, Z
+0000028b c572                LGOTO    0x28d; key.o:_02111_DS_=0x28d
+0000028c c567                LGOTO    0x298; key.o:_02032_DS_=0x298
+key.o:_02111_DS_:
+0000028d e0fc                BCR      STATUS, BK0
+0000028e fe9d                MOVR     0x62, ToAcc
+0000028f dbf1                XORIA    0xe
+00000290 f6fc                BTRSS    STATUS, Z
+00000291 c56c                LGOTO    0x293; key.o:_02112_DS_=0x293
+00000292 c563                LGOTO    0x29c; key.o:_02033_DS_=0x29c
+key.o:_02112_DS_:
+00000293 c55f                LGOTO    0x2a0; key.o:_02034_DS_=0x2a0
+key.o:_02031_DS_:
+00000294 defa                MOVIA    0x5
+00000295 e0fc                BCR      STATUS, BK0
+00000296 fc1e                ADDAR    0x61, ToReg
+00000297 c55d                LGOTO    0x2a2; key.o:_02035_DS_=0x2a2
+key.o:_02032_DS_:
+00000298 def5                MOVIA    0xa
+00000299 e0fc                BCR      STATUS, BK0
+0000029a fc1e                ADDAR    0x61, ToReg
+0000029b c55d                LGOTO    0x2a2; key.o:_02035_DS_=0x2a2
+key.o:_02033_DS_:
+0000029c def0                MOVIA    0xf
 0000029d e0fc                BCR      STATUS, BK0
-0000029e fec6                MOVR     0x39, ToAcc
-0000029f ff05                MOVAR    0x7a
+0000029e fc1e                ADDAR    0x61, ToReg
+0000029f c55d                LGOTO    0x2a2; key.o:_02035_DS_=0x2a2
+key.o:_02034_DS_:
 000002a0 e0fc                BCR      STATUS, BK0
-000002a1 fec5                MOVR     0x3a, ToAcc
-000002a2 ff06                MOVAR    0x79
-000002a3 deef                MOVIA    0x10
-000002a4 d471                LCALL    0x38e; _CS1630_wr_buffer=0x38e
-000002a5 d7fc                LCALL    0x3; _CS1630_Clear_All_Irq=0x3
-000002a6 d27a                LCALL    0x585; _CS1630_Flush_Tx=0x585
-000002a7 fffd                CLRWDT
-000002a8 ffef                RET
+000002a1 fd1e                CLRR     0x61
+key.o:_02035_DS_:
+000002a2 fffd                CLRWDT
+000002a3 e0fc                BCR      STATUS, BK0
+000002a4 fe9e                MOVR     0x61, ToAcc
+000002a5 c556                LGOTO    0x2a9; key.o:_02041_DS_=0x2a9
+key.o:_02037_DS_:
+000002a6 deff                MOVIA    0x0
+000002a7 c556                LGOTO    0x2a9; key.o:_02041_DS_=0x2a9
+key.o:_02040_DS_:
+000002a8 deff                MOVIA    0x0
+key.o:_02041_DS_:
+000002a9 ffef                RET
 _SPI_SendByte:
-000002a9 e0fc                BCR      STATUS, BK0
-000002aa ff22                MOVAR    0x5d
-000002ab fdff                CLRA
-000002ac fff9                IOST     IOSTB
-000002ad e0fc                BCR      STATUS, BK0
-000002ae fd21                CLRR     0x5e
-000002af e0fc                BCR      STATUS, BK0
-000002b0 fd20                CLRR     0x5f
+000002aa e0fc                BCR      STATUS, BK0
+000002ab ff26                MOVAR    0x59
+000002ac fdff                CLRA
+000002ad fff9                IOST     IOSTB
+000002ae e0fc                BCR      STATUS, BK0
+000002af fd25                CLRR     0x5a
+000002b0 e0fc                BCR      STATUS, BK0
+000002b1 fd24                CLRR     0x5b
 bsp_spi.o:_02035_DS_:
-000002b1 e0fc                BCR      STATUS, BK0
-000002b2 f422                BTRSS    0x5d, 0x7
-000002b3 c547                LGOTO    0x2b8; bsp_spi.o:_02039_DS_=0x2b8
-000002b4 defe                MOVIA    0x1
-000002b5 e0fc                BCR      STATUS, BK0
-000002b6 ff1f                MOVAR    0x60
-000002b7 c545                LGOTO    0x2ba; bsp_spi.o:_02040_DS_=0x2ba
+000002b2 e0fc                BCR      STATUS, BK0
+000002b3 f426                BTRSS    0x59, 0x7
+000002b4 c546                LGOTO    0x2b9; bsp_spi.o:_02039_DS_=0x2b9
+000002b5 defe                MOVIA    0x1
+000002b6 e0fc                BCR      STATUS, BK0
+000002b7 ff23                MOVAR    0x5c
+000002b8 c544                LGOTO    0x2bb; bsp_spi.o:_02040_DS_=0x2bb
 bsp_spi.o:_02039_DS_:
-000002b8 e0fc                BCR      STATUS, BK0
-000002b9 fd1f                CLRR     0x60
+000002b9 e0fc                BCR      STATUS, BK0
+000002ba fd23                CLRR     0x5c
 bsp_spi.o:_02040_DS_:
-000002ba ffff                NOP
 000002bb ffff                NOP
 000002bc ffff                NOP
-000002bd e3fa                BCR      PORTA, PA0
-000002be ffff                NOP
+000002bd ffff                NOP
+000002be e3fa                BCR      PORTA, PA0
 000002bf ffff                NOP
 000002c0 ffff                NOP
-000002c1 e0fc                BCR      STATUS, BK0
-000002c2 fe9f                MOVR     0x60, ToAcc
-000002c3 f2fc                BTRSC    STATUS, Z
-000002c4 c532                LGOTO    0x2cd; bsp_spi.o:_02019_DS_=0x2cd
-000002c5 ffff                NOP
+000002c1 ffff                NOP
+000002c2 e0fc                BCR      STATUS, BK0
+000002c3 fea3                MOVR     0x5c, ToAcc
+000002c4 f2fc                BTRSC    STATUS, Z
+000002c5 c531                LGOTO    0x2ce; bsp_spi.o:_02019_DS_=0x2ce
 000002c6 ffff                NOP
 000002c7 ffff                NOP
-000002c8 e579                BSR      PORTB, PB5
-000002c9 ffff                NOP
+000002c8 ffff                NOP
+000002c9 e579                BSR      PORTB, PB5
 000002ca ffff                NOP
 000002cb ffff                NOP
-000002cc c52b                LGOTO    0x2d4; bsp_spi.o:_02025_DS_=0x2d4
+000002cc ffff                NOP
+000002cd c52a                LGOTO    0x2d5; bsp_spi.o:_02025_DS_=0x2d5
 bsp_spi.o:_02019_DS_:
-000002cd ffff                NOP
 000002ce ffff                NOP
 000002cf ffff                NOP
-000002d0 e179                BCR      PORTB, PB5
-000002d1 ffff                NOP
+000002d0 ffff                NOP
+000002d1 e179                BCR      PORTB, PB5
 000002d2 ffff                NOP
 000002d3 ffff                NOP
-bsp_spi.o:_02025_DS_:
 000002d4 ffff                NOP
+bsp_spi.o:_02025_DS_:
 000002d5 ffff                NOP
 000002d6 ffff                NOP
-000002d7 e7fa                BSR      PORTA, PA0
-000002d8 ffff                NOP
+000002d7 ffff                NOP
+000002d8 e7fa                BSR      PORTA, PA0
 000002d9 ffff                NOP
 000002da ffff                NOP
 000002db ffff                NOP
 000002dc ffff                NOP
 000002dd ffff                NOP
-000002de e3fc                BCR      STATUS, C
-000002df e0fc                BCR      STATUS, BK0
-000002e0 eb22                RLR      0x5d, ToReg
-000002e1 e0fc                BCR      STATUS, BK0
-000002e2 fa21                INCR     0x5e, ToReg
-000002e3 f6fc                BTRSS    STATUS, Z
-000002e4 c518                LGOTO    0x2e7; bsp_spi.o:_00001_DS_=0x2e7
-000002e5 e0fc                BCR      STATUS, BK0
-000002e6 fa20                INCR     0x5f, ToReg
+000002de ffff                NOP
+000002df e3fc                BCR      STATUS, C
+000002e0 e0fc                BCR      STATUS, BK0
+000002e1 eb26                RLR      0x59, ToReg
+000002e2 e0fc                BCR      STATUS, BK0
+000002e3 fa25                INCR     0x5a, ToReg
+000002e4 f6fc                BTRSS    STATUS, Z
+000002e5 c517                LGOTO    0x2e8; bsp_spi.o:_00001_DS_=0x2e8
+000002e6 e0fc                BCR      STATUS, BK0
+000002e7 fa24                INCR     0x5b, ToReg
 bsp_spi.o:_00001_DS_:
-000002e7 e0fc                BCR      STATUS, BK0
-000002e8 fea0                MOVR     0x5f, ToAcc
-000002e9 da7f                ADDIA    0x80
+000002e8 e0fc                BCR      STATUS, BK0
+000002e9 fea4                MOVR     0x5b, ToAcc
 000002ea da7f                ADDIA    0x80
-000002eb f6fc                BTRSS    STATUS, Z
-000002ec c50f                LGOTO    0x2f0; bsp_spi.o:_02058_DS_=0x2f0
-000002ed def7                MOVIA    0x8
-000002ee e0fc                BCR      STATUS, BK0
-000002ef fba1                SUBAR    0x5e, ToAcc
+000002eb da7f                ADDIA    0x80
+000002ec f6fc                BTRSS    STATUS, Z
+000002ed c50e                LGOTO    0x2f1; bsp_spi.o:_02058_DS_=0x2f1
+000002ee def7                MOVIA    0x8
+000002ef e0fc                BCR      STATUS, BK0
+000002f0 fba5                SUBAR    0x5a, ToAcc
 bsp_spi.o:_02058_DS_:
-000002f0 f7fc                BTRSS    STATUS, C
-000002f1 c54e                LGOTO    0x2b1; bsp_spi.o:_02035_DS_=0x2b1
-000002f2 ffff                NOP
+000002f1 f7fc                BTRSS    STATUS, C
+000002f2 c54d                LGOTO    0x2b2; bsp_spi.o:_02035_DS_=0x2b2
 000002f3 ffff                NOP
 000002f4 ffff                NOP
-000002f5 e179                BCR      PORTB, PB5
-000002f6 ffff                NOP
+000002f5 ffff                NOP
+000002f6 e179                BCR      PORTB, PB5
 000002f7 ffff                NOP
 000002f8 ffff                NOP
 000002f9 ffff                NOP
 000002fa ffff                NOP
 000002fb ffff                NOP
-000002fc e3fa                BCR      PORTA, PA0
-000002fd ffff                NOP
+000002fc ffff                NOP
+000002fd e3fa                BCR      PORTA, PA0
 000002fe ffff                NOP
 000002ff ffff                NOP
 00000300 ffff                NOP
@@ -838,736 +843,725 @@ bsp_spi.o:_02058_DS_:
 00000306 ffff                NOP
 00000307 ffff                NOP
 00000308 ffff                NOP
-00000309 ffef                RET
+00000309 ffff                NOP
+0000030a ffef                RET
 _CS1630_Soft_Rst:
-0000030a defe                MOVIA    0x1
-0000030b d363                LCALL    0x49c; _CS1630_Bank_Switch=0x49c
-0000030c deda                MOVIA    0x25
-0000030d e0fc                BCR      STATUS, BK0
-0000030e ff4a                MOVAR    0x35
-0000030f e0fc                BCR      STATUS, BK0
-00000310 fd49                CLRR     0x36
-00000311 e0fc                BCR      STATUS, BK0
-00000312 fd48                CLRR     0x37
-00000313 defb                MOVIA    0x4
-00000314 ff03                MOVAR    0x7c
-00000315 e0fc                BCR      STATUS, BK0
-00000316 feca                MOVR     0x35, ToAcc
-00000317 ff04                MOVAR    0x7b
-00000318 e0fc                BCR      STATUS, BK0
-00000319 fec9                MOVR     0x36, ToAcc
-0000031a ff05                MOVAR    0x7a
-0000031b e0fc                BCR      STATUS, BK0
-0000031c fec8                MOVR     0x37, ToAcc
-0000031d ff06                MOVAR    0x79
-0000031e defe                MOVIA    0x1
-0000031f d4ac                LCALL    0x353; _CS1630_read_buffer=0x353
-00000320 e0fc                BCR      STATUS, BK0
-00000321 fed7                MOVR     0x28, ToAcc
-00000322 e0fc                BCR      STATUS, BK0
-00000323 ff4a                MOVAR    0x35
-00000324 e44a                BSR      0x35, 0x7
-00000325 feca                MOVR     0x35, ToAcc
-00000326 e0fc                BCR      STATUS, BK0
-00000327 ff57                MOVAR    0x28
-00000328 deda                MOVIA    0x25
-00000329 e0fc                BCR      STATUS, BK0
-0000032a ff4a                MOVAR    0x35
-0000032b e0fc                BCR      STATUS, BK0
-0000032c fd49                CLRR     0x36
-0000032d e0fc                BCR      STATUS, BK0
-0000032e fd48                CLRR     0x37
-0000032f defb                MOVIA    0x4
-00000330 ff03                MOVAR    0x7c
-00000331 e0fc                BCR      STATUS, BK0
-00000332 feca                MOVR     0x35, ToAcc
-00000333 ff04                MOVAR    0x7b
-00000334 e0fc                BCR      STATUS, BK0
-00000335 fec9                MOVR     0x36, ToAcc
-00000336 ff05                MOVAR    0x7a
-00000337 e0fc                BCR      STATUS, BK0
-00000338 fec8                MOVR     0x37, ToAcc
-00000339 ff06                MOVAR    0x79
-0000033a defe                MOVIA    0x1
-0000033b d471                LCALL    0x38e; _CS1630_wr_buffer=0x38e
-0000033c deda                MOVIA    0x25
-0000033d e0fc                BCR      STATUS, BK0
-0000033e ff4a                MOVAR    0x35
-0000033f e0fc                BCR      STATUS, BK0
-00000340 fd49                CLRR     0x36
-00000341 e0fc                BCR      STATUS, BK0
-00000342 fd48                CLRR     0x37
-00000343 defb                MOVIA    0x4
-00000344 ff03                MOVAR    0x7c
-00000345 e0fc                BCR      STATUS, BK0
-00000346 feca                MOVR     0x35, ToAcc
-00000347 ff04                MOVAR    0x7b
-00000348 e0fc                BCR      STATUS, BK0
-00000349 fec9                MOVR     0x36, ToAcc
-0000034a ff05                MOVAR    0x7a
-0000034b e0fc                BCR      STATUS, BK0
-0000034c fec8                MOVR     0x37, ToAcc
-0000034d ff06                MOVAR    0x79
-0000034e defe                MOVIA    0x1
-0000034f d4ac                LCALL    0x353; _CS1630_read_buffer=0x353
-00000350 deff                MOVIA    0x0
-00000351 d363                LCALL    0x49c; _CS1630_Bank_Switch=0x49c
-00000352 ffef                RET
+0000030b defe                MOVIA    0x1
+0000030c d362                LCALL    0x49d; _CS1630_Bank_Switch=0x49d
+0000030d deda                MOVIA    0x25
+0000030e e0fc                BCR      STATUS, BK0
+0000030f ff4e                MOVAR    0x31
+00000310 e0fc                BCR      STATUS, BK0
+00000311 fd4d                CLRR     0x32
+00000312 e0fc                BCR      STATUS, BK0
+00000313 fd4c                CLRR     0x33
+00000314 defb                MOVIA    0x4
+00000315 ff03                MOVAR    0x7c
+00000316 e0fc                BCR      STATUS, BK0
+00000317 fece                MOVR     0x31, ToAcc
+00000318 ff04                MOVAR    0x7b
+00000319 e0fc                BCR      STATUS, BK0
+0000031a fecd                MOVR     0x32, ToAcc
+0000031b ff05                MOVAR    0x7a
+0000031c e0fc                BCR      STATUS, BK0
+0000031d fecc                MOVR     0x33, ToAcc
+0000031e ff06                MOVAR    0x79
+0000031f defe                MOVIA    0x1
+00000320 d4ab                LCALL    0x354; _CS1630_read_buffer=0x354
+00000321 e0fc                BCR      STATUS, BK0
+00000322 fed7                MOVR     0x28, ToAcc
+00000323 e0fc                BCR      STATUS, BK0
+00000324 ff4e                MOVAR    0x31
+00000325 e44e                BSR      0x31, 0x7
+00000326 fece                MOVR     0x31, ToAcc
+00000327 e0fc                BCR      STATUS, BK0
+00000328 ff57                MOVAR    0x28
+00000329 deda                MOVIA    0x25
+0000032a e0fc                BCR      STATUS, BK0
+0000032b ff4e                MOVAR    0x31
+0000032c e0fc                BCR      STATUS, BK0
+0000032d fd4d                CLRR     0x32
+0000032e e0fc                BCR      STATUS, BK0
+0000032f fd4c                CLRR     0x33
+00000330 defb                MOVIA    0x4
+00000331 ff03                MOVAR    0x7c
+00000332 e0fc                BCR      STATUS, BK0
+00000333 fece                MOVR     0x31, ToAcc
+00000334 ff04                MOVAR    0x7b
+00000335 e0fc                BCR      STATUS, BK0
+00000336 fecd                MOVR     0x32, ToAcc
+00000337 ff05                MOVAR    0x7a
+00000338 e0fc                BCR      STATUS, BK0
+00000339 fecc                MOVR     0x33, ToAcc
+0000033a ff06                MOVAR    0x79
+0000033b defe                MOVIA    0x1
+0000033c d470                LCALL    0x38f; _CS1630_wr_buffer=0x38f
+0000033d deda                MOVIA    0x25
+0000033e e0fc                BCR      STATUS, BK0
+0000033f ff4e                MOVAR    0x31
+00000340 e0fc                BCR      STATUS, BK0
+00000341 fd4d                CLRR     0x32
+00000342 e0fc                BCR      STATUS, BK0
+00000343 fd4c                CLRR     0x33
+00000344 defb                MOVIA    0x4
+00000345 ff03                MOVAR    0x7c
+00000346 e0fc                BCR      STATUS, BK0
+00000347 fece                MOVR     0x31, ToAcc
+00000348 ff04                MOVAR    0x7b
+00000349 e0fc                BCR      STATUS, BK0
+0000034a fecd                MOVR     0x32, ToAcc
+0000034b ff05                MOVAR    0x7a
+0000034c e0fc                BCR      STATUS, BK0
+0000034d fecc                MOVR     0x33, ToAcc
+0000034e ff06                MOVAR    0x79
+0000034f defe                MOVIA    0x1
+00000350 d4ab                LCALL    0x354; _CS1630_read_buffer=0x354
+00000351 deff                MOVIA    0x0
+00000352 d362                LCALL    0x49d; _CS1630_Bank_Switch=0x49d
+00000353 ffef                RET
 _CS1630_read_buffer:
-00000353 e0fc                BCR      STATUS, BK0
-00000354 ff43                MOVAR    0x3c
-00000355 fe86                MOVR     0x79, ToAcc
-00000356 e0fc                BCR      STATUS, BK0
-00000357 ff40                MOVAR    0x3f
-00000358 fe85                MOVR     0x7a, ToAcc
-00000359 e0fc                BCR      STATUS, BK0
-0000035a ff41                MOVAR    0x3e
-0000035b fe84                MOVR     0x7b, ToAcc
-0000035c e0fc                BCR      STATUS, BK0
-0000035d ff42                MOVAR    0x3d
-0000035e fe83                MOVR     0x7c, ToAcc
-0000035f e0fc                BCR      STATUS, BK0
-00000360 ff3f                MOVAR    0x40
-00000361 e37a                BCR      PORTA, PA1
-00000362 e0fc                BCR      STATUS, BK0
-00000363 fec3                MOVR     0x3c, ToAcc
-00000364 d556                LCALL    0x2a9; _SPI_SendByte=0x2a9
+00000354 e0fc                BCR      STATUS, BK0
+00000355 ff47                MOVAR    0x38
+00000356 fe86                MOVR     0x79, ToAcc
+00000357 e0fc                BCR      STATUS, BK0
+00000358 ff44                MOVAR    0x3b
+00000359 fe85                MOVR     0x7a, ToAcc
+0000035a e0fc                BCR      STATUS, BK0
+0000035b ff45                MOVAR    0x3a
+0000035c fe84                MOVR     0x7b, ToAcc
+0000035d e0fc                BCR      STATUS, BK0
+0000035e ff46                MOVAR    0x39
+0000035f fe83                MOVR     0x7c, ToAcc
+00000360 e0fc                BCR      STATUS, BK0
+00000361 ff43                MOVAR    0x3c
+00000362 e37a                BCR      PORTA, PA1
+00000363 e0fc                BCR      STATUS, BK0
+00000364 fec7                MOVR     0x38, ToAcc
+00000365 d555                LCALL    0x2aa; _SPI_SendByte=0x2aa
 bsp_cs1630.o:_02014_DS_:
-00000365 e0fc                BCR      STATUS, BK0
-00000366 febf                MOVR     0x40, ToAcc
-00000367 e0fc                BCR      STATUS, BK0
-00000368 ff43                MOVAR    0x3c
-00000369 e0fc                BCR      STATUS, BK0
-0000036a f93f                DECR     0x40, ToReg
-0000036b e0fc                BCR      STATUS, BK0
-0000036c fec3                MOVR     0x3c, ToAcc
-0000036d f2fc                BTRSC    STATUS, Z
-0000036e c477                LGOTO    0x388; bsp_cs1630.o:_02016_DS_=0x388
-0000036f d404                LCALL    0x3fb; _SPI_ReadByte=0x3fb
-00000370 e0fc                BCR      STATUS, BK0
-00000371 ff43                MOVAR    0x3c
-00000372 fec3                MOVR     0x3c, ToAcc
-00000373 ff04                MOVAR    0x7b
-00000374 e0fc                BCR      STATUS, BK0
-00000375 fec2                MOVR     0x3d, ToAcc
-00000376 ff05                MOVAR    0x7a
-00000377 e0fc                BCR      STATUS, BK0
-00000378 fec1                MOVR     0x3e, ToAcc
-00000379 ff06                MOVAR    0x79
-0000037a e0fc                BCR      STATUS, BK0
-0000037b fec0                MOVR     0x3f, ToAcc
-0000037c d2a5                LCALL    0x55a; __gptrput=0x55a
-0000037d e0fc                BCR      STATUS, BK0
-0000037e fa42                INCR     0x3d, ToReg
-0000037f f6fc                BTRSS    STATUS, Z
-00000380 c47c                LGOTO    0x383; bsp_cs1630.o:_00003_DS_=0x383
-00000381 e0fc                BCR      STATUS, BK0
-00000382 fa41                INCR     0x3e, ToReg
+00000366 e0fc                BCR      STATUS, BK0
+00000367 fec3                MOVR     0x3c, ToAcc
+00000368 e0fc                BCR      STATUS, BK0
+00000369 ff47                MOVAR    0x38
+0000036a e0fc                BCR      STATUS, BK0
+0000036b f943                DECR     0x3c, ToReg
+0000036c e0fc                BCR      STATUS, BK0
+0000036d fec7                MOVR     0x38, ToAcc
+0000036e f2fc                BTRSC    STATUS, Z
+0000036f c476                LGOTO    0x389; bsp_cs1630.o:_02016_DS_=0x389
+00000370 d403                LCALL    0x3fc; _SPI_ReadByte=0x3fc
+00000371 e0fc                BCR      STATUS, BK0
+00000372 ff47                MOVAR    0x38
+00000373 fec7                MOVR     0x38, ToAcc
+00000374 ff04                MOVAR    0x7b
+00000375 e0fc                BCR      STATUS, BK0
+00000376 fec6                MOVR     0x39, ToAcc
+00000377 ff05                MOVAR    0x7a
+00000378 e0fc                BCR      STATUS, BK0
+00000379 fec5                MOVR     0x3a, ToAcc
+0000037a ff06                MOVAR    0x79
+0000037b e0fc                BCR      STATUS, BK0
+0000037c fec4                MOVR     0x3b, ToAcc
+0000037d d2a4                LCALL    0x55b; __gptrput=0x55b
+0000037e e0fc                BCR      STATUS, BK0
+0000037f fa46                INCR     0x39, ToReg
+00000380 f6fc                BTRSS    STATUS, Z
+00000381 c47b                LGOTO    0x384; bsp_cs1630.o:_00003_DS_=0x384
+00000382 e0fc                BCR      STATUS, BK0
+00000383 fa45                INCR     0x3a, ToReg
 bsp_cs1630.o:_00003_DS_:
-00000383 f6fc                BTRSS    STATUS, Z
-00000384 c478                LGOTO    0x387; bsp_cs1630.o:_00004_DS_=0x387
-00000385 e0fc                BCR      STATUS, BK0
-00000386 fa40                INCR     0x3f, ToReg
+00000384 f6fc                BTRSS    STATUS, Z
+00000385 c477                LGOTO    0x388; bsp_cs1630.o:_00004_DS_=0x388
+00000386 e0fc                BCR      STATUS, BK0
+00000387 fa44                INCR     0x3b, ToReg
 bsp_cs1630.o:_00004_DS_:
-00000387 c49a                LGOTO    0x365; bsp_cs1630.o:_02014_DS_=0x365
+00000388 c499                LGOTO    0x366; bsp_cs1630.o:_02014_DS_=0x366
 bsp_cs1630.o:_02016_DS_:
-00000388 defe                MOVIA    0x1
-00000389 d2ea                LCALL    0x515; _delay_us=0x515
-0000038a e77a                BSR      PORTA, PA1
-0000038b defe                MOVIA    0x1
-0000038c d2ea                LCALL    0x515; _delay_us=0x515
-0000038d ffef                RET
+00000389 defe                MOVIA    0x1
+0000038a d2e9                LCALL    0x516; _delay_us=0x516
+0000038b e77a                BSR      PORTA, PA1
+0000038c defe                MOVIA    0x1
+0000038d d2e9                LCALL    0x516; _delay_us=0x516
+0000038e ffef                RET
 _CS1630_wr_buffer:
-0000038e e0fc                BCR      STATUS, BK0
-0000038f ff3b                MOVAR    0x44
-00000390 fe86                MOVR     0x79, ToAcc
-00000391 e0fc                BCR      STATUS, BK0
-00000392 ff38                MOVAR    0x47
-00000393 fe85                MOVR     0x7a, ToAcc
-00000394 e0fc                BCR      STATUS, BK0
-00000395 ff39                MOVAR    0x46
-00000396 fe84                MOVR     0x7b, ToAcc
-00000397 e0fc                BCR      STATUS, BK0
-00000398 ff3a                MOVAR    0x45
-00000399 fe83                MOVR     0x7c, ToAcc
-0000039a e0fc                BCR      STATUS, BK0
-0000039b ff37                MOVAR    0x48
-0000039c e37a                BCR      PORTA, PA1
-0000039d e0fc                BCR      STATUS, BK0
-0000039e e53b                BSR      0x44, 0x5
-0000039f febb                MOVR     0x44, ToAcc
-000003a0 d556                LCALL    0x2a9; _SPI_SendByte=0x2a9
+0000038f e0fc                BCR      STATUS, BK0
+00000390 ff3f                MOVAR    0x40
+00000391 fe86                MOVR     0x79, ToAcc
+00000392 e0fc                BCR      STATUS, BK0
+00000393 ff3c                MOVAR    0x43
+00000394 fe85                MOVR     0x7a, ToAcc
+00000395 e0fc                BCR      STATUS, BK0
+00000396 ff3d                MOVAR    0x42
+00000397 fe84                MOVR     0x7b, ToAcc
+00000398 e0fc                BCR      STATUS, BK0
+00000399 ff3e                MOVAR    0x41
+0000039a fe83                MOVR     0x7c, ToAcc
+0000039b e0fc                BCR      STATUS, BK0
+0000039c ff3b                MOVAR    0x44
+0000039d e37a                BCR      PORTA, PA1
+0000039e e0fc                BCR      STATUS, BK0
+0000039f e53f                BSR      0x40, 0x5
+000003a0 febf                MOVR     0x40, ToAcc
+000003a1 d555                LCALL    0x2aa; _SPI_SendByte=0x2aa
 bsp_cs1630.o:_02029_DS_:
-000003a1 e0fc                BCR      STATUS, BK0
-000003a2 feb7                MOVR     0x48, ToAcc
-000003a3 e0fc                BCR      STATUS, BK0
-000003a4 ff3b                MOVAR    0x44
-000003a5 e0fc                BCR      STATUS, BK0
-000003a6 f937                DECR     0x48, ToReg
-000003a7 e0fc                BCR      STATUS, BK0
-000003a8 febb                MOVR     0x44, ToAcc
-000003a9 f2fc                BTRSC    STATUS, Z
-000003aa c43b                LGOTO    0x3c4; bsp_cs1630.o:_02032_DS_=0x3c4
-000003ab e0fc                BCR      STATUS, BK0
-000003ac feba                MOVR     0x45, ToAcc
-000003ad ff05                MOVAR    0x7a
-000003ae e0fc                BCR      STATUS, BK0
-000003af feb9                MOVR     0x46, ToAcc
-000003b0 ff06                MOVAR    0x79
-000003b1 e0fc                BCR      STATUS, BK0
-000003b2 feb8                MOVR     0x47, ToAcc
-000003b3 d31e                LCALL    0x4e1; __gptrget=0x4e1
-000003b4 e0fc                BCR      STATUS, BK0
-000003b5 ff3b                MOVAR    0x44
-000003b6 e0fc                BCR      STATUS, BK0
-000003b7 fa3a                INCR     0x45, ToReg
-000003b8 f6fc                BTRSS    STATUS, Z
-000003b9 c443                LGOTO    0x3bc; bsp_cs1630.o:_00001_DS_=0x3bc
-000003ba e0fc                BCR      STATUS, BK0
-000003bb fa39                INCR     0x46, ToReg
+000003a2 e0fc                BCR      STATUS, BK0
+000003a3 febb                MOVR     0x44, ToAcc
+000003a4 e0fc                BCR      STATUS, BK0
+000003a5 ff3f                MOVAR    0x40
+000003a6 e0fc                BCR      STATUS, BK0
+000003a7 f93b                DECR     0x44, ToReg
+000003a8 e0fc                BCR      STATUS, BK0
+000003a9 febf                MOVR     0x40, ToAcc
+000003aa f2fc                BTRSC    STATUS, Z
+000003ab c43a                LGOTO    0x3c5; bsp_cs1630.o:_02032_DS_=0x3c5
+000003ac e0fc                BCR      STATUS, BK0
+000003ad febe                MOVR     0x41, ToAcc
+000003ae ff05                MOVAR    0x7a
+000003af e0fc                BCR      STATUS, BK0
+000003b0 febd                MOVR     0x42, ToAcc
+000003b1 ff06                MOVAR    0x79
+000003b2 e0fc                BCR      STATUS, BK0
+000003b3 febc                MOVR     0x43, ToAcc
+000003b4 d31d                LCALL    0x4e2; __gptrget=0x4e2
+000003b5 e0fc                BCR      STATUS, BK0
+000003b6 ff3f                MOVAR    0x40
+000003b7 e0fc                BCR      STATUS, BK0
+000003b8 fa3e                INCR     0x41, ToReg
+000003b9 f6fc                BTRSS    STATUS, Z
+000003ba c442                LGOTO    0x3bd; bsp_cs1630.o:_00001_DS_=0x3bd
+000003bb e0fc                BCR      STATUS, BK0
+000003bc fa3d                INCR     0x42, ToReg
 bsp_cs1630.o:_00001_DS_:
-000003bc f6fc                BTRSS    STATUS, Z
-000003bd c43f                LGOTO    0x3c0; bsp_cs1630.o:_00002_DS_=0x3c0
-000003be e0fc                BCR      STATUS, BK0
-000003bf fa38                INCR     0x47, ToReg
+000003bd f6fc                BTRSS    STATUS, Z
+000003be c43e                LGOTO    0x3c1; bsp_cs1630.o:_00002_DS_=0x3c1
+000003bf e0fc                BCR      STATUS, BK0
+000003c0 fa3c                INCR     0x43, ToReg
 bsp_cs1630.o:_00002_DS_:
-000003c0 e0fc                BCR      STATUS, BK0
-000003c1 febb                MOVR     0x44, ToAcc
-000003c2 d556                LCALL    0x2a9; _SPI_SendByte=0x2a9
-000003c3 c45e                LGOTO    0x3a1; bsp_cs1630.o:_02029_DS_=0x3a1
+000003c1 e0fc                BCR      STATUS, BK0
+000003c2 febf                MOVR     0x40, ToAcc
+000003c3 d555                LCALL    0x2aa; _SPI_SendByte=0x2aa
+000003c4 c45d                LGOTO    0x3a2; bsp_cs1630.o:_02029_DS_=0x3a2
 bsp_cs1630.o:_02032_DS_:
-000003c4 e77a                BSR      PORTA, PA1
-000003c5 defe                MOVIA    0x1
-000003c6 d2ea                LCALL    0x515; _delay_us=0x515
-000003c7 ffef                RET
+000003c5 e77a                BSR      PORTA, PA1
+000003c6 defe                MOVIA    0x1
+000003c7 d2e9                LCALL    0x516; _delay_us=0x516
+000003c8 ffef                RET
 ___cinit_load__:
 ___cinit_run__:
-000003c8 e0fc                BCR      STATUS, BK0
-000003c9 fd11                CLRR     0x6e
-000003ca fd10                CLRR     0x6f
-000003cb fd0f                CLRR     0x70
-000003cc fd0e                CLRR     0x71
-000003cd fd0c                CLRR     0x73
-000003ce de00                MOVIA    0xff
-000003cf ff0d                MOVAR    0x72
-000003d0 e4fc                BSR      STATUS, BK0
-000003d1 fd58                CLRR     0x27
-000003d2 fd57                CLRR     0x28
-000003d3 fd4b                CLRR     0x34
-000003d4 fd4a                CLRR     0x35
-000003d5 fd49                CLRR     0x36
-000003d6 fd48                CLRR     0x37
-000003d7 fd47                CLRR     0x38
-000003d8 fd46                CLRR     0x39
-000003d9 fd45                CLRR     0x3a
-000003da fd44                CLRR     0x3b
-000003db fd43                CLRR     0x3c
-000003dc fd42                CLRR     0x3d
-000003dd fd41                CLRR     0x3e
-000003de fd40                CLRR     0x3f
-000003df defe                MOVIA    0x1
-000003e0 ff5e                MOVAR    0x21
-000003e1 defd                MOVIA    0x2
-000003e2 ff5f                MOVAR    0x20
-000003e3 def9                MOVIA    0x6
-000003e4 ff5d                MOVAR    0x22
-000003e5 deef                MOVIA    0x10
-000003e6 ff5c                MOVAR    0x23
-000003e7 deba                MOVIA    0x45
-000003e8 ff59                MOVAR    0x26
-000003e9 deab                MOVIA    0x54
-000003ea ff5a                MOVAR    0x25
-000003eb de55                MOVIA    0xaa
-000003ec ff55                MOVAR    0x2a
-000003ed de40                MOVIA    0xbf
-000003ee ff56                MOVAR    0x29
-000003ef de00                MOVIA    0xff
-000003f0 ff5b                MOVAR    0x24
-000003f1 ff54                MOVAR    0x2b
-000003f2 ff53                MOVAR    0x2c
-000003f3 ff52                MOVAR    0x2d
-000003f4 ff51                MOVAR    0x2e
-000003f5 ff50                MOVAR    0x2f
-000003f6 ff4f                MOVAR    0x30
-000003f7 ff4e                MOVAR    0x31
-000003f8 ff4d                MOVAR    0x32
-000003f9 ff4c                MOVAR    0x33
-000003fa ffef                RET
+000003c9 e0fc                BCR      STATUS, BK0
+000003ca fd15                CLRR     0x6a
+000003cb fd14                CLRR     0x6b
+000003cc fd13                CLRR     0x6c
+000003cd fd12                CLRR     0x6d
+000003ce fd10                CLRR     0x6f
+000003cf de00                MOVIA    0xff
+000003d0 ff11                MOVAR    0x6e
+000003d1 e4fc                BSR      STATUS, BK0
+000003d2 fd58                CLRR     0x27
+000003d3 fd57                CLRR     0x28
+000003d4 fd4b                CLRR     0x34
+000003d5 fd4a                CLRR     0x35
+000003d6 fd49                CLRR     0x36
+000003d7 fd48                CLRR     0x37
+000003d8 fd47                CLRR     0x38
+000003d9 fd46                CLRR     0x39
+000003da fd45                CLRR     0x3a
+000003db fd44                CLRR     0x3b
+000003dc fd43                CLRR     0x3c
+000003dd fd42                CLRR     0x3d
+000003de fd41                CLRR     0x3e
+000003df fd40                CLRR     0x3f
+000003e0 defe                MOVIA    0x1
+000003e1 ff5e                MOVAR    0x21
+000003e2 defd                MOVIA    0x2
+000003e3 ff5f                MOVAR    0x20
+000003e4 def9                MOVIA    0x6
+000003e5 ff5d                MOVAR    0x22
+000003e6 deef                MOVIA    0x10
+000003e7 ff5c                MOVAR    0x23
+000003e8 deba                MOVIA    0x45
+000003e9 ff59                MOVAR    0x26
+000003ea deab                MOVIA    0x54
+000003eb ff5a                MOVAR    0x25
+000003ec de55                MOVIA    0xaa
+000003ed ff55                MOVAR    0x2a
+000003ee de40                MOVIA    0xbf
+000003ef ff56                MOVAR    0x29
+000003f0 de00                MOVIA    0xff
+000003f1 ff5b                MOVAR    0x24
+000003f2 ff54                MOVAR    0x2b
+000003f3 ff53                MOVAR    0x2c
+000003f4 ff52                MOVAR    0x2d
+000003f5 ff51                MOVAR    0x2e
+000003f6 ff50                MOVAR    0x2f
+000003f7 ff4f                MOVAR    0x30
+000003f8 ff4e                MOVAR    0x31
+000003f9 ff4d                MOVAR    0x32
+000003fa ff4c                MOVAR    0x33
+000003fb ffef                RET
 _SPI_ReadByte:
-000003fb e0fc                BCR      STATUS, BK0
-000003fc fd1e                CLRR     0x61
-000003fd dedf                MOVIA    0x20
-000003fe fff9                IOST     IOSTB
-000003ff e0fc                BCR      STATUS, BK0
-00000400 fd1d                CLRR     0x62
+000003fc e0fc                BCR      STATUS, BK0
+000003fd fd22                CLRR     0x5d
+000003fe dedf                MOVIA    0x20
+000003ff fff9                IOST     IOSTB
+00000400 e0fc                BCR      STATUS, BK0
+00000401 fd21                CLRR     0x5e
 bsp_spi.o:_02070_DS_:
-00000401 e3fc                BCR      STATUS, C
-00000402 e0fc                BCR      STATUS, BK0
-00000403 eb9e                RLR      0x61, ToAcc
-00000404 e0fc                BCR      STATUS, BK0
-00000405 ff1c                MOVAR    0x63
-00000406 ffff                NOP
+00000402 e3fc                BCR      STATUS, C
+00000403 e0fc                BCR      STATUS, BK0
+00000404 eba2                RLR      0x5d, ToAcc
+00000405 e0fc                BCR      STATUS, BK0
+00000406 ff20                MOVAR    0x5f
 00000407 ffff                NOP
 00000408 ffff                NOP
-00000409 e7fa                BSR      PORTA, PA0
-0000040a ffff                NOP
+00000409 ffff                NOP
+0000040a e7fa                BSR      PORTA, PA0
 0000040b ffff                NOP
 0000040c ffff                NOP
-0000040d e0fc                BCR      STATUS, BK0
-0000040e fd1b                CLRR     0x64
-0000040f f179                BTRSC    PORTB, PB5
-00000410 fa1b                INCR     0x64, ToReg
-00000411 fe9b                MOVR     0x64, ToAcc
-00000412 e0fc                BCR      STATUS, BK0
-00000413 ee9c                IORAR    0x63, ToAcc
-00000414 e0fc                BCR      STATUS, BK0
-00000415 ff1e                MOVAR    0x61
-00000416 ffff                NOP
+0000040d ffff                NOP
+0000040e e0fc                BCR      STATUS, BK0
+0000040f fd1f                CLRR     0x60
+00000410 f179                BTRSC    PORTB, PB5
+00000411 fa1f                INCR     0x60, ToReg
+00000412 fe9f                MOVR     0x60, ToAcc
+00000413 e0fc                BCR      STATUS, BK0
+00000414 eea0                IORAR    0x5f, ToAcc
+00000415 e0fc                BCR      STATUS, BK0
+00000416 ff22                MOVAR    0x5d
 00000417 ffff                NOP
 00000418 ffff                NOP
-00000419 e3fa                BCR      PORTA, PA0
-0000041a ffff                NOP
+00000419 ffff                NOP
+0000041a e3fa                BCR      PORTA, PA0
 0000041b ffff                NOP
 0000041c ffff                NOP
 0000041d ffff                NOP
-0000041e e0fc                BCR      STATUS, BK0
-0000041f fa1d                INCR     0x62, ToReg
-00000420 def7                MOVIA    0x8
-00000421 fb9d                SUBAR    0x62, ToAcc
-00000422 f7fc                BTRSS    STATUS, C
-00000423 c3fe                LGOTO    0x401; bsp_spi.o:_02070_DS_=0x401
-00000424 e0fc                BCR      STATUS, BK0
-00000425 fe9e                MOVR     0x61, ToAcc
-00000426 ffef                RET
+0000041e ffff                NOP
+0000041f e0fc                BCR      STATUS, BK0
+00000420 fa21                INCR     0x5e, ToReg
+00000421 def7                MOVIA    0x8
+00000422 fba1                SUBAR    0x5e, ToAcc
+00000423 f7fc                BTRSS    STATUS, C
+00000424 c3fd                LGOTO    0x402; bsp_spi.o:_02070_DS_=0x402
+00000425 e0fc                BCR      STATUS, BK0
+00000426 fea2                MOVR     0x5d, ToAcc
+00000427 ffef                RET
 _CS1630_ModeSwitch:
-00000427 e0fc                BCR      STATUS, BK0
-00000428 ff2c                MOVAR    0x53
-00000429 deff                MOVIA    0x0
-0000042a d2da                LCALL    0x525; _CS1630_read_byte=0x525
-0000042b e0fc                BCR      STATUS, BK0
-0000042c ff2b                MOVAR    0x54
-0000042d e0fc                BCR      STATUS, BK0
-0000042e feac                MOVR     0x53, ToAcc
-0000042f f2fc                BTRSC    STATUS, Z
-00000430 c3c8                LGOTO    0x437; bsp_cs1630.o:_02061_DS_=0x437
-00000431 de01                MOVIA    0xfe
-00000432 e0fc                BCR      STATUS, BK0
-00000433 efab                ANDAR    0x54, ToAcc
-00000434 e0fc                BCR      STATUS, BK0
-00000435 ff2a                MOVAR    0x55
-00000436 c3c3                LGOTO    0x43c; bsp_cs1630.o:_02062_DS_=0x43c
+00000428 e0fc                BCR      STATUS, BK0
+00000429 ff30                MOVAR    0x4f
+0000042a deff                MOVIA    0x0
+0000042b d2d9                LCALL    0x526; _CS1630_read_byte=0x526
+0000042c e0fc                BCR      STATUS, BK0
+0000042d ff2f                MOVAR    0x50
+0000042e e0fc                BCR      STATUS, BK0
+0000042f feb0                MOVR     0x4f, ToAcc
+00000430 f2fc                BTRSC    STATUS, Z
+00000431 c3c7                LGOTO    0x438; bsp_cs1630.o:_02061_DS_=0x438
+00000432 de01                MOVIA    0xfe
+00000433 e0fc                BCR      STATUS, BK0
+00000434 efaf                ANDAR    0x50, ToAcc
+00000435 e0fc                BCR      STATUS, BK0
+00000436 ff2e                MOVAR    0x51
+00000437 c3c2                LGOTO    0x43d; bsp_cs1630.o:_02062_DS_=0x43d
 bsp_cs1630.o:_02061_DS_:
-00000437 defe                MOVIA    0x1
-00000438 e0fc                BCR      STATUS, BK0
-00000439 eeab                IORAR    0x54, ToAcc
-0000043a e0fc                BCR      STATUS, BK0
-0000043b ff2a                MOVAR    0x55
+00000438 defe                MOVIA    0x1
+00000439 e0fc                BCR      STATUS, BK0
+0000043a eeaf                IORAR    0x50, ToAcc
+0000043b e0fc                BCR      STATUS, BK0
+0000043c ff2e                MOVAR    0x51
 bsp_cs1630.o:_02062_DS_:
-0000043c e0fc                BCR      STATUS, BK0
-0000043d feaa                MOVR     0x55, ToAcc
-0000043e ff06                MOVAR    0x79
-0000043f deff                MOVIA    0x0
-00000440 d30b                LCALL    0x4f4; _CS1630_write_byte=0x4f4
-00000441 e0fc                BCR      STATUS, BK0
-00000442 feac                MOVR     0x53, ToAcc
-00000443 dbfd                XORIA    0x2
-00000444 f6fc                BTRSS    STATUS, Z
-00000445 c3b0                LGOTO    0x44f; bsp_cs1630.o:_02065_DS_=0x44f
-00000446 def9                MOVIA    0x6
-00000447 d2da                LCALL    0x525; _CS1630_read_byte=0x525
-00000448 e0fc                BCR      STATUS, BK0
-00000449 ff2c                MOVAR    0x53
-0000044a e42c                BSR      0x53, 0x7
-0000044b feac                MOVR     0x53, ToAcc
-0000044c ff06                MOVAR    0x79
-0000044d def9                MOVIA    0x6
-0000044e d30b                LCALL    0x4f4; _CS1630_write_byte=0x4f4
+0000043d e0fc                BCR      STATUS, BK0
+0000043e feae                MOVR     0x51, ToAcc
+0000043f ff06                MOVAR    0x79
+00000440 deff                MOVIA    0x0
+00000441 d30a                LCALL    0x4f5; _CS1630_write_byte=0x4f5
+00000442 e0fc                BCR      STATUS, BK0
+00000443 feb0                MOVR     0x4f, ToAcc
+00000444 dbfd                XORIA    0x2
+00000445 f6fc                BTRSS    STATUS, Z
+00000446 c3af                LGOTO    0x450; bsp_cs1630.o:_02065_DS_=0x450
+00000447 def9                MOVIA    0x6
+00000448 d2d9                LCALL    0x526; _CS1630_read_byte=0x526
+00000449 e0fc                BCR      STATUS, BK0
+0000044a ff30                MOVAR    0x4f
+0000044b e430                BSR      0x4f, 0x7
+0000044c feb0                MOVR     0x4f, ToAcc
+0000044d ff06                MOVAR    0x79
+0000044e def9                MOVIA    0x6
+0000044f d30a                LCALL    0x4f5; _CS1630_write_byte=0x4f5
 bsp_cs1630.o:_02065_DS_:
-0000044f ffef                RET
+00000450 ffef                RET
 _isr:
 main.o:__sdcc_interrupt:
-00000450 ff02                MOVAR    0x7d
-00000451 eafc                SWAPR    STATUS, ToAcc
-00000452 fd7c                CLRR     STATUS
-00000453 ff01                MOVAR    0x7e
-00000454 fef5                MOVR     PCHBUF, ToAcc
-00000455 fd75                CLRR     PCHBUF
-00000456 ff00                MOVAR    0x7f
-00000457 fefb                MOVR     FSR, ToAcc
-00000458 e0fc                BCR      STATUS, BK0
-00000459 ff14                MOVAR    0x6b
-0000045a fe86                MOVR     0x79, ToAcc
-0000045b e0fc                BCR      STATUS, BK0
-0000045c ff13                MOVAR    0x6c
-0000045d fe85                MOVR     0x7a, ToAcc
-0000045e e0fc                BCR      STATUS, BK0
-0000045f ff12                MOVAR    0x6d
-00000460 f770                BTRSS    INTF, PABIF
-00000461 c398                LGOTO    0x467; main.o:_02007_DS_=0x467
-00000462 defe                MOVIA    0x1
-00000463 e0fc                BCR      STATUS, BK0
-00000464 ff11                MOVAR    0x6e
-00000465 de02                MOVIA    0xfd
-00000466 ff70                MOVAR    INTF
+00000451 ff02                MOVAR    0x7d
+00000452 eafc                SWAPR    STATUS, ToAcc
+00000453 fd7c                CLRR     STATUS
+00000454 ff01                MOVAR    0x7e
+00000455 fef5                MOVR     PCHBUF, ToAcc
+00000456 fd75                CLRR     PCHBUF
+00000457 ff00                MOVAR    0x7f
+00000458 fefb                MOVR     FSR, ToAcc
+00000459 e0fc                BCR      STATUS, BK0
+0000045a ff18                MOVAR    0x67
+0000045b fe86                MOVR     0x79, ToAcc
+0000045c e0fc                BCR      STATUS, BK0
+0000045d ff17                MOVAR    0x68
+0000045e fe85                MOVR     0x7a, ToAcc
+0000045f e0fc                BCR      STATUS, BK0
+00000460 ff16                MOVAR    0x69
+00000461 f770                BTRSS    INTF, PABIF
+00000462 c397                LGOTO    0x468; main.o:_02007_DS_=0x468
+00000463 defe                MOVIA    0x1
+00000464 e0fc                BCR      STATUS, BK0
+00000465 ff15                MOVAR    0x6a
+00000466 de02                MOVIA    0xfd
+00000467 ff70                MOVAR    INTF
 main.o:_02007_DS_:
-00000467 e0fc                BCR      STATUS, BK0
-00000468 fe92                MOVR     0x6d, ToAcc
-00000469 ff05                MOVAR    0x7a
-0000046a e0fc                BCR      STATUS, BK0
-0000046b fe93                MOVR     0x6c, ToAcc
-0000046c ff06                MOVAR    0x79
-0000046d e0fc                BCR      STATUS, BK0
-0000046e fe94                MOVR     0x6b, ToAcc
-0000046f ff7b                MOVAR    FSR
-00000470 fe80                MOVR     0x7f, ToAcc
-00000471 ff75                MOVAR    PCHBUF
-00000472 fd7c                CLRR     STATUS
-00000473 ea81                SWAPR    0x7e, ToAcc
-00000474 ff7c                MOVAR    STATUS
-00000475 ea02                SWAPR    0x7d, ToReg
-00000476 ea82                SWAPR    0x7d, ToAcc
+00000468 e0fc                BCR      STATUS, BK0
+00000469 fe96                MOVR     0x69, ToAcc
+0000046a ff05                MOVAR    0x7a
+0000046b e0fc                BCR      STATUS, BK0
+0000046c fe97                MOVR     0x68, ToAcc
+0000046d ff06                MOVAR    0x79
+0000046e e0fc                BCR      STATUS, BK0
+0000046f fe98                MOVR     0x67, ToAcc
+00000470 ff7b                MOVAR    FSR
+00000471 fe80                MOVR     0x7f, ToAcc
+00000472 ff75                MOVAR    PCHBUF
+00000473 fd7c                CLRR     STATUS
+00000474 ea81                SWAPR    0x7e, ToAcc
+00000475 ff7c                MOVAR    STATUS
+00000476 ea02                SWAPR    0x7d, ToReg
+00000477 ea82                SWAPR    0x7d, ToAcc
 main.o:END_OF_INTERRUPT:
-00000477 ffee                RETIE
+00000478 ffee                RETIE
 _CS1630_SendPack:
-00000478 e0fc                BCR      STATUS, BK0
-00000479 ff32                MOVAR    0x4d
-0000047a fe86                MOVR     0x79, ToAcc
-0000047b e0fc                BCR      STATUS, BK0
-0000047c ff2f                MOVAR    0x50
-0000047d fe85                MOVR     0x7a, ToAcc
-0000047e e0fc                BCR      STATUS, BK0
-0000047f ff30                MOVAR    0x4f
-00000480 fe84                MOVR     0x7b, ToAcc
-00000481 e0fc                BCR      STATUS, BK0
-00000482 ff31                MOVAR    0x4e
-00000483 fe83                MOVR     0x7c, ToAcc
-00000484 e0fc                BCR      STATUS, BK0
-00000485 ff2e                MOVAR    0x51
-00000486 def8                MOVIA    0x7
-00000487 d2da                LCALL    0x525; _CS1630_read_byte=0x525
-00000488 e0fc                BCR      STATUS, BK0
-00000489 ff2d                MOVAR    0x52
-0000048a f3ad                BTRSC    0x52, 0x0
-0000048b c364                LGOTO    0x49b; bsp_cs1630.o:_02055_DS_=0x49b
-0000048c e0fc                BCR      STATUS, BK0
-0000048d feae                MOVR     0x51, ToAcc
-0000048e ff03                MOVAR    0x7c
-0000048f e0fc                BCR      STATUS, BK0
-00000490 feb1                MOVR     0x4e, ToAcc
-00000491 ff04                MOVAR    0x7b
-00000492 e0fc                BCR      STATUS, BK0
-00000493 feb0                MOVR     0x4f, ToAcc
-00000494 ff05                MOVAR    0x7a
-00000495 e0fc                BCR      STATUS, BK0
-00000496 feaf                MOVR     0x50, ToAcc
-00000497 ff06                MOVAR    0x79
-00000498 e0fc                BCR      STATUS, BK0
-00000499 feb2                MOVR     0x4d, ToAcc
-0000049a d471                LCALL    0x38e; _CS1630_wr_buffer=0x38e
+00000479 e0fc                BCR      STATUS, BK0
+0000047a ff36                MOVAR    0x49
+0000047b fe86                MOVR     0x79, ToAcc
+0000047c e0fc                BCR      STATUS, BK0
+0000047d ff33                MOVAR    0x4c
+0000047e fe85                MOVR     0x7a, ToAcc
+0000047f e0fc                BCR      STATUS, BK0
+00000480 ff34                MOVAR    0x4b
+00000481 fe84                MOVR     0x7b, ToAcc
+00000482 e0fc                BCR      STATUS, BK0
+00000483 ff35                MOVAR    0x4a
+00000484 fe83                MOVR     0x7c, ToAcc
+00000485 e0fc                BCR      STATUS, BK0
+00000486 ff32                MOVAR    0x4d
+00000487 def8                MOVIA    0x7
+00000488 d2d9                LCALL    0x526; _CS1630_read_byte=0x526
+00000489 e0fc                BCR      STATUS, BK0
+0000048a ff31                MOVAR    0x4e
+0000048b f3b1                BTRSC    0x4e, 0x0
+0000048c c363                LGOTO    0x49c; bsp_cs1630.o:_02055_DS_=0x49c
+0000048d e0fc                BCR      STATUS, BK0
+0000048e feb2                MOVR     0x4d, ToAcc
+0000048f ff03                MOVAR    0x7c
+00000490 e0fc                BCR      STATUS, BK0
+00000491 feb5                MOVR     0x4a, ToAcc
+00000492 ff04                MOVAR    0x7b
+00000493 e0fc                BCR      STATUS, BK0
+00000494 feb4                MOVR     0x4b, ToAcc
+00000495 ff05                MOVAR    0x7a
+00000496 e0fc                BCR      STATUS, BK0
+00000497 feb3                MOVR     0x4c, ToAcc
+00000498 ff06                MOVAR    0x79
+00000499 e0fc                BCR      STATUS, BK0
+0000049a feb6                MOVR     0x49, ToAcc
+0000049b d470                LCALL    0x38f; _CS1630_wr_buffer=0x38f
 bsp_cs1630.o:_02055_DS_:
-0000049b ffef                RET
+0000049c ffef                RET
 _CS1630_Bank_Switch:
-0000049c e0fc                BCR      STATUS, BK0
-0000049d ff34                MOVAR    0x4b
-0000049e def8                MOVIA    0x7
-0000049f d2da                LCALL    0x525; _CS1630_read_byte=0x525
-000004a0 e0fc                BCR      STATUS, BK0
-000004a1 ff33                MOVAR    0x4c
-000004a2 e0fc                BCR      STATUS, BK0
-000004a3 feb4                MOVR     0x4b, ToAcc
-000004a4 f2fc                BTRSC    STATUS, Z
-000004a5 c354                LGOTO    0x4ab; bsp_cs1630.o:_02046_DS_=0x4ab
-000004a6 deac                MOVIA    0x53
-000004a7 ff06                MOVAR    0x79
-000004a8 deaf                MOVIA    0x50
-000004a9 d2fa                LCALL    0x505; _CS1630_wr_cmd=0x505
-000004aa c34d                LGOTO    0x4b2; bsp_cs1630.o:_02048_DS_=0x4b2
+0000049d e0fc                BCR      STATUS, BK0
+0000049e ff38                MOVAR    0x47
+0000049f def8                MOVIA    0x7
+000004a0 d2d9                LCALL    0x526; _CS1630_read_byte=0x526
+000004a1 e0fc                BCR      STATUS, BK0
+000004a2 ff37                MOVAR    0x48
+000004a3 e0fc                BCR      STATUS, BK0
+000004a4 feb8                MOVR     0x47, ToAcc
+000004a5 f2fc                BTRSC    STATUS, Z
+000004a6 c353                LGOTO    0x4ac; bsp_cs1630.o:_02046_DS_=0x4ac
+000004a7 deac                MOVIA    0x53
+000004a8 ff06                MOVAR    0x79
+000004a9 deaf                MOVIA    0x50
+000004aa d2f9                LCALL    0x506; _CS1630_wr_cmd=0x506
+000004ab c34c                LGOTO    0x4b3; bsp_cs1630.o:_02048_DS_=0x4b3
 bsp_cs1630.o:_02046_DS_:
-000004ab e0fc                BCR      STATUS, BK0
-000004ac f433                BTRSS    0x4c, 0x7
-000004ad c34d                LGOTO    0x4b2; bsp_cs1630.o:_02048_DS_=0x4b2
-000004ae deac                MOVIA    0x53
-000004af ff06                MOVAR    0x79
-000004b0 deaf                MOVIA    0x50
-000004b1 d2fa                LCALL    0x505; _CS1630_wr_cmd=0x505
+000004ac e0fc                BCR      STATUS, BK0
+000004ad f437                BTRSS    0x48, 0x7
+000004ae c34c                LGOTO    0x4b3; bsp_cs1630.o:_02048_DS_=0x4b3
+000004af deac                MOVIA    0x53
+000004b0 ff06                MOVAR    0x79
+000004b1 deaf                MOVIA    0x50
+000004b2 d2f9                LCALL    0x506; _CS1630_wr_cmd=0x506
 bsp_cs1630.o:_02048_DS_:
-000004b2 ffef                RET
+000004b3 ffef                RET
 _delay_ms:
-000004b3 e0fc                BCR      STATUS, BK0
-000004b4 ff27                MOVAR    0x58
-000004b5 e0fc                BCR      STATUS, BK0
-000004b6 fd26                CLRR     0x59
+000004b4 e0fc                BCR      STATUS, BK0
+000004b5 ff2b                MOVAR    0x54
+000004b6 e0fc                BCR      STATUS, BK0
+000004b7 fd2a                CLRR     0x55
 bsp_delay.o:_02011_DS_:
-000004b7 e0fc                BCR      STATUS, BK0
-000004b8 fea7                MOVR     0x58, ToAcc
-000004b9 e0fc                BCR      STATUS, BK0
-000004ba fba6                SUBAR    0x59, ToAcc
-000004bb f3fc                BTRSC    STATUS, C
-000004bc c336                LGOTO    0x4c9; bsp_delay.o:_02013_DS_=0x4c9
-000004bd de01                MOVIA    0xfe
-000004be e0fc                BCR      STATUS, BK0
-000004bf ff25                MOVAR    0x5a
+000004b8 e0fc                BCR      STATUS, BK0
+000004b9 feab                MOVR     0x54, ToAcc
+000004ba e0fc                BCR      STATUS, BK0
+000004bb fbaa                SUBAR    0x55, ToAcc
+000004bc f3fc                BTRSC    STATUS, C
+000004bd c335                LGOTO    0x4ca; bsp_delay.o:_02013_DS_=0x4ca
+000004be de01                MOVIA    0xfe
+000004bf e0fc                BCR      STATUS, BK0
+000004c0 ff29                MOVAR    0x56
 bsp_delay.o:_02009_DS_:
-000004c0 ffff                NOP
-000004c1 e0fc                BCR      STATUS, BK0
-000004c2 f925                DECR     0x5a, ToReg
-000004c3 fea5                MOVR     0x5a, ToAcc
-000004c4 f6fc                BTRSS    STATUS, Z
-000004c5 c33f                LGOTO    0x4c0; bsp_delay.o:_02009_DS_=0x4c0
-000004c6 e0fc                BCR      STATUS, BK0
-000004c7 fa26                INCR     0x59, ToReg
-000004c8 c348                LGOTO    0x4b7; bsp_delay.o:_02011_DS_=0x4b7
+000004c1 ffff                NOP
+000004c2 e0fc                BCR      STATUS, BK0
+000004c3 f929                DECR     0x56, ToReg
+000004c4 fea9                MOVR     0x56, ToAcc
+000004c5 f6fc                BTRSS    STATUS, Z
+000004c6 c33e                LGOTO    0x4c1; bsp_delay.o:_02009_DS_=0x4c1
+000004c7 e0fc                BCR      STATUS, BK0
+000004c8 fa2a                INCR     0x55, ToReg
+000004c9 c347                LGOTO    0x4b8; bsp_delay.o:_02011_DS_=0x4b8
 bsp_delay.o:_02013_DS_:
-000004c9 ffef                RET
+000004ca ffef                RET
 _CS1630_init_main:
-000004ca d5d2                LCALL    0x22d; _CS1630_Init=0x22d
-000004cb d28e                LCALL    0x571; _CS1630_CE_Low=0x571
-000004cc defe                MOVIA    0x1
-000004cd d3d8                LCALL    0x427; _CS1630_ModeSwitch=0x427
-000004ce defb                MOVIA    0x4
-000004cf ff06                MOVAR    0x79
-000004d0 dee2                MOVIA    0x1d
-000004d1 d30b                LCALL    0x4f4; _CS1630_write_byte=0x4f4
-000004d2 def0                MOVIA    0xf
-000004d3 ff06                MOVAR    0x79
-000004d4 deff                MOVIA    0x0
-000004d5 d30b                LCALL    0x4f4; _CS1630_write_byte=0x4f4
-000004d6 defb                MOVIA    0x4
-000004d7 ff06                MOVAR    0x79
-000004d8 dee1                MOVIA    0x1e
-000004d9 d30b                LCALL    0x4f4; _CS1630_write_byte=0x4f4
-000004da def2                MOVIA    0xd
-000004db ff06                MOVAR    0x79
-000004dc deff                MOVIA    0x0
-000004dd d30b                LCALL    0x4f4; _CS1630_write_byte=0x4f4
-000004de defd                MOVIA    0x2
-000004df d34c                LCALL    0x4b3; _delay_ms=0x4b3
-000004e0 ffef                RET
+000004cb d667                LCALL    0x198; _CS1630_Init=0x198
+000004cc d28d                LCALL    0x572; _CS1630_CE_Low=0x572
+000004cd defe                MOVIA    0x1
+000004ce d3d7                LCALL    0x428; _CS1630_ModeSwitch=0x428
+000004cf defb                MOVIA    0x4
+000004d0 ff06                MOVAR    0x79
+000004d1 dee2                MOVIA    0x1d
+000004d2 d30a                LCALL    0x4f5; _CS1630_write_byte=0x4f5
+000004d3 def0                MOVIA    0xf
+000004d4 ff06                MOVAR    0x79
+000004d5 deff                MOVIA    0x0
+000004d6 d30a                LCALL    0x4f5; _CS1630_write_byte=0x4f5
+000004d7 defb                MOVIA    0x4
+000004d8 ff06                MOVAR    0x79
+000004d9 dee1                MOVIA    0x1e
+000004da d30a                LCALL    0x4f5; _CS1630_write_byte=0x4f5
+000004db def2                MOVIA    0xd
+000004dc ff06                MOVAR    0x79
+000004dd deff                MOVIA    0x0
+000004de d30a                LCALL    0x4f5; _CS1630_write_byte=0x4f5
+000004df defd                MOVIA    0x2
+000004e0 d34b                LCALL    0x4b4; _delay_ms=0x4b4
+000004e1 ffef                RET
 __gptrget:
 __gptrget1:
-000004e1 dbff                XORIA    0x0
-000004e2 f2fc                BTRSC    STATUS, Z
-000004e3 c317                LGOTO    0x4e8; _gptrget1.o:__dataptrget1=0x4e8
-000004e4 db7f                XORIA    0x80
-000004e5 f2fc                BTRSC    STATUS, Z
-000004e6 c310                LGOTO    0x4ef; __codeptrget1=0x4ef
-000004e7 dfff                RETIA    0x0
+000004e2 dbff                XORIA    0x0
+000004e3 f2fc                BTRSC    STATUS, Z
+000004e4 c316                LGOTO    0x4e9; _gptrget1.o:__dataptrget1=0x4e9
+000004e5 db7f                XORIA    0x80
+000004e6 f2fc                BTRSC    STATUS, Z
+000004e7 c30f                LGOTO    0x4f0; __codeptrget1=0x4f0
+000004e8 dfff                RETIA    0x0
 _gptrget1.o:__dataptrget1:
-000004e8 fe85                MOVR     0x7a, ToAcc
-000004e9 ff7b                MOVAR    FSR
-000004ea e0fc                BCR      STATUS, BK0
-000004eb f005                BTRSC    0x7a, 0x7
-000004ec e4fc                BSR      STATUS, BK0
-000004ed feff                MOVR     INDF, ToAcc
-000004ee ffef                RET
+000004e9 fe85                MOVR     0x7a, ToAcc
+000004ea ff7b                MOVAR    FSR
+000004eb e0fc                BCR      STATUS, BK0
+000004ec f005                BTRSC    0x7a, 0x7
+000004ed e4fc                BSR      STATUS, BK0
+000004ee feff                MOVR     INDF, ToAcc
+000004ef ffef                RET
 __codeptrget1:
-000004ef fe86                MOVR     0x79, ToAcc
-000004f0 ffb8                SFUN     TBHP
-000004f1 fe85                MOVR     0x7a, ToAcc
-000004f2 fdee                TABLEA
-000004f3 ffef                RET
+000004f0 fe86                MOVR     0x79, ToAcc
+000004f1 ffb8                SFUN     TBHP
+000004f2 fe85                MOVR     0x7a, ToAcc
+000004f3 fdee                TABLEA
+000004f4 ffef                RET
 _CS1630_write_byte:
-000004f4 e0fc                BCR      STATUS, BK0
-000004f5 ff3d                MOVAR    0x42
-000004f6 fe86                MOVR     0x79, ToAcc
-000004f7 e0fc                BCR      STATUS, BK0
-000004f8 ff3c                MOVAR    0x43
-000004f9 e37a                BCR      PORTA, PA1
-000004fa e0fc                BCR      STATUS, BK0
-000004fb e53d                BSR      0x42, 0x5
-000004fc febd                MOVR     0x42, ToAcc
-000004fd d556                LCALL    0x2a9; _SPI_SendByte=0x2a9
-000004fe e0fc                BCR      STATUS, BK0
-000004ff febc                MOVR     0x43, ToAcc
-00000500 d556                LCALL    0x2a9; _SPI_SendByte=0x2a9
-00000501 e77a                BSR      PORTA, PA1
-00000502 defe                MOVIA    0x1
-00000503 d2ea                LCALL    0x515; _delay_us=0x515
-00000504 ffef                RET
+000004f5 e0fc                BCR      STATUS, BK0
+000004f6 ff41                MOVAR    0x3e
+000004f7 fe86                MOVR     0x79, ToAcc
+000004f8 e0fc                BCR      STATUS, BK0
+000004f9 ff40                MOVAR    0x3f
+000004fa e37a                BCR      PORTA, PA1
+000004fb e0fc                BCR      STATUS, BK0
+000004fc e541                BSR      0x3e, 0x5
+000004fd fec1                MOVR     0x3e, ToAcc
+000004fe d555                LCALL    0x2aa; _SPI_SendByte=0x2aa
+000004ff e0fc                BCR      STATUS, BK0
+00000500 fec0                MOVR     0x3f, ToAcc
+00000501 d555                LCALL    0x2aa; _SPI_SendByte=0x2aa
+00000502 e77a                BSR      PORTA, PA1
+00000503 defe                MOVIA    0x1
+00000504 d2e9                LCALL    0x516; _delay_us=0x516
+00000505 ffef                RET
 _CS1630_wr_cmd:
-00000505 e0fc                BCR      STATUS, BK0
-00000506 ff36                MOVAR    0x49
-00000507 fe86                MOVR     0x79, ToAcc
-00000508 e0fc                BCR      STATUS, BK0
-00000509 ff35                MOVAR    0x4a
-0000050a e37a                BCR      PORTA, PA1
-0000050b e0fc                BCR      STATUS, BK0
-0000050c feb6                MOVR     0x49, ToAcc
-0000050d d556                LCALL    0x2a9; _SPI_SendByte=0x2a9
-0000050e e0fc                BCR      STATUS, BK0
-0000050f feb5                MOVR     0x4a, ToAcc
-00000510 d556                LCALL    0x2a9; _SPI_SendByte=0x2a9
-00000511 e77a                BSR      PORTA, PA1
-00000512 defe                MOVIA    0x1
-00000513 d2ea                LCALL    0x515; _delay_us=0x515
-00000514 ffef                RET
+00000506 e0fc                BCR      STATUS, BK0
+00000507 ff3a                MOVAR    0x45
+00000508 fe86                MOVR     0x79, ToAcc
+00000509 e0fc                BCR      STATUS, BK0
+0000050a ff39                MOVAR    0x46
+0000050b e37a                BCR      PORTA, PA1
+0000050c e0fc                BCR      STATUS, BK0
+0000050d feba                MOVR     0x45, ToAcc
+0000050e d555                LCALL    0x2aa; _SPI_SendByte=0x2aa
+0000050f e0fc                BCR      STATUS, BK0
+00000510 feb9                MOVR     0x46, ToAcc
+00000511 d555                LCALL    0x2aa; _SPI_SendByte=0x2aa
+00000512 e77a                BSR      PORTA, PA1
+00000513 defe                MOVIA    0x1
+00000514 d2e9                LCALL    0x516; _delay_us=0x516
+00000515 ffef                RET
 _delay_us:
-00000515 e0fc                BCR      STATUS, BK0
-00000516 ff24                MOVAR    0x5b
-00000517 defe                MOVIA    0x1
-00000518 e0fc                BCR      STATUS, BK0
-00000519 ff23                MOVAR    0x5c
+00000516 e0fc                BCR      STATUS, BK0
+00000517 ff28                MOVAR    0x57
+00000518 defe                MOVIA    0x1
+00000519 e0fc                BCR      STATUS, BK0
+0000051a ff27                MOVAR    0x58
 bsp_delay.o:_02024_DS_:
-0000051a e0fc                BCR      STATUS, BK0
-0000051b fea3                MOVR     0x5c, ToAcc
-0000051c e0fc                BCR      STATUS, BK0
-0000051d fba4                SUBAR    0x5b, ToAcc
-0000051e f7fc                BTRSS    STATUS, C
-0000051f c2db                LGOTO    0x524; bsp_delay.o:_02026_DS_=0x524
-00000520 ffff                NOP
-00000521 e0fc                BCR      STATUS, BK0
-00000522 fa23                INCR     0x5c, ToReg
-00000523 c2e5                LGOTO    0x51a; bsp_delay.o:_02024_DS_=0x51a
+0000051b e0fc                BCR      STATUS, BK0
+0000051c fea7                MOVR     0x58, ToAcc
+0000051d e0fc                BCR      STATUS, BK0
+0000051e fba8                SUBAR    0x57, ToAcc
+0000051f f7fc                BTRSS    STATUS, C
+00000520 c2da                LGOTO    0x525; bsp_delay.o:_02026_DS_=0x525
+00000521 ffff                NOP
+00000522 e0fc                BCR      STATUS, BK0
+00000523 fa27                INCR     0x58, ToReg
+00000524 c2e4                LGOTO    0x51b; bsp_delay.o:_02024_DS_=0x51b
 bsp_delay.o:_02026_DS_:
-00000524 ffef                RET
+00000525 ffef                RET
 _CS1630_read_byte:
-00000525 e0fc                BCR      STATUS, BK0
-00000526 ff3e                MOVAR    0x41
-00000527 e37a                BCR      PORTA, PA1
-00000528 febe                MOVR     0x41, ToAcc
-00000529 d556                LCALL    0x2a9; _SPI_SendByte=0x2a9
-0000052a d404                LCALL    0x3fb; _SPI_ReadByte=0x3fb
-0000052b e0fc                BCR      STATUS, BK0
-0000052c ff3e                MOVAR    0x41
-0000052d e77a                BSR      PORTA, PA1
-0000052e defe                MOVIA    0x1
-0000052f d2ea                LCALL    0x515; _delay_us=0x515
-00000530 e0fc                BCR      STATUS, BK0
-00000531 febe                MOVR     0x41, ToAcc
-00000532 ffef                RET
+00000526 e0fc                BCR      STATUS, BK0
+00000527 ff42                MOVAR    0x3d
+00000528 e37a                BCR      PORTA, PA1
+00000529 fec2                MOVR     0x3d, ToAcc
+0000052a d555                LCALL    0x2aa; _SPI_SendByte=0x2aa
+0000052b d403                LCALL    0x3fc; _SPI_ReadByte=0x3fc
+0000052c e0fc                BCR      STATUS, BK0
+0000052d ff42                MOVAR    0x3d
+0000052e e77a                BSR      PORTA, PA1
+0000052f defe                MOVIA    0x1
+00000530 d2e9                LCALL    0x516; _delay_us=0x516
+00000531 e0fc                BCR      STATUS, BK0
+00000532 fec2                MOVR     0x3d, ToAcc
+00000533 ffef                RET
 _RF_softSPI_Init:
-00000533 fdff                CLRA
-00000534 fffa                IOST     IOSTA
-00000535 fdff                CLRA
-00000536 fffa                IOST     IOSTA
-00000537 fdff                CLRA
-00000538 fff9                IOST     IOSTB
-00000539 ffff                NOP
+00000534 fdff                CLRA
+00000535 fffa                IOST     IOSTA
+00000536 fdff                CLRA
+00000537 fffa                IOST     IOSTA
+00000538 fdff                CLRA
+00000539 fff9                IOST     IOSTB
 0000053a ffff                NOP
 0000053b ffff                NOP
-0000053c e37a                BCR      PORTA, PA1
-0000053d ffff                NOP
+0000053c ffff                NOP
+0000053d e37a                BCR      PORTA, PA1
 0000053e ffff                NOP
 0000053f ffff                NOP
-00000540 ffef                RET
+00000540 ffff                NOP
+00000541 ffef                RET
 _key_init:
-00000541 defe                MOVIA    0x1
-00000542 d34c                LCALL    0x4b3; _delay_ms=0x4b3
-00000543 de03                MOVIA    0xfc
-00000544 fffa                IOST     IOSTA
-00000545 dedc                MOVIA    0x23
-00000546 fff6                IOST     APHCON
-00000547 de37                MOVIA    0xc8
-00000548 ff77                MOVAR    PCON
-00000549 fdff                CLRA
-0000054a fff9                IOST     IOSTB
-0000054b d26d                LCALL    0x592; _set_PB_low=0x592
-0000054c e1f9                BCR      PORTB, PB4
-0000054d ffef                RET
+00000542 defe                MOVIA    0x1
+00000543 d34b                LCALL    0x4b4; _delay_ms=0x4b4
+00000544 de03                MOVIA    0xfc
+00000545 fffa                IOST     IOSTA
+00000546 dedc                MOVIA    0x23
+00000547 fff6                IOST     APHCON
+00000548 de37                MOVIA    0xc8
+00000549 ff77                MOVAR    PCON
+0000054a fdff                CLRA
+0000054b fff9                IOST     IOSTB
+0000054c d7f6                LCALL    0x9; _set_PB_low=0x9
+0000054d e1f9                BCR      PORTB, PB4
+0000054e ffef                RET
 _toggle_key:
-0000054e de80                MOVIA    0x7f
-0000054f fff6                IOST     APHCON
-00000550 de17                MOVIA    0xe8
-00000551 ff77                MOVAR    PCON
-00000552 de7f                MOVIA    0x80
-00000553 fffa                IOST     IOSTA
-00000554 d273                LCALL    0x58c; _set_PA_low=0x58c
-00000555 def0                MOVIA    0xf
-00000556 fff9                IOST     IOSTB
-00000557 de0f                MOVIA    0xf0
-00000558 ff73                MOVAR    BPHCON
-00000559 ffef                RET
+0000054f de80                MOVIA    0x7f
+00000550 fff6                IOST     APHCON
+00000551 de17                MOVIA    0xe8
+00000552 ff77                MOVAR    PCON
+00000553 de7f                MOVIA    0x80
+00000554 fffa                IOST     IOSTA
+00000555 d272                LCALL    0x58d; _set_PA_low=0x58d
+00000556 def0                MOVIA    0xf
+00000557 fff9                IOST     IOSTB
+00000558 de0f                MOVIA    0xf0
+00000559 ff73                MOVAR    BPHCON
+0000055a ffef                RET
 __gptrput:
 __gptrput1:
-0000055a dbff                XORIA    0x0
-0000055b f2fc                BTRSC    STATUS, Z
-0000055c c2a1                LGOTO    0x55e; _gptrput1.o:__dataptrput1=0x55e
-0000055d ffef                RET
+0000055b dbff                XORIA    0x0
+0000055c f2fc                BTRSC    STATUS, Z
+0000055d c2a0                LGOTO    0x55f; _gptrput1.o:__dataptrput1=0x55f
+0000055e ffef                RET
 _gptrput1.o:__dataptrput1:
-0000055e fe85                MOVR     0x7a, ToAcc
-0000055f ff7b                MOVAR    FSR
-00000560 e0fc                BCR      STATUS, BK0
-00000561 f005                BTRSC    0x7a, 0x7
-00000562 e4fc                BSR      STATUS, BK0
-00000563 fe84                MOVR     0x7b, ToAcc
-00000564 ff7f                MOVAR    INDF
-00000565 ffef                RET
+0000055f fe85                MOVR     0x7a, ToAcc
+00000560 ff7b                MOVAR    FSR
+00000561 e0fc                BCR      STATUS, BK0
+00000562 f005                BTRSC    0x7a, 0x7
+00000563 e4fc                BSR      STATUS, BK0
+00000564 fe84                MOVR     0x7b, ToAcc
+00000565 ff7f                MOVAR    INDF
+00000566 ffef                RET
 _wake_up_init:
-00000566 de03                MOVIA    0xfc
-00000567 ff6a                MOVAR    AWUCON
-00000568 fd76                CLRR     BWUCON
-00000569 de03                MOVIA    0xfc
-0000056a fffa                IOST     IOSTA
-0000056b dedc                MOVIA    0x23
-0000056c fff6                IOST     APHCON
-0000056d defd                MOVIA    0x2
-0000056e ff71                MOVAR    INTE
-0000056f fd70                CLRR     INTF
-00000570 ffef                RET
+00000567 de03                MOVIA    0xfc
+00000568 ff6a                MOVAR    AWUCON
+00000569 fd76                CLRR     BWUCON
+0000056a de03                MOVIA    0xfc
+0000056b fffa                IOST     IOSTA
+0000056c dedc                MOVIA    0x23
+0000056d fff6                IOST     APHCON
+0000056e defd                MOVIA    0x2
+0000056f ff71                MOVAR    INTE
+00000570 fd70                CLRR     INTF
+00000571 ffef                RET
 _CS1630_CE_Low:
-00000571 dee1                MOVIA    0x1e
-00000572 d2da                LCALL    0x525; _CS1630_read_byte=0x525
-00000573 e0fc                BCR      STATUS, BK0
-00000574 ff28                MOVAR    0x57
-00000575 e228                BCR      0x57, 0x3
-00000576 fea8                MOVR     0x57, ToAcc
-00000577 ff06                MOVAR    0x79
-00000578 dee1                MOVIA    0x1e
-00000579 d30b                LCALL    0x4f4; _CS1630_write_byte=0x4f4
-0000057a ffef                RET
+00000572 dee1                MOVIA    0x1e
+00000573 d2d9                LCALL    0x526; _CS1630_read_byte=0x526
+00000574 e0fc                BCR      STATUS, BK0
+00000575 ff2c                MOVAR    0x53
+00000576 e22c                BCR      0x53, 0x3
+00000577 feac                MOVR     0x53, ToAcc
+00000578 ff06                MOVAR    0x79
+00000579 dee1                MOVIA    0x1e
+0000057a d30a                LCALL    0x4f5; _CS1630_write_byte=0x4f5
+0000057b ffef                RET
 _CS1630_CE_High:
-0000057b dee1                MOVIA    0x1e
-0000057c d2da                LCALL    0x525; _CS1630_read_byte=0x525
-0000057d e0fc                BCR      STATUS, BK0
-0000057e ff29                MOVAR    0x56
-0000057f e629                BSR      0x56, 0x3
-00000580 fea9                MOVR     0x56, ToAcc
-00000581 ff06                MOVAR    0x79
-00000582 dee1                MOVIA    0x1e
-00000583 d30b                LCALL    0x4f4; _CS1630_write_byte=0x4f4
-00000584 ffef                RET
+0000057c dee1                MOVIA    0x1e
+0000057d d2d9                LCALL    0x526; _CS1630_read_byte=0x526
+0000057e e0fc                BCR      STATUS, BK0
+0000057f ff2d                MOVAR    0x52
+00000580 e62d                BSR      0x52, 0x3
+00000581 fead                MOVR     0x52, ToAcc
+00000582 ff06                MOVAR    0x79
+00000583 dee1                MOVIA    0x1e
+00000584 d30a                LCALL    0x4f5; _CS1630_write_byte=0x4f5
+00000585 ffef                RET
 _CS1630_Flush_Tx:
-00000585 e37a                BCR      PORTA, PA1
-00000586 de1e                MOVIA    0xe1
-00000587 d556                LCALL    0x2a9; _SPI_SendByte=0x2a9
-00000588 e77a                BSR      PORTA, PA1
-00000589 defe                MOVIA    0x1
-0000058a d2ea                LCALL    0x515; _delay_us=0x515
-0000058b ffef                RET
+00000586 e37a                BCR      PORTA, PA1
+00000587 de1e                MOVIA    0xe1
+00000588 d555                LCALL    0x2aa; _SPI_SendByte=0x2aa
+00000589 e77a                BSR      PORTA, PA1
+0000058a defe                MOVIA    0x1
+0000058b d2e9                LCALL    0x516; _delay_us=0x516
+0000058c ffef                RET
 _set_PA_low:
-0000058c e2fa                BCR      PORTA, PA2
-0000058d e27a                BCR      PORTA, PA3
-0000058e e1fa                BCR      PORTA, PA4
-0000058f e17a                BCR      PORTA, PA5
-00000590 e0fa                BCR      PORTA, PA6
-00000591 ffef                RET
-_set_PB_low:
-00000592 e3f9                BCR      PORTB, PB0
-00000593 e379                BCR      PORTB, PB1
-00000594 e2f9                BCR      PORTB, PB2
-00000595 e279                BCR      PORTB, PB3
-00000596 ffef                RET
+0000058d e2fa                BCR      PORTA, PA2
+0000058e e27a                BCR      PORTA, PA3
+0000058f e1fa                BCR      PORTA, PA4
+00000590 e17a                BCR      PORTA, PA5
+00000591 e0fa                BCR      PORTA, PA6
+00000592 ffef                RET
 app_tx.o:_channel_index:
-00000597 dffd                RETIA    0x2
-00000598 dfe5                RETIA    0x1a
-00000599 dfaf                RETIA    0x50
+00000593 dffd                RETIA    0x2
+00000594 dfe5                RETIA    0x1a
+00000595 dfaf                RETIA    0x50
 _delay_40us:
-0000059a def9                MOVIA    0x6
-0000059b d2ea                LCALL    0x515; _delay_us=0x515
-0000059c ffef                RET
+00000596 def9                MOVIA    0x6
+00000597 d2e9                LCALL    0x516; _delay_us=0x516
+00000598 ffef                RET
 _close_WDT:
-0000059d e077                BCR      PCON, WDTEN
-0000059e e277                BCR      PCON, LVREN
-0000059f ffef                RET
+00000599 e077                BCR      PCON, WDTEN
+0000059a e277                BCR      PCON, LVREN
+0000059b ffef                RET
 _open_WDT:
-000005a0 e477                BSR      PCON, WDTEN
-000005a1 e677                BSR      PCON, LVREN
-000005a2 ffef                RET
-_get_rolling_code_0:
-000007b0 dfff                RETIA    0x0
-_get_rolling_code_1:
-000007b1 dfff                RETIA    0x0
-_get_rolling_code_2:
-000007b2 dfff                RETIA    0x0
-_get_rolling_code_3:
-000007b3 dffe                RETIA    0x1
+0000059c e477                BSR      PCON, WDTEN
+0000059d e677                BSR      PCON, LVREN
+0000059e ffef                RET
+__checksum:
+__CHECKSUM_ADDR__:

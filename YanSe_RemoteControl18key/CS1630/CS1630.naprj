@@ -11,10 +11,10 @@
     <BackupTBHP>False</BackupTBHP>
     <Bank0Only>False</Bank0Only>
     <BankselOptLevel>0</BankselOptLevel>
-    <BuildCCompilerVersion>NYC_NY8 1.62 [Build: 240312.00]</BuildCCompilerVersion>
-    <BuildNYASMVersion>NYASM 2.42 [Build: 240221.00]</BuildNYASMVersion>
-    <BuildNYIDEVersion>NYIDE 5.32 [Build: 240430.00]</BuildNYIDEVersion>
-    <CCompilerInstallDir>D:\NYC_NY8</CCompilerInstallDir>
+    <BuildCCompilerVersion>NYC_NY8 1.80 [Build: 250221.00]</BuildCCompilerVersion>
+    <BuildNYASMVersion>NYASM 2.50 [Build: 250227.00]</BuildNYASMVersion>
+    <BuildNYIDEVersion>NYIDE 5.42 [Build: 241219.00]</BuildNYIDEVersion>
+    <CCompilerInstallDir>D:\NYC_NY8\NYC_NY8</CCompilerInstallDir>
     <ChipId>NY8A054E</ChipId>
     <ClientName>yanSe</ClientName>
     <CodeOptimization>Disable</CodeOptimization>
@@ -24,13 +24,14 @@
     <GenAsmListFile>True</GenAsmListFile>
     <GenListFile>True</GenListFile>
     <GenMapFile>True</GenMapFile>
-    <IncludePath>BSP</IncludePath>
+    <IncludePath>BSP|../../YanSe_RemoteControl18key|../CS1630</IncludePath>
     <InitEEPROM>True</InitEEPROM>
     <InitializeBss>False</InitializeBss>
     <LibraryFiles></LibraryFiles>
-    <NYASMInstallDir>D:\NYASM\</NYASMInstallDir>
+    <NYASMInstallDir>D:\NYASM\NYASM\</NYASMInstallDir>
     <NYIDEInstallDir>D:\NYIDE\</NYIDEInstallDir>
     <OutputType>bin</OutputType>
+    <PaddingNopCount>2</PaddingNopCount>
     <Platform>CNy8</Platform>
     <ProjectGuid>{E38045B6-6119-442E-B6AD-B939CE62CC8B}</ProjectGuid>
     <ProjectOptionChanged>False</ProjectOptionChanged>
@@ -61,7 +62,7 @@
     <WarningMsgCode8>110</WarningMsgCode8>
     <WarningMsgCode9>112</WarningMsgCode9>
     <WarningMsgCount>1</WarningMsgCount>
-    <WarningMsgFileName0>D:\code\YanSe_RemoteControl18key\CS1630\BSP\bsp_cs1630.c</WarningMsgFileName0>
+    <WarningMsgFileName0>D:\code\project\YanSe_RemoteControl\YanSe_RemoteControl18key\CS1630\BSP\bsp_cs1630.c</WarningMsgFileName0>
     <WarningMsgFileName1>D:\code\YanSe_RemoteControl\CS1630\BSP\key.c</WarningMsgFileName1>
     <WarningMsgFileName10>D:\code\Master\ChangJi\yanSe\CS1630\CS1630\BSP\bsp_cs1630.c</WarningMsgFileName10>
     <WarningMsgFileName11>D:\code\Master\ChangJi\yanSe\CS1630\CS1630\BSP\bsp_cs1630.c</WarningMsgFileName11>
@@ -158,11 +159,11 @@
     <Reference Include="IC Body: NY8A054E" EntryPoint="false" MetaData="" />
   </ItemGroup>
   <ItemGroup>
-    <ApplicationDefinition Include="..\..\..\NY8_Example_Code\include\NY8 C\NY8_constant.h" EntryPoint="false" MetaData="Dependency Files\NY8_constant.h" />
-    <ApplicationDefinition Include="..\..\..\NY8_Example_Code\include\NY8 C\ny8a054e_constant.h" EntryPoint="false" MetaData="Dependency Files\ny8a054e_constant.h" />
-    <ApplicationDefinition Include="..\..\..\NYC_NY8\include\ny8.h" EntryPoint="false" MetaData="Dependency Files\ny8.h" />
-    <ApplicationDefinition Include="..\..\..\NYC_NY8\include\ny8a054e.h" EntryPoint="false" MetaData="Dependency Files\ny8a054e.h" />
-    <ApplicationDefinition Include="..\..\..\NYC_NY8\include\ny8common.h" EntryPoint="false" MetaData="Dependency Files\ny8common.h" />
+    <ApplicationDefinition Include="..\..\..\..\..\NY8_Example_Code\include\NY8 C\NY8_constant.h" EntryPoint="false" MetaData="Dependency Files\NY8_constant.h" />
+    <ApplicationDefinition Include="..\..\..\..\..\NY8_Example_Code\include\NY8 C\ny8a054e_constant.h" EntryPoint="false" MetaData="Dependency Files\ny8a054e_constant.h" />
+    <ApplicationDefinition Include="..\..\..\..\..\NYC_NY8\NYC_NY8\include\ny8.h" EntryPoint="false" MetaData="Dependency Files\ny8.h" />
+    <ApplicationDefinition Include="..\..\..\..\..\NYC_NY8\NYC_NY8\include\ny8a054e.h" EntryPoint="false" MetaData="Dependency Files\ny8a054e.h" />
+    <ApplicationDefinition Include="..\..\..\..\..\NYC_NY8\NYC_NY8\include\ny8common.h" EntryPoint="false" MetaData="Dependency Files\ny8common.h" />
     <Folder Include="BSP" EntryPoint="false" MetaData="" />
     <ApplicationDefinition Include="BSP\app_tx.h" EntryPoint="false" MetaData="Dependency Files\app_tx.h" />
     <ApplicationDefinition Include="BSP\bsp_cs1630.h" EntryPoint="false" MetaData="Dependency Files\bsp_cs1630.h" />
@@ -182,11 +183,11 @@
       <Element value="BSP/bsp_hs6230.c|False" />
       <Element value="main.c|False" />
       <Element value="BSP/key.c|False" />
-      <Element value="BSP/app_tx.c|True" />
+      <Element value="BSP/app_tx.c|False" />
       <Element value="BSP/bsp_delay.c|False" />
       <Element value="../../../NY8_Example_Code/include/NY8 C/NY8_constant.h|False" />
       <Element value="BSP/bsp_cs1630.c|False" />
-      <Element value="rom.s|False" />
+      <Element value="rom.s|True" />
     </Array>
     <Array name="MelodyDatabaseFiles" />
     <Array name="RegisterWindowExpandInfo">

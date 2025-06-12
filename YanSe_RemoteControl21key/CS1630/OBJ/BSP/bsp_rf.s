@@ -21,6 +21,7 @@
 	extern	_delay_ms
 	extern	_clear_ram
 	extern	_multi_16b
+	extern	_multi_8b
 	extern	_RF_Init
 	extern	_RF_spi_wrd
 	extern	_RF_CE_Low
@@ -357,13 +358,13 @@ r0x1009:
 r0x100A:
 	.res	1
 .segment "uninit"
-_RF_Get_Chip_ID_ReadArr_65536_61:
+_RF_Get_Chip_ID_ReadArr_65536_62:
 	.res	1
-	.debuginfo complex-type (symbol "_RF_Get_Chip_ID_ReadArr_65536_61" 1 global "" 0 (basetype 1 unsigned))
+	.debuginfo complex-type (symbol "_RF_Get_Chip_ID_ReadArr_65536_62" 1 global "" 0 (basetype 1 unsigned))
 .segment "uninit"
-_RF_Soft_Rst_soft_temp_65536_89:
+_RF_Soft_Rst_soft_temp_65536_90:
 	.res	4
-	.debuginfo complex-type (symbol "_RF_Soft_Rst_soft_temp_65536_89" 4 global "" 0 (basetype 4 unsigned))
+	.debuginfo complex-type (symbol "_RF_Soft_Rst_soft_temp_65536_90" 4 global "" 0 (basetype 4 unsigned))
 ;--------------------------------------------------------
 ; initialized data
 ;--------------------------------------------------------
@@ -793,14 +794,14 @@ _02196_DS_:
 .segment "code"; module=bsp_rf, function=_RF_Soft_Rst
 	.debuginfo subprogram _RF_Soft_Rst
 ;local variable name mapping:
-	.debuginfo complex-type (local-sym "_soft_temp" 4 "BSP\bsp_rf.c" 339 (array 4 (basetype 1 unsigned)) link "_RF_Soft_Rst_soft_temp_65536_89")
+	.debuginfo complex-type (local-sym "_soft_temp" 4 "BSP\bsp_rf.c" 339 (array 4 (basetype 1 unsigned)) link "_RF_Soft_Rst_soft_temp_65536_90")
 _RF_Soft_Rst:
 ; 2 exit points
 	.line	340, "BSP\bsp_rf.c"; 	RF_Bank_Switch(RF_Bank1);
 	MOVIA	0x01
 	MCALL	_RF_Bank_Switch
 	.line	342, "BSP\bsp_rf.c"; 	RF_read_buffer(RF_BANK1_PLL_CTL1, soft_temp, 4);
-	MOVIA	(_RF_Soft_Rst_soft_temp_65536_89 + 0)
+	MOVIA	(_RF_Soft_Rst_soft_temp_65536_90 + 0)
 	BANKSEL	r0x101B
 	MOVAR	r0x101B
 	BANKSEL	r0x101C
@@ -821,16 +822,16 @@ _RF_Soft_Rst:
 	MOVIA	0x02
 	MCALL	_RF_read_buffer
 	.line	343, "BSP\bsp_rf.c"; 	soft_temp[3] |= 0x80;
-	BANKSEL	_RF_Soft_Rst_soft_temp_65536_89
-	MOVR	(_RF_Soft_Rst_soft_temp_65536_89 + 3),W
+	BANKSEL	_RF_Soft_Rst_soft_temp_65536_90
+	MOVR	(_RF_Soft_Rst_soft_temp_65536_90 + 3),W
 	BANKSEL	r0x101B
 	MOVAR	r0x101B
 	BSR	r0x101B,7
 	MOVR	r0x101B,W
-	BANKSEL	_RF_Soft_Rst_soft_temp_65536_89
-	MOVAR	(_RF_Soft_Rst_soft_temp_65536_89 + 3)
+	BANKSEL	_RF_Soft_Rst_soft_temp_65536_90
+	MOVAR	(_RF_Soft_Rst_soft_temp_65536_90 + 3)
 	.line	344, "BSP\bsp_rf.c"; 	RF_wr_buffer(RF_BANK1_PLL_CTL1, soft_temp, 4);
-	MOVIA	(_RF_Soft_Rst_soft_temp_65536_89 + 0)
+	MOVIA	(_RF_Soft_Rst_soft_temp_65536_90 + 0)
 	BANKSEL	r0x101B
 	MOVAR	r0x101B
 	BANKSEL	r0x101C
@@ -1388,12 +1389,12 @@ _RF_Get_RSSI:
 .segment "code"; module=bsp_rf, function=_RF_Get_Chip_ID
 	.debuginfo subprogram _RF_Get_Chip_ID
 ;local variable name mapping:
-	.debuginfo complex-type (local-sym "_ReadArr" 2 "BSP\bsp_rf.c" 177 (array 2 (basetype 1 unsigned)) link "_RF_Get_Chip_ID_ReadArr_65536_61")
+	.debuginfo complex-type (local-sym "_ReadArr" 2 "BSP\bsp_rf.c" 177 (array 2 (basetype 1 unsigned)) link "_RF_Get_Chip_ID_ReadArr_65536_62")
 _RF_Get_Chip_ID:
 ; 2 exit points
 	.line	195, "BSP\bsp_rf.c"; 	return ReadArr[1];
-	BANKSEL	_RF_Get_Chip_ID_ReadArr_65536_61
-	MOVR	(_RF_Get_Chip_ID_ReadArr_65536_61 + 1),W
+	BANKSEL	_RF_Get_Chip_ID_ReadArr_65536_62
+	MOVR	(_RF_Get_Chip_ID_ReadArr_65536_62 + 1),W
 	BANKSEL	r0x1031
 	MOVAR	r0x1031
 	MOVR	r0x1031,W

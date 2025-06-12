@@ -59,7 +59,7 @@ void CS1630_init_main(void)
   // 配置CS1630模块的寄存器
   CS1630_write_byte(CS1630_BANK0_FEATURE, 0x04);
   CS1630_write_byte(CS1630_BANK0_CONFIG, 0x0f);
-  CS1630_write_byte(CS1630_BANK0_SETUP_VALUE, 0x04); // 配置值
+  CS1630_write_byte(CS1630_BANK0_SETUP_VALUE, 0x04); // 开启BLE模式
   CS1630_write_byte(CS1630_BANK0_CONFIG, 0x0d);
   delay_ms(2);
 }
